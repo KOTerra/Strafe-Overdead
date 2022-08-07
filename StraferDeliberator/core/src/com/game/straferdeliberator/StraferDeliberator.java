@@ -1,4 +1,4 @@
-package game.straferdeliberator;
+package com.game.straferdeliberator;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.graphics.Texture;

@@ -1,8 +1,8 @@
-package game.straferdeliberator;
+package com.game.straferdeliberator;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import game.straferdeliberator.StraferDeliberator;
+import com.game.straferdeliberator.StraferDeliberator;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {

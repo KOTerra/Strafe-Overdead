@@ -49,12 +49,9 @@ project(":desktop") {
         implementation project(":core")
         api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-        api "de.tomgrill.gdxdialogs:gdx-dialogs-desktop:1.3.0"
-        api "com.github.MrStahlfelge.gdx-websockets:common:1.1.0"
-        api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core-gamejolt:1.1.0"
+        api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         
     }
 }
@@ -71,22 +68,19 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86_64"
-        api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi-v7a"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-arm64-v8a"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
-        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
         api "com.badlogicgames.gdx-controllers:gdx-controllers-android:$gdxControllersVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86_64"
-        api "com.badlogicgames.ashley:ashley:$ashleyVersion"
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
-        api "de.tomgrill.gdxdialogs:gdx-dialogs-android:1.3.0"
-        api "com.github.MrStahlfelge.gdx-websockets:common:1.1.0"
-        api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-android-gpgs:1.1.0"
+        api "com.badlogicgames.ashley:ashley:$ashleyVersion"
+        api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi-v7a"
+        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-arm64-v8a"
+        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
+        natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
         api "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
         
     }
@@ -103,12 +97,9 @@ project(":ios") {
         api "com.mobidevelop.robovm:robovm-cocoatouch:$roboVMVersion"
         api "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
-        api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
         api "com.badlogicgames.gdx-controllers:gdx-controllers-ios:$gdxControllersVersion"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
-        api "de.tomgrill.gdxdialogs:gdx-dialogs-ios:1.3.0"
-        api "com.github.MrStahlfelge.gdx-websockets:common:1.1.0"
-        api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-ios-gamecenter:1.1.0"
+        api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
         
     }
 }
@@ -119,17 +110,14 @@ project(":core") {
 
     dependencies {
         api "com.badlogicgames.gdx:gdx:$gdxVersion"
-        api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         api "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
         api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        api "com.badlogicgames.ashley:ashley:$ashleyVersion"
         api "com.badlogicgames.gdx:gdx-ai:$aiVersion"
-        api "com.esotericsoftware.spine:spine-libgdx:3.8.55.1"
-        api "com.kotcrab.vis:vis-ui:1.4.11"
-        api "de.tomgrill.gdxdialogs:gdx-dialogs-core:1.3.0"
-        api "com.github.MrStahlfelge.gdx-websockets:core:1.1.0"
-        api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core:1.1.0"
+        api "com.badlogicgames.ashley:ashley:$ashleyVersion"
+        api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         api "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+        api "com.kotcrab.vis:vis-ui:1.4.11"
+        api "com.esotericsoftware.spine:spine-libgdx:3.8.55.1"
         
     }
 }

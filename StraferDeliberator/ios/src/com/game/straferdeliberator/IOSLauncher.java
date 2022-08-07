@@ -1,11 +1,11 @@
-package game.straferdeliberator;
+package com.game.straferdeliberator;
 
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 
 import com.badlogic.gdx.backends.iosrobovm.IOSApplication;
 import com.badlogic.gdx.backends.iosrobovm.IOSApplicationConfiguration;
-import game.straferdeliberator.StraferDeliberator;
+import com.game.straferdeliberator.StraferDeliberator;
 
 public class IOSLauncher extends IOSApplication.Delegate {
     @Override

@@ -1,6 +1,6 @@
 android {
     buildToolsVersion "33.0.0"
-    compileSdkVersion 32
+    compileSdkVersion 31
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -17,9 +17,9 @@ android {
         exclude 'META-INF/robovm/ios/robovm.xml'
     }
     defaultConfig {
-        applicationId "game.straferdeliberator"
-        minSdkVersion 14
-        targetSdkVersion 32
+        applicationId "com.game.straferdeliberator"
+        minSdk 16
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
     }
@@ -84,7 +84,11 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'game.straferdeliberator/game.straferdeliberator.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', 'com.game.straferdeliberator/com.game.straferdeliberator.AndroidLauncher'
+}
+
+dependencies {
+    implementation project(path: ':core')
 }
 
 eclipse.project.name = appName + "-android"

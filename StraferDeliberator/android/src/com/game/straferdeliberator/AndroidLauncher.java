@@ -1,10 +1,10 @@
-package game.straferdeliberator;
+package com.game.straferdeliberator;
 
 import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
-import game.straferdeliberator.StraferDeliberator;
+import com.game.straferdeliberator.StraferDeliberator;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
