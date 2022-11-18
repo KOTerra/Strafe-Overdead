@@ -8,8 +8,14 @@ import com.game.straferdeliberator.StraferDeliberator;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		config.setForegroundFPS(60);
+		config.setForegroundFPS(144);
+		
+		config.setWindowedMode(1280, 720);
 		config.setTitle("Strafer Deliberator");
+		config.setDecorated(true);
+		config.setResizable(true);
 		new Lwjgl3Application(new StraferDeliberator(), config);
+		
+
 	}
 }
