@@ -51,7 +51,7 @@ public class StraferDeliberator extends ApplicationAdapter {
 	/**
 	 * used to scale from pixel units to world units
 	 */
-	private float scaleFactor;
+	public final float scaleFactor=WORLD_HEIGHT/1080;
 	
 	@Override
 	public void create() {
@@ -62,13 +62,12 @@ public class StraferDeliberator extends ApplicationAdapter {
 		camera = new OrthographicCamera(WORLD_HEIGHT * aspectRatio, WORLD_HEIGHT);
 		camera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
 		
-		scaleFactor=WORLD_HEIGHT/Gdx.graphics.getHeight();
 		
 		background = new Sprite(new Texture(Gdx.files.internal("assets/back.png")));
-		sprite = new Sprite(new Texture(Gdx.files.internal("assets/rozwe.png")));
-		sprite.setPosition(5.4f, 2);
+		sprite = new Sprite(new Texture(Gdx.files.internal("assets/pep.png")));
+		sprite.setPosition(32-sprite.getWidth()*scaleFactor/2, 18-sprite.getHeight()*scaleFactor/2);
 		background.setPosition(0, 0);
-		background.setSize(WORLD_WIDTH, WORLD_HEIGHT);
+		background.setSize(background.getWidth()*scaleFactor,background.getHeight()*scaleFactor);
 		sprite.setSize(sprite.getWidth()*scaleFactor,sprite.getHeight()*scaleFactor);
 		System.out.print(
 				aspectRatio + " " + Gdx.graphics.getHeight() + " " + camera.viewportHeight + " " + sprite.getHeight());
