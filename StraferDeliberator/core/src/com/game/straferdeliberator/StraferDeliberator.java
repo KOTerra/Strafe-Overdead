@@ -4,12 +4,12 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -31,11 +31,22 @@ public class StraferDeliberator extends ApplicationAdapter implements InputProce
 	public static SpriteBatch spriteBatch;
 
 	/**
-	 * camera used for rendering backgrounds and entities it uses world units
+	 * the world width measured in tiles
+	 */
+	public static final float WORLD_WIDTH = 64;
+
+	/**
+	 * the world height measured in tiles
+	 */
+	public static final float WORLD_HEIGHT = 36;
+
+	/**
+	 * camera used for rendering tiles and entities it uses world units
 	 */
 	public static OrthographicCamera worldCamera;
+
 	/**
-	 * camera used for rendering the user interface compnents it uses pixel units
+	 * camera used for rendering user interface components it uses pixel units
 	 */
 	public static OrthographicCamera uiCamera;
 
@@ -49,17 +60,18 @@ public class StraferDeliberator extends ApplicationAdapter implements InputProce
 	 */
 	public static ScreenViewport uiScreenViewport;
 
-	private Sprite background;
-	private Sprite sprite;
+	/**
+	 * stage that contains world actors
+	 */
+	public static Stage stage;
 
 	/**
-	 * the world width measured in tiles
+	 * stage that contains ui components
 	 */
-	public static final float WORLD_WIDTH = 64;
-	/**
-	 * the world height measured in tiles
-	 */
-	public static final float WORLD_HEIGHT = 36;
+	public static Stage uiStage;
+
+	private Sprite background;
+	private Sprite sprite;
 
 	/**
 	 * used to scale from pixel units to world units
@@ -74,33 +86,53 @@ public class StraferDeliberator extends ApplicationAdapter implements InputProce
 		float aspectRatio = (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
 		worldCamera = new OrthographicCamera(WORLD_HEIGHT * aspectRatio, WORLD_HEIGHT);
 		worldCamera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
-
 		extendViewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, worldCamera);
 
-		background = new Sprite(new Texture(Gdx.files.internal("assets/back.png")));
-		sprite = new Sprite(new Texture(Gdx.files.internal("assets/pep.png")));
-		sprite.setPosition(32 - sprite.getWidth() * scaleFactor / 2, 18 - sprite.getHeight() * scaleFactor / 2);
-		background.setPosition(0, 0);
-		background.setSize(background.getWidth() * scaleFactor, background.getHeight() * scaleFactor);
-		sprite.setSize(sprite.getWidth() * scaleFactor, sprite.getHeight() * scaleFactor);
-		System.out.print(aspectRatio + " " + Gdx.graphics.getHeight() + " " + worldCamera.viewportHeight + " "
-				+ sprite.getHeight());
+		stage = new Stage(extendViewport, spriteBatch);
 
+		uiCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		uiCamera.position.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 1);
+		uiScreenViewport = new ScreenViewport(uiCamera);
+
+		uiStage = new Stage(uiScreenViewport, spriteBatch);
+
+		addTestAssets();
 		Gdx.input.setInputProcessor(this);
 	}
 
 	@Override
 	public void render() {
 		ScreenUtils.clear(1, 0, 0, 1);
-		worldCamera.update();
+
 		extendViewport.apply();
+		worldCamera.update();
 		spriteBatch.setProjectionMatrix(worldCamera.combined);
+
+		stage.act();
+		stage.draw();
 
 		spriteBatch.begin();
 		background.draw(spriteBatch);
-
 		sprite.draw(spriteBatch);
 		spriteBatch.end();
+
+		uiScreenViewport.apply();
+		uiCamera.update();
+		spriteBatch.setProjectionMatrix(uiCamera.combined);
+		
+		stage.act();
+		stage.draw();
+	}
+
+	void addTestAssets() {
+		background = new Sprite(new Texture(Gdx.files.internal("assets/back.png")));
+		sprite = new Sprite(new Texture(Gdx.files.internal("assets/pep.png")));
+		sprite.setPosition(WORLD_WIDTH / 2 - sprite.getWidth() * scaleFactor / 2,
+				WORLD_HEIGHT / 2 - sprite.getHeight() * scaleFactor / 2);
+		background.setPosition(0, 0);
+		background.setSize(background.getWidth() * scaleFactor, background.getHeight() * scaleFactor);
+		sprite.setSize(sprite.getWidth() * scaleFactor, sprite.getHeight() * scaleFactor);
+		System.out.print(" " + Gdx.graphics.getHeight() + " " + worldCamera.viewportHeight + " " + sprite.getHeight());
 	}
 
 	@Override
