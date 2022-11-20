@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
@@ -31,22 +33,22 @@ public class StraferDeliberator extends ApplicationAdapter implements InputProce
 	public static SpriteBatch spriteBatch;
 
 	/**
-	 * the world width measured in tiles
+	 * the world width measured in tiles. a tile is 64x64 pixels
 	 */
-	public static final float WORLD_WIDTH = 64;
+	public static final float WORLD_WIDTH = 30;
 
 	/**
-	 * the world height measured in tiles
+	 * the world height measured in tiles. a tile is 64x64 pixels
 	 */
-	public static final float WORLD_HEIGHT = 36;
+	public static final float WORLD_HEIGHT = 16.875f;
 
 	/**
-	 * camera used for rendering tiles and entities it uses world units
+	 * camera used for rendering tiles and entities. it uses world units
 	 */
 	public static OrthographicCamera worldCamera;
 
 	/**
-	 * camera used for rendering user interface components it uses pixel units
+	 * camera used for rendering user interface components. it uses pixel units
 	 */
 	public static OrthographicCamera uiCamera;
 
@@ -76,7 +78,7 @@ public class StraferDeliberator extends ApplicationAdapter implements InputProce
 	/**
 	 * used to scale from pixel units to world units
 	 */
-	public final float scaleFactor = WORLD_HEIGHT / 1080;
+	public final float scaleFactor = 1 / 64f;
 
 	@Override
 	public void create() {
@@ -119,12 +121,15 @@ public class StraferDeliberator extends ApplicationAdapter implements InputProce
 		uiScreenViewport.apply();
 		uiCamera.update();
 		spriteBatch.setProjectionMatrix(uiCamera.combined);
-		
+
 		stage.act();
 		stage.draw();
 	}
 
 	void addTestAssets() {
+		BodyDef body = new BodyDef();
+		body.type = BodyType.DynamicBody;
+
 		background = new Sprite(new Texture(Gdx.files.internal("assets/back.png")));
 		sprite = new Sprite(new Texture(Gdx.files.internal("assets/pep.png")));
 		sprite.setPosition(WORLD_WIDTH / 2 - sprite.getWidth() * scaleFactor / 2,
@@ -138,6 +143,7 @@ public class StraferDeliberator extends ApplicationAdapter implements InputProce
 	@Override
 	public void resize(int width, int height) {
 		extendViewport.update(width, height);
+		uiScreenViewport.update(width, height);
 	}
 
 	@Override
