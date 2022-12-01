@@ -1,32 +1,29 @@
-package com.game.straferdeliberator;
+package com.straferdeliberator;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.straferdeliberator.screens.LoadingScreen;
 
 /**
  * The game class
  * 
  * @author mihai_stoica
  */
-public class StraferDeliberator extends ApplicationAdapter implements InputProcessor {
+public class Strafer extends Game implements InputProcessor {
 
 	/**
 	 * the asset manager
 	 */
-	public static AssetManager assetManager;
+	public static final AssetManager assetManager = new AssetManager(new InternalFileHandleResolver());
 	/**
 	 * the sprite batch
 	 */
@@ -41,6 +38,16 @@ public class StraferDeliberator extends ApplicationAdapter implements InputProce
 	 * the world height measured in tiles. a tile is 64x64 pixels
 	 */
 	public static final float WORLD_HEIGHT = 16.875f;
+
+	/**
+	 * used to scale from pixel units to world units
+	 */
+	public static final float SCALE_FACTOR = 1 / 64f;
+
+	/**
+	 * the aspect ratio of the window
+	 */
+	public static float aspectRatio;
 
 	/**
 	 * camera used for rendering tiles and entities. it uses world units
@@ -72,20 +79,11 @@ public class StraferDeliberator extends ApplicationAdapter implements InputProce
 	 */
 	public static Stage uiStage;
 
-	private Sprite background;
-	private Sprite sprite;
-
-	/**
-	 * used to scale from pixel units to world units
-	 */
-	public final float scaleFactor = 1 / 64f;
-
 	@Override
 	public void create() {
-
 		spriteBatch = new SpriteBatch();
+		aspectRatio = (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
 
-		float aspectRatio = (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
 		worldCamera = new OrthographicCamera(WORLD_HEIGHT * aspectRatio, WORLD_HEIGHT);
 		worldCamera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
 		extendViewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, worldCamera);
@@ -98,57 +96,16 @@ public class StraferDeliberator extends ApplicationAdapter implements InputProce
 
 		uiStage = new Stage(uiScreenViewport, spriteBatch);
 
-		addTestAssets();
+		setScreen(new LoadingScreen(this));
+
 		Gdx.input.setInputProcessor(this);
 	}
 
 	@Override
-	public void render() {
-		ScreenUtils.clear(1, 0, 0, 1);
-
-		extendViewport.apply();
-		worldCamera.update();
-		spriteBatch.setProjectionMatrix(worldCamera.combined);
-
-		stage.act();
-		stage.draw();
-
-		spriteBatch.begin();
-		background.draw(spriteBatch);
-		sprite.draw(spriteBatch);
-		spriteBatch.end();
-
-		uiScreenViewport.apply();
-		uiCamera.update();
-		spriteBatch.setProjectionMatrix(uiCamera.combined);
-
-		stage.act();
-		stage.draw();
-	}
-
-	void addTestAssets() {
-		BodyDef body = new BodyDef();
-		body.type = BodyType.DynamicBody;
-
-		background = new Sprite(new Texture(Gdx.files.internal("assets/back.png")));
-		sprite = new Sprite(new Texture(Gdx.files.internal("assets/pep.png")));
-		sprite.setPosition(WORLD_WIDTH / 2 - sprite.getWidth() * scaleFactor / 2,
-				WORLD_HEIGHT / 2 - sprite.getHeight() * scaleFactor / 2);
-		background.setPosition(0, 0);
-		background.setSize(background.getWidth() * scaleFactor, background.getHeight() * scaleFactor);
-		sprite.setSize(sprite.getWidth() * scaleFactor, sprite.getHeight() * scaleFactor);
-		System.out.print(" " + Gdx.graphics.getHeight() + " " + worldCamera.viewportHeight + " " + sprite.getHeight());
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		extendViewport.update(width, height);
-		uiScreenViewport.update(width, height);
-	}
-
-	@Override
 	public void dispose() {
+		assetManager.dispose();
 		spriteBatch.dispose();
+		this.getScreen().dispose();
 	}
 
 	@Override
@@ -167,43 +124,36 @@ public class StraferDeliberator extends ApplicationAdapter implements InputProce
 
 	@Override
 	public boolean keyTyped(char arg0) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean keyUp(int arg0) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean mouseMoved(int arg0, int arg1) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean scrolled(float arg0, float arg1) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchDown(int arg0, int arg1, int arg2, int arg3) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchDragged(int arg0, int arg1, int arg2) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int arg0, int arg1, int arg2, int arg3) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 }
