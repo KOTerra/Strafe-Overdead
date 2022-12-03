@@ -2,11 +2,12 @@ package com.straferdeliberator.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.loaders.TextureAtlasLoader;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
-import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -68,14 +69,18 @@ public class LoadingScreen implements Screen {
 	}
 
 	private void queueAssetsToLoad() {
-
-		Strafer.assetManager.setLoader(Texture.class, new TextureLoader(new InternalFileHandleResolver()));
+		// should load automatically based on folder structure
+		// if in folder sprites load as atlas animation etc
+		Strafer.assetManager.setLoader(Texture.class, new TextureLoader(Strafer.assetManager.getFileHandleResolver()));
 		Strafer.assetManager.load("assets/pep.png", Texture.class);
 		Strafer.assetManager.load("assets/back.png", Texture.class);
-		
-		Strafer.assetManager.setLoader(TiledMap.class,new TmxMapLoader(new InternalFileHandleResolver()));
-		Strafer.assetManager.load("assets/maps/test/map.tmx",TiledMap.class);
 
+		Strafer.assetManager.setLoader(TiledMap.class, new TmxMapLoader(Strafer.assetManager.getFileHandleResolver()));
+		Strafer.assetManager.load("assets/maps/test/map.tmx", TiledMap.class);
+
+		Strafer.assetManager.setLoader(TextureAtlas.class,
+				new TextureAtlasLoader(Strafer.assetManager.getFileHandleResolver()));
+		Strafer.assetManager.load("assets/spritesheet/player-idle.atlas", TextureAtlas.class);
 	}
 
 	@Override

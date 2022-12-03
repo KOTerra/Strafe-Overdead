@@ -2,8 +2,6 @@ package com.straferdeliberator;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,12 +16,13 @@ import com.straferdeliberator.screens.LoadingScreen;
  * 
  * @author mihai_stoica
  */
-public class Strafer extends Game implements InputProcessor {
+public class Strafer extends Game {
 
 	/**
 	 * the asset manager
 	 */
 	public static final AssetManager assetManager = new AssetManager(new InternalFileHandleResolver());
+
 	/**
 	 * the sprite batch
 	 */
@@ -70,7 +69,7 @@ public class Strafer extends Game implements InputProcessor {
 	public static ScreenViewport uiScreenViewport;
 
 	/**
-	 * stage that contains world actors
+	 * stage that contains world entities
 	 */
 	public static Stage stage;
 
@@ -98,7 +97,6 @@ public class Strafer extends Game implements InputProcessor {
 
 		setScreen(new LoadingScreen(this));
 
-		Gdx.input.setInputProcessor(this);
 	}
 
 	@Override
@@ -108,52 +106,4 @@ public class Strafer extends Game implements InputProcessor {
 		this.getScreen().dispose();
 	}
 
-	@Override
-	public boolean keyDown(int keycode) {
-		if (keycode == Input.Keys.RIGHT)
-			worldCamera.translate(1f, 0f);
-		if (keycode == Input.Keys.LEFT)
-			worldCamera.translate(-1f, 0f);
-		if (keycode == Input.Keys.UP)
-			worldCamera.translate(0f, 1f);
-		if (keycode == Input.Keys.DOWN)
-			worldCamera.translate(0f, -1f);
-
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char arg0) {
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int arg0) {
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int arg0, int arg1) {
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(float arg0, float arg1) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int arg0, int arg1, int arg2, int arg3) {
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int arg0, int arg1, int arg2) {
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int arg0, int arg1, int arg2, int arg3) {
-		return false;
-	}
 }

@@ -8,6 +8,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.straferdeliberator.Strafer;
+import com.straferdeliberator.game.entity.Entity;
+import com.straferdeliberator.game.entity.player.Player;
 
 public class GameScreen implements Screen {
 
@@ -16,7 +18,7 @@ public class GameScreen implements Screen {
 	World world;
 
 	private Sprite background;
-	private Sprite sprite;
+	private Entity playerTest;
 
 	public GameScreen(Strafer game) {
 		addTestAssets();
@@ -28,13 +30,20 @@ public class GameScreen implements Screen {
 		body.type = BodyType.DynamicBody;
 
 		background = new Sprite(Strafer.assetManager.get("assets/back.png", Texture.class));
-		sprite = new Sprite(Strafer.assetManager.get("assets/pep.png", Texture.class));
-		sprite.setPosition(Strafer.WORLD_WIDTH / 2 - sprite.getWidth() * Strafer.SCALE_FACTOR / 2,
-				Strafer.WORLD_HEIGHT / 2 - sprite.getHeight() * Strafer.SCALE_FACTOR / 2);
+
 		background.setPosition(0, 0);
 		background.setSize(background.getWidth() * Strafer.SCALE_FACTOR, background.getHeight() * Strafer.SCALE_FACTOR);
-		sprite.setSize(sprite.getWidth() * Strafer.SCALE_FACTOR, sprite.getHeight() * Strafer.SCALE_FACTOR);
 
+		playerTest = new Player();
+		Strafer.stage.addActor(playerTest);
+	}
+
+	public void update(float delta) {
+		Strafer.extendViewport.apply();
+		Strafer.worldCamera.update();
+		Strafer.spriteBatch.setProjectionMatrix(Strafer.worldCamera.combined);
+
+		Strafer.stage.act(delta);
 	}
 
 	@Override
@@ -44,49 +53,15 @@ public class GameScreen implements Screen {
 	}
 
 	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void show() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void render(float arg0) {
+	public void render(float delta) {
 		ScreenUtils.clear(1, 0, 0, 1);
+		update(delta);
 
-		Strafer.extendViewport.apply();
-		Strafer.worldCamera.update();
-		Strafer.spriteBatch.setProjectionMatrix(Strafer.worldCamera.combined);
-
-		Strafer.stage.act();
 		Strafer.stage.draw();
 
 		Strafer.spriteBatch.begin();
 		background.draw(Strafer.spriteBatch);
-		sprite.draw(Strafer.spriteBatch);
+		playerTest.getSprite().draw(Strafer.spriteBatch);
 		Strafer.spriteBatch.end();
 
 		Strafer.uiScreenViewport.apply();
@@ -95,6 +70,31 @@ public class GameScreen implements Screen {
 
 		Strafer.stage.act();
 		Strafer.stage.draw();
+	}
+
+	@Override
+	public void dispose() {
+
+	}
+
+	@Override
+	public void hide() {
+
+	}
+
+	@Override
+	public void pause() {
+
+	}
+
+	@Override
+	public void resume() {
+
+	}
+
+	@Override
+	public void show() {
+
 	}
 
 }

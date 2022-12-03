@@ -3,7 +3,6 @@ package com.straferdeliberator.game.world;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.straferdeliberator.game.entity.Entity;
 
 public class GameWorld {
 	World box2dWorld;
