@@ -1,0 +1,117 @@
+player-idle.png
+size: 1023, 148
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+a/idleA1
+  rotate: true
+  xy: 1, 1
+  size: 58, 123
+  orig: 128, 128
+  offset: 35, 0
+  index: -1
+a/idleA2
+  rotate: true
+  xy: 126, 1
+  size: 58, 123
+  orig: 128, 128
+  offset: 35, 0
+  index: -1
+a/idleA3
+  rotate: true
+  xy: 251, 1
+  size: 58, 121
+  orig: 128, 128
+  offset: 35, 0
+  index: -1
+a/idleA4
+  rotate: true
+  xy: 374, 1
+  size: 58, 119
+  orig: 128, 128
+  offset: 35, 0
+  index: -1
+d/idleD1
+  rotate: true
+  xy: 495, 1
+  size: 58, 123
+  orig: 128, 128
+  offset: 35, 0
+  index: -1
+d/idleD2
+  rotate: true
+  xy: 620, 1
+  size: 58, 123
+  orig: 128, 128
+  offset: 35, 0
+  index: -1
+d/idleD3
+  rotate: true
+  xy: 745, 1
+  size: 58, 121
+  orig: 128, 128
+  offset: 35, 0
+  index: -1
+d/idleD4
+  rotate: true
+  xy: 868, 1
+  size: 58, 119
+  orig: 128, 128
+  offset: 35, 0
+  index: -1
+s/idleS1
+  rotate: true
+  xy: 1, 61
+  size: 86, 128
+  orig: 128, 128
+  offset: 21, 0
+  index: -1
+s/idleS2
+  rotate: true
+  xy: 131, 61
+  size: 86, 128
+  orig: 128, 128
+  offset: 21, 0
+  index: -1
+s/idleS3
+  rotate: true
+  xy: 261, 61
+  size: 86, 126
+  orig: 128, 128
+  offset: 21, 0
+  index: -1
+s/idleS4
+  rotate: true
+  xy: 389, 61
+  size: 86, 124
+  orig: 128, 128
+  offset: 21, 0
+  index: -1
+w/idleW1
+  rotate: true
+  xy: 515, 61
+  size: 86, 127
+  orig: 128, 128
+  offset: 21, 0
+  index: -1
+w/idleW2
+  rotate: true
+  xy: 644, 61
+  size: 86, 127
+  orig: 128, 128
+  offset: 21, 0
+  index: -1
+w/idleW3
+  rotate: true
+  xy: 773, 61
+  size: 86, 125
+  orig: 128, 128
+  offset: 21, 0
+  index: -1
+w/idleW4
+  rotate: true
+  xy: 900, 61
+  size: 86, 122
+  orig: 128, 128
+  offset: 21, 0
+  index: -1

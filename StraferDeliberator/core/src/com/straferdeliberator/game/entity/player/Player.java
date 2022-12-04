@@ -41,12 +41,19 @@ public class Player extends Entity {
 			sprite.setPosition(sprite.getX(), sprite.getY() - speed * delta);
 		}
 
+		if (Gdx.input.isKeyPressed(Keys.NUMPAD_SUBTRACT)) {
+			Strafer.worldCamera.zoom += .02f;
+		}
+		if (Gdx.input.isKeyPressed(Keys.NUMPAD_ADD)) {
+			Strafer.worldCamera.zoom -= .02f;
+		}
 	}
 
 	private void updateCamera() {
 		cameraPosition.x = sprite.getX() + 1;
 		cameraPosition.y = sprite.getY() + 1;
 		Strafer.worldCamera.position.lerp(cameraPosition, .05f);
+
 	}
 
 }
