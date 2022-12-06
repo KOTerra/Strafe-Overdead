@@ -29,7 +29,7 @@ public class GameScreen implements Screen {
 		BodyDef body = new BodyDef();
 		body.type = BodyType.DynamicBody;
 
-		background = new Sprite(Strafer.assetManager.get("assets/back.png", Texture.class));
+		background = new Sprite(Strafer.assetManager.get("back.png", Texture.class));
 
 		background.setPosition(0, 0);
 		background.setSize(background.getWidth() * Strafer.SCALE_FACTOR, background.getHeight() * Strafer.SCALE_FACTOR);
