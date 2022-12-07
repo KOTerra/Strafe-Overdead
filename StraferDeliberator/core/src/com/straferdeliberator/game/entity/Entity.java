@@ -21,6 +21,7 @@ public class Entity extends Actor {
 	Body body;
 
 	public Entity() {
+
 	}
 
 	@Override
