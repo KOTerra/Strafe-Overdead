@@ -73,14 +73,14 @@ public class LoadingScreen implements Screen {
 		// should load automatically based on folder structure
 		// if in folder sprites load as atlas animation etc
 		Strafer.assetManager.setLoader(Texture.class, new TextureLoader(new InternalFileHandleResolver()));
-		Strafer.assetManager.load("pep.png", Texture.class);
-		Strafer.assetManager.load("back.png", Texture.class);
+		Strafer.assetManager.load("images/pep.png", Texture.class);
+		Strafer.assetManager.load("images/back.png", Texture.class);
 
 		Strafer.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		Strafer.assetManager.load("maps/test/map.tmx", TiledMap.class);
 
 		Strafer.assetManager.setLoader(TextureAtlas.class, new TextureAtlasLoader(new InternalFileHandleResolver()));
-		Strafer.assetManager.load("spritesheet/player-idle.atlas", TextureAtlas.class);
+		Strafer.assetManager.load("spritesheets/player/player-idle.atlas", TextureAtlas.class);
 	}
 
 	@Override

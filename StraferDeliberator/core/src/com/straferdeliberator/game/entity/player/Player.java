@@ -14,7 +14,7 @@ public class Player extends Entity {
 	Vector3 cameraPosition = new Vector3();
 
 	public Player() {
-		sprite = new Sprite(Strafer.assetManager.get("pep.png", Texture.class));
+		sprite = new Sprite(Strafer.assetManager.get("images/pep.png", Texture.class));
 		sprite.setSize(sprite.getWidth() * Strafer.SCALE_FACTOR, sprite.getHeight() * Strafer.SCALE_FACTOR);
 		sprite.setPosition(Strafer.WORLD_WIDTH / 2 - sprite.getWidth() / 2,
 				Strafer.WORLD_HEIGHT / 2 - sprite.getHeight() / 2);
