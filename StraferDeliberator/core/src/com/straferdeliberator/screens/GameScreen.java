@@ -1,15 +1,10 @@
 package com.straferdeliberator.screens;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.straferdeliberator.Strafer;
-import com.straferdeliberator.game.entity.Entity;
-import com.straferdeliberator.game.entity.player.Player;
+import com.straferdeliberator.game.world.GameWorld;
 
 public class GameScreen implements Screen {
 
@@ -17,25 +12,9 @@ public class GameScreen implements Screen {
 
 	World world;
 
-	private Sprite background;
-	private Entity playerTest;
-
 	public GameScreen(Strafer game) {
-		addTestAssets();
-		System.out.println("gamescreen");
-	}
+		Strafer.gameWorld = new GameWorld();
 
-	void addTestAssets() {
-		BodyDef body = new BodyDef();
-		body.type = BodyType.DynamicBody;
-
-		background = new Sprite(Strafer.assetManager.get("images/back.png", Texture.class));
-
-		background.setPosition(0, 0);
-		background.setSize(background.getWidth() * Strafer.SCALE_FACTOR, background.getHeight() * Strafer.SCALE_FACTOR);
-
-		playerTest = new Player();
-		Strafer.stage.addActor(playerTest);
 	}
 
 	public void update(float delta) {
@@ -43,7 +22,7 @@ public class GameScreen implements Screen {
 		Strafer.worldCamera.update();
 		Strafer.spriteBatch.setProjectionMatrix(Strafer.worldCamera.combined);
 
-		Strafer.stage.act(delta);
+		Strafer.gameWorld.act(delta);
 	}
 
 	@Override
@@ -57,19 +36,17 @@ public class GameScreen implements Screen {
 		ScreenUtils.clear(1, 0, 0, 1);
 		update(delta);
 
-		Strafer.stage.draw();
-
 		Strafer.spriteBatch.begin();
-		background.draw(Strafer.spriteBatch);
-		playerTest.getSprite().draw(Strafer.spriteBatch);
+
+		Strafer.gameWorld.act();
+		Strafer.gameWorld.draw();
+
 		Strafer.spriteBatch.end();
 
 		Strafer.uiScreenViewport.apply();
 		Strafer.uiCamera.update();
 		Strafer.spriteBatch.setProjectionMatrix(Strafer.uiCamera.combined);
 
-		Strafer.stage.act();
-		Strafer.stage.draw();
 	}
 
 	@Override

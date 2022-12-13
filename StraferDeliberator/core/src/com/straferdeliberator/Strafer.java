@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.straferdeliberator.game.world.GameWorld;
 import com.straferdeliberator.screens.LoadingScreen;
 
 /**
@@ -71,7 +72,7 @@ public class Strafer extends Game {
 	/**
 	 * stage that contains world entities
 	 */
-	public static Stage stage;
+	public static GameWorld gameWorld;
 
 	/**
 	 * stage that contains ui components
@@ -87,7 +88,6 @@ public class Strafer extends Game {
 		worldCamera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
 		extendViewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, worldCamera);
 
-		stage = new Stage(extendViewport, spriteBatch);
 
 		uiCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		uiCamera.position.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 1);

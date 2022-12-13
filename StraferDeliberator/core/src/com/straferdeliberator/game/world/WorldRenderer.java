@@ -2,7 +2,13 @@ package com.straferdeliberator.game.world;
 
 public class WorldRenderer {
 
-	public WorldRenderer(GameWorld gameWorld) {
+	GameWorld gameWorld;
 
+	public WorldRenderer(GameWorld gameWorld) {
+		this.gameWorld = gameWorld;
+	}
+	
+	public void render() {
+		
 	}
 }

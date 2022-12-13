@@ -3,7 +3,7 @@ package com.straferdeliberator.game.entity.player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.straferdeliberator.Strafer;
 import com.straferdeliberator.game.entity.Entity;
@@ -14,10 +14,11 @@ public class Player extends Entity {
 	Vector3 cameraPosition = new Vector3();
 
 	public Player() {
-		sprite = new Sprite(Strafer.assetManager.get("images/pep.png", Texture.class));
-		sprite.setSize(sprite.getWidth() * Strafer.SCALE_FACTOR, sprite.getHeight() * Strafer.SCALE_FACTOR);
-		sprite.setPosition(Strafer.WORLD_WIDTH / 2 - sprite.getWidth() / 2,
-				Strafer.WORLD_HEIGHT / 2 - sprite.getHeight() / 2);
+		textureRegion = new TextureRegion(Strafer.assetManager.get("images/pep.png", Texture.class));
+		setSize(textureRegion.getRegionWidth() * Strafer.SCALE_FACTOR,
+				textureRegion.getRegionHeight() * Strafer.SCALE_FACTOR);
+		setScale(Strafer.SCALE_FACTOR);
+		setPosition(Strafer.WORLD_WIDTH / 2 - getWidth() / 2, Strafer.WORLD_HEIGHT / 2 - getHeight() / 2);
 
 	}
 
@@ -28,17 +29,18 @@ public class Player extends Entity {
 	}
 
 	private void move(float delta) {
+		float translate = speed * delta;
 		if (Gdx.input.isKeyPressed(Keys.D)) {
-			sprite.setPosition(sprite.getX() + speed * delta, sprite.getY());
+			this.setPosition(this.getX() + translate, this.getY());
 		}
 		if (Gdx.input.isKeyPressed(Keys.A)) {
-			sprite.setPosition(sprite.getX() - speed * delta, sprite.getY());
+			this.setPosition(this.getX() - translate, this.getY());
 		}
 		if (Gdx.input.isKeyPressed(Keys.W)) {
-			sprite.setPosition(sprite.getX(), sprite.getY() + speed * delta);
+			this.setPosition(this.getX(), this.getY() + translate);
 		}
 		if (Gdx.input.isKeyPressed(Keys.S)) {
-			sprite.setPosition(sprite.getX(), sprite.getY() - speed * delta);
+			this.setPosition(this.getX(), this.getY() - translate);
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.NUMPAD_SUBTRACT)) {
@@ -50,8 +52,8 @@ public class Player extends Entity {
 	}
 
 	private void updateCamera() {
-		cameraPosition.x = sprite.getX() + 1;
-		cameraPosition.y = sprite.getY() + 1;
+		cameraPosition.x = this.getX() + 1;
+		cameraPosition.y = this.getY() + 1;
 		Strafer.worldCamera.position.lerp(cameraPosition, .05f);
 
 	}
