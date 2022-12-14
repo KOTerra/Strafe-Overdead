@@ -30,9 +30,10 @@ public class Strafer extends Game {
 	public static SpriteBatch spriteBatch;
 
 	/**
-	 * 
+	 * the time elapsed. used to retrieve time dependent data such as animation
+	 * frames
 	 */
-	public static float stateTime = 0f;
+	private static float stateTime = 0f;
 
 	/**
 	 * the world width measured in tiles. a tile is 64x64 pixels
@@ -108,6 +109,14 @@ public class Strafer extends Game {
 		assetManager.dispose();
 		spriteBatch.dispose();
 		this.getScreen().dispose();
+	}
+
+	public static float getStateTime() {
+		return stateTime;
+	}
+
+	public static void setStateTime(float stateTime) {
+		Strafer.stateTime = stateTime;
 	}
 
 }

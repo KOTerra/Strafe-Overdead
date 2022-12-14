@@ -18,10 +18,19 @@ import com.straferdeliberator.Strafer;
 
 public class LoadingScreen implements Screen {
 
+	/**
+	 * the game class
+	 */
 	private final Strafer game;
 
+	/**
+	 * renderer for the loading bar
+	 */
 	private ShapeRenderer shapeRenderer;
 
+	/**
+	 * progress of assets loading
+	 */
 	private float progress;
 
 	public LoadingScreen(final Strafer game) {

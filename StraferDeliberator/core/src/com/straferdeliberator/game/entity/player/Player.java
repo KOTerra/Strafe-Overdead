@@ -21,8 +21,8 @@ public class Player extends Entity {
 				Strafer.assetManager.get("spritesheets/player/player-idle.atlas", TextureAtlas.class).findRegions("s/idle"),
 				PlayMode.LOOP);
 
-		setPosition(Strafer.WORLD_WIDTH / 2 - getWidth() / 2, Strafer.WORLD_HEIGHT / 2 - getHeight() / 2);
-
+		setPosition(Strafer.WORLD_WIDTH / 2 , Strafer.WORLD_HEIGHT / 2 );
+		System.out.println(getWidth()+" "+getWidth());
 	}
 
 	@Override

@@ -1,18 +1,19 @@
 package com.straferdeliberator.screens;
 
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.straferdeliberator.Strafer;
 import com.straferdeliberator.game.world.GameWorld;
 
 public class GameScreen implements Screen {
 
-	Strafer game;
+	/**
+	 * reference to the game class
+	 */
+	private final Strafer game;
 
-	World world;
-
-	public GameScreen(Strafer game) {
+	public GameScreen(final Strafer game) {
+		this.game = game;
 		Strafer.gameWorld = new GameWorld();
 
 	}

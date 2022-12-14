@@ -23,6 +23,8 @@ public class Entity extends Actor {
 	BodyDef bodyDef;
 	Body body;
 
+	private boolean centered = false;
+
 	public Entity() {
 
 	}
@@ -30,12 +32,20 @@ public class Entity extends Actor {
 	@Override
 	public void act(float delta) {
 		updateRegion(delta);
+		updateCenter();
 	}
 
 	private void updateRegion(float delta) {
-		currentFrame = animation.getKeyFrame(Strafer.stateTime,true);
+		currentFrame = animation.getKeyFrame(Strafer.getStateTime(), true);
 		setSize(currentFrame.getRegionWidth() * Strafer.SCALE_FACTOR,
 				currentFrame.getRegionHeight() * Strafer.SCALE_FACTOR);
+	}
+
+	private void updateCenter() {
+		if (!centered) {
+			setPosition(getX() - getWidth() / 2, getY() - getHeight() / 2);
+			centered = true;
+		}
 	}
 
 	@Override

@@ -13,7 +13,7 @@ import com.straferdeliberator.game.entity.player.Player;
 public class GameWorld extends Stage {
 
 	private Sprite background;
-	private Entity playerTest;
+	private Player playerTest;
 
 	public GameWorld() {
 		super(Strafer.extendViewport, Strafer.spriteBatch);
@@ -23,9 +23,9 @@ public class GameWorld extends Stage {
 
 	@Override
 	public void act(float delta) {
-		Strafer.stateTime += delta;
-		if (Strafer.stateTime > 10000000f) {
-			Strafer.stateTime = 0;
+		Strafer.setStateTime(Strafer.getStateTime() + delta);
+		if (Strafer.getStateTime() > 10000000f) {
+			Strafer.setStateTime(0);
 		}
 
 		for (Actor a : this.getActors()) {
