@@ -2,7 +2,9 @@ package com.straferdeliberator.game.entity.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.straferdeliberator.Strafer;
@@ -14,16 +16,18 @@ public class Player extends Entity {
 	Vector3 cameraPosition = new Vector3();
 
 	public Player() {
-		textureRegion = new TextureRegion(Strafer.assetManager.get("images/pep.png", Texture.class));
-		setSize(textureRegion.getRegionWidth() * Strafer.SCALE_FACTOR,
-				textureRegion.getRegionHeight() * Strafer.SCALE_FACTOR);
-		setScale(Strafer.SCALE_FACTOR);
+
+		animation = new Animation<TextureRegion>(0.1f,
+				Strafer.assetManager.get("spritesheets/player/player-idle.atlas", TextureAtlas.class).getRegions(),
+				PlayMode.LOOP);
+
 		setPosition(Strafer.WORLD_WIDTH / 2 - getWidth() / 2, Strafer.WORLD_HEIGHT / 2 - getHeight() / 2);
 
 	}
 
 	@Override
 	public void act(float delta) {
+		super.act(delta);
 		move(delta);
 		updateCamera();
 	}

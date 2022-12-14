@@ -1,5 +1,6 @@
 package com.straferdeliberator.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -18,6 +19,8 @@ public class GameScreen implements Screen {
 	}
 
 	public void update(float delta) {
+		Strafer.stateTime += Gdx.graphics.getDeltaTime();
+
 		Strafer.extendViewport.apply();
 		Strafer.worldCamera.update();
 		Strafer.spriteBatch.setProjectionMatrix(Strafer.worldCamera.combined);

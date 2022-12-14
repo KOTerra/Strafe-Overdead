@@ -30,6 +30,11 @@ public class Strafer extends Game {
 	public static SpriteBatch spriteBatch;
 
 	/**
+	 * 
+	 */
+	public static float stateTime = 0f;
+
+	/**
 	 * the world width measured in tiles. a tile is 64x64 pixels
 	 */
 	public static final float WORLD_WIDTH = 30;
@@ -87,7 +92,6 @@ public class Strafer extends Game {
 		worldCamera = new OrthographicCamera(WORLD_HEIGHT * aspectRatio, WORLD_HEIGHT);
 		worldCamera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
 		extendViewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, worldCamera);
-
 
 		uiCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		uiCamera.position.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 1);

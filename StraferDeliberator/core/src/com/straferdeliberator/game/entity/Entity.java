@@ -14,10 +14,11 @@ import com.straferdeliberator.Strafer;
  * @author mihai_stoica
  */
 public class Entity extends Actor {
-	protected TextureRegion textureRegion;
 
-	Animation<TextureRegion> animation;// regions taken from TextureAtlas
+	protected Animation<TextureRegion> animation;// regions taken from TextureAtlas
 	// maybe add animations themselves in asset manager or make them static fields
+
+	private TextureRegion currentFrame;
 
 	BodyDef bodyDef;
 	Body body;
@@ -28,15 +29,21 @@ public class Entity extends Actor {
 
 	@Override
 	public void act(float delta) {
+		updateRegion(delta);
+	}
 
+	private void updateRegion(float delta) {
+		currentFrame = animation.getKeyFrame(Strafer.stateTime);
+		setSize(currentFrame.getRegionWidth() * Strafer.SCALE_FACTOR,
+				currentFrame.getRegionHeight() * Strafer.SCALE_FACTOR);
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.draw(textureRegion, getX(), getY(), // coordonatele
-				textureRegion.getRegionWidth() / 2, textureRegion.getRegionHeight() / 2, // pct in care e rotit
-				textureRegion.getRegionWidth() * Strafer.SCALE_FACTOR,
-				textureRegion.getRegionHeight() * Strafer.SCALE_FACTOR, // width/height
+		setScale(Strafer.SCALE_FACTOR);
+		batch.draw(currentFrame, getX(), getY(), // coordonatele
+				getWidth() / 2, getHeight() / 2, // pct in care e rotit
+				getWidth(), getHeight(), // width/height
 				1, 1, // scale
 				super.getRotation()); // rotation
 	}
