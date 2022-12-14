@@ -173,22 +173,22 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">idle/a/idleA1.png</key>
-            <key type="filename">idle/a/idleA2.png</key>
-            <key type="filename">idle/a/idleA3.png</key>
-            <key type="filename">idle/a/idleA4.png</key>
-            <key type="filename">idle/d/idleD1.png</key>
-            <key type="filename">idle/d/idleD2.png</key>
-            <key type="filename">idle/d/idleD3.png</key>
-            <key type="filename">idle/d/idleD4.png</key>
-            <key type="filename">idle/s/idleS1.png</key>
-            <key type="filename">idle/s/idleS2.png</key>
-            <key type="filename">idle/s/idleS3.png</key>
-            <key type="filename">idle/s/idleS4.png</key>
-            <key type="filename">idle/w/idleW1.png</key>
-            <key type="filename">idle/w/idleW2.png</key>
-            <key type="filename">idle/w/idleW3.png</key>
-            <key type="filename">idle/w/idleW4.png</key>
+            <key type="filename">idle/a/idle_0.png</key>
+            <key type="filename">idle/a/idle_1.png</key>
+            <key type="filename">idle/a/idle_2.png</key>
+            <key type="filename">idle/a/idle_3.png</key>
+            <key type="filename">idle/d/idle_0.png</key>
+            <key type="filename">idle/d/idle_1.png</key>
+            <key type="filename">idle/d/idle_2.png</key>
+            <key type="filename">idle/d/idle_3.png</key>
+            <key type="filename">idle/s/idle_0.png</key>
+            <key type="filename">idle/s/idle_1.png</key>
+            <key type="filename">idle/s/idle_2.png</key>
+            <key type="filename">idle/s/idle_3.png</key>
+            <key type="filename">idle/w/idle_0.png</key>
+            <key type="filename">idle/w/idle_1.png</key>
+            <key type="filename">idle/w/idle_2.png</key>
+            <key type="filename">idle/w/idle_3.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
