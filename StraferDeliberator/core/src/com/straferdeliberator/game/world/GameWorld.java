@@ -23,6 +23,11 @@ public class GameWorld extends Stage {
 
 	@Override
 	public void act(float delta) {
+		Strafer.stateTime += delta;
+		if (Strafer.stateTime > 10000000f) {
+			Strafer.stateTime = 0;
+		}
+
 		for (Actor a : this.getActors()) {
 			a.act(delta);
 		}

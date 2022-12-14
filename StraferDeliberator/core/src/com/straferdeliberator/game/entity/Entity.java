@@ -33,7 +33,7 @@ public class Entity extends Actor {
 	}
 
 	private void updateRegion(float delta) {
-		currentFrame = animation.getKeyFrame(Strafer.stateTime);
+		currentFrame = animation.getKeyFrame(Strafer.stateTime,true);
 		setSize(currentFrame.getRegionWidth() * Strafer.SCALE_FACTOR,
 				currentFrame.getRegionHeight() * Strafer.SCALE_FACTOR);
 	}
@@ -45,7 +45,7 @@ public class Entity extends Actor {
 				getWidth() / 2, getHeight() / 2, // pct in care e rotit
 				getWidth(), getHeight(), // width/height
 				1, 1, // scale
-				super.getRotation()); // rotation
+				getRotation()); // rotation
 	}
 
 }

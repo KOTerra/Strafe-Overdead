@@ -1,116 +1,116 @@
 player-idle.png
-size: 1023, 148
+size: 148, 1023
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 a/idle
-  rotate: true
+  rotate: false
+  xy: 89, 1
+  size: 58, 123
+  orig: 128, 128
+  offset: 35, 0
+  index: 0
+a/idle
+  rotate: false
+  xy: 89, 126
+  size: 58, 123
+  orig: 128, 128
+  offset: 35, 0
+  index: 1
+a/idle
+  rotate: false
+  xy: 89, 501
+  size: 58, 121
+  orig: 128, 128
+  offset: 35, 0
+  index: 2
+a/idle
+  rotate: false
+  xy: 89, 747
+  size: 58, 119
+  orig: 128, 128
+  offset: 35, 0
+  index: 3
+d/idle
+  rotate: false
+  xy: 89, 251
+  size: 58, 123
+  orig: 128, 128
+  offset: 35, 0
+  index: 0
+d/idle
+  rotate: false
+  xy: 89, 376
+  size: 58, 123
+  orig: 128, 128
+  offset: 35, 0
+  index: 1
+d/idle
+  rotate: false
+  xy: 89, 624
+  size: 58, 121
+  orig: 128, 128
+  offset: 35, 0
+  index: 2
+d/idle
+  rotate: false
+  xy: 89, 868
+  size: 58, 119
+  orig: 128, 128
+  offset: 35, 0
+  index: 3
+s/idle
+  rotate: false
   xy: 1, 1
-  size: 58, 123
-  orig: 128, 128
-  offset: 35, 0
-  index: 0
-a/idle
-  rotate: true
-  xy: 126, 1
-  size: 58, 123
-  orig: 128, 128
-  offset: 35, 0
-  index: 1
-a/idle
-  rotate: true
-  xy: 251, 1
-  size: 58, 121
-  orig: 128, 128
-  offset: 35, 0
-  index: 2
-a/idle
-  rotate: true
-  xy: 374, 1
-  size: 58, 119
-  orig: 128, 128
-  offset: 35, 0
-  index: 3
-d/idle
-  rotate: true
-  xy: 495, 1
-  size: 58, 123
-  orig: 128, 128
-  offset: 35, 0
-  index: 0
-d/idle
-  rotate: true
-  xy: 620, 1
-  size: 58, 123
-  orig: 128, 128
-  offset: 35, 0
-  index: 1
-d/idle
-  rotate: true
-  xy: 745, 1
-  size: 58, 121
-  orig: 128, 128
-  offset: 35, 0
-  index: 2
-d/idle
-  rotate: true
-  xy: 868, 1
-  size: 58, 119
-  orig: 128, 128
-  offset: 35, 0
-  index: 3
-s/idle
-  rotate: true
-  xy: 1, 61
   size: 86, 128
   orig: 128, 128
   offset: 21, 0
   index: 0
 s/idle
-  rotate: true
-  xy: 131, 61
+  rotate: false
+  xy: 1, 131
   size: 86, 128
   orig: 128, 128
   offset: 21, 0
   index: 1
 s/idle
-  rotate: true
-  xy: 261, 61
+  rotate: false
+  xy: 1, 519
   size: 86, 126
   orig: 128, 128
   offset: 21, 0
   index: 2
 s/idle
-  rotate: true
-  xy: 389, 61
+  rotate: false
+  xy: 1, 774
   size: 86, 124
   orig: 128, 128
   offset: 21, 0
   index: 3
 w/idle
-  rotate: true
-  xy: 515, 61
+  rotate: false
+  xy: 1, 261
   size: 86, 127
   orig: 128, 128
   offset: 21, 0
   index: 0
 w/idle
-  rotate: true
-  xy: 644, 61
+  rotate: false
+  xy: 1, 390
   size: 86, 127
   orig: 128, 128
   offset: 21, 0
   index: 1
 w/idle
-  rotate: true
-  xy: 773, 61
+  rotate: false
+  xy: 1, 647
   size: 86, 125
   orig: 128, 128
   offset: 21, 0
   index: 2
 w/idle
-  rotate: true
-  xy: 900, 61
+  rotate: false
+  xy: 1, 900
   size: 86, 122
   orig: 128, 128
   offset: 21, 0

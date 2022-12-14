@@ -17,7 +17,7 @@ public class Player extends Entity {
 
 	public Player() {
 
-		animation = new Animation<TextureRegion>(0.25f,
+		animation = new Animation<TextureRegion>(0.35f,
 				Strafer.assetManager.get("spritesheets/player/player-idle.atlas", TextureAtlas.class).findRegions("s/idle"),
 				PlayMode.LOOP);
 
