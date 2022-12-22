@@ -6,14 +6,17 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Disposable;
 import com.straferdeliberator.Strafer;
-import com.straferdeliberator.game.entity.Entity;
 import com.straferdeliberator.game.entity.player.Player;
+import com.straferdeliberator.game.world.collision.Box2DWorld;
 
-public class GameWorld extends Stage {
+public class GameWorld extends Stage implements Disposable {
 
 	private Sprite background;
 	private Player playerTest;
+
+	Box2DWorld box2DWorld = new Box2DWorld();
 
 	public GameWorld() {
 		super(Strafer.extendViewport, Strafer.spriteBatch);
@@ -23,10 +26,9 @@ public class GameWorld extends Stage {
 
 	@Override
 	public void act(float delta) {
-		Strafer.setStateTime(Strafer.getStateTime() + delta);
-		if (Strafer.getStateTime() > 10000000f) {
-			Strafer.setStateTime(0);
-		}
+		Strafer.updateStateTime(delta);
+
+		box2DWorld.step(delta);
 
 		for (Actor a : this.getActors()) {
 			a.act(delta);
@@ -35,10 +37,18 @@ public class GameWorld extends Stage {
 
 	@Override
 	public void draw() {
+
 		background.draw(Strafer.spriteBatch);
+
 		for (Actor a : this.getActors()) {
 			a.draw(getBatch(), 1);
 		}
+
+	}
+
+	@Override
+	public void dispose() {
+		box2DWorld.dispose();
 	}
 
 	void addTestAssets() {
@@ -53,4 +63,9 @@ public class GameWorld extends Stage {
 		playerTest = new Player();
 		this.addActor(playerTest);
 	}
+
+	public Box2DWorld getBox2DWorld() {
+		return box2DWorld;
+	}
+
 }

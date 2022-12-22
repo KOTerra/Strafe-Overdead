@@ -43,6 +43,7 @@ public class GameScreen implements Screen {
 		Strafer.gameWorld.draw();
 
 		Strafer.spriteBatch.end();
+		Strafer.gameWorld.getBox2DWorld().render();
 
 		Strafer.uiScreenViewport.apply();
 		Strafer.uiCamera.update();
@@ -52,7 +53,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void dispose() {
-
+		Strafer.gameWorld.dispose();
 	}
 
 	@Override

@@ -85,6 +85,8 @@ public class Strafer extends Game {
 	 */
 	public static Stage uiStage;
 
+	public static boolean inDebug = true;
+
 	@Override
 	public void create() {
 		spriteBatch = new SpriteBatch();
@@ -117,6 +119,13 @@ public class Strafer extends Game {
 
 	public static void setStateTime(float stateTime) {
 		Strafer.stateTime = stateTime;
+	}
+
+	public static void updateStateTime(float amount) {
+		Strafer.setStateTime(Strafer.getStateTime() + amount);
+		if (Strafer.getStateTime() > 10000000f) {
+			Strafer.setStateTime(0);
+		}
 	}
 
 }

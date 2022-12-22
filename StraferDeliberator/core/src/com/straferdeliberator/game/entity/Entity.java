@@ -3,10 +3,14 @@ package com.straferdeliberator.game.entity;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.straferdeliberator.Strafer;
+import com.straferdeliberator.game.world.collision.Box2DHelper;
+import com.straferdeliberator.game.world.collision.Box2DWorld;
 
 /**
  * A physical object that resides in the gameworld.
@@ -21,7 +25,8 @@ public class Entity extends Actor {
 	private TextureRegion currentFrame;
 
 	BodyDef bodyDef;
-	Body body;
+	protected Body body;
+	protected Box2DWorld box2DWorld;
 
 	private boolean centered = false;
 
@@ -44,7 +49,11 @@ public class Entity extends Actor {
 	private void updateCenter() {
 		if (!centered) {
 			setPosition(getX() - getWidth() / 2, getY() - getHeight() / 2);
+			this.box2DWorld = Strafer.gameWorld.getBox2DWorld();
+			body = Box2DHelper.createBody(box2DWorld.getWorld(), getWidth(), getHeight(), 0, 0,
+					new Vector3(getX(), getY(), 0), BodyType.DynamicBody);
 			centered = true;
+
 		}
 	}
 

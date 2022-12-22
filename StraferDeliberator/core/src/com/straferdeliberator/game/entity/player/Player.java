@@ -17,12 +17,11 @@ public class Player extends Entity {
 
 	public Player() {
 
-		animation = new Animation<TextureRegion>(0.35f,
-				Strafer.assetManager.get("spritesheets/player/player-idle.atlas", TextureAtlas.class).findRegions("s/idle"),
-				PlayMode.LOOP);
+		animation = new Animation<TextureRegion>(0.35f, Strafer.assetManager
+				.get("spritesheets/player/player-idle.atlas", TextureAtlas.class).findRegions("s/idle"), PlayMode.LOOP);
 
-		setPosition(Strafer.WORLD_WIDTH / 2 , Strafer.WORLD_HEIGHT / 2 );
-		System.out.println(getWidth()+" "+getWidth());
+		setPosition(Strafer.WORLD_WIDTH / 2, Strafer.WORLD_HEIGHT / 2);
+
 	}
 
 	@Override
