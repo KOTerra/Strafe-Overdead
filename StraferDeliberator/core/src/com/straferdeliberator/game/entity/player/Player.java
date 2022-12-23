@@ -32,31 +32,39 @@ public class Player extends Entity {
 	}
 
 	private void move(float delta) {
-		float translate = speed * delta;
-		if (Gdx.input.isKeyPressed(Keys.D)) {
-			this.setPosition(this.getX() + translate, this.getY());
-		}
-		if (Gdx.input.isKeyPressed(Keys.A)) {
-			this.setPosition(this.getX() - translate, this.getY());
+		float dirX = 0;
+		float dirY = 0;
+
+		if (Gdx.input.isKeyPressed(Keys.S)) {
+			dirY = -1;
 		}
 		if (Gdx.input.isKeyPressed(Keys.W)) {
-			this.setPosition(this.getX(), this.getY() + translate);
+			dirY = 1;
 		}
-		if (Gdx.input.isKeyPressed(Keys.S)) {
-			this.setPosition(this.getX(), this.getY() - translate);
+		if (Gdx.input.isKeyPressed(Keys.A)) {
+			dirX = -1;
+		}
+		if (Gdx.input.isKeyPressed(Keys.D)) {
+			dirX = 1;
 		}
 
-		if (Gdx.input.isKeyPressed(Keys.NUMPAD_SUBTRACT)) {
-			Strafer.worldCamera.zoom += .02f;
-		}
-		if (Gdx.input.isKeyPressed(Keys.NUMPAD_ADD)) {
-			Strafer.worldCamera.zoom -= .02f;
+		body.setLinearVelocity(dirX * speed, dirY * speed);
+		this.setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
+
+		if (Strafer.inDebug) {
+
+			if (Gdx.input.isKeyPressed(Keys.NUMPAD_SUBTRACT)) {
+				Strafer.worldCamera.zoom += .02f;
+			}
+			if (Gdx.input.isKeyPressed(Keys.NUMPAD_ADD)) {
+				Strafer.worldCamera.zoom -= .02f;
+			}
 		}
 	}
 
 	private void updateCamera() {
-		cameraPosition.x = this.getX() + 1;
-		cameraPosition.y = this.getY() + 1;
+		cameraPosition.x = body.getPosition().x;
+		cameraPosition.y = body.getPosition().y;
 		Strafer.worldCamera.position.lerp(cameraPosition, .05f);
 
 	}

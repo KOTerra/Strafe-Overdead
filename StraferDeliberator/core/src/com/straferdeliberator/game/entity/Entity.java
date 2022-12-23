@@ -24,7 +24,6 @@ public class Entity extends Actor {
 
 	private TextureRegion currentFrame;
 
-	BodyDef bodyDef;
 	protected Body body;
 	protected Box2DWorld box2DWorld;
 
