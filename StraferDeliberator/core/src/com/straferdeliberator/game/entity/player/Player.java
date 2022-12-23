@@ -2,8 +2,6 @@ package com.straferdeliberator.game.entity.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.controllers.ControllerAdapter;
-import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -14,15 +12,10 @@ import com.straferdeliberator.game.entity.Entity;
 
 public class Player extends Entity {
 
-	private float speed = 2.5f;
 	Vector3 cameraPosition = new Vector3();
 
-	ControllerAdapter ca;
-
 	public Player() {
-		ca = new ControllerAdapter();
-		Controllers.addListener(ca);
-
+		speed = 2.5f;
 		animation = new Animation<TextureRegion>(0.35f, Strafer.assetManager
 				.get("spritesheets/player/player-idle.atlas", TextureAtlas.class).findRegions("s/idle"), PlayMode.LOOP);
 
@@ -35,29 +28,21 @@ public class Player extends Entity {
 		super.act(delta);
 		move(delta);
 		updateCamera();
-		if (Controllers.getListeners().get(0).buttonDown(Controllers.getCurrent(),
-				Controllers.getCurrent().getMapping().buttonA)) {
-			System.out.println("ssssssssssss");
-		}
+
 	}
 
 	private void move(float delta) {
-		float dirX = 0;
-		float dirY = 0;
+		dirX = 0;
+		dirY = 0;
 
-		if (Gdx.input.isKeyPressed(Keys.S)) {
-			dirY = -1;
-		}
-
-		
-		if (Gdx.input.isKeyPressed(Keys.S)) {
-			dirY = -1;
-		}
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			dirY = 1;
 		}
 		if (Gdx.input.isKeyPressed(Keys.A)) {
 			dirX = -1;
+		}
+		if (Gdx.input.isKeyPressed(Keys.S)) {
+			dirY = -1;
 		}
 		if (Gdx.input.isKeyPressed(Keys.D)) {
 			dirX = 1;
@@ -67,7 +52,6 @@ public class Player extends Entity {
 		this.setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
 
 		if (Strafer.inDebug) {
-
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_SUBTRACT)) {
 				Strafer.worldCamera.zoom += .02f;
 			}

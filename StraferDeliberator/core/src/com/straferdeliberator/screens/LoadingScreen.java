@@ -38,7 +38,6 @@ public class LoadingScreen implements Screen {
 		shapeRenderer = new ShapeRenderer();
 
 		queueAssetsToLoad();
-		System.out.println("LoadingScreen.LoadingScreen()");
 	}
 
 	@Override
@@ -46,7 +45,7 @@ public class LoadingScreen implements Screen {
 	}
 
 	/**
-	 * mareste loadingBarul in functie de cat de mult s-a incarcat din asset-uri
+	 * increases the progress and changes the screend when all loaded
 	 */
 	private void update(float delta) {
 
@@ -54,7 +53,6 @@ public class LoadingScreen implements Screen {
 
 		if (Strafer.assetManager.update()) {
 			if (progress >= Strafer.assetManager.getProgress() - .001f) {
-				System.out.println("gata");
 				if (Strafer.assetManager.isFinished()) {
 					game.setScreen(new GameScreen(game));
 				}

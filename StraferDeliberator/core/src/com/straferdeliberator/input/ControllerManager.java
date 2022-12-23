@@ -7,7 +7,7 @@ public class ControllerManager implements ControllerListener {
 
 	@Override
 	public boolean buttonDown(Controller controller, int buttonIndex) {
-		return false;
+		return controller.getButton(buttonIndex);
 	}
 
 	@Override

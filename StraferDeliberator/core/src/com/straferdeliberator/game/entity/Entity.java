@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.straferdeliberator.Strafer;
@@ -19,6 +18,10 @@ import com.straferdeliberator.game.world.collision.Box2DWorld;
  */
 public class Entity extends Actor {
 
+	protected EntityType entityType;
+
+	protected EntityState entityState;
+
 	protected Animation<TextureRegion> animation;// regions taken from TextureAtlas
 	// maybe add animations themselves in asset manager or make them static fields
 
@@ -26,6 +29,10 @@ public class Entity extends Actor {
 
 	protected Body body;
 	protected Box2DWorld box2DWorld;
+
+	protected float speed;
+	protected float dirX;
+	protected float dirY;
 
 	private boolean centered = false;
 
@@ -64,6 +71,14 @@ public class Entity extends Actor {
 				getWidth(), getHeight(), // width/height
 				1, 1, // scale
 				getRotation()); // rotation
+	}
+
+	public EntityType getEntityType() {
+		return entityType;
+	}
+
+	public EntityState getEntityState() {
+		return entityState;
 	}
 
 }
