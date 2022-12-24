@@ -124,7 +124,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>player-idle.atlas</filename>
+                <filename>player.atlas</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -173,22 +173,22 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">idle/a/idle_0.png</key>
-            <key type="filename">idle/a/idle_1.png</key>
-            <key type="filename">idle/a/idle_2.png</key>
-            <key type="filename">idle/a/idle_3.png</key>
-            <key type="filename">idle/d/idle_0.png</key>
-            <key type="filename">idle/d/idle_1.png</key>
-            <key type="filename">idle/d/idle_2.png</key>
-            <key type="filename">idle/d/idle_3.png</key>
-            <key type="filename">idle/s/idle_0.png</key>
-            <key type="filename">idle/s/idle_1.png</key>
-            <key type="filename">idle/s/idle_2.png</key>
-            <key type="filename">idle/s/idle_3.png</key>
-            <key type="filename">idle/w/idle_0.png</key>
-            <key type="filename">idle/w/idle_1.png</key>
-            <key type="filename">idle/w/idle_2.png</key>
-            <key type="filename">idle/w/idle_3.png</key>
+            <key type="filename">idle/player_idle_a_0.png</key>
+            <key type="filename">idle/player_idle_a_1.png</key>
+            <key type="filename">idle/player_idle_a_2.png</key>
+            <key type="filename">idle/player_idle_a_3.png</key>
+            <key type="filename">idle/player_idle_d_0.png</key>
+            <key type="filename">idle/player_idle_d_1.png</key>
+            <key type="filename">idle/player_idle_d_2.png</key>
+            <key type="filename">idle/player_idle_d_3.png</key>
+            <key type="filename">idle/player_idle_s_0.png</key>
+            <key type="filename">idle/player_idle_s_1.png</key>
+            <key type="filename">idle/player_idle_s_2.png</key>
+            <key type="filename">idle/player_idle_s_3.png</key>
+            <key type="filename">idle/player_idle_w_0.png</key>
+            <key type="filename">idle/player_idle_w_1.png</key>
+            <key type="filename">idle/player_idle_w_2.png</key>
+            <key type="filename">idle/player_idle_w_3.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

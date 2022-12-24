@@ -1,114 +1,114 @@
-player-idle.png
+player.png
 size: 148, 1023
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-a/idle
+player_idle_a
   rotate: false
   xy: 89, 1
   size: 58, 123
   orig: 128, 128
   offset: 35, 0
   index: 0
-a/idle
+player_idle_a
   rotate: false
   xy: 89, 126
   size: 58, 123
   orig: 128, 128
   offset: 35, 0
   index: 1
-a/idle
+player_idle_a
   rotate: false
   xy: 89, 501
   size: 58, 121
   orig: 128, 128
   offset: 35, 0
   index: 2
-a/idle
+player_idle_a
   rotate: false
   xy: 89, 747
   size: 58, 119
   orig: 128, 128
   offset: 35, 0
   index: 3
-d/idle
+player_idle_d
   rotate: false
   xy: 89, 251
   size: 58, 123
   orig: 128, 128
   offset: 35, 0
   index: 0
-d/idle
+player_idle_d
   rotate: false
   xy: 89, 376
   size: 58, 123
   orig: 128, 128
   offset: 35, 0
   index: 1
-d/idle
+player_idle_d
   rotate: false
   xy: 89, 624
   size: 58, 121
   orig: 128, 128
   offset: 35, 0
   index: 2
-d/idle
+player_idle_d
   rotate: false
   xy: 89, 868
   size: 58, 119
   orig: 128, 128
   offset: 35, 0
   index: 3
-s/idle
+player_idle_s
   rotate: false
   xy: 1, 1
   size: 86, 128
   orig: 128, 128
   offset: 21, 0
   index: 0
-s/idle
+player_idle_s
   rotate: false
   xy: 1, 131
   size: 86, 128
   orig: 128, 128
   offset: 21, 0
   index: 1
-s/idle
+player_idle_s
   rotate: false
   xy: 1, 519
   size: 86, 126
   orig: 128, 128
   offset: 21, 0
   index: 2
-s/idle
+player_idle_s
   rotate: false
   xy: 1, 774
   size: 86, 124
   orig: 128, 128
   offset: 21, 0
   index: 3
-w/idle
+player_idle_w
   rotate: false
   xy: 1, 261
   size: 86, 127
   orig: 128, 128
   offset: 21, 0
   index: 0
-w/idle
+player_idle_w
   rotate: false
   xy: 1, 390
   size: 86, 127
   orig: 128, 128
   offset: 21, 0
   index: 1
-w/idle
+player_idle_w
   rotate: false
   xy: 1, 647
   size: 86, 125
   orig: 128, 128
   offset: 21, 0
   index: 2
-w/idle
+player_idle_w
   rotate: false
   xy: 1, 900
   size: 86, 122
