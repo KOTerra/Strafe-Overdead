@@ -2,10 +2,6 @@ package com.straferdeliberator.game.entity.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.straferdeliberator.Strafer;
 import com.straferdeliberator.game.entity.Entity;
@@ -35,15 +31,19 @@ public class Player extends Entity {
 
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			dirY = 1;
-		}
-		if (Gdx.input.isKeyPressed(Keys.A)) {
-			dirX = -1;
+			direction = 'w';
 		}
 		if (Gdx.input.isKeyPressed(Keys.S)) {
 			dirY = -1;
+			direction = 's';
+		}
+		if (Gdx.input.isKeyPressed(Keys.A)) {
+			dirX = -1;
+			direction = 'a';
 		}
 		if (Gdx.input.isKeyPressed(Keys.D)) {
 			dirX = 1;
+			direction = 'd';
 		}
 
 		body.setLinearVelocity(dirX * speed, dirY * speed);

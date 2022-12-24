@@ -21,7 +21,7 @@ public class Entity extends Actor {
 
 	protected EntityType entityType;
 
-	protected EntityState entityState;
+	protected EntityState entityState = EntityState.IDLE;
 
 	protected Animation<TextureRegion> animation;// regions taken from TextureAtlas
 	// maybe add animations themselves in asset manager or make them static fields
@@ -34,6 +34,7 @@ public class Entity extends Actor {
 	protected float speed;
 	protected float dirX;
 	protected float dirY;
+	protected char direction = 's';
 
 	private boolean centered = false;
 
@@ -81,6 +82,23 @@ public class Entity extends Actor {
 
 	public EntityState getEntityState() {
 		return entityState;
+	}
+
+	/**
+	 * based on the entity s orientation returns one of the chars w a s or d
+	 * 
+	 * @return the direction name
+	 */
+	public char getDirectionName() {
+		return direction;
+	}
+
+	public float getDirX() {
+		return dirX;
+	}
+
+	public float getDirY() {
+		return dirY;
 	}
 
 }
