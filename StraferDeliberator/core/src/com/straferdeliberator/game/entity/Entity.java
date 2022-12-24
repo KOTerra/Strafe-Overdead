@@ -8,11 +8,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.straferdeliberator.Strafer;
+import com.straferdeliberator.assets.graphics.AnimationProvider;
 import com.straferdeliberator.game.world.collision.Box2DHelper;
 import com.straferdeliberator.game.world.collision.Box2DWorld;
 
 /**
- * A physical object that resides in the gameworld.
+ * A physics object that resides in the gameworld.
  * 
  * @author mihai_stoica
  */
@@ -47,6 +48,7 @@ public class Entity extends Actor {
 	}
 
 	private void updateRegion(float delta) {
+		animation = AnimationProvider.getAnimation(this);
 		currentFrame = animation.getKeyFrame(Strafer.getStateTime(), true);
 		setSize(currentFrame.getRegionWidth() * Strafer.SCALE_FACTOR,
 				currentFrame.getRegionHeight() * Strafer.SCALE_FACTOR);

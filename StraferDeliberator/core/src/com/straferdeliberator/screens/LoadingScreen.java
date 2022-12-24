@@ -87,7 +87,7 @@ public class LoadingScreen implements Screen {
 		Strafer.assetManager.load("maps/test/map.tmx", TiledMap.class);
 
 		Strafer.assetManager.setLoader(TextureAtlas.class, new TextureAtlasLoader(new InternalFileHandleResolver()));
-		Strafer.assetManager.load("spritesheets/player/player-idle.atlas", TextureAtlas.class);
+		Strafer.assetManager.load("spritesheets/player/player.atlas", TextureAtlas.class);
 	}
 
 	@Override

@@ -62,6 +62,8 @@ public class GameWorld extends Stage implements Disposable {
 
 		playerTest = new Player();
 		this.addActor(playerTest);
+		playerTest.setPosition(Strafer.WORLD_WIDTH / 2, Strafer.WORLD_HEIGHT / 2);
+
 	}
 
 	public Box2DWorld getBox2DWorld() {

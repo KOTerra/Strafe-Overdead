@@ -9,18 +9,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.straferdeliberator.Strafer;
 import com.straferdeliberator.game.entity.Entity;
+import com.straferdeliberator.game.entity.EntityType;
 
 public class Player extends Entity {
 
 	Vector3 cameraPosition = new Vector3();
 
 	public Player() {
+		entityType = EntityType.PLAYER;
+
 		speed = 2.5f;
-		animation = new Animation<TextureRegion>(0.35f, Strafer.assetManager
-				.get("spritesheets/player/player-idle.atlas", TextureAtlas.class).findRegions("s/idle"), PlayMode.LOOP);
-
-		setPosition(Strafer.WORLD_WIDTH / 2, Strafer.WORLD_HEIGHT / 2);
-
 	}
 
 	@Override
