@@ -2,11 +2,15 @@ package com.straferdeliberator.game.entity.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.controllers.Controllers;
 import com.straferdeliberator.Strafer;
 import com.straferdeliberator.game.entity.Entity;
 import com.straferdeliberator.game.entity.EntityType;
+import com.straferdeliberator.input.handlers.controller.ControllerListenerBase;
 
 public class Player extends Entity {
+
+	ControllerListenerBase cm = new ControllerListenerBase();
 
 	public Player() {
 		super(EntityType.PLAYER);
@@ -16,6 +20,11 @@ public class Player extends Entity {
 	protected void move(float delta) {
 		dirX = 0;
 		dirY = 0;
+
+		if (cm.buttonDown(Controllers.getCurrent(), Controllers.getCurrent().getMapping().buttonDpadRight)) {
+			dirX = 1;
+			direction = 'd';
+		}
 
 		if (Gdx.input.isKeyPressed(Keys.W)) {
 			dirY = 1;

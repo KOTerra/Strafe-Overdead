@@ -1,9 +1,9 @@
-package com.straferdeliberator.input;
+package com.straferdeliberator.input.handlers.controller;
 
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 
-public class ControllerManager implements ControllerListener {
+public class ControllerListenerBase implements ControllerListener {
 
 	@Override
 	public boolean buttonDown(Controller controller, int buttonIndex) {
@@ -17,7 +17,7 @@ public class ControllerManager implements ControllerListener {
 
 	@Override
 	public boolean axisMoved(Controller controller, int axisIndex, float value) {
-		return false;
+		return controller.getAxis(axisIndex) >= value;
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.straferdeliberator.game.world.GameWorld;
 import com.straferdeliberator.graphics.WorldCamera;
+import com.straferdeliberator.input.InputManager;
 import com.straferdeliberator.screens.LoadingScreen;
 
 /**
@@ -31,6 +32,11 @@ public class Strafer extends Game {
 	 * the sprite batch
 	 */
 	public static SpriteBatch spriteBatch;
+
+	/**
+	 * input manager of the game
+	 */
+	public static InputManager inputManager = new InputManager();
 
 	/**
 	 * the time elapsed. used to retrieve time dependent data such as animation
