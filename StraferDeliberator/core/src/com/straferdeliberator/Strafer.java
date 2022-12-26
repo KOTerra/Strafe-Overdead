@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.straferdeliberator.game.world.GameWorld;
+import com.straferdeliberator.graphics.WorldCamera;
 import com.straferdeliberator.screens.LoadingScreen;
 
 /**
@@ -58,9 +59,9 @@ public class Strafer extends Game {
 	public static float aspectRatio;
 
 	/**
-	 * camera used for rendering tiles and entities. it uses world units
+	 * camera used to follow entities. it uses world units
 	 */
-	public static OrthographicCamera worldCamera;
+	public static WorldCamera worldCamera;
 
 	/**
 	 * camera used for rendering user interface components. it uses pixel units
@@ -107,7 +108,7 @@ public class Strafer extends Game {
 		spriteBatch = new SpriteBatch();
 		aspectRatio = (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
 
-		worldCamera = new OrthographicCamera(WORLD_HEIGHT * aspectRatio, WORLD_HEIGHT);
+		worldCamera = new WorldCamera(WORLD_HEIGHT * aspectRatio, WORLD_HEIGHT);
 		worldCamera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
 		extendViewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, worldCamera);
 

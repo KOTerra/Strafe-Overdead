@@ -3,8 +3,6 @@ package com.straferdeliberator.game.world;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
@@ -39,7 +37,7 @@ public class GameWorld extends Stage implements Disposable {
 
 	@Override
 	public void draw() {
-		//backgroundTest.draw(Strafer.spriteBatch);
+		// backgroundTest.draw(Strafer.spriteBatch);
 
 		for (Actor a : this.getActors()) {
 			a.draw(getBatch(), 1);
@@ -60,6 +58,7 @@ public class GameWorld extends Stage implements Disposable {
 		playerTest = new Player();
 		this.addActor(playerTest);
 		playerTest.setPosition(Strafer.WORLD_WIDTH / 2, Strafer.WORLD_HEIGHT / 2);
+		Strafer.worldCamera.setFocusOn(playerTest);
 
 		Strafer.tiledMapRenderer.setMap(tiledMapTest);
 	}

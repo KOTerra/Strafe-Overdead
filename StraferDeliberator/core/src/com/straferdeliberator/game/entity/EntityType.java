@@ -10,7 +10,13 @@ public enum EntityType {
 	/**
 	 * the PLAYER type
 	 */
-	PLAYER;
+	PLAYER(6f);
+
+	float speed;
+
+	private EntityType(float speed) {
+		this.speed = speed;
+	}
 
 	public static String asString(EntityType e) {
 		String string = "";

@@ -2,31 +2,18 @@ package com.straferdeliberator.game.entity.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector3;
 import com.straferdeliberator.Strafer;
 import com.straferdeliberator.game.entity.Entity;
 import com.straferdeliberator.game.entity.EntityType;
 
 public class Player extends Entity {
 
-	Vector3 cameraSnapPosition = new Vector3();
-
 	public Player() {
-		entityType = EntityType.PLAYER;
-
-		speed = 3.5f;
+		super(EntityType.PLAYER);
 	}
 
 	@Override
-	public void act(float delta) {
-		super.act(delta);
-		move(delta);
-		updateCamera();
-
-	}
-
-	private void move(float delta) {
+	protected void move(float delta) {
 		dirX = 0;
 		dirY = 0;
 
@@ -48,7 +35,7 @@ public class Player extends Entity {
 		}
 
 		body.setLinearVelocity(dirX * speed, dirY * speed);
-		this.setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
+		this.setPosition(body.getPosition().x, body.getPosition().y);
 
 		if (Strafer.inDebug) {
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_SUBTRACT)) {
@@ -59,12 +46,4 @@ public class Player extends Entity {
 			}
 		}
 	}
-
-	private void updateCamera() {
-		cameraSnapPosition.x = body.getPosition().x;
-		cameraSnapPosition.y = body.getPosition().y;
-		float i = 0.2f;
-		Strafer.worldCamera.position.interpolate(cameraSnapPosition, i, Interpolation.smooth);
-	}
-
 }

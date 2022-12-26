@@ -1,4 +1,4 @@
-package com.straferdeliberator.assets.graphics;
+package com.straferdeliberator.graphics;
 
 import java.util.HashMap;
 
