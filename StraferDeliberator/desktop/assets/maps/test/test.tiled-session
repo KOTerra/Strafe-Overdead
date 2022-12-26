@@ -3,12 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "map.tmx",
+    "activeFile": "D:/Games/CV9 projekt red/StraferDeliberator/Strafer-Deliberator/StraferDeliberator/assets/maps/test/map.tmx",
     "expandedProjectPaths": [
-        "D:/Games/CV9 projekt red/Strafer II/Strafer-II/maps/tilesets",
-        "D:/Games/CV9 projekt red/Strafer II/Strafer-II/maps",
         ".",
-        "D:/Games/CV9 projekt red/Strafer II/Strafer-II"
+        "D:/Games/CV9 projekt red/Strafer II/Strafer-II",
+        "D:/Games/CV9 projekt red/Strafer II/Strafer-II/maps/tilesets",
+        "D:/Games/CV9 projekt red/Strafer II/Strafer-II/maps"
     ],
     "fileStates": {
         "": {
@@ -724,6 +724,17 @@
                 "y": -2840
             }
         },
+        "D:/Games/CV9 projekt red/StraferDeliberator/Strafer-Deliberator/StraferDeliberator/assets/maps/test/map.tmx": {
+            "scale": 0.072734375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 9816.541353383458,
+                "y": 4482.062298603652
+            }
+        },
+        "D:/Games/CV9 projekt red/StraferDeliberator/Strafer-Deliberator/StraferDeliberator/assets/maps/test/map.tmx#testtilesent": {
+            "scaleInDock": 1
+        },
         "D:/HACKERMAN/programing/libraries/tileson-master/tileson-master/content/test-maps/infinite.tmx": {
             "scale": 1.67734375,
             "selectedLayer": 0,
@@ -761,8 +772,8 @@
             "scale": 0.125,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 2688,
-                "y": 3680
+                "x": 3200,
+                "y": 3196
             }
         },
         "map.tmx#testtilesent": {
@@ -775,11 +786,13 @@
     "map.tileHeight": 64,
     "map.tileWidth": 64,
     "openFiles": [
-        "map.tmx"
+        "map.tmx",
+        "D:/Games/CV9 projekt red/StraferDeliberator/Strafer-Deliberator/StraferDeliberator/assets/maps/test/map.tmx"
     ],
     "project": "test.tiled-project",
     "recentFiles": [
         "map.tmx",
+        "D:/Games/CV9 projekt red/StraferDeliberator/Strafer-Deliberator/StraferDeliberator/assets/maps/test/map.tmx",
         "D:/Games/CV9 projekt red/StraferDeliberator/Strafer-Deliberator/IN DEVELOPMENT/maps/map.tmx"
     ],
     "tileset.embedInMap": true,

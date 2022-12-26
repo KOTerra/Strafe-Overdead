@@ -39,7 +39,7 @@ public class GameWorld extends Stage implements Disposable {
 
 	@Override
 	public void draw() {
-		// backgroundTest.draw(Strafer.spriteBatch);
+		//backgroundTest.draw(Strafer.spriteBatch);
 
 		for (Actor a : this.getActors()) {
 			a.draw(getBatch(), 1);

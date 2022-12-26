@@ -2,6 +2,7 @@ package com.straferdeliberator.game.entity.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.straferdeliberator.Strafer;
 import com.straferdeliberator.game.entity.Entity;
@@ -9,7 +10,7 @@ import com.straferdeliberator.game.entity.EntityType;
 
 public class Player extends Entity {
 
-	Vector3 cameraPosition = new Vector3();
+	Vector3 cameraSnapPosition = new Vector3();
 
 	public Player() {
 		entityType = EntityType.PLAYER;
@@ -60,10 +61,10 @@ public class Player extends Entity {
 	}
 
 	private void updateCamera() {
-		cameraPosition.x = body.getPosition().x;
-		cameraPosition.y = body.getPosition().y;
-		Strafer.worldCamera.position.lerp(cameraPosition, .075f);
-
+		cameraSnapPosition.x = body.getPosition().x;
+		cameraSnapPosition.y = body.getPosition().y;
+		float i = 0.2f;
+		Strafer.worldCamera.position.interpolate(cameraSnapPosition, i, Interpolation.smooth);
 	}
 
 }

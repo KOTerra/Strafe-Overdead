@@ -111,7 +111,8 @@ public class Strafer extends Game {
 		worldCamera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
 		extendViewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, worldCamera);
 
-		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap,SCALE_FACTOR, spriteBatch);
+		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE_FACTOR, spriteBatch);
+		tiledMapRenderer.setView(worldCamera);
 
 		uiCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		uiCamera.position.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 1);
