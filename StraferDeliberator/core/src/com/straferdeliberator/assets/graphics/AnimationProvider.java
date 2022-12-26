@@ -12,7 +12,7 @@ import com.straferdeliberator.game.entity.EntityState;
 
 public class AnimationProvider {
 
-	public static final float FRAME_DURATION = 0.35f;
+	public static final float FRAME_DURATION = 0.25f;
 
 	static final HashMap<String, Animation<TextureRegion>> PLAYER_ANIMATIONS = new HashMap<>();
 

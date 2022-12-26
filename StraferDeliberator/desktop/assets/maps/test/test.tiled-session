@@ -6,9 +6,9 @@
     "activeFile": "map.tmx",
     "expandedProjectPaths": [
         "D:/Games/CV9 projekt red/Strafer II/Strafer-II/maps/tilesets",
-        "D:/Games/CV9 projekt red/Strafer II/Strafer-II",
+        "D:/Games/CV9 projekt red/Strafer II/Strafer-II/maps",
         ".",
-        "D:/Games/CV9 projekt red/Strafer II/Strafer-II/maps"
+        "D:/Games/CV9 projekt red/Strafer II/Strafer-II"
     ],
     "fileStates": {
         "": {
@@ -761,8 +761,8 @@
             "scale": 0.125,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 5344,
-                "y": 2944
+                "x": 2688,
+                "y": 3680
             }
         },
         "map.tmx#testtilesent": {

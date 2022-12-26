@@ -34,15 +34,15 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		ScreenUtils.clear(1, 0, 0, 1);
+		ScreenUtils.clear(0, 0, 0, 1);
 		update(delta);
 
+		Strafer.tiledMapRenderer.render();
+
 		Strafer.spriteBatch.begin();
-
-		Strafer.gameWorld.act();
 		Strafer.gameWorld.draw();
-
 		Strafer.spriteBatch.end();
+
 		Strafer.gameWorld.getBox2DWorld().render();
 
 		Strafer.uiScreenViewport.apply();

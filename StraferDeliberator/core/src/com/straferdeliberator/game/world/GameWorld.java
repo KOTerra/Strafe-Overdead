@@ -2,6 +2,7 @@ package com.straferdeliberator.game.world;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -13,8 +14,9 @@ import com.straferdeliberator.game.world.collision.Box2DWorld;
 
 public class GameWorld extends Stage implements Disposable {
 
-	private Sprite background;
+	private Sprite backgroundTest;
 	private Player playerTest;
+	private TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/map.tmx", TiledMap.class);
 
 	Box2DWorld box2DWorld = new Box2DWorld();
 
@@ -37,13 +39,11 @@ public class GameWorld extends Stage implements Disposable {
 
 	@Override
 	public void draw() {
-
-		background.draw(Strafer.spriteBatch);
+		// backgroundTest.draw(Strafer.spriteBatch);
 
 		for (Actor a : this.getActors()) {
 			a.draw(getBatch(), 1);
 		}
-
 	}
 
 	@Override
@@ -52,18 +52,16 @@ public class GameWorld extends Stage implements Disposable {
 	}
 
 	void addTestAssets() {
-		BodyDef body = new BodyDef();
-		body.type = BodyType.DynamicBody;
-
-		background = new Sprite(Strafer.assetManager.get("images/back.png", Texture.class));
-
-		background.setPosition(0, 0);
-		background.setSize(background.getWidth() * Strafer.SCALE_FACTOR, background.getHeight() * Strafer.SCALE_FACTOR);
+		backgroundTest = new Sprite(Strafer.assetManager.get("images/back.png", Texture.class));
+		backgroundTest.setPosition(0, 0);
+		backgroundTest.setSize(backgroundTest.getWidth() * Strafer.SCALE_FACTOR,
+				backgroundTest.getHeight() * Strafer.SCALE_FACTOR);
 
 		playerTest = new Player();
 		this.addActor(playerTest);
 		playerTest.setPosition(Strafer.WORLD_WIDTH / 2, Strafer.WORLD_HEIGHT / 2);
 
+		Strafer.tiledMapRenderer.setMap(tiledMapTest);
 	}
 
 	public Box2DWorld getBox2DWorld() {

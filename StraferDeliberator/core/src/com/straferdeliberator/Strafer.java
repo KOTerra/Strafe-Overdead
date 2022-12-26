@@ -6,6 +6,8 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -81,10 +83,23 @@ public class Strafer extends Game {
 	public static GameWorld gameWorld;
 
 	/**
+	 * the tiled map
+	 */
+	public static TiledMap tiledMap;
+
+	/**
+	 * the map renderer
+	 */
+	public static OrthogonalTiledMapRenderer tiledMapRenderer;
+
+	/**
 	 * stage that contains ui components
 	 */
 	public static Stage uiStage;
 
+	/**
+	 * whether game is in debug mode
+	 */
 	public static boolean inDebug = true;
 
 	@Override
@@ -95,6 +110,8 @@ public class Strafer extends Game {
 		worldCamera = new OrthographicCamera(WORLD_HEIGHT * aspectRatio, WORLD_HEIGHT);
 		worldCamera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
 		extendViewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, worldCamera);
+
+		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap,SCALE_FACTOR, spriteBatch);
 
 		uiCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		uiCamera.position.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 1);
@@ -110,6 +127,7 @@ public class Strafer extends Game {
 	public void dispose() {
 		assetManager.dispose();
 		spriteBatch.dispose();
+		tiledMapRenderer.dispose();
 		this.getScreen().dispose();
 	}
 

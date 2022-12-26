@@ -14,7 +14,7 @@ public class Player extends Entity {
 	public Player() {
 		entityType = EntityType.PLAYER;
 
-		speed = 2.5f;
+		speed = 3.5f;
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class Player extends Entity {
 	private void updateCamera() {
 		cameraPosition.x = body.getPosition().x;
 		cameraPosition.y = body.getPosition().y;
-		Strafer.worldCamera.position.lerp(cameraPosition, .05f);
+		Strafer.worldCamera.position.lerp(cameraPosition, .075f);
 
 	}
 
