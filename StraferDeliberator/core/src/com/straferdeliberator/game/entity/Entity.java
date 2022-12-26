@@ -8,9 +8,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.straferdeliberator.Strafer;
-import com.straferdeliberator.assets.graphics.AnimationProvider;
 import com.straferdeliberator.game.world.collision.Box2DHelper;
 import com.straferdeliberator.game.world.collision.Box2DWorld;
+import com.straferdeliberator.graphics.AnimationProvider;
 
 /**
  * A physics object that resides in the gameworld.
@@ -19,58 +19,116 @@ import com.straferdeliberator.game.world.collision.Box2DWorld;
  */
 public class Entity extends Actor {
 
+	/**
+	 * type of the entity
+	 */
 	protected EntityType entityType;
 
+	/**
+	 * state of the entity
+	 */
 	protected EntityState entityState = EntityState.IDLE;
 
-	protected Animation<TextureRegion> animation;// regions taken from TextureAtlas
-	// maybe add animations themselves in asset manager or make them static fields
+	/**
+	 * the used animation
+	 */
+	protected Animation<TextureRegion> animation;
 
+	/**
+	 * the frame currently displayed
+	 */
 	private TextureRegion currentFrame;
 
+	/**
+	 * the body used for collision handling
+	 */
 	protected Body body;
+
+	/**
+	 * the collision handler
+	 */
 	protected Box2DWorld box2DWorld;
 
+	/**
+	 * the base speed of the entity
+	 */
 	protected float speed;
+
+	/**
+	 * the direction on the X axis. can be -1, 0 , 1
+	 */
 	protected float dirX;
+
+	/**
+	 * the direction on the Y axis. can be -1, 0 , 1
+	 */
 	protected float dirY;
+
+	/**
+	 * the overall direction w,a,s or d
+	 */
 	protected char direction = 's';
 
-	private boolean centered = false;
+	/**
+	 * whether the physics were initiated for this entity
+	 */
+	private boolean initiatedPhysics = false;
 
-	public Entity() {
-
+	/**
+	 * Constructor
+	 * 
+	 * @param type - type of the entity
+	 */
+	public Entity(EntityType type) {
+		this.entityType = type;
+		this.speed = entityType.speed;
 	}
 
 	@Override
 	public void act(float delta) {
-		updateRegion(delta);
-		updateCenter();
+		updateAnimation();
+		initPhysics();
+		move(delta);
 	}
 
-	private void updateRegion(float delta) {
+	/**
+	 * creates the body and sets the position to the center of the acto. Called only
+	 * in the first frame of this entity
+	 */
+	private void initPhysics() {
+		if (!initiatedPhysics) {
+			setPosition(getX() - getWidth() / 2, getY() - getHeight() / 2);
+			this.box2DWorld = Strafer.gameWorld.getBox2DWorld();
+			body = Box2DHelper.createBody(box2DWorld.getWorld(), getWidth(), getHeight(), 0, 0,
+					new Vector3(getX(), getY(), 0), BodyType.DynamicBody);
+			initiatedPhysics = true;
+
+		}
+	}
+
+	/**
+	 * 
+	 */
+	protected void move(float delta) {
+		
+	}
+	
+	/**
+	 * changes the current frame and the size
+	 * 
+	 */
+	private void updateAnimation() {
 		animation = AnimationProvider.getAnimation(this);
 		currentFrame = animation.getKeyFrame(Strafer.getStateTime(), true);
 		setSize(currentFrame.getRegionWidth() * Strafer.SCALE_FACTOR,
 				currentFrame.getRegionHeight() * Strafer.SCALE_FACTOR);
 	}
 
-	private void updateCenter() {
-		if (!centered) {
-			setPosition(getX() - getWidth() / 2, getY() - getHeight() / 2);
-			this.box2DWorld = Strafer.gameWorld.getBox2DWorld();
-			body = Box2DHelper.createBody(box2DWorld.getWorld(), getWidth(), getHeight(), 0, 0,
-					new Vector3(getX(), getY(), 0), BodyType.DynamicBody);
-			centered = true;
-
-		}
-	}
-
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		setScale(Strafer.SCALE_FACTOR);
-		batch.draw(currentFrame, getX(), getY(), // coordonatele
-				getWidth() / 2, getHeight() / 2, // pct in care e rotit
+		batch.draw(currentFrame, getX() - getWidth() / 2, getY() - getHeight() / 2, // coordonatele
+				getWidth() / 2, getHeight() / 2, // pct in care e rotit,centru
 				getWidth(), getHeight(), // width/height
 				1, 1, // scale
 				getRotation()); // rotation
@@ -82,6 +140,10 @@ public class Entity extends Actor {
 
 	public EntityState getEntityState() {
 		return entityState;
+	}
+
+	public Body getBody() {
+		return body;
 	}
 
 	/**
