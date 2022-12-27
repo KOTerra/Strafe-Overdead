@@ -1,9 +1,10 @@
 package com.straferdeliberator.input;
 
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.Gdx;
 import com.straferdeliberator.input.handlers.controller.ControllerInputHandler;
-import com.straferdeliberator.input.handlers.desktop.DesktopInputHandler;
+import com.straferdeliberator.input.handlers.desktop.KeyboardInputHandler;
 import com.straferdeliberator.input.handlers.mobile.MobileInputHandler;
 
 /**
@@ -18,19 +19,19 @@ public class InputManager {
 	InputHandler inputHandler;
 
 	MobileInputHandler mobileHandler;
-	DesktopInputHandler desktopHandler;
+	KeyboardInputHandler keyboardHandler;
 	ControllerInputHandler controllerHandler;
 
-	private PlayerController playerController = new PlayerController();
+	private PlayerControl playerControl = new PlayerControl();
 
-	private UIController uiController = new UIController();
+	private UIControl uiController = new UIControl();
 
 	public InputManager() {
 		decideOnHandler();
 	}
 
 	public void processInput() {
-		inputHandler.process(playerController);
+		inputHandler.process(playerControl);
 		inputHandler.process(uiController);
 
 	}
@@ -43,10 +44,16 @@ public class InputManager {
 			}
 			setInputHandler(mobileHandler);
 		} else {
-			if (desktopHandler == null) {
-				desktopHandler = new DesktopInputHandler();
+			if (keyboardHandler == null) {
+				keyboardHandler = new KeyboardInputHandler();
 			}
-			setInputHandler(desktopHandler);
+			setInputHandler(keyboardHandler);
+		}
+		if (Controllers.getControllers().notEmpty()) {
+			if (controllerHandler == null) {
+				controllerHandler = new ControllerInputHandler();
+			}
+			setInputHandler(controllerHandler);
 		}
 	}
 

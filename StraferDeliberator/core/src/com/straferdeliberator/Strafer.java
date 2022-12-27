@@ -36,7 +36,7 @@ public class Strafer extends Game {
 	/**
 	 * input manager of the game
 	 */
-	public static InputManager inputManager = new InputManager();
+	public static InputManager inputManager;
 
 	/**
 	 * the time elapsed. used to retrieve time dependent data such as animation
@@ -112,8 +112,10 @@ public class Strafer extends Game {
 	@Override
 	public void create() {
 		spriteBatch = new SpriteBatch();
+		
+		inputManager = new InputManager();
+		
 		aspectRatio = (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
-
 		worldCamera = new WorldCamera(WORLD_HEIGHT * aspectRatio, WORLD_HEIGHT);
 		worldCamera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
 		extendViewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, worldCamera);

@@ -7,8 +7,8 @@ public interface InputHandler {
 	 * 
 	 * @param playerController
 	 */
-	void process(PlayerController playerController);
+	void process(PlayerControl playerControl);
 
-	void process(UIController uiController);
+	void process(UIControl uiControl);
 
 }

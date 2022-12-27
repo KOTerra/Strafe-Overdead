@@ -25,6 +25,7 @@ public class GameScreen implements Screen {
 		Strafer.spriteBatch.setProjectionMatrix(Strafer.worldCamera.combined);
 		Strafer.tiledMapRenderer.setView(Strafer.worldCamera);
 
+		Strafer.inputManager.processInput();
 		Strafer.gameWorld.act(delta);
 	}
 
@@ -37,10 +38,10 @@ public class GameScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		
+
 		// ScreenUtils.clear(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
-		
+
 		Strafer.tiledMapRenderer.render();
 
 		Strafer.spriteBatch.begin();
