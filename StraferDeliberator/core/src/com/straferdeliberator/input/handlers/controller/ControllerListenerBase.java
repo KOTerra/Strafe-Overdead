@@ -17,9 +17,9 @@ public class ControllerListenerBase implements ControllerListener {
 
 	@Override
 	public boolean axisMoved(Controller controller, int axisIndex, float value) {
-		System.err.println(value);
-		return Math.abs(controller.getAxis(axisIndex)) >= value;
 
+		float axis = controller.getAxis(axisIndex);
+		return value > 0 ? axis >= value : axis <= value;
 	}
 
 	@Override

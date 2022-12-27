@@ -13,10 +13,10 @@ public class ControllerInputHandler implements InputHandler {
 		Controller c = Controllers.getCurrent();
 		ControllerListenerBase cm = new ControllerListenerBase();
 
-		PlayerControl.MOVE_UP = cm.axisMoved(c, c.getMapping().axisLeftY, -1f);
-		PlayerControl.MOVE_DOWN = cm.axisMoved(c, c.getMapping().axisLeftY, 1f);
-		PlayerControl.MOVE_LEFT = cm.axisMoved(c, c.getMapping().axisLeftX, -1f);
-		PlayerControl.MOVE_RIGHT = cm.axisMoved(c, c.getMapping().axisLeftX, 1f);
+		PlayerControl.MOVE_UP = cm.axisMoved(c, c.getMapping().axisLeftY, -0.5f);
+		PlayerControl.MOVE_DOWN = cm.axisMoved(c, c.getMapping().axisLeftY, 0.5f);
+		PlayerControl.MOVE_LEFT = cm.axisMoved(c, c.getMapping().axisLeftX, -0.5f);
+		PlayerControl.MOVE_RIGHT = cm.axisMoved(c, c.getMapping().axisLeftX, 0.5f);
 	}
 
 	@Override
