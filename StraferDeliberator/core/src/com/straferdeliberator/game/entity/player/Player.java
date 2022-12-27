@@ -34,6 +34,5 @@ public class Player extends Entity {
 
 		body.setLinearVelocity(dirX * speed, dirY * speed);
 		this.setPosition(body.getPosition().x, body.getPosition().y);
-
 	}
 }
