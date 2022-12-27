@@ -24,6 +24,7 @@ public class ControllerListenerBase implements ControllerListener {
 
 	@Override
 	public void connected(Controller controller) {
+		
 	}
 
 	@Override

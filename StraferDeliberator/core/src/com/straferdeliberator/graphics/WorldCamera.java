@@ -40,4 +40,8 @@ public class WorldCamera extends OrthographicCamera {
 
 		}
 	}
+
+	public Entity getFocusEntity() {
+		return focusEntity;
+	}
 }

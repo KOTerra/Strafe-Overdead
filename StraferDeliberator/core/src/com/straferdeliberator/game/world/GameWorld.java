@@ -1,5 +1,7 @@
 package com.straferdeliberator.game.world;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -13,7 +15,8 @@ import com.straferdeliberator.game.world.collision.Box2DWorld;
 public class GameWorld extends Stage implements Disposable {
 
 	private Sprite backgroundTest;
-	private Player playerTest;
+	private Player playerTest1;
+	private Player playerTest2;
 	private TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/map.tmx", TiledMap.class);
 
 	Box2DWorld box2DWorld = new Box2DWorld();
@@ -33,6 +36,9 @@ public class GameWorld extends Stage implements Disposable {
 		for (Actor a : this.getActors()) {
 			a.act(delta);
 		}
+
+		debugControls();
+
 	}
 
 	@Override
@@ -55,12 +61,33 @@ public class GameWorld extends Stage implements Disposable {
 		backgroundTest.setSize(backgroundTest.getWidth() * Strafer.SCALE_FACTOR,
 				backgroundTest.getHeight() * Strafer.SCALE_FACTOR);
 
-		playerTest = new Player();
-		this.addActor(playerTest);
-		playerTest.setPosition(Strafer.WORLD_WIDTH / 2, Strafer.WORLD_HEIGHT / 2);
-		Strafer.worldCamera.setFocusOn(playerTest);
+		playerTest1 = new Player();
+		this.addActor(playerTest1);
+		playerTest1.setPosition(Strafer.WORLD_WIDTH / 2, Strafer.WORLD_HEIGHT / 2);
+		playerTest2 = new Player();
+		this.addActor(playerTest2);
+		playerTest2.setPosition(0, 0);
+		Strafer.worldCamera.setFocusOn(playerTest1);
 
 		Strafer.tiledMapRenderer.setMap(tiledMapTest);
+	}
+
+	void debugControls() {
+		if (Strafer.inDebug) {
+			if (Gdx.input.isKeyPressed(Keys.NUMPAD_SUBTRACT)) {
+				Strafer.worldCamera.zoom += .02f;
+			}
+			if (Gdx.input.isKeyPressed(Keys.NUMPAD_ADD)) {
+				Strafer.worldCamera.zoom -= .02f;
+			}
+
+			if (Gdx.input.isKeyPressed(Keys.M)) {
+				Strafer.worldCamera.setFocusOn(playerTest1);
+			}
+			if (Gdx.input.isKeyPressed(Keys.N)) {
+				Strafer.worldCamera.setFocusOn(playerTest2);
+			}
+		}
 	}
 
 	public Box2DWorld getBox2DWorld() {
