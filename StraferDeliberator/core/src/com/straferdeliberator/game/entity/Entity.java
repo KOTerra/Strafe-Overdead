@@ -107,12 +107,13 @@ public class Entity extends Actor {
 	}
 
 	/**
-	 * 
+	 * changes the postion of the entity
 	 */
 	protected void move(float delta) {
-		
+		body.setLinearVelocity(dirX * speed, dirY * speed);
+		this.setPosition(body.getPosition().x, body.getPosition().y);
 	}
-	
+
 	/**
 	 * changes the current frame and the size
 	 * 
@@ -132,6 +133,22 @@ public class Entity extends Actor {
 				getWidth(), getHeight(), // width/height
 				1, 1, // scale
 				getRotation()); // rotation
+	}
+
+	@Override
+	public void setPosition(float x, float y) {
+		super.setPosition(x, y);
+		if (body != null) {
+			body.setTransform(x, y, getRotation());
+		}
+	}
+
+	@Override
+	public void setRotation(float angle) {
+		super.setRotation(angle);
+		if (body != null) {
+			body.setTransform(getX(), getY(), getRotation());
+		}
 	}
 
 	public EntityType getEntityType() {

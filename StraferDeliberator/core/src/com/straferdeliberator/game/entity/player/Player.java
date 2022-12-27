@@ -12,6 +12,7 @@ public class Player extends Entity {
 
 	@Override
 	protected void move(float delta) {
+		super.move(delta);
 		dirX = 0;
 		dirY = 0;
 
@@ -32,7 +33,5 @@ public class Player extends Entity {
 			direction = 'd';
 		}
 
-		body.setLinearVelocity(dirX * speed, dirY * speed);
-		this.setPosition(body.getPosition().x, body.getPosition().y);
 	}
 }

@@ -81,11 +81,17 @@ public class GameWorld extends Stage implements Disposable {
 				Strafer.worldCamera.zoom -= .02f;
 			}
 
-			if (Gdx.input.isKeyPressed(Keys.M)) {
+			if (Gdx.input.isKeyPressed(Keys.NUMPAD_1)) {
 				Strafer.worldCamera.setFocusOn(playerTest1);
 			}
-			if (Gdx.input.isKeyPressed(Keys.N)) {
+			if (Gdx.input.isKeyPressed(Keys.NUMPAD_2)) {
 				Strafer.worldCamera.setFocusOn(playerTest2);
+			}
+			if (Gdx.input.isKeyPressed(Keys.NUMPAD_0)) {
+				Strafer.worldCamera.removeFocus();
+			}
+			if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
+				playerTest1.getBody().setTransform(playerTest1.getX() + .5f, playerTest1.getY() + .5f, 0);
 			}
 		}
 	}
