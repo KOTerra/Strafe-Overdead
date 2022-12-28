@@ -4,12 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.straferdeliberator.Strafer;
 import com.straferdeliberator.game.entity.player.Player;
+import com.straferdeliberator.game.world.collision.Box2DHelper;
 import com.straferdeliberator.game.world.collision.Box2DWorld;
 
 public class GameWorld extends Stage implements Disposable {
@@ -70,6 +76,15 @@ public class GameWorld extends Stage implements Disposable {
 		Strafer.worldCamera.setFocusOn(playerTest1);
 
 		Strafer.tiledMapRenderer.setMap(tiledMapTest);
+
+		TiledMapTileLayer walls = (TiledMapTileLayer) tiledMapTest.getLayers().get("walls");
+		for (int i = 1; i <= walls.getTileWidth(); i++) {
+			for (int j = 1; j <= walls.getTileHeight(); j++) {
+				if (walls.getCell(i, j) != null) {
+					Box2DHelper.createWall(box2DWorld.getWorld(), 1, 1, new Vector3(i, j, 0));
+				}
+			}
+		}
 	}
 
 	void debugControls() {

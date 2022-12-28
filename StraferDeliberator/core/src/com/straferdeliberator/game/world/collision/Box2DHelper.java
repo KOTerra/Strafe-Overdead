@@ -6,6 +6,8 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 
 public class Box2DHelper {
 
@@ -20,10 +22,10 @@ public class Box2DHelper {
 		body = world.createBody(bodyDef);
 
 		FixtureDef fixtureDef = new FixtureDef();
-		PolygonShape boxShape = new PolygonShape();
-		boxShape.setAsBox(width / 2, height / 2);
-		// CircleShape boxShape=new CircleShape();
-		// boxShape.setRadius(width/2);
+		// PolygonShape boxShape = new PolygonShape();
+		// boxShape.setAsBox(width / 2, height / 2);
+		CircleShape boxShape = new CircleShape();
+		boxShape.setRadius(width / 2);
 		fixtureDef.shape = boxShape;
 		fixtureDef.restitution = 0;
 
@@ -55,6 +57,26 @@ public class Box2DHelper {
 		boxShape.dispose();
 
 		return body;
+	}
+
+	public static void createWall(World world, float width, float height, Vector3 pos) {
+		Body body;
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.position.set((pos.x + width / 2), (pos.y + height / 2));
+		bodyDef.angle = 0;
+		bodyDef.fixedRotation = true;
+		bodyDef.type = BodyType.StaticBody;
+		body = world.createBody(bodyDef);
+
+		FixtureDef fixtureDef = new FixtureDef();
+		PolygonShape boxShape = new PolygonShape();
+		boxShape.setAsBox(width / 2, height / 2);
+
+		fixtureDef.shape = boxShape;
+		fixtureDef.restitution = 0;
+
+		body.createFixture(fixtureDef);
+		boxShape.dispose();
 	}
 
 	private Box2DHelper() {
