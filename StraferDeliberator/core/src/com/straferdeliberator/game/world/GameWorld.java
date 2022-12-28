@@ -86,6 +86,7 @@ public class GameWorld extends Stage implements Disposable {
 
 	void debugControls() {
 		if (Strafer.inDebug) {
+
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_SUBTRACT)) {
 				Strafer.worldCamera.zoom += .02f;
 			}
