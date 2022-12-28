@@ -31,9 +31,8 @@ public class InputManager {
 	}
 
 	public void processInput() {
-		inputHandler.process(playerControl);
 		inputHandler.process(uiController);
-
+		inputHandler.process(playerControl);
 	}
 
 	private void decideOnHandler() {
