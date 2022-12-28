@@ -56,7 +56,8 @@ public class LoadingScreen implements Screen {
 			if (progress >= Strafer.assetManager.getProgress() - .001f) {
 				if (Strafer.assetManager.isFinished()) {
 					AnimationProvider.prepareAnimations();
-					game.setScreen(new GameScreen(game));
+					//game.setScreen(new GameScreen(game));
+					game.setScreen(new TitleScreen(game));
 				}
 			}
 		}
