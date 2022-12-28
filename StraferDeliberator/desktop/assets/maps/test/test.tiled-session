@@ -3,12 +3,12 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "D:/Games/CV9 projekt red/StraferDeliberator/Strafer-Deliberator/StraferDeliberator/assets/maps/test/map.tmx",
+    "activeFile": "map.tmx",
     "expandedProjectPaths": [
         ".",
         "D:/Games/CV9 projekt red/Strafer II/Strafer-II",
-        "D:/Games/CV9 projekt red/Strafer II/Strafer-II/maps/tilesets",
-        "D:/Games/CV9 projekt red/Strafer II/Strafer-II/maps"
+        "D:/Games/CV9 projekt red/Strafer II/Strafer-II/maps",
+        "D:/Games/CV9 projekt red/Strafer II/Strafer-II/maps/tilesets"
     ],
     "fileStates": {
         "": {
@@ -728,8 +728,8 @@
             "scale": 0.072734375,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 9816.541353383458,
-                "y": 4482.062298603652
+                "x": 16415.896885069815,
+                "y": 16635.875402792695
             }
         },
         "D:/Games/CV9 projekt red/StraferDeliberator/Strafer-Deliberator/StraferDeliberator/assets/maps/test/map.tmx#testtilesent": {
@@ -769,11 +769,11 @@
             "scaleInDock": 1.5
         },
         "map.tmx": {
-            "scale": 0.125,
+            "scale": 0.0625,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 3200,
-                "y": 3196
+                "x": 1984,
+                "y": 4944
             }
         },
         "map.tmx#testtilesent": {
@@ -786,8 +786,7 @@
     "map.tileHeight": 64,
     "map.tileWidth": 64,
     "openFiles": [
-        "map.tmx",
-        "D:/Games/CV9 projekt red/StraferDeliberator/Strafer-Deliberator/StraferDeliberator/assets/maps/test/map.tmx"
+        "map.tmx"
     ],
     "project": "test.tiled-project",
     "recentFiles": [
