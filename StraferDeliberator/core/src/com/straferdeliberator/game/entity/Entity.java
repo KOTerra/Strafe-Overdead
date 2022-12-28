@@ -129,10 +129,10 @@ public class Entity extends Actor {
 	public void draw(Batch batch, float parentAlpha) {
 		setScale(Strafer.SCALE_FACTOR);
 		batch.draw(currentFrame, getX() - getWidth() / 2, getY(), // - getHeight() / 2, // coordonatele
-				getWidth() / 2, 0, // pct in care e rotit,centru
+				getWidth() / 2, 0 , // pct in care e rotit,centru
 				getWidth(), getHeight(), // width/height
 				1, 1, // scale
-				getRotation() + 90); // rotation
+				getRotation()); // rotation
 	}
 
 	@Override
