@@ -99,7 +99,7 @@ public class Entity extends Actor {
 		if (!initiatedPhysics) {
 			setPosition(getX() - getWidth() / 2, getY() - getHeight() / 2);
 			this.box2DWorld = Strafer.gameWorld.getBox2DWorld();
-			body = Box2DHelper.createBody(box2DWorld.getWorld(), getWidth(), getHeight(), 0, 0,
+			body = Box2DHelper.createBody(box2DWorld.getWorld(), getWidth(), getWidth(), 0, 0,
 					new Vector3(getX(), getY(), 0), BodyType.DynamicBody);
 			initiatedPhysics = true;
 
@@ -128,11 +128,11 @@ public class Entity extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		setScale(Strafer.SCALE_FACTOR);
-		batch.draw(currentFrame, getX() - getWidth() / 2, getY() - getHeight() / 2, // coordonatele
-				getWidth() / 2, getHeight() / 2, // pct in care e rotit,centru
+		batch.draw(currentFrame, getX() - getWidth() / 2, getY(), // - getHeight() / 2, // coordonatele
+				getWidth() / 2, 0, // pct in care e rotit,centru
 				getWidth(), getHeight(), // width/height
 				1, 1, // scale
-				getRotation()); // rotation
+				getRotation() + 90); // rotation
 	}
 
 	@Override

@@ -22,9 +22,10 @@ public class Box2DHelper {
 		FixtureDef fixtureDef = new FixtureDef();
 		PolygonShape boxShape = new PolygonShape();
 		boxShape.setAsBox(width / 2, height / 2);
-
+		// CircleShape boxShape=new CircleShape();
+		// boxShape.setRadius(width/2);
 		fixtureDef.shape = boxShape;
-		fixtureDef.restitution = 0.4f;
+		fixtureDef.restitution = 0;
 
 		body.createFixture(fixtureDef);
 		boxShape.dispose();
