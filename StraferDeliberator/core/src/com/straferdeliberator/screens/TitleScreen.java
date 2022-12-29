@@ -1,6 +1,8 @@
 package com.straferdeliberator.screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -17,6 +19,7 @@ public class TitleScreen implements Screen {
 
 	private Stage stage;
 	private Strafer game;
+	final Table root = new Table();
 
 	public TitleScreen(Strafer game) {
 		this.game = game;
@@ -24,31 +27,63 @@ public class TitleScreen implements Screen {
 		VisUI.load(SkinScale.X1);
 
 		stage = new Stage(new ScreenViewport());
-		final Table root = new Table();
+
 		root.setFillParent(true);
 		stage.addActor(root);
 
+		makeButtons();
+
 		Gdx.input.setInputProcessor(stage);
 
-		VisTextButton button = new VisTextButton("I mean e singuru buton \n eu zic sa l apesi");
-		root.add(button);
-		button.addListener(new ChangeListener() {
+	}
+
+	private void makeButtons() {
+		VisTextButton loadGameButton = new VisTextButton("ia si joaca");
+		root.add(loadGameButton);
+		loadGameButton.addListener(new ChangeListener() {
 
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				// Dialogs.showOKDialog(stage, "VisUI demo", "Everything is OK!");
-				ok();
+				showLoadGameMenu();
 			}
 		});
+
+		VisTextButton optionsButton = new VisTextButton("Optiones");
+		root.add(optionsButton);
+		optionsButton.addListener(new ChangeListener() {
+
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				showSettingsMenu();
+			}
+		});
+
+		VisTextButton quitButton = new VisTextButton("Afara");
+		root.add(quitButton);
+		quitButton.addListener(new ChangeListener() {
+
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				Gdx.app.exit();
+			}
+		});
+
 	}
 
-	private void ok() {
+	private void showLoadGameMenu() {
 		game.setScreen(new GameScreen(game));
+	}
+
+	private void showSettingsMenu() {
+		
+		
 	}
 
 	@Override
 	public void resize(int width, int height) {
 		stage.getViewport().update(width, height, true);
+
 	}
 
 	@Override

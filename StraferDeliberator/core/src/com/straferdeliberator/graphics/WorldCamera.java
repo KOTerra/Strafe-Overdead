@@ -47,6 +47,7 @@ public class WorldCamera extends OrthographicCamera {
 	 */
 	public WorldCamera(float width, float height) {
 		super(width, height);
+		super.zoom = 1.1f;
 	}
 
 	/**

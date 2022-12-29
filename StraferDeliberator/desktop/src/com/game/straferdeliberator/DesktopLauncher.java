@@ -12,10 +12,10 @@ public class DesktopLauncher {
 
 		config.setWindowedMode(1280, 720);
 		config.setTitle("Strafer Deliberator");
-		config.setDecorated(true);
+		//config.setDecorated(true);
 		config.setResizable(true);
 
-		// config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode() );
+		//config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode() );
 		new Lwjgl3Application(new Strafer(), config);
 
 	}
