@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.straferdeliberator.input.InputHandler;
 import com.straferdeliberator.input.PlayerControl;
 import com.straferdeliberator.input.UIControl;
+import com.straferdeliberator.settings.KeyboardMapping;
 
 public class KeyboardInputHandler extends InputAdapter implements InputHandler {
 
@@ -15,10 +16,10 @@ public class KeyboardInputHandler extends InputAdapter implements InputHandler {
 
 	@Override
 	public void process(PlayerControl playerControl) {
-		PlayerControl.MOVE_UP = Gdx.input.isKeyPressed(Keys.W);
-		PlayerControl.MOVE_DOWN = Gdx.input.isKeyPressed(Keys.S);
-		PlayerControl.MOVE_LEFT = Gdx.input.isKeyPressed(Keys.A);
-		PlayerControl.MOVE_RIGHT = Gdx.input.isKeyPressed(Keys.D);
+		PlayerControl.MOVE_UP = Gdx.input.isKeyPressed(Keys.valueOf(KeyboardMapping.MOVE_UP_KEY));
+		PlayerControl.MOVE_DOWN = Gdx.input.isKeyPressed(Keys.valueOf(KeyboardMapping.MOVE_DOWN_KEY));
+		PlayerControl.MOVE_LEFT = Gdx.input.isKeyPressed(Keys.valueOf(KeyboardMapping.MOVE_LEFT_KEY));
+		PlayerControl.MOVE_RIGHT = Gdx.input.isKeyPressed(Keys.valueOf(KeyboardMapping.MOVE_RIGHT_KEY));
 
 	}
 
