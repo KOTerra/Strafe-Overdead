@@ -1,14 +1,13 @@
 package com.straferdeliberator.screens;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.VisUI.SkinScale;
@@ -24,11 +23,14 @@ public class TitleScreen implements Screen {
 	public TitleScreen(Strafer game) {
 		this.game = game;
 
-		VisUI.load(SkinScale.X1);
+		VisUI.load(SkinScale.X2);
 
 		stage = new Stage(new ScreenViewport());
 
 		root.setFillParent(true);
+		root.pad(150);
+		root.defaults().space(20);
+		root.align(Align.right);
 		stage.addActor(root);
 
 		makeButtons();
@@ -39,17 +41,17 @@ public class TitleScreen implements Screen {
 
 	private void makeButtons() {
 		VisTextButton loadGameButton = new VisTextButton("ia si joaca");
+		root.row();
 		root.add(loadGameButton);
 		loadGameButton.addListener(new ChangeListener() {
-
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				// Dialogs.showOKDialog(stage, "VisUI demo", "Everything is OK!");
 				showLoadGameMenu();
 			}
 		});
 
 		VisTextButton optionsButton = new VisTextButton("Optiones");
+		root.row();
 		root.add(optionsButton);
 		optionsButton.addListener(new ChangeListener() {
 
@@ -60,6 +62,7 @@ public class TitleScreen implements Screen {
 		});
 
 		VisTextButton quitButton = new VisTextButton("Afara");
+		root.row();
 		root.add(quitButton);
 		quitButton.addListener(new ChangeListener() {
 
@@ -76,8 +79,7 @@ public class TitleScreen implements Screen {
 	}
 
 	private void showSettingsMenu() {
-		
-		
+
 	}
 
 	@Override
@@ -98,27 +100,33 @@ public class TitleScreen implements Screen {
 		stage.dispose();
 	}
 
+	/**
+	 * changed to another screen
+	 */
 	@Override
 	public void hide() {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * app out of focus or closed
+	 */
 	@Override
 	public void pause() {
-		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * app returned to focus
+	 */
 	@Override
 	public void resume() {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * changed to this screen
+	 */
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 
 	}
 
