@@ -119,6 +119,7 @@ project(":core") {
         api "com.kotcrab.vis:vis-ui:1.4.11"
         api "com.esotericsoftware.spine:spine-libgdx:3.8.55.1"
          api "com.github.payne911:PieMenu:5.0.0"
+         
         
     }
 }
