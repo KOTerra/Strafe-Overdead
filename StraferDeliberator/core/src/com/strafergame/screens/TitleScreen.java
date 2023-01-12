@@ -16,8 +16,8 @@ import com.strafergame.Strafer;
 
 public class TitleScreen implements Screen {
 
-	private Stage stage;
-	private Strafer game;
+	private final Stage stage;
+	private final Strafer game;
 	final Table root = new Table();
 
 	public TitleScreen(Strafer game) {
@@ -50,7 +50,7 @@ public class TitleScreen implements Screen {
 			}
 		});
 
-		VisTextButton optionsButton = new VisTextButton("Optiones");
+		VisTextButton optionsButton = new VisTextButton("O");
 		root.row();
 		root.add(optionsButton);
 		optionsButton.addListener(new ChangeListener() {

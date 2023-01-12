@@ -8,9 +8,9 @@ import com.badlogic.gdx.utils.Disposable;
 import com.strafergame.Strafer;
 
 public class Box2DWorld implements Disposable {
-	private World world;
+	private final World world;
 
-	private Box2DDebugRenderer debugRenderer;
+	private final Box2DDebugRenderer debugRenderer;
 
 	FPSLogger fps = new FPSLogger();
 

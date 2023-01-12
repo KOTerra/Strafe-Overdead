@@ -22,9 +22,9 @@ public class InputManager {
 	KeyboardInputHandler keyboardHandler;
 	ControllerInputHandler controllerHandler;
 
-	private PlayerControl playerControl = new PlayerControl();
+	private final PlayerControl playerControl = new PlayerControl();
 
-	private UIControl uiController = new UIControl();
+	private final UIControl uiController = new UIControl();
 
 	public InputManager() {
 		decideOnHandler();

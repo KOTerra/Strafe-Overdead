@@ -14,7 +14,7 @@ public enum EntityType {
 
 	float speed;
 
-	private EntityType(float speed) {
+	EntityType(float speed) {
 		this.speed = speed;
 	}
 

@@ -20,7 +20,7 @@ public class GameWorld extends Stage implements Disposable {
 	private Sprite backgroundTest;
 	private Player playerTest1;
 	private Player playerTest2;
-	private TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/map.tmx", TiledMap.class);
+	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/map.tmx", TiledMap.class);
 
 	Box2DWorld box2DWorld = new Box2DWorld();
 

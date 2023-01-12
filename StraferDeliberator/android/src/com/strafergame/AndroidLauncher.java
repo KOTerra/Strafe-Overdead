@@ -1,4 +1,4 @@
-package com.game.straferdeliberator;
+package com.strafergame;
 
 import android.os.Bundle;
 

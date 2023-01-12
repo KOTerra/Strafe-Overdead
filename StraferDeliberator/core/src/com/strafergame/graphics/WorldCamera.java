@@ -27,7 +27,7 @@ public class WorldCamera extends OrthographicCamera {
 	/**
 	 * the position to which the camera aims to snap
 	 */
-	private Vector3 cameraSnapPosition = new Vector3();
+	private final Vector3 cameraSnapPosition = new Vector3();
 
 	/**
 	 * the alpha used in the interpolation process

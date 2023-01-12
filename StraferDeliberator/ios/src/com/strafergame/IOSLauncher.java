@@ -1,4 +1,4 @@
-package com.game.straferdeliberator;
+package com.strafergame;
 
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
