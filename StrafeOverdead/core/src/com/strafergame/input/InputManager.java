@@ -1,62 +1,47 @@
 package com.strafergame.input;
 
 import com.badlogic.gdx.Application.ApplicationType;
-import com.badlogic.gdx.controllers.Controllers;
-import com.strafergame.input.handlers.controller.ControllerInputHandler;
-import com.strafergame.input.handlers.desktop.KeyboardInputHandler;
-import com.strafergame.input.handlers.mobile.MobileInputHandler;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.controllers.Controllers;
+import com.strafergame.input.handlers.desktop.KeyboardInputProcessor;
 
 /**
- * decides and updates which type of input handlers to use (mobile, desktop or
- * controller) and processes it
+ * decides and updates which type of input processors to use (mobile, desktop or
+ * controller)
  * 
  * @author mihai_stoica
  *
  */
 public class InputManager {
 
-	InputHandler inputHandler;
+	InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-	MobileInputHandler mobileHandler;
-	KeyboardInputHandler keyboardHandler;
-	ControllerInputHandler controllerHandler;
+	KeyboardInputProcessor keyboardHandler;
 
 	private final PlayerControl playerControl = new PlayerControl();
 
 	private final UIControl uiController = new UIControl();
 
 	public InputManager() {
+		Gdx.input.setInputProcessor(inputMultiplexer);
 		decideOnHandler();
-	}
-
-	public void processInput() {
-		inputHandler.process(uiController);
-		inputHandler.process(playerControl);
 	}
 
 	private void decideOnHandler() {
 		ApplicationType appType = Gdx.app.getType();
 		if (appType.equals(ApplicationType.Android) || appType.equals(ApplicationType.iOS)) {
-			if (mobileHandler == null) {
-				mobileHandler = new MobileInputHandler();
-			}
-			setInputHandler(mobileHandler);
+
 		} else {
 			if (keyboardHandler == null) {
-				keyboardHandler = new KeyboardInputHandler();
+				keyboardHandler = new KeyboardInputProcessor();
 			}
-			setInputHandler(keyboardHandler);
+			inputMultiplexer.clear();
+			inputMultiplexer.addProcessor(keyboardHandler);
 		}
 		if (Controllers.getControllers().notEmpty()) {
-			if (controllerHandler == null) {
-				controllerHandler = new ControllerInputHandler();
-			}
-			setInputHandler(controllerHandler);
+
 		}
 	}
 
-	public void setInputHandler(InputHandler inputHandler) {
-		this.inputHandler = inputHandler;
-	}
 }

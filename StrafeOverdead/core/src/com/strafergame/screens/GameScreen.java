@@ -25,7 +25,7 @@ public class GameScreen implements Screen {
 		Strafer.spriteBatch.setProjectionMatrix(Strafer.worldCamera.combined);
 		Strafer.tiledMapRenderer.setView(Strafer.worldCamera);
 
-		Strafer.inputManager.processInput();
+		//Strafer.inputManager.processInput();
 		Strafer.gameWorld.act(delta);
 	}
 

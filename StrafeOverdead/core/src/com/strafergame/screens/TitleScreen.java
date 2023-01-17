@@ -1,6 +1,7 @@
 package com.strafergame.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -35,7 +36,7 @@ public class TitleScreen implements Screen {
 
 		makeButtons();
 
-		Gdx.input.setInputProcessor(stage);
+		((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(stage);
 
 	}
 
