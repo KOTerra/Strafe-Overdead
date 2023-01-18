@@ -1,9 +1,15 @@
 package com.strafergame.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.strafergame.Strafer;
 import com.strafergame.game.world.GameWorld;
 
@@ -17,6 +23,7 @@ public class GameScreen implements Screen {
 	public GameScreen(final Strafer game) {
 		this.game = game;
 		Strafer.gameWorld = new GameWorld();
+
 	}
 
 	public void update(float delta) {
@@ -25,14 +32,11 @@ public class GameScreen implements Screen {
 		Strafer.spriteBatch.setProjectionMatrix(Strafer.worldCamera.combined);
 		Strafer.tiledMapRenderer.setView(Strafer.worldCamera);
 
-		//Strafer.inputManager.processInput();
-		Strafer.gameWorld.act(delta);
-	}
+		// Strafer.inputManager.processInput();
+		Strafer.uiScreenViewport.apply();
 
-	@Override
-	public void resize(int width, int height) {
-		Strafer.extendViewport.update(width, height);
-		Strafer.uiScreenViewport.update(width, height);
+		Strafer.uiManager.act(delta);
+		Strafer.gameWorld.act(delta);
 	}
 
 	@Override
@@ -50,14 +54,19 @@ public class GameScreen implements Screen {
 
 		Strafer.gameWorld.getBox2DWorld().render();
 
-		Strafer.uiScreenViewport.apply();
-		Strafer.uiCamera.update();
-		Strafer.spriteBatch.setProjectionMatrix(Strafer.uiCamera.combined);
+		Strafer.uiManager.draw();
 
 	}
 
 	@Override
+	public void resize(int width, int height) {
+		Strafer.extendViewport.update(width, height);
+		Strafer.uiScreenViewport.update(width, height, true);
+	}
+
+	@Override
 	public void dispose() {
+		Strafer.uiManager.dispose();
 		Strafer.gameWorld.dispose();
 	}
 

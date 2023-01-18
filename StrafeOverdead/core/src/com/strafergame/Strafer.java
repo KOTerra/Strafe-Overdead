@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.graphics.WorldCamera;
 import com.strafergame.input.InputManager;
 import com.strafergame.screens.LoadingScreen;
+import com.strafergame.ui.UiManager;
 
 /**
  * The game class
@@ -85,6 +85,11 @@ public class Strafer extends Game {
 	public static ScreenViewport uiScreenViewport;
 
 	/**
+	 * stage that contains ui components
+	 */
+	public static UiManager uiManager;
+
+	/**
 	 * stage that contains world entities
 	 */
 	public static GameWorld gameWorld;
@@ -100,11 +105,6 @@ public class Strafer extends Game {
 	public static OrthogonalTiledMapRenderer tiledMapRenderer;
 
 	/**
-	 * stage that contains ui components
-	 */
-	public static Stage uiStage;
-
-	/**
 	 * whether game is in debug mode
 	 */
 	public static boolean inDebug = true;
@@ -112,9 +112,9 @@ public class Strafer extends Game {
 	@Override
 	public void create() {
 		spriteBatch = new SpriteBatch();
-		
+
 		inputManager = new InputManager();
-		
+
 		aspectRatio = (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
 		worldCamera = new WorldCamera(WORLD_HEIGHT * aspectRatio, WORLD_HEIGHT);
 		worldCamera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
@@ -127,7 +127,8 @@ public class Strafer extends Game {
 		uiCamera.position.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), 1);
 		uiScreenViewport = new ScreenViewport(uiCamera);
 
-		uiStage = new Stage(uiScreenViewport, spriteBatch);
+		uiManager = new UiManager(uiScreenViewport, spriteBatch);
+		uiManager.init();
 
 		setScreen(new LoadingScreen(this));
 

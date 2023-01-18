@@ -10,8 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.kotcrab.vis.ui.VisUI;
-import com.kotcrab.vis.ui.VisUI.SkinScale;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.strafergame.Strafer;
 
@@ -23,8 +21,6 @@ public class TitleScreen implements Screen {
 
 	public TitleScreen(Strafer game) {
 		this.game = game;
-
-		VisUI.load(SkinScale.X2);
 
 		stage = new Stage(new ScreenViewport());
 

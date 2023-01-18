@@ -55,6 +55,7 @@ public class GameWorld extends Stage implements Disposable {
 
 	@Override
 	public void dispose() {
+		super.dispose();
 		box2DWorld.dispose();
 	}
 
