@@ -7,36 +7,35 @@ import com.badlogic.gdx.utils.Align;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.strafergame.Strafer;
 
-public class HUD {
-	Table root = new Table();
+public class HUD extends Table {
 
 	public HUD() {
-
 		mockUI();
 	}
 
 	private void mockUI() {
 
-		root.setFillParent(true);
-		root.pad(150);
-		root.defaults().space(20);
-		root.align(Align.bottom);
-		Strafer.uiManager.addActor(root);
+		setFillParent(true);
+		pad(150);
+		defaults().space(20);
+		align(Align.bottom);
+		Strafer.uiManager.getRoot().addActor(this);
 
 		VisTextButton mockButton = new VisTextButton("hud");
-		root.row();
-		root.add(mockButton);
+		row();
+		add(mockButton);
 		mockButton.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
 				System.out.println("ai hud bos");
+				hide();
 			}
 		});
-
+		pack();
 	}
 
 	public void hide() {
-		root.setVisible(!root.isVisible());
+		setVisible(!isVisible());
 	}
 
 }

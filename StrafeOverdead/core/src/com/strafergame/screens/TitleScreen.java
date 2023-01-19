@@ -1,100 +1,34 @@
 package com.strafergame.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.strafergame.Strafer;
+import com.strafergame.ui.menus.TitleMenu;
 
 public class TitleScreen implements Screen {
-
-	private final Stage stage;
-	private final Strafer game;
-	final Table root = new Table();
+	TitleMenu titleMenu;
 
 	public TitleScreen(Strafer game) {
-		this.game = game;
-
-		stage = new Stage(new ScreenViewport());
-
-		root.setFillParent(true);
-		root.pad(150);
-		root.defaults().space(20);
-		root.align(Align.right);
-		stage.addActor(root);
-
-		makeButtons();
-
-		((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(stage);
-
-	}
-
-	private void makeButtons() {
-		VisTextButton loadGameButton = new VisTextButton("ia si joaca");
-		root.row();
-		root.add(loadGameButton);
-		loadGameButton.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				showLoadGameMenu();
-			}
-		});
-
-		VisTextButton optionsButton = new VisTextButton("O");
-		root.row();
-		root.add(optionsButton);
-		optionsButton.addListener(new ChangeListener() {
-
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				showSettingsMenu();
-			}
-		});
-
-		VisTextButton quitButton = new VisTextButton("Afara");
-		root.row();
-		root.add(quitButton);
-		quitButton.addListener(new ChangeListener() {
-
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				Gdx.app.exit();
-			}
-		});
-
-	}
-
-	private void showLoadGameMenu() {
-		game.setScreen(new GameScreen(game));
-	}
-
-	private void showSettingsMenu() {
-
+		titleMenu = new TitleMenu(game);
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		stage.getViewport().update(width, height, true);
+		Strafer.uiManager.getViewport().update(width, height, true);
 
 	}
 
 	@Override
 	public void render(float a) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		stage.act(Gdx.graphics.getDeltaTime());
-		stage.draw();
+		Strafer.uiManager.act(Gdx.graphics.getDeltaTime());
+		Strafer.uiManager.draw();
 	}
 
 	@Override
 	public void dispose() {
-		stage.dispose();
+		Strafer.uiManager.dispose();
 	}
 
 	/**
@@ -102,6 +36,7 @@ public class TitleScreen implements Screen {
 	 */
 	@Override
 	public void hide() {
+		titleMenu.setVisible(false);
 	}
 
 	/**
@@ -125,6 +60,7 @@ public class TitleScreen implements Screen {
 	@Override
 	public void show() {
 
+		titleMenu.setVisible(true);
 	}
 
 }

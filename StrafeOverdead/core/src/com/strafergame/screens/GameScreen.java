@@ -1,17 +1,12 @@
 package com.strafergame.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.strafergame.Strafer;
 import com.strafergame.game.world.GameWorld;
+import com.strafergame.ui.HUD;
 
 public class GameScreen implements Screen {
 
@@ -20,10 +15,12 @@ public class GameScreen implements Screen {
 	 */
 	private final Strafer game;
 
+	private HUD hud;
+
 	public GameScreen(final Strafer game) {
 		this.game = game;
-		Strafer.gameWorld = new GameWorld();
-
+		Strafer.gameWorld = new GameWorld(this.game);
+		hud = new HUD();
 	}
 
 	public void update(float delta) {
@@ -72,7 +69,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void hide() {
-
+		hud.setVisible(false);
 	}
 
 	@Override
@@ -87,7 +84,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-
+		hud.setVisible(true);
 	}
 
 }
