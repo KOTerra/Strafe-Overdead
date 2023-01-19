@@ -13,7 +13,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.graphics.WorldCamera;
 import com.strafergame.input.InputManager;
+import com.strafergame.screens.GameScreen;
 import com.strafergame.screens.LoadingScreen;
+import com.strafergame.screens.TitleScreen;
 import com.strafergame.ui.UiManager;
 
 /**
@@ -37,6 +39,11 @@ public class Strafer extends Game {
 	 * input manager of the game
 	 */
 	public static InputManager inputManager;
+
+	/**
+	 * the current state of the game
+	 */
+	public static GameState gameState;
 
 	/**
 	 * the time elapsed. used to retrieve time dependent data such as animation
@@ -90,6 +97,21 @@ public class Strafer extends Game {
 	public static UiManager uiManager;
 
 	/**
+	 * the loading screen
+	 */
+	public static LoadingScreen loadingScreen;
+
+	/**
+	 * the title screen
+	 */
+	public static TitleScreen titleScreen;
+
+	/**
+	 * the game screen
+	 */
+	public static GameScreen gameScreen;
+
+	/**
 	 * stage that contains world entities
 	 */
 	public static GameWorld gameWorld;
@@ -130,8 +152,8 @@ public class Strafer extends Game {
 		uiManager = new UiManager(uiScreenViewport, spriteBatch);
 		uiManager.init();
 
-		setScreen(new LoadingScreen(this));
-
+		loadingScreen = new LoadingScreen(this);
+		setScreen(loadingScreen);
 	}
 
 	@Override

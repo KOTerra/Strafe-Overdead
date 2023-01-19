@@ -22,10 +22,13 @@ public class GameWorld extends Stage implements Disposable {
 	private Player playerTest2;
 	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/map.tmx", TiledMap.class);
 
+	Strafer game;
+
 	Box2DWorld box2DWorld = new Box2DWorld();
 
-	public GameWorld() {
+	public GameWorld(Strafer game) {
 		super(Strafer.extendViewport, Strafer.spriteBatch);
+		this.game = game;
 
 		addTestAssets();
 	}
@@ -106,6 +109,9 @@ public class GameWorld extends Stage implements Disposable {
 			}
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
 				playerTest1.getBody().setTransform(playerTest1.getX() + .5f, playerTest1.getY() + .5f, 0);
+			}
+			if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
+				game.setScreen(Strafer.titleScreen);
 			}
 		}
 	}

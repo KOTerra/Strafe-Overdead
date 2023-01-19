@@ -12,8 +12,6 @@ import com.strafergame.Strafer;
 
 public class UiManager extends Stage implements Disposable {
 
-	private HUD hud;
-
 	public UiManager(Viewport viewport, SpriteBatch spriteBatch) {
 		super(viewport, spriteBatch);
 
@@ -23,7 +21,6 @@ public class UiManager extends Stage implements Disposable {
 		((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(Strafer.uiManager);
 		VisUI.load(SkinScale.X2);
 
-		hud = new HUD();
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.MathUtils;
+import com.strafergame.GameState;
 import com.strafergame.Strafer;
 import com.strafergame.graphics.AnimationProvider;
 
@@ -36,6 +37,7 @@ public class LoadingScreen implements Screen {
 
 	public LoadingScreen(final Strafer game) {
 		this.game = game;
+		Strafer.gameState = GameState.LOADING;
 		shapeRenderer = new ShapeRenderer();
 
 		queueAssetsToLoad();
@@ -56,8 +58,11 @@ public class LoadingScreen implements Screen {
 			if (progress >= Strafer.assetManager.getProgress() - .001f) {
 				if (Strafer.assetManager.isFinished()) {
 					AnimationProvider.prepareAnimations();
-					//game.setScreen(new GameScreen(game));
-					game.setScreen(new TitleScreen(game));
+					// game.setScreen(new GameScreen(game));
+					if (Strafer.titleScreen == null) {
+						Strafer.titleScreen = new TitleScreen(game);
+					}
+					game.setScreen(Strafer.titleScreen);
 				}
 			}
 		}
