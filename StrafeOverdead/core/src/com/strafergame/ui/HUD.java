@@ -21,7 +21,7 @@ public class HUD extends Table {
 		align(Align.bottom);
 		Strafer.uiManager.getRoot().addActor(this);
 
-		VisTextButton mockButton = new VisTextButton("hud");
+		VisTextButton mockButton = new VisTextButton(Strafer.i18n.get("hud"));
 		row();
 		add(mockButton);
 		mockButton.addListener(new ChangeListener() {

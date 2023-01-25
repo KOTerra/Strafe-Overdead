@@ -1,5 +1,7 @@
 package com.strafergame.game.world;
 
+import java.util.Locale;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,6 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
 import com.strafergame.game.entity.player.Player;
 import com.strafergame.game.world.collision.Box2DHelper;
@@ -112,6 +115,10 @@ public class GameWorld extends Stage implements Disposable {
 			}
 			if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 				game.setScreen(Strafer.titleScreen);
+			}
+			if (Gdx.input.isKeyPressed(Keys.NUMPAD_8)) {
+				Strafer.i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"), new Locale("ro"),
+						"utf-8");
 			}
 		}
 	}

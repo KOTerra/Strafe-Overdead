@@ -1,7 +1,11 @@
 package com.strafergame.screens;
 
+import java.util.Locale;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.loaders.I18NBundleLoader;
+import com.badlogic.gdx.assets.loaders.I18NBundleLoader.I18NBundleParameter;
 import com.badlogic.gdx.assets.loaders.TextureAtlasLoader;
 import com.badlogic.gdx.assets.loaders.TextureLoader;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -14,6 +18,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.GameState;
 import com.strafergame.Strafer;
 import com.strafergame.graphics.AnimationProvider;

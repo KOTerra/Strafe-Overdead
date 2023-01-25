@@ -1,13 +1,18 @@
 package com.strafergame;
 
+import java.util.Locale;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.I18NBundleLoader;
+import com.badlogic.gdx.assets.loaders.I18NBundleLoader.I18NBundleParameter;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.strafergame.game.world.GameWorld;
@@ -16,6 +21,7 @@ import com.strafergame.input.InputManager;
 import com.strafergame.screens.GameScreen;
 import com.strafergame.screens.LoadingScreen;
 import com.strafergame.screens.TitleScreen;
+import com.strafergame.settings.Settings;
 import com.strafergame.ui.UiManager;
 
 /**
@@ -29,6 +35,8 @@ public class Strafer extends Game {
 	 * the asset manager
 	 */
 	public static final AssetManager assetManager = new AssetManager(new InternalFileHandleResolver());
+
+	public static I18NBundle i18n;
 
 	/**
 	 * the sprite batch
@@ -133,6 +141,13 @@ public class Strafer extends Game {
 
 	@Override
 	public void create() {
+		try {//TODO
+			i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"),
+					new Locale(Settings.getPreferences().getString("LANGUAGE")), "utf-8");
+		} catch (Exception e) {
+			i18n = I18NBundle.createBundle(Gdx.files.internal("i18n/ui/bundle"),
+					new Locale(Settings.getPreferences().getString("LANGUAGE")), "utf-8");
+		}
 		spriteBatch = new SpriteBatch();
 
 		inputManager = new InputManager();

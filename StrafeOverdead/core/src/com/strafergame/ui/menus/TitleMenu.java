@@ -24,7 +24,7 @@ public class TitleMenu extends Table {
 	}
 
 	private void makeButtons() {
-		VisTextButton loadGameButton = new VisTextButton("ia si joaca");
+		VisTextButton loadGameButton = new VisTextButton(Strafer.i18n.get("playButton"));
 		loadGameButton.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
