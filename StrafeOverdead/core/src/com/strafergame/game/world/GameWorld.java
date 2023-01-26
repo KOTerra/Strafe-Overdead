@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
+import com.strafergame.game.entity.ecs.EntityEngine;
 import com.strafergame.game.entity.player.Player;
 import com.strafergame.game.world.collision.Box2DHelper;
 import com.strafergame.game.world.collision.Box2DWorld;
@@ -28,6 +29,7 @@ public class GameWorld extends Stage implements Disposable {
 	Strafer game;
 
 	Box2DWorld box2DWorld = new Box2DWorld();
+	EntityEngine entityEngine = new EntityEngine();
 
 	public GameWorld(Strafer game) {
 		super(Strafer.extendViewport, Strafer.spriteBatch);
@@ -41,6 +43,8 @@ public class GameWorld extends Stage implements Disposable {
 		Strafer.updateStateTime(delta);
 
 		box2DWorld.step(delta);
+
+		entityEngine.update(delta);
 
 		for (Actor a : this.getActors()) {
 			a.act(delta);
