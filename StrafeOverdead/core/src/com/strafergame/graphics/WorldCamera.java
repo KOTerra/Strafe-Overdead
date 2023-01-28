@@ -32,7 +32,7 @@ public class WorldCamera extends OrthographicCamera {
 	/**
 	 * the alpha used in the interpolation process
 	 */
-	private float alpha = 0.05f;
+	private float alpha = 0.033f;
 
 	/*
 	 * type of interpolation
@@ -89,7 +89,9 @@ public class WorldCamera extends OrthographicCamera {
 		super.update();
 
 		if (focused) {
-			cameraSnapPosition.set(focusEntity.getX(), focusEntity.getY(), 0);
+			if (focusEntity.getBody() != null) {
+				cameraSnapPosition.set(focusEntity.getBody().getPosition().x, focusEntity.getBody().getPosition().y, 0);
+			}
 			Strafer.worldCamera.position.interpolate(cameraSnapPosition, alpha, interpolation);
 		}
 	}

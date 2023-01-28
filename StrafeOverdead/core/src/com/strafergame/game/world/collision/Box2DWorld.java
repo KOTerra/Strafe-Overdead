@@ -21,7 +21,6 @@ public class Box2DWorld implements Disposable {
 	}
 
 	public void step(float delta) {
-
 		world.step(delta, 6, 2);
 		world.clearForces();
 	}

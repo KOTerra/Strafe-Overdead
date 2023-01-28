@@ -26,8 +26,15 @@ public class GameWorld extends Stage implements Disposable {
 	private Player playerTest2;
 	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/map.tmx", TiledMap.class);
 
+	public static float alpha = 1f;
+
 	Strafer game;
 
+	/**
+	 * 
+	 */
+	public final static float FIXED_TIME_STEP = 1 / 120f;
+	private float accumulator = 0f;
 	Box2DWorld box2DWorld = new Box2DWorld();
 	EntityEngine entityEngine = new EntityEngine();
 
@@ -38,13 +45,20 @@ public class GameWorld extends Stage implements Disposable {
 		addTestAssets();
 	}
 
+	public void update(float delta) {
+		float frameTime = Math.min(delta, 0.25f);
+		accumulator += frameTime;
+		while (accumulator >= FIXED_TIME_STEP) {
+			box2DWorld.step(FIXED_TIME_STEP);
+			accumulator -= FIXED_TIME_STEP;
+		}
+		alpha = accumulator / FIXED_TIME_STEP;
+	}
+
 	@Override
 	public void act(float delta) {
-		Strafer.updateStateTime(delta);
 
-		box2DWorld.step(delta);
-
-		entityEngine.update(delta);
+		update(delta);
 
 		for (Actor a : this.getActors()) {
 			a.act(delta);

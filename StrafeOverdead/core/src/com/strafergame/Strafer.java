@@ -57,7 +57,7 @@ public class Strafer extends Game {
 	 * the time elapsed. used to retrieve time dependent data such as animation
 	 * frames
 	 */
-	private static float stateTime = 0f;
+	public static float stateTime = 0f;
 
 	/**
 	 * the world width measured in tiles. a tile is 64x64 pixels
@@ -141,7 +141,7 @@ public class Strafer extends Game {
 
 	@Override
 	public void create() {
-		try {//TODO
+		try {// TODO
 			i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"),
 					new Locale(Settings.getPreferences().getString("LANGUAGE")), "utf-8");
 		} catch (Exception e) {
