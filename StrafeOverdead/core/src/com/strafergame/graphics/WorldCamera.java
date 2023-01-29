@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.strafergame.Strafer;
-import com.strafergame.game.entity.Entity;
+import com.strafergame.game.entities.Entity;
 
 /**
  * an orthographic camera which follows an assigned entity, mainly the player
@@ -89,9 +89,7 @@ public class WorldCamera extends OrthographicCamera {
 		super.update();
 
 		if (focused) {
-			if (focusEntity.getBody() != null) {
-				cameraSnapPosition.set(focusEntity.getBody().getPosition().x, focusEntity.getBody().getPosition().y, 0);
-			}
+			cameraSnapPosition.set(focusEntity.getRenderX(), focusEntity.getRenderY(), 0);
 			Strafer.worldCamera.position.interpolate(cameraSnapPosition, alpha, interpolation);
 		}
 	}

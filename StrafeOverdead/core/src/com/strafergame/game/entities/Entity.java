@@ -1,13 +1,14 @@
-package com.strafergame.game.entity;
+package com.strafergame.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.strafergame.Strafer;
+import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DHelper;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.graphics.AnimationProvider;
@@ -32,12 +33,15 @@ public class Entity extends Actor {
 	/**
 	 * the used animation
 	 */
-	protected Animation<TextureRegion> animation;
+	protected Animation<Sprite> animation;
 
 	/**
 	 * the frame currently displayed
 	 */
-	private TextureRegion currentFrame;
+	private Sprite currentFrame;
+
+	private float renderX = 0f;
+	private float renderY = 0f;
 
 	/**
 	 * the body used for collision handling
@@ -97,10 +101,11 @@ public class Entity extends Actor {
 	 */
 	private void initPhysics() {
 		if (!initiatedPhysics) {
-			setPosition(getX() - getWidth() / 2, getY() - getHeight() / 2);
-			this.box2DWorld = Strafer.gameWorld.getBox2DWorld();
+			renderX = -getWidth() / 2;
+			renderX = -getHeight() / 2;
+			this.box2DWorld = ((GameWorld) getStage()).getBox2DWorld();
 			body = Box2DHelper.createBody(box2DWorld.getWorld(), getWidth(), getWidth(), 0, 0,
-					new Vector3(getX(), getY(), 0), BodyType.DynamicBody);
+					new Vector3(renderX, renderY, 0), BodyType.DynamicBody);
 			initiatedPhysics = true;
 
 		}
@@ -111,7 +116,8 @@ public class Entity extends Actor {
 	 */
 	protected void move(float delta) {
 		body.setLinearVelocity(dirX * speed, dirY * speed);
-		this.setPosition(body.getPosition().x, body.getPosition().y);
+		renderX = body.getPosition().x * delta + renderX * (1 - delta);
+		renderY = body.getPosition().y * delta + renderY * (1 - delta);
 	}
 
 	/**
@@ -128,27 +134,11 @@ public class Entity extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		setScale(Strafer.SCALE_FACTOR);
-		batch.draw(currentFrame, getX() - getWidth() / 2, getY(), // - getHeight() / 2, // coordonatele
+		batch.draw(currentFrame, renderX - getWidth() / 2, renderY, // - getHeight() / 2, // coordonatele
 				getWidth() / 2, 0, // pct in care e rotit,centru
 				getWidth(), getHeight(), // width/height
 				1, 1, // scale
 				getRotation()); // rotation
-	}
-
-	@Override
-	public void setPosition(float x, float y) {
-		super.setPosition(x, y);
-		if (body != null) {
-			body.setTransform(x, y, getRotation());
-		}
-	}
-
-	@Override
-	public void setRotation(float angle) {
-		super.setRotation(angle);
-		if (body != null) {
-			body.setTransform(getX(), getY(), getRotation());
-		}
 	}
 
 	public EntityType getEntityType() {
@@ -161,6 +151,14 @@ public class Entity extends Actor {
 
 	public Body getBody() {
 		return body;
+	}
+
+	public float getRenderX() {
+		return renderX;
+	}
+
+	public float getRenderY() {
+		return renderY;
 	}
 
 	/**

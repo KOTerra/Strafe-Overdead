@@ -120,11 +120,6 @@ public class Strafer extends Game {
 	public static GameScreen gameScreen;
 
 	/**
-	 * stage that contains world entities
-	 */
-	public static GameWorld gameWorld;
-
-	/**
 	 * the tiled map
 	 */
 	public static TiledMap tiledMap;
@@ -133,6 +128,8 @@ public class Strafer extends Game {
 	 * the map renderer
 	 */
 	public static OrthogonalTiledMapRenderer tiledMapRenderer;
+
+	public static GameRenderer gameRenderer;
 
 	/**
 	 * whether game is in debug mode
@@ -167,6 +164,8 @@ public class Strafer extends Game {
 		uiManager = new UiManager(uiScreenViewport, spriteBatch);
 		uiManager.init();
 
+		gameRenderer = new GameRenderer();
+
 		loadingScreen = new LoadingScreen(this);
 		setScreen(loadingScreen);
 	}
@@ -187,8 +186,8 @@ public class Strafer extends Game {
 		Strafer.stateTime = stateTime;
 	}
 
-	public static void updateStateTime(float amount) {
-		Strafer.setStateTime(Strafer.getStateTime() + amount);
+	public static void updateStateTime() {
+		Strafer.setStateTime(Strafer.getStateTime() + Gdx.graphics.getDeltaTime());
 		if (Strafer.getStateTime() > 10000000f) {
 			Strafer.setStateTime(0);
 		}

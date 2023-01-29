@@ -1,8 +1,8 @@
-package com.strafergame.game.entity.player;
+package com.strafergame.game.entities.player;
 
 import com.strafergame.Strafer;
-import com.strafergame.game.entity.Entity;
-import com.strafergame.game.entity.EntityType;
+import com.strafergame.game.entities.Entity;
+import com.strafergame.game.entities.EntityType;
 import com.strafergame.input.PlayerControl;
 
 public class Player extends Entity {

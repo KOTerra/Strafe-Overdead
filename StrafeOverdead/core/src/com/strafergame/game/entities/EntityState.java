@@ -1,4 +1,4 @@
-package com.strafergame.game.entity;
+package com.strafergame.game.entities;
 
 /**
  * a state in which an entity can be at a given time

@@ -1,6 +1,6 @@
 package com.strafergame.input;
 
-import com.strafergame.game.entity.player.Player;
+import com.strafergame.game.entities.player.Player;
 
 public class PlayerControl {
 

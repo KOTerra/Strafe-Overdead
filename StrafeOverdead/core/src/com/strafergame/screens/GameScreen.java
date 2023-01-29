@@ -15,11 +15,17 @@ public class GameScreen implements Screen {
 	 */
 	private final Strafer game;
 
+	GameWorld gameWorld;
+
+	public final static float FIXED_TIME_STEP = 1 / 45f;
+	private float accumulator = 0f;
+	float alpha = 0.25f;
+
 	private HUD hud;
 
 	public GameScreen(final Strafer game) {
 		this.game = game;
-		Strafer.gameWorld = new GameWorld(this.game);
+		gameWorld = new GameWorld(game);
 		hud = new HUD();
 	}
 
@@ -32,9 +38,8 @@ public class GameScreen implements Screen {
 		Strafer.uiScreenViewport.apply();
 
 		Strafer.uiManager.act(delta);
-		Strafer.gameWorld.act(delta);
 
-		Strafer.updateStateTime(delta);
+		Strafer.updateStateTime();
 
 	}
 
@@ -44,16 +49,25 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
 		update(delta);
-
 		Strafer.tiledMapRenderer.render();
 
+		float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
+		accumulator += frameTime;
+		while (accumulator >= FIXED_TIME_STEP) {
+			gameWorld.getBox2DWorld().step(FIXED_TIME_STEP);
+			accumulator -= FIXED_TIME_STEP;
+		}
+		alpha = accumulator / FIXED_TIME_STEP;
+
+		gameWorld.act(alpha);
+
 		Strafer.spriteBatch.begin();
-		Strafer.gameWorld.draw();
+		gameWorld.draw();
 		Strafer.spriteBatch.end();
 
 		Strafer.uiManager.draw();
 
-		Strafer.gameWorld.getBox2DWorld().render();
+		gameWorld.getBox2DWorld().render();
 
 	}
 
@@ -66,7 +80,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 		Strafer.uiManager.dispose();
-		Strafer.gameWorld.dispose();
+		gameWorld.dispose();
 	}
 
 	@Override

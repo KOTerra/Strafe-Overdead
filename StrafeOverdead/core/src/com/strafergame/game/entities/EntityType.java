@@ -1,4 +1,4 @@
-package com.strafergame.game.entity;
+package com.strafergame.game.entities;
 
 /**
  * the type of an entity

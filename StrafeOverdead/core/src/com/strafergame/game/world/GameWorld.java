@@ -14,8 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
-import com.strafergame.game.entity.ecs.EntityEngine;
-import com.strafergame.game.entity.player.Player;
+import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.entities.player.Player;
 import com.strafergame.game.world.collision.Box2DHelper;
 import com.strafergame.game.world.collision.Box2DWorld;
 
@@ -26,17 +26,14 @@ public class GameWorld extends Stage implements Disposable {
 	private Player playerTest2;
 	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/map.tmx", TiledMap.class);
 
-	public static float alpha = 1f;
-
 	Strafer game;
 
 	/**
 	 * 
 	 */
-	public final static float FIXED_TIME_STEP = 1 / 120f;
-	private float accumulator = 0f;
+
 	Box2DWorld box2DWorld = new Box2DWorld();
-	EntityEngine entityEngine = new EntityEngine();
+//	EntityEngine entityEngine = new EntityEngine();
 
 	public GameWorld(Strafer game) {
 		super(Strafer.extendViewport, Strafer.spriteBatch);
@@ -46,19 +43,15 @@ public class GameWorld extends Stage implements Disposable {
 	}
 
 	public void update(float delta) {
-		float frameTime = Math.min(delta, 0.25f);
-		accumulator += frameTime;
-		while (accumulator >= FIXED_TIME_STEP) {
-			box2DWorld.step(FIXED_TIME_STEP);
-			accumulator -= FIXED_TIME_STEP;
-		}
-		alpha = accumulator / FIXED_TIME_STEP;
+		/*
+		 * float frameTime = Math.min(delta, 0.25f); accumulator += frameTime; while
+		 * (accumulator >= FIXED_TIME_STEP) { box2DWorld.step(FIXED_TIME_STEP);
+		 * accumulator -= FIXED_TIME_STEP; } alpha = accumulator / FIXED_TIME_STEP;
+		 */
 	}
 
 	@Override
 	public void act(float delta) {
-
-		update(delta);
 
 		for (Actor a : this.getActors()) {
 			a.act(delta);
@@ -91,10 +84,9 @@ public class GameWorld extends Stage implements Disposable {
 
 		playerTest1 = new Player();
 		this.addActor(playerTest1);
-		playerTest1.setPosition(Strafer.WORLD_WIDTH / 2, Strafer.WORLD_HEIGHT / 2);
+
 		playerTest2 = new Player();
 		this.addActor(playerTest2);
-		playerTest2.setPosition(0, 0);
 		Strafer.worldCamera.setFocusOn(playerTest1);
 
 		Strafer.tiledMapRenderer.setMap(tiledMapTest);
