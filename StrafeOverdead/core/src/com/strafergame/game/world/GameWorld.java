@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
-import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.entities.Entity;
 import com.strafergame.game.entities.player.Player;
 import com.strafergame.game.world.collision.Box2DHelper;
 import com.strafergame.game.world.collision.Box2DWorld;
@@ -25,6 +25,8 @@ public class GameWorld extends Stage implements Disposable {
 	private Player playerTest1;
 	private Player playerTest2;
 	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/map.tmx", TiledMap.class);
+
+	private float alpha = 0.25f;
 
 	Strafer game;
 
@@ -42,12 +44,11 @@ public class GameWorld extends Stage implements Disposable {
 		addTestAssets();
 	}
 
-	public void update(float delta) {
-		/*
-		 * float frameTime = Math.min(delta, 0.25f); accumulator += frameTime; while
-		 * (accumulator >= FIXED_TIME_STEP) { box2DWorld.step(FIXED_TIME_STEP);
-		 * accumulator -= FIXED_TIME_STEP; } alpha = accumulator / FIXED_TIME_STEP;
-		 */
+	public void savePositions() {
+
+		for (Actor a : this.getActors()) {
+			((Entity) a).savePosition();
+		}
 	}
 
 	@Override
@@ -83,9 +84,11 @@ public class GameWorld extends Stage implements Disposable {
 				backgroundTest.getHeight() * Strafer.SCALE_FACTOR);
 
 		playerTest1 = new Player();
+		playerTest1.setGameWorld(this);
 		this.addActor(playerTest1);
 
 		playerTest2 = new Player();
+		playerTest2.setGameWorld(this);
 		this.addActor(playerTest2);
 		Strafer.worldCamera.setFocusOn(playerTest1);
 
@@ -135,6 +138,14 @@ public class GameWorld extends Stage implements Disposable {
 
 	public Box2DWorld getBox2DWorld() {
 		return box2DWorld;
+	}
+
+	public float getInterPolationAlpha() {
+		return alpha;
+	}
+
+	public void setInterpolationAlpha(float alpha) {
+		this.alpha = alpha;
 	}
 
 }

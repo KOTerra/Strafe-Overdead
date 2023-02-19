@@ -3,6 +3,7 @@ package com.strafergame.game.entities;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
@@ -43,10 +44,14 @@ public class Entity extends Actor {
 	private float renderX = 0f;
 	private float renderY = 0f;
 
+	private float prevX = 0f;
+	private float prevY = 0f;
 	/**
 	 * the body used for collision handling
 	 */
 	protected Body body;
+
+	protected GameWorld gameWorld;
 
 	/**
 	 * the collision handler
@@ -92,7 +97,7 @@ public class Entity extends Actor {
 	public void act(float delta) {
 		updateAnimation();
 		initPhysics();
-		move(delta);
+		move();
 	}
 
 	/**
@@ -101,11 +106,14 @@ public class Entity extends Actor {
 	 */
 	private void initPhysics() {
 		if (!initiatedPhysics) {
-			renderX = -getWidth() / 2;
-			renderX = -getHeight() / 2;
-			this.box2DWorld = ((GameWorld) getStage()).getBox2DWorld();
-			body = Box2DHelper.createBody(box2DWorld.getWorld(), getWidth(), getWidth(), 0, 0,
-					new Vector3(renderX, renderY, 0), BodyType.DynamicBody);
+			this.box2DWorld = gameWorld.getBox2DWorld();
+			prevX = -currentFrame.getWidth() * Strafer.SCALE_FACTOR / 2;
+			prevY = -currentFrame.getHeight() * Strafer.SCALE_FACTOR / 2;
+
+			body = Box2DHelper.createBody(box2DWorld.getWorld(), currentFrame.getWidth() * Strafer.SCALE_FACTOR,
+					currentFrame.getWidth() * Strafer.SCALE_FACTOR, 0, 0, new Vector3(prevX, prevY, 0),
+					BodyType.DynamicBody);
+
 			initiatedPhysics = true;
 
 		}
@@ -114,10 +122,13 @@ public class Entity extends Actor {
 	/**
 	 * changes the postion of the entity
 	 */
-	protected void move(float delta) {
+	protected void move() {
 		body.setLinearVelocity(dirX * speed, dirY * speed);
-		renderX = body.getPosition().x * delta + renderX * (1 - delta);
-		renderY = body.getPosition().y * delta + renderY * (1 - delta);
+	}
+
+	public void savePosition() {
+		prevX = body.getPosition().x;
+		prevY = body.getPosition().y;
 	}
 
 	/**
@@ -127,18 +138,22 @@ public class Entity extends Actor {
 	private void updateAnimation() {
 		animation = AnimationProvider.getAnimation(this);
 		currentFrame = animation.getKeyFrame(Strafer.getStateTime(), true);
-		setSize(currentFrame.getRegionWidth() * Strafer.SCALE_FACTOR,
-				currentFrame.getRegionHeight() * Strafer.SCALE_FACTOR);
+
+		// setSize(currentFrame.getRegionWidth() * Strafer.SCALE_FACTOR,
+		// currentFrame.getRegionHeight() * Strafer.SCALE_FACTOR);
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		setScale(Strafer.SCALE_FACTOR);
-		batch.draw(currentFrame, renderX - getWidth() / 2, renderY, // - getHeight() / 2, // coordonatele
-				getWidth() / 2, 0, // pct in care e rotit,centru
-				getWidth(), getHeight(), // width/height
+		renderX = MathUtils.lerp(prevX, body.getPosition().x, gameWorld.getInterPolationAlpha());
+		renderY = MathUtils.lerp(prevY, body.getPosition().y, gameWorld.getInterPolationAlpha());
+		batch.draw(currentFrame, renderX - currentFrame.getWidth() * Strafer.SCALE_FACTOR / 2, renderY, // - getHeight()
+																										// / 2, //
+																										// coordonatele
+				currentFrame.getWidth() * Strafer.SCALE_FACTOR / 2, 0, // pct in care e rotit,centru
+				currentFrame.getWidth() * Strafer.SCALE_FACTOR, currentFrame.getHeight() * Strafer.SCALE_FACTOR, // width/height
 				1, 1, // scale
-				getRotation()); // rotation
+				currentFrame.getRotation()); // rotation
 	}
 
 	public EntityType getEntityType() {
@@ -176,6 +191,14 @@ public class Entity extends Actor {
 
 	public float getDirY() {
 		return dirY;
+	}
+
+	public GameWorld getGameWorld() {
+		return gameWorld;
+	}
+
+	public void setGameWorld(GameWorld gameWorld) {
+		this.gameWorld = gameWorld;
 	}
 
 }

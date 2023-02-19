@@ -12,8 +12,8 @@ public class Player extends Entity {
 	}
 
 	@Override
-	protected void move(float delta) {
-		super.move(delta);
+	protected void move() {
+		super.move();
 		dirX = 0;
 		dirY = 0;
 

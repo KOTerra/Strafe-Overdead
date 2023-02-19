@@ -51,15 +51,18 @@ public class GameScreen implements Screen {
 		update(delta);
 		Strafer.tiledMapRenderer.render();
 
+		gameWorld.act(delta);
+
 		float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
 		accumulator += frameTime;
 		while (accumulator >= FIXED_TIME_STEP) {
-			gameWorld.getBox2DWorld().step(FIXED_TIME_STEP);
+			gameWorld.savePositions();
 			accumulator -= FIXED_TIME_STEP;
+			gameWorld.getBox2DWorld().step(FIXED_TIME_STEP);
 		}
-		alpha = accumulator / FIXED_TIME_STEP;
 
-		gameWorld.act(alpha);
+		alpha = accumulator / FIXED_TIME_STEP;
+		gameWorld.setInterpolationAlpha(alpha);
 
 		Strafer.spriteBatch.begin();
 		gameWorld.draw();
