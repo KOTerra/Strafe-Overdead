@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.strafergame.Strafer;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DHelper;
@@ -19,7 +18,7 @@ import com.strafergame.graphics.AnimationProvider;
  * 
  * @author mihai_stoica
  */
-public class Entity extends Actor {
+public class Entity {
 
 	/**
 	 * type of the entity
@@ -93,8 +92,7 @@ public class Entity extends Actor {
 		this.speed = entityType.speed;
 	}
 
-	@Override
-	public void act(float delta) {
+	public void act() {
 		updateAnimation();
 		initPhysics();
 		move();
@@ -143,8 +141,7 @@ public class Entity extends Actor {
 		// currentFrame.getRegionHeight() * Strafer.SCALE_FACTOR);
 	}
 
-	@Override
-	public void draw(Batch batch, float parentAlpha) {
+	public void draw(Batch batch) {
 		renderX = MathUtils.lerp(prevX, body.getPosition().x, gameWorld.getInterPolationAlpha());
 		renderY = MathUtils.lerp(prevY, body.getPosition().y, gameWorld.getInterPolationAlpha());
 		batch.draw(currentFrame, renderX - currentFrame.getWidth() * Strafer.SCALE_FACTOR / 2, renderY, // - getHeight()

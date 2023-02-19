@@ -51,7 +51,7 @@ public class GameScreen implements Screen {
 		update(delta);
 		Strafer.tiledMapRenderer.render();
 
-		gameWorld.act(delta);
+		gameWorld.act();
 
 		float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
 		accumulator += frameTime;

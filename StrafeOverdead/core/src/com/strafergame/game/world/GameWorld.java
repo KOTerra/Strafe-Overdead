@@ -9,8 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
@@ -19,12 +18,14 @@ import com.strafergame.game.entities.player.Player;
 import com.strafergame.game.world.collision.Box2DHelper;
 import com.strafergame.game.world.collision.Box2DWorld;
 
-public class GameWorld extends Stage implements Disposable {
+public class GameWorld implements Disposable {
 
 	private Sprite backgroundTest;
 	private Player playerTest1;
 	private Player playerTest2;
 	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/map.tmx", TiledMap.class);
+
+	private Array<Entity> entities;
 
 	private float alpha = 0.25f;
 
@@ -38,42 +39,41 @@ public class GameWorld extends Stage implements Disposable {
 //	EntityEngine entityEngine = new EntityEngine();
 
 	public GameWorld(Strafer game) {
-		super(Strafer.extendViewport, Strafer.spriteBatch);
 		this.game = game;
-
+		this.entities = new Array<>();
 		addTestAssets();
+	}
+
+	private void addEntity(Entity entity) {
+		entities.add(entity);
 	}
 
 	public void savePositions() {
 
-		for (Actor a : this.getActors()) {
-			((Entity) a).savePosition();
+		for (Entity e : this.getEntities()) {
+			e.savePosition();
 		}
 	}
 
-	@Override
-	public void act(float delta) {
+	public void act() {
 
-		for (Actor a : this.getActors()) {
-			a.act(delta);
+		for (Entity e : this.getEntities()) {
+			e.act();
 		}
 
 		debugControls();
-
 	}
 
-	@Override
 	public void draw() {
 		// backgroundTest.draw(Strafer.spriteBatch);
 
-		for (Actor a : this.getActors()) {
-			a.draw(getBatch(), 1);
+		for (Entity e : this.getEntities()) {
+			e.draw(Strafer.spriteBatch);
 		}
 	}
 
 	@Override
 	public void dispose() {
-		super.dispose();
 		box2DWorld.dispose();
 	}
 
@@ -85,11 +85,11 @@ public class GameWorld extends Stage implements Disposable {
 
 		playerTest1 = new Player();
 		playerTest1.setGameWorld(this);
-		this.addActor(playerTest1);
+		this.addEntity(playerTest1);
 
 		playerTest2 = new Player();
 		playerTest2.setGameWorld(this);
-		this.addActor(playerTest2);
+		this.addEntity(playerTest2);
 		Strafer.worldCamera.setFocusOn(playerTest1);
 
 		Strafer.tiledMapRenderer.setMap(tiledMapTest);
@@ -124,7 +124,8 @@ public class GameWorld extends Stage implements Disposable {
 				Strafer.worldCamera.removeFocus();
 			}
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
-				playerTest1.getBody().setTransform(playerTest1.getX() + .5f, playerTest1.getY() + .5f, 0);
+				// playerTest1.getBody().setTransform(playerTest1.getX() + .5f,
+				// playerTest1.getY() + .5f, 0);
 			}
 			if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 				game.setScreen(Strafer.titleScreen);
@@ -134,6 +135,10 @@ public class GameWorld extends Stage implements Disposable {
 						"utf-8");
 			}
 		}
+	}
+
+	private Array<Entity> getEntities() {
+		return entities;
 	}
 
 	public Box2DWorld getBox2DWorld() {
