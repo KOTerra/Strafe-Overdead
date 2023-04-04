@@ -20,19 +20,19 @@ public class Player extends Entity {
 		if (Strafer.worldCamera.getFocusEntity().equals(this)) {
 			if (PlayerControl.MOVE_UP) {
 				dirY = 1;
-				direction = 'w';
+				direction = Direction.w;
 			}
 			if (PlayerControl.MOVE_DOWN) {
 				dirY = -1;
-				direction = 's';
+				direction = Direction.s;
 			}
 			if (PlayerControl.MOVE_LEFT) {
 				dirX = -1;
-				direction = 'a';
+				direction = Direction.a;
 			}
 			if (PlayerControl.MOVE_RIGHT) {
 				dirX = 1;
-				direction = 'd';
+				direction = Direction.d;
 			}
 		}
 

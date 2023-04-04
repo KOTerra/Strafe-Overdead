@@ -75,7 +75,15 @@ public class Entity {
 	/**
 	 * the overall direction w,a,s or d
 	 */
-	protected char direction = 's';
+
+	public enum Direction {
+		w, s, a, d;
+	}
+
+	/**
+	 * the current direction
+	 */
+	protected Direction direction = Direction.s;
 
 	/**
 	 * whether the physics were initiated for this entity
@@ -178,7 +186,7 @@ public class Entity {
 	 * 
 	 * @return the direction name
 	 */
-	public char getDirectionName() {
+	public Direction getDirection() {
 		return direction;
 	}
 

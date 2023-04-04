@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
 import com.strafergame.Strafer;
 import com.strafergame.game.entities.Entity;
-import com.strafergame.game.entities.EntityState;
 import com.strafergame.game.entities.EntityType;
 
 public class AnimationProvider {
@@ -22,8 +21,7 @@ public class AnimationProvider {
 	public static Animation<Sprite> getAnimation(Entity entity) {
 		switch (entity.getEntityType()) {
 		case player: {
-			return PLAYER_ANIMATIONS
-					.get(entity.getEntityState() + "_" + entity.getDirectionName());
+			return PLAYER_ANIMATIONS.get(entity.getEntityState() + "_" + entity.getDirection());
 		}
 		}
 		return null;
