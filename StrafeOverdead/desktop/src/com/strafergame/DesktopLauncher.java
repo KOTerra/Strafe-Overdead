@@ -11,7 +11,7 @@ public class DesktopLauncher {
 
 		config.setWindowedMode(1280, 720);
 		config.setTitle("Strafe Overdead");
-		// config.setDecorated(true);
+		// config.setDecorated(false);
 		config.setResizable(true);
 
 		// config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());

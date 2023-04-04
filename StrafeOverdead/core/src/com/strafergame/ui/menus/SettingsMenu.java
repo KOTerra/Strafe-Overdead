@@ -2,9 +2,11 @@ package com.strafergame.ui.menus;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
@@ -27,6 +29,8 @@ public class SettingsMenu extends Table {
 
 	private Strafer game;
 
+	Skin skin = VisUI.getSkin();
+
 	public SettingsMenu(Strafer game) {
 		this.game = game;
 
@@ -38,10 +42,10 @@ public class SettingsMenu extends Table {
 
 		// Set up the tabs
 		tabbedPane = new TabbedPane();
-		tabbedPane.getTabsPane().setFillParent(true);
 		tabbedPane.getTabsPane().setDraggable(null);
 		tabbedPane.getTabsPane().addActor(backButton);
-		tabbedPane.getTabsPane().fillX().align(Align.center);
+		tabbedPane.getTabsPane().align(Align.center).fill();
+		tabbedPane.getTabsPane().clipBegin();
 		backButton.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
@@ -50,10 +54,9 @@ public class SettingsMenu extends Table {
 		});
 
 		// Add the tabs to the menu
-		add(tabbedPane.getTable()).expand().top().fillX().row();
-
+		add(tabbedPane.getTable()).top().growX().padBottom(20).row();
 		currentContentTable = new Table();
-		add(currentContentTable).expand().fillX();
+		add(currentContentTable).growX();
 
 		graphicsTab = new Tab(false, false) {
 			Table content = new Table();
@@ -66,7 +69,9 @@ public class SettingsMenu extends Table {
 
 			@Override
 			public Table getContentTable() {
-				content.add(graphicsScrollPane).fill().expand();
+				content.clear();
+
+				content.add(graphicsScrollPane).top().grow();
 				return content;
 			}
 
@@ -74,7 +79,7 @@ public class SettingsMenu extends Table {
 
 		audioTab = new Tab(false, false) {
 			Table content = new Table();
-			private final ScrollPane audioScrollPane = new ScrollPane(new AudioSettingsPane());
+			private final ScrollPane audioScrollPane = new ScrollPane(new AudioSettingsPane(), skin);
 
 			@Override
 			public String getTabTitle() {
@@ -83,13 +88,15 @@ public class SettingsMenu extends Table {
 
 			@Override
 			public Table getContentTable() {
-				content.add(audioScrollPane).fill().expand();
+				content.clear();
+				content.add(audioScrollPane).growX().row();
 				return content;
 			}
 		};
 
 		controlsTab = new Tab(false, false) {
 			Table content = new Table();
+
 			private final ScrollPane controlsScrollPane = new ScrollPane(new ControlsSettingsPane());
 
 			@Override
@@ -99,16 +106,18 @@ public class SettingsMenu extends Table {
 
 			@Override
 			public Table getContentTable() {
-				content.add(controlsScrollPane).fill().expand();
+				content.clear();
+
+				content.add(controlsScrollPane).top().expand();
 				return content;
 			}
 		};
 		tabbedPane.addListener(new TabbedPaneAdapter() {
 			@Override
 			public void switchedTab(Tab tab) {
-				Table content = tab.getContentTable();
 				currentContentTable.clearChildren();
-				currentContentTable.add(content).expand().fill();
+
+				currentContentTable.add(tab.getContentTable()).top().grow();
 			}
 		});
 
@@ -132,7 +141,7 @@ public class SettingsMenu extends Table {
 			// Add the graphics settings widgets to the table
 			// ...
 			setFillParent(true);
-			pad(150);
+			// pad(150);
 			defaults().space(20);
 			align(Align.top);
 			add(new VisLabel("graphicSetting")).row();
@@ -152,12 +161,31 @@ public class SettingsMenu extends Table {
 		public AudioSettingsPane() {
 			// Add the audio settings widgets to the table
 			// ...
-			setFillParent(true);
-			pad(150);
+
+			// pad(150);
 			defaults().space(20);
-			align(Align.top);
-			add(new VisLabel("audioSetting")).row();
-			add(new VisLabel("audioSetting 2"));
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+			add(new VisLabel("audioSetting")).top().row();
+
 		}
 
 		public void updateSettings() {
@@ -172,8 +200,6 @@ public class SettingsMenu extends Table {
 		public ControlsSettingsPane() {
 			// Add the controls settings widgets to the table
 			// ...
-			setFillParent(true);
-			pad(150);
 			defaults().space(20);
 			align(Align.top);
 			add(new VisLabel("controlSetting")).row();
