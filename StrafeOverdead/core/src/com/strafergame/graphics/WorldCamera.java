@@ -18,6 +18,7 @@ public class WorldCamera extends OrthographicCamera {
 	 * the entity which the camera follows
 	 */
 	private Entity focusEntity;
+	
 
 	/**
 	 * whether the camera follows an entity or not
@@ -32,7 +33,7 @@ public class WorldCamera extends OrthographicCamera {
 	/**
 	 * the alpha used in the interpolation process
 	 */
-	private float alpha = 0.033f;
+	private float alpha = 0.05f;
 
 	/*
 	 * type of interpolation

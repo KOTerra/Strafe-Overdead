@@ -17,6 +17,7 @@ import com.strafergame.graphics.WorldCamera;
 import com.strafergame.input.InputManager;
 import com.strafergame.screens.GameScreen;
 import com.strafergame.screens.LoadingScreen;
+import com.strafergame.screens.SettingsScreen;
 import com.strafergame.screens.TitleScreen;
 import com.strafergame.settings.Settings;
 import com.strafergame.ui.UiManager;
@@ -112,6 +113,11 @@ public class Strafer extends Game {
 	public static TitleScreen titleScreen;
 
 	/**
+	 * the settings screen
+	 */
+	public static SettingsScreen settingsScreen;
+
+	/**
 	 * the game screen
 	 */
 	public static GameScreen gameScreen;
@@ -138,6 +144,8 @@ public class Strafer extends Game {
 		try {// TODO
 			i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"),
 					new Locale(Settings.getPreferences().getString("LANGUAGE")), "utf-8");
+			// i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"),
+			// new Locale("ro", "utf-8"));
 		} catch (Exception e) {
 			i18n = I18NBundle.createBundle(Gdx.files.internal("i18n/ui/bundle"),
 					new Locale(Settings.getPreferences().getString("LANGUAGE")), "utf-8");

@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Align;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.strafergame.Strafer;
 import com.strafergame.screens.GameScreen;
+import com.strafergame.screens.SettingsScreen;
 
 public class TitleMenu extends Table {
 	Strafer game;
@@ -34,7 +35,7 @@ public class TitleMenu extends Table {
 		row();
 		add(loadGameButton);
 
-		VisTextButton optionsButton = new VisTextButton("O");
+		VisTextButton optionsButton = new VisTextButton("Settings");
 		optionsButton.addListener(new ChangeListener() {
 
 			@Override
@@ -66,6 +67,10 @@ public class TitleMenu extends Table {
 	}
 
 	private void showSettingsMenu() {
+		if (Strafer.settingsScreen == null) {
+			Strafer.settingsScreen = new SettingsScreen(game);
+		}
+		game.setScreen(Strafer.settingsScreen);
 
 	}
 }
