@@ -10,7 +10,7 @@ public enum EntityType {
 	/**
 	 * the PLAYER type
 	 */
-	PLAYER(6f);
+	player(6f);
 
 	float speed;
 
@@ -18,14 +18,4 @@ public enum EntityType {
 		this.speed = speed;
 	}
 
-	public static String asString(EntityType e) {
-		String string = "";
-		switch (e) {
-		case PLAYER: {
-			string = "player";
-			break;
-		}
-		}
-		return string;
-	}
 }

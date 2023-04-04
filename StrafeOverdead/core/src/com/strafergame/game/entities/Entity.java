@@ -28,7 +28,7 @@ public class Entity {
 	/**
 	 * state of the entity
 	 */
-	protected EntityState entityState = EntityState.IDLE;
+	protected EntityState entityState = EntityState.idle;
 
 	/**
 	 * the used animation

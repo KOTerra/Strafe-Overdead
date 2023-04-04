@@ -8,7 +8,7 @@ import com.strafergame.input.PlayerControl;
 public class Player extends Entity {
 
 	public Player() {
-		super(EntityType.PLAYER);
+		super(EntityType.player);
 	}
 
 	@Override

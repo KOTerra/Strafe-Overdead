@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.strafergame.Strafer;
 import com.strafergame.game.entities.Entity;
 import com.strafergame.game.entities.EntityState;
+import com.strafergame.game.entities.EntityType;
 
 public class AnimationProvider {
 
@@ -20,9 +21,9 @@ public class AnimationProvider {
 
 	public static Animation<Sprite> getAnimation(Entity entity) {
 		switch (entity.getEntityType()) {
-		case PLAYER: {
+		case player: {
 			return PLAYER_ANIMATIONS
-					.get(EntityState.asString(entity.getEntityState()) + "_" + entity.getDirectionName());
+					.get(entity.getEntityState() + "_" + entity.getDirectionName());
 		}
 		}
 		return null;
@@ -32,19 +33,19 @@ public class AnimationProvider {
 	}
 
 	public static void prepareAnimations() {
-		PLAYER_ANIMATIONS.put("idle_w", makeSprites(0.25f, "player", "idle_w"));
-		PLAYER_ANIMATIONS.put("idle_a", makeSprites(0.25f, "player", "idle_a"));
-		PLAYER_ANIMATIONS.put("idle_s", makeSprites(0.25f, "player", "idle_s"));
-		PLAYER_ANIMATIONS.put("idle_d", makeSprites(0.25f, "player", "idle_d"));
+		PLAYER_ANIMATIONS.put("idle_w", makeSprites(0.25f, EntityType.player, "idle_w"));
+		PLAYER_ANIMATIONS.put("idle_a", makeSprites(0.25f, EntityType.player, "idle_a"));
+		PLAYER_ANIMATIONS.put("idle_s", makeSprites(0.25f, EntityType.player, "idle_s"));
+		PLAYER_ANIMATIONS.put("idle_d", makeSprites(0.25f, EntityType.player, "idle_d"));
 
 	}
 
-	private static Animation<Sprite> makeSprites(float duration, String entity, String animation) {
+	private static Animation<Sprite> makeSprites(float duration, EntityType entityType, String animation) {
 		Array<Sprite> array = new Array<>();
 
 		for (AtlasRegion a : Strafer.assetManager
-				.get("spritesheets/" + entity + "/" + entity + ".atlas", TextureAtlas.class)
-				.findRegions(entity + "_" + animation)) {
+				.get("spritesheets/" + entityType + "/" + entityType + ".atlas", TextureAtlas.class)
+				.findRegions(entityType + "_" + animation)) {
 			Sprite s = new Sprite(a);
 			s.setScale(Strafer.SCALE_FACTOR);
 			array.add(s);

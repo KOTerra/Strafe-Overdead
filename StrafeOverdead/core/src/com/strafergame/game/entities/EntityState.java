@@ -10,40 +10,18 @@ public enum EntityState {
 	/**
 	 * the IDLE state
 	 */
-	IDLE,
+	idle,
 	/**
 	 * the WALK state
 	 */
-	WALK,
+	walk,
 	/**
 	 * the RUN state
 	 */
-	RUN,
+	run,
 	/**
 	 * the DEATH state
 	 */
-	DEATH;
+	death;
 
-	public static String asString(EntityState e) {
-		String string = "idle";
-		switch (e) {
-		case IDLE: {
-			string = "idle";
-			break;
-		}
-		case WALK: {
-			string = "walk";
-			break;
-		}
-		case RUN: {
-			string = "run";
-			break;
-		}
-		case DEATH: {
-			string = "death";
-			break;
-		}
-		}
-		return string;
-	}
 }
