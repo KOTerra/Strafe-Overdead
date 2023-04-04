@@ -1,1 +1,1 @@
-# Strafe-Overdead
+![newLogo.png](newLogo.png)

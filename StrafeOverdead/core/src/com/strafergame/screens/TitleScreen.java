@@ -24,6 +24,8 @@ public class TitleScreen implements Screen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Strafer.uiManager.act(delta);
 		Strafer.uiManager.draw();
+		Strafer.uiManager.setDebugAll(Strafer.inDebug);
+
 	}
 
 	@Override
