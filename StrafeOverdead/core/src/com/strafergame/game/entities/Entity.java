@@ -72,18 +72,11 @@ public class Entity {
 	 */
 	protected float dirY;
 
-	/**
-	 * the overall direction w,a,s or d
-	 */
-
-	public enum Direction {
-		w, s, a, d;
-	}
-
+	
 	/**
 	 * the current direction
 	 */
-	protected Direction direction = Direction.s;
+	protected EntityDirection direction = EntityDirection.s;
 
 	/**
 	 * whether the physics were initiated for this entity
@@ -186,7 +179,7 @@ public class Entity {
 	 * 
 	 * @return the direction name
 	 */
-	public Direction getDirection() {
+	public EntityDirection getDirection() {
 		return direction;
 	}
 

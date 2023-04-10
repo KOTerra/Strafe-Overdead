@@ -2,6 +2,7 @@ package com.strafergame.game.entities.player;
 
 import com.strafergame.Strafer;
 import com.strafergame.game.entities.Entity;
+import com.strafergame.game.entities.EntityDirection;
 import com.strafergame.game.entities.EntityType;
 import com.strafergame.input.PlayerControl;
 
@@ -20,19 +21,19 @@ public class Player extends Entity {
 		if (Strafer.worldCamera.getFocusEntity().equals(this)) {
 			if (PlayerControl.MOVE_UP) {
 				dirY = 1;
-				direction = Direction.w;
+				direction = EntityDirection.w;
 			}
 			if (PlayerControl.MOVE_DOWN) {
 				dirY = -1;
-				direction = Direction.s;
+				direction = EntityDirection.s;
 			}
 			if (PlayerControl.MOVE_LEFT) {
 				dirX = -1;
-				direction = Direction.a;
+				direction = EntityDirection.a;
 			}
 			if (PlayerControl.MOVE_RIGHT) {
 				dirX = 1;
-				direction = Direction.d;
+				direction = EntityDirection.d;
 			}
 		}
 
