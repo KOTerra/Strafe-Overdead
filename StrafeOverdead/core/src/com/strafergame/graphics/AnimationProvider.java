@@ -1,7 +1,9 @@
 package com.strafergame.graphics;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -9,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
 import com.strafergame.Strafer;
+import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.entities.Entity;
 import com.strafergame.game.entities.EntityType;
 
@@ -16,15 +19,26 @@ public class AnimationProvider {
 
 	public static final float FRAME_DURATION = 0.25f;
 
+	static final EnumMap<EntityType, HashMap<String, Animation<Sprite>>> TYPE_ANIMATIONS = new EnumMap<>(
+			EntityType.class);
+
 	static final HashMap<String, Animation<Sprite>> PLAYER_ANIMATIONS = new HashMap<>();
 
 	public static Animation<Sprite> getAnimation(Entity entity) {
-		switch (entity.getEntityType()) {
-		case player: {
-			return PLAYER_ANIMATIONS.get(entity.getEntityState() + "_" + entity.getDirection());
-		}
-		}
+		return TYPE_ANIMATIONS.get(entity.getEntityType()).get(entity.getEntityState() + "_" + entity.getDirection());
+
+	}
+
+	public static Animation<Sprite> getAnimation(com.badlogic.ashley.core.Entity entity) {
+		ComponentMapper entCmp = ComponentMappers.entityType;
+		// switch (entity.getEntityType()) {
+		// case player: {
+		// return PLAYER_ANIMATIONS.get(entity.getEntityState() + "_" +
+		// entity.getDirection());
+		// }
+		// }
 		return null;
+
 	}
 
 	private AnimationProvider() {
@@ -35,6 +49,7 @@ public class AnimationProvider {
 		PLAYER_ANIMATIONS.put("idle_a", makeSprites(0.25f, EntityType.player, "idle_a"));
 		PLAYER_ANIMATIONS.put("idle_s", makeSprites(0.25f, EntityType.player, "idle_s"));
 		PLAYER_ANIMATIONS.put("idle_d", makeSprites(0.25f, EntityType.player, "idle_d"));
+		TYPE_ANIMATIONS.put(EntityType.player, PLAYER_ANIMATIONS);
 
 	}
 
