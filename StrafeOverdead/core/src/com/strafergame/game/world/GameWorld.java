@@ -13,10 +13,13 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
+import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.entities.Entity;
 import com.strafergame.game.entities.player.Player;
 import com.strafergame.game.world.collision.Box2DHelper;
 import com.strafergame.game.world.collision.Box2DWorld;
+
+import box2dLight.RayHandler;
 
 public class GameWorld implements Disposable {
 
@@ -27,7 +30,9 @@ public class GameWorld implements Disposable {
 
 	private Array<Entity> entities;
 
-	private float alpha = 0.25f;
+	public final static float FIXED_TIME_STEP = 1 / 45f;
+	private float accumulator = 0f;
+	float alpha = 0.25f;
 
 	Strafer game;
 
@@ -36,7 +41,8 @@ public class GameWorld implements Disposable {
 	 */
 
 	Box2DWorld box2DWorld = new Box2DWorld();
-//	EntityEngine entityEngine = new EntityEngine();
+	RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
+	EntityEngine entityEngine = new EntityEngine(box2DWorld, rayHandler);
 
 	public GameWorld(Strafer game) {
 		this.game = game;
@@ -49,17 +55,27 @@ public class GameWorld implements Disposable {
 	}
 
 	public void savePositions() {
-
 		for (Entity e : this.getEntities()) {
 			e.savePosition();
 		}
 	}
 
-	public void act() {
-
+	private void act() {
 		for (Entity e : this.getEntities()) {
 			e.act();
 		}
+	}
+
+	public void update() {
+		act();
+		float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
+		accumulator += frameTime;
+		while (accumulator >= FIXED_TIME_STEP) {
+			savePositions();
+			accumulator -= FIXED_TIME_STEP;
+			box2DWorld.step(FIXED_TIME_STEP);
+		}
+		alpha = accumulator / FIXED_TIME_STEP;
 
 		debugControls();
 	}
