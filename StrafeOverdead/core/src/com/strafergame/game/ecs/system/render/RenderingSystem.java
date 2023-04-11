@@ -48,6 +48,7 @@ public class RenderingSystem extends SortedIteratingSystem {
 			if (spriteCmp.sprite == null || posCmp.isHidden) {
 				continue;
 			}
+
 			batch.draw(spriteCmp.sprite, posCmp.renderX - spriteCmp.width / 2, posCmp.renderY, // -
 																								// getHeight()
 					// / 2, //
