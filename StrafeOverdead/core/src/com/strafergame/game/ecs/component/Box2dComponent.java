@@ -3,11 +3,11 @@ package com.strafergame.game.ecs.component;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pool.Poolable;
 
 import box2dLight.Light;
 
-public class CollisionComponent implements Component, Pool.Poolable {
+public class Box2dComponent implements Component, Poolable {
 	public Body body;
 	public Light light;
 	public float lightDistance;

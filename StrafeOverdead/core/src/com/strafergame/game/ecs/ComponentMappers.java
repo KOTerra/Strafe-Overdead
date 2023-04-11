@@ -3,7 +3,7 @@ package com.strafergame.game.ecs;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.strafergame.game.ecs.component.AnimationComponent;
 import com.strafergame.game.ecs.component.CameraComponent;
-import com.strafergame.game.ecs.component.CollisionComponent;
+import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.DirectionComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.PlayerComponent;
@@ -27,8 +27,8 @@ public abstract class ComponentMappers {
 	public static final ComponentMapper<DirectionComponent> direction = ComponentMapper
 			.getFor(DirectionComponent.class);
 
-	public static final ComponentMapper<CollisionComponent> collision = ComponentMapper
-			.getFor(CollisionComponent.class);
+	public static final ComponentMapper<Box2dComponent> box2d = ComponentMapper
+			.getFor(Box2dComponent.class);
 
 	public static final ComponentMapper<PlayerComponent> player = ComponentMapper.getFor(PlayerComponent.class);
 
