@@ -7,4 +7,5 @@ public class SpriteComponent implements Component {
 	public Sprite sprite;
 	public float width;
 	public float height;
+
 }

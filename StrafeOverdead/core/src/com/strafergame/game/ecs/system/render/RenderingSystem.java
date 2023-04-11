@@ -43,21 +43,20 @@ public class RenderingSystem extends SortedIteratingSystem {
 
 		// loop through each entity in our render queue
 		for (Entity entity : renderQueue) {
-			/**
-			 * TextureComponent tex = textureM.get(entity); TransformComponent t =
-			 * transformM.get(entity);
-			 * 
-			 * if (tex.region == null || t.isHidden) { continue; }
-			 * 
-			 * float width = tex.region.getRegionWidth(); float height =
-			 * tex.region.getRegionHeight();
-			 * 
-			 * float originX = width / 2f; float originY = height / 2f;
-			 * 
-			 * batch.draw(tex.region, t.position.x - originX, t.position.y - originY,
-			 * originX, originY, width, height, PixelsToMeters(t.scale.x),
-			 * PixelsToMeters(t.scale.y), t.rotation);
-			 **/
+			SpriteComponent spriteCmp = spriteMapper.get(entity);
+			PositionComponent posCmp = positionMapper.get(entity);
+			if (spriteCmp.sprite == null || posCmp.isHidden) {
+				continue;
+			}
+			batch.draw(spriteCmp.sprite, posCmp.renderX - spriteCmp.width / 2, posCmp.renderY, // -
+																								// getHeight()
+					// / 2, //
+					// coordonatele
+					spriteCmp.width / 2, 0, // pct in care e rotit,centru
+					spriteCmp.width, spriteCmp.height, // width/height
+					1, 1, // scale
+					spriteCmp.sprite.getRotation()); // rotation
+
 		}
 
 		batch.end();
