@@ -96,6 +96,7 @@ public class LoadingScreen implements Screen {
 
 		Strafer.assetManager.setLoader(TextureAtlas.class, new TextureAtlasLoader(new InternalFileHandleResolver()));
 		Strafer.assetManager.load("spritesheets/player/player.atlas", TextureAtlas.class);
+
 	}
 
 	@Override

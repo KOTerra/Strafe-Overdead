@@ -1,8 +1,12 @@
 package com.strafergame.screens;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.strafergame.Strafer;
 import com.strafergame.ui.menus.TitleMenu;
 
@@ -11,6 +15,7 @@ public class TitleScreen implements Screen {
 
 	public TitleScreen(Strafer game) {
 		titleMenu = new TitleMenu(game);
+
 	}
 
 	@Override
@@ -54,6 +59,7 @@ public class TitleScreen implements Screen {
 	 */
 	@Override
 	public void resume() {
+
 	}
 
 	/**
@@ -61,7 +67,14 @@ public class TitleScreen implements Screen {
 	 */
 	@Override
 	public void show() {
+		if (Gdx.app.getType().equals(ApplicationType.Desktop)) {
 
+			Pixmap pixmap = new Pixmap(Gdx.files.internal("assets/ui/cursor.png"));
+			// Set hotspot to the middle of it (0,0 would be the top-left corner)
+			Cursor cursor = Gdx.graphics.newCursor(pixmap, 0, 0);
+			pixmap.dispose(); // We don't need the pixmap anymore
+			Gdx.graphics.setCursor(cursor);
+		}
 		titleMenu.setVisible(true);
 	}
 

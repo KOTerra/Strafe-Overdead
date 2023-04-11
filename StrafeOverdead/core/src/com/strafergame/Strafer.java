@@ -142,7 +142,8 @@ public class Strafer extends Game {
 	@Override
 	public void create() {
 		try {// TODO
-			i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"),
+			i18n = I18NBundle.createBundle(Gdx.files.internal(
+					"assets/i18n/ui/bundle"),
 					new Locale(Settings.getPreferences().getString("LANGUAGE")), "utf-8");
 			// i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"),
 			// new Locale("ro", "utf-8"));
@@ -150,6 +151,7 @@ public class Strafer extends Game {
 			i18n = I18NBundle.createBundle(Gdx.files.internal("i18n/ui/bundle"),
 					new Locale(Settings.getPreferences().getString("LANGUAGE")), "utf-8");
 		}
+
 		spriteBatch = new SpriteBatch();
 
 		inputManager = new InputManager();
