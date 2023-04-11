@@ -3,7 +3,6 @@ package com.strafergame.graphics;
 import java.util.EnumMap;
 import java.util.HashMap;
 
-import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -12,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.utils.Array;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
+import com.strafergame.game.ecs.component.EntityTypeComponent;
+import com.strafergame.game.ecs.component.PositionComponent;
 import com.strafergame.game.entities.Entity;
 import com.strafergame.game.entities.EntityType;
 
@@ -29,16 +30,17 @@ public class AnimationProvider {
 
 	}
 
+	/**
+	 * for ecs
+	 * 
+	 * @param entity
+	 * @return
+	 */
 	public static Animation<Sprite> getAnimation(com.badlogic.ashley.core.Entity entity) {
-		ComponentMapper entCmp = ComponentMappers.entityType;
-		// switch (entity.getEntityType()) {
-		// case player: {
-		// return PLAYER_ANIMATIONS.get(entity.getEntityState() + "_" +
-		// entity.getDirection());
-		// }
-		// }
-		return null;
+		EntityTypeComponent entCmp = ComponentMappers.entityType.get(entity);
+		PositionComponent posCmp = ComponentMappers.position.get(entity);
 
+		return TYPE_ANIMATIONS.get(entCmp.entityType).get(entCmp.entityState + "_" + posCmp.direction);
 	}
 
 	private AnimationProvider() {
