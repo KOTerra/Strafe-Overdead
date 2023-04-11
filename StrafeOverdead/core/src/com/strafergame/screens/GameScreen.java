@@ -47,7 +47,7 @@ public class GameScreen implements Screen {
 		update(delta);
 		Strafer.tiledMapRenderer.render();
 
-		gameWorld.update();
+		gameWorld.update(delta);
 
 		Strafer.spriteBatch.begin();
 		gameWorld.draw();

@@ -50,34 +50,10 @@ public class GameWorld implements Disposable {
 		addTestAssets();
 	}
 
-	private void addEntity(Entity entity) {
-		entities.add(entity);
-	}
+	public void update(float delta) {
+		entityEngine.update(delta);
+		debugUpdate();
 
-	public void savePositions() {
-		for (Entity e : this.getEntities()) {
-			e.savePosition();
-		}
-	}
-
-	private void act() {
-		for (Entity e : this.getEntities()) {
-			e.act();
-		}
-	}
-
-	public void update() {
-		act();
-		float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
-		accumulator += frameTime;
-		while (accumulator >= FIXED_TIME_STEP) {
-			savePositions();
-			accumulator -= FIXED_TIME_STEP;
-			box2DWorld.step(FIXED_TIME_STEP);
-		}
-		alpha = accumulator / FIXED_TIME_STEP;
-
-		debugControls();
 	}
 
 	public void draw() {
@@ -150,6 +126,36 @@ public class GameWorld implements Disposable {
 				Strafer.i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"), new Locale("ro"),
 						"utf-8");
 			}
+		}
+	}
+
+	void debugUpdate() {
+		act();
+		float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
+		accumulator += frameTime;
+		while (accumulator >= FIXED_TIME_STEP) {
+			savePositions();
+			accumulator -= FIXED_TIME_STEP;
+			box2DWorld.step(FIXED_TIME_STEP);
+		}
+		alpha = accumulator / FIXED_TIME_STEP;
+
+		debugControls();
+	}
+
+	private void addEntity(Entity entity) {
+		entities.add(entity);
+	}
+
+	public void savePositions() {
+		for (Entity e : this.getEntities()) {
+			e.savePosition();
+		}
+	}
+
+	private void act() {
+		for (Entity e : this.getEntities()) {
+			e.act();
 		}
 	}
 

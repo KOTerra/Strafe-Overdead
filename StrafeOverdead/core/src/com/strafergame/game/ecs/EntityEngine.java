@@ -14,9 +14,9 @@ public class EntityEngine extends PooledEngine implements Disposable {
 	private final Box2DWorld box2dWorld;
 	private final RayHandler rayHandler;
 
-	public EntityEngine(final Box2DWorld world, final RayHandler rayHandler) {
+	public EntityEngine(final Box2DWorld box2dWorld, final RayHandler rayHandler) {
 		super();
-		this.box2dWorld = world;
+		this.box2dWorld = box2dWorld;
 		this.rayHandler = rayHandler;
 
 		// iterating systems

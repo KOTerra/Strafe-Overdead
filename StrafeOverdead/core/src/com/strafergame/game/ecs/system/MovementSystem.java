@@ -12,12 +12,12 @@ import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.MovementComponent;
 import com.strafergame.game.ecs.component.PositionComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
+import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DHelper;
 import com.strafergame.game.world.collision.Box2DWorld;
 
 public class MovementSystem extends IteratingSystem {
 
-	public final float FIXED_TIME_STEP = 1 / 45f;
 	private float accumulator = 0f;
 
 	private Box2DWorld box2dWorld;
@@ -75,12 +75,12 @@ public class MovementSystem extends IteratingSystem {
 		move();
 		float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
 		accumulator += frameTime;
-		while (accumulator >= FIXED_TIME_STEP) {
+		while (accumulator >= GameWorld.FIXED_TIME_STEP) {
 			savePositions();
-			accumulator -= FIXED_TIME_STEP;
-			box2dWorld.step(FIXED_TIME_STEP);
+			accumulator -= GameWorld.FIXED_TIME_STEP;
+			box2dWorld.step(GameWorld.FIXED_TIME_STEP);
 		}
-		float alpha = accumulator / FIXED_TIME_STEP;
+		float alpha = accumulator / GameWorld.FIXED_TIME_STEP;
 		interpolateRenderPositions(alpha);
 
 	}
