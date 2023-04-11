@@ -10,7 +10,7 @@ public enum EntityType {
 	/**
 	 * the PLAYER type
 	 */
-	player(6f);
+	player(10f);
 
 	float speed;
 

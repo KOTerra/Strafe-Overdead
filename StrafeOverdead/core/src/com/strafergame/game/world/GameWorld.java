@@ -137,7 +137,9 @@ public class GameWorld implements Disposable {
 			savePositions();
 			accumulator -= FIXED_TIME_STEP;
 			box2DWorld.step(FIXED_TIME_STEP);
+
 		}
+
 		alpha = accumulator / FIXED_TIME_STEP;
 
 		debugControls();
