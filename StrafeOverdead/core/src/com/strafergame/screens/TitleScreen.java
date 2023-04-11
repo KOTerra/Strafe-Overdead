@@ -4,9 +4,9 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Cursor;
-import com.badlogic.gdx.graphics.Cursor.SystemCursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.strafergame.Strafer;
 import com.strafergame.ui.menus.TitleMenu;
 
@@ -27,6 +27,9 @@ public class TitleScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Strafer.spriteBatch.begin();
+		Strafer.spriteBatch.draw(Strafer.assetManager.get("ui/backgrounds/banner.png", Texture.class), 0, 0);
+		Strafer.spriteBatch.end();
 		Strafer.uiManager.act(delta);
 		Strafer.uiManager.draw();
 		Strafer.uiManager.setDebugAll(Strafer.inDebug);

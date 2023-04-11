@@ -90,6 +90,7 @@ public class LoadingScreen implements Screen {
 		Strafer.assetManager.setLoader(Texture.class, new TextureLoader(new InternalFileHandleResolver()));
 		Strafer.assetManager.load("images/pep.png", Texture.class);
 		Strafer.assetManager.load("images/back.png", Texture.class);
+		Strafer.assetManager.load("ui/backgrounds/banner.png", Texture.class);
 
 		Strafer.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
 		Strafer.assetManager.load("maps/test/map.tmx", TiledMap.class);
