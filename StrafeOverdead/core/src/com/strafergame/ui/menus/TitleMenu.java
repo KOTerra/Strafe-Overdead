@@ -1,10 +1,13 @@
 package com.strafergame.ui.menus;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.kotcrab.vis.ui.widget.VisImage;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.strafergame.Strafer;
 import com.strafergame.screens.GameScreen;
@@ -12,9 +15,13 @@ import com.strafergame.screens.SettingsScreen;
 
 public class TitleMenu extends Table {
 	Strafer game;
+	Group background = new Group();
+	VisImage banner;
 
 	public TitleMenu(Strafer game) {
 		this.game = game;
+		makeBackground();
+
 		setFillParent(true);
 		pad(150);
 		defaults().space(20);
@@ -22,6 +29,14 @@ public class TitleMenu extends Table {
 		Strafer.uiManager.addActor(this);
 
 		makeButtons();
+	}
+
+	private void makeBackground() {
+		banner = new VisImage(Strafer.assetManager.get("ui/backgrounds/banner.png", Texture.class));
+		background.addActor(banner);
+		banner.setAlign(Align.center);
+		Strafer.uiManager.addActor(background);
+		
 	}
 
 	private void makeButtons() {
@@ -57,6 +72,17 @@ public class TitleMenu extends Table {
 		row();
 		add(quitButton);
 
+	}
+
+	@Override
+	public void setVisible(boolean a) {
+		super.setVisible(a);
+		background.setVisible(a);
+	}
+
+	public void resize() {
+		background.setBounds(0, 0, Strafer.uiManager.getWidth(), Strafer.uiManager.getHeight());
+		banner.setScale(background.getHeight() / banner.getHeight());
 	}
 
 	private void showLoadGameMenu() {

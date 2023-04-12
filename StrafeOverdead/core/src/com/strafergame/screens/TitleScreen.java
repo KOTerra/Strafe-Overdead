@@ -21,15 +21,13 @@ public class TitleScreen implements Screen {
 	@Override
 	public void resize(int width, int height) {
 		Strafer.uiManager.getViewport().update(width, height, true);
+		titleMenu.resize();
 
 	}
 
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Strafer.spriteBatch.begin();
-		Strafer.spriteBatch.draw(Strafer.assetManager.get("ui/backgrounds/banner.png", Texture.class), 0, 0);
-		Strafer.spriteBatch.end();
 		Strafer.uiManager.act(delta);
 		Strafer.uiManager.draw();
 		Strafer.uiManager.setDebugAll(Strafer.inDebug);

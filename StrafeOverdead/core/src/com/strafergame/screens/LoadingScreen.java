@@ -79,7 +79,8 @@ public class LoadingScreen implements Screen {
 
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.valueOf("#40444b"));
-		shapeRenderer.rect(0, Gdx.graphics.getHeight() / 2f - 435 / 2f, Gdx.graphics.getWidth() * progress, 435);
+		float height = (Gdx.graphics.getHeight() / 1080f) * 360f;
+		shapeRenderer.rect(0, Gdx.graphics.getHeight() / 2f - height / 2f, Gdx.graphics.getWidth() * progress, height);
 		shapeRenderer.end();
 
 	}
