@@ -72,7 +72,6 @@ public class Entity {
 	 */
 	protected float dirY;
 
-	
 	/**
 	 * the current direction
 	 */
@@ -143,8 +142,10 @@ public class Entity {
 	}
 
 	public void draw(Batch batch) {
-		renderX = MathUtils.lerp(prevX, body.getPosition().x, gameWorld.getInterPolationAlpha());
-		renderY = MathUtils.lerp(prevY, body.getPosition().y, gameWorld.getInterPolationAlpha());
+		// renderX = MathUtils.lerp(prevX, body.getPosition().x,
+		// gameWorld.getInterPolationAlpha());
+		// renderY = MathUtils.lerp(prevY, body.getPosition().y,
+		// gameWorld.getInterPolationAlpha());
 		batch.draw(currentFrame, renderX - currentFrame.getWidth() * Strafer.SCALE_FACTOR / 2, renderY, // - getHeight()
 																										// / 2, //
 																										// coordonatele

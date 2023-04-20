@@ -11,7 +11,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
@@ -27,20 +26,17 @@ public class GameWorld implements Disposable {
 	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/map.tmx", TiledMap.class);
 
 	public final static float FIXED_TIME_STEP = 1 / 45f;
-	private float accumulator = 0f;
-	float alpha = 0.25f;
 
 	Strafer game;
 
 	/**
 	 * 
 	 */
+	private final Box2DWorld box2DWorld = new Box2DWorld();
+	private final RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
+	private final EntityEngine entityEngine = new EntityEngine(box2DWorld, rayHandler);
 
-	Box2DWorld box2DWorld = new Box2DWorld();
-	RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
-	EntityEngine entityEngine = new EntityEngine(box2DWorld, rayHandler);
-
-	Entity player;
+	private Entity player;
 
 	public GameWorld(Strafer game) {
 		this.game = game;
@@ -118,14 +114,6 @@ public class GameWorld implements Disposable {
 
 	public Box2DWorld getBox2DWorld() {
 		return box2DWorld;
-	}
-
-	public float getInterPolationAlpha() {
-		return alpha;
-	}
-
-	public void setInterpolationAlpha(float alpha) {
-		this.alpha = alpha;
 	}
 
 }

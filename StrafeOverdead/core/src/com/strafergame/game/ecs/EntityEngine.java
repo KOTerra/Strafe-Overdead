@@ -2,7 +2,6 @@ package com.strafergame.game.ecs;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.strafergame.Strafer;
@@ -36,7 +35,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
 		// iterating systems
 		addSystem(new AnimationSystem());
-		addSystem(new MovementSystem(box2dWorld));
+		addSystem(new MovementSystem(this.box2dWorld));
 		addSystem(new PlayerControlSystem());
 		addSystem(new CameraSystem());
 		addSystem(new RenderingSystem(Strafer.spriteBatch));
@@ -45,7 +44,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
 	public Entity createPlayer(final Vector2 playerSpawnLocation) {
 		final Entity player = this.createEntity();
-		PlayerComponent plyrCmp=this.createComponent(PlayerComponent.class);
+		PlayerComponent plyrCmp = this.createComponent(PlayerComponent.class);
 		player.add(plyrCmp);
 
 		EntityTypeComponent typeCmp = this.createComponent(EntityTypeComponent.class);
@@ -58,8 +57,8 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		posCmp.y = playerSpawnLocation.y;
 		player.add(posCmp);
 
-		MovementComponent movCmp=this.createComponent(MovementComponent.class);
-		movCmp.speed=plyrCmp.baseSpeed;
+		MovementComponent movCmp = this.createComponent(MovementComponent.class);
+		movCmp.speed = plyrCmp.baseSpeed;
 		player.add(movCmp);
 
 		SpriteComponent spriteCmp = this.createComponent(SpriteComponent.class);
@@ -67,7 +66,6 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
 		AnimationComponent aniCmp = this.createComponent(AnimationComponent.class);
 		aniCmp.animation = AnimationProvider.getAnimation(player);
-		spriteCmp.sprite = aniCmp.animation.getKeyFrame(0);
 		player.add(aniCmp);
 
 		Box2dComponent b2dCmp = this.createComponent(Box2dComponent.class);
