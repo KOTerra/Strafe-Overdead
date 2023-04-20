@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
@@ -47,6 +48,9 @@ public class GameWorld implements Disposable {
 	public GameWorld(Strafer game) {
 		this.game = game;
 		this.entities = new Array<>();
+
+		entityEngine.makePlayer(new Vector2(0, 0));
+
 		addTestAssets();
 	}
 
@@ -77,12 +81,12 @@ public class GameWorld implements Disposable {
 
 		playerTest1 = new Player();
 		playerTest1.setGameWorld(this);
-		this.addEntity(playerTest1);
+	//	this.addEntity(playerTest1);
 
 		playerTest2 = new Player();
 		playerTest2.setGameWorld(this);
-		this.addEntity(playerTest2);
-		Strafer.worldCamera.setFocusOn(playerTest1);
+	//	this.addEntity(playerTest2);
+	Strafer.worldCamera.setFocusOn(playerTest1);
 
 		Strafer.tiledMapRenderer.setMap(tiledMapTest);
 

@@ -28,9 +28,9 @@ public class MovementSystem extends IteratingSystem {
 	}
 
 	private void initPhysics(Entity e) {
-		Box2dComponent b2dCmp = ComponentMappers.box2d.get(e);
-		PositionComponent posCmp = ComponentMappers.position.get(e);
-		SpriteComponent spriteCmp = ComponentMappers.sprite.get(e);
+		Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
+		PositionComponent posCmp = ComponentMappers.position().get(e);
+		SpriteComponent spriteCmp = ComponentMappers.sprite().get(e);
 
 		posCmp.prevX = -spriteCmp.width / 2;
 		posCmp.prevY = -spriteCmp.height / 2;
@@ -42,8 +42,8 @@ public class MovementSystem extends IteratingSystem {
 
 	private void move() {
 		for (Entity e : getEntities()) {
-			Box2dComponent b2dCmp = ComponentMappers.box2d.get(e);
-			MovementComponent movCmp = ComponentMappers.movement.get(e);
+			Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
+			MovementComponent movCmp = ComponentMappers.movement().get(e);
 			if (!b2dCmp.initiatedPhysics) {
 				initPhysics(e);
 				b2dCmp.initiatedPhysics = true;
@@ -54,8 +54,8 @@ public class MovementSystem extends IteratingSystem {
 
 	public void savePositions() {
 		for (Entity e : this.getEntities()) {
-			Box2dComponent b2dCmp = ComponentMappers.box2d.get(e);
-			PositionComponent posCmp = ComponentMappers.position.get(e);
+			Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
+			PositionComponent posCmp = ComponentMappers.position().get(e);
 			posCmp.prevX = b2dCmp.body.getPosition().x;
 			posCmp.prevY = b2dCmp.body.getPosition().y;
 		}
@@ -63,8 +63,8 @@ public class MovementSystem extends IteratingSystem {
 
 	private void interpolateRenderPositions(float alpha) {
 		for (Entity e : this.getEntities()) {
-			Box2dComponent b2dCmp = ComponentMappers.box2d.get(e);
-			PositionComponent posCmp = ComponentMappers.position.get(e);
+			Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
+			PositionComponent posCmp = ComponentMappers.position().get(e);
 			posCmp.renderX = MathUtils.lerp(posCmp.prevX, b2dCmp.body.getPosition().x, alpha);
 			posCmp.renderY = MathUtils.lerp(posCmp.prevY, b2dCmp.body.getPosition().y, alpha);
 		}

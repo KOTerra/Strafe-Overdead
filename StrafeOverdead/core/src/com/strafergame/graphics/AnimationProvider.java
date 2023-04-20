@@ -37,10 +37,13 @@ public class AnimationProvider {
 	 * @return
 	 */
 	public static Animation<Sprite> getAnimation(com.badlogic.ashley.core.Entity entity) {
-		EntityTypeComponent entCmp = ComponentMappers.entityType.get(entity);
-		PositionComponent posCmp = ComponentMappers.position.get(entity);
+		EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
+		PositionComponent posCmp = ComponentMappers.position().get(entity);
+		if(posCmp==null) {
+			return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState.toString());
+		}
 
-		return TYPE_ANIMATIONS.get(entCmp.entityType).get(entCmp.entityState + "_" + posCmp.direction);
+		return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState + "_" + posCmp.direction);
 	}
 
 	private AnimationProvider() {

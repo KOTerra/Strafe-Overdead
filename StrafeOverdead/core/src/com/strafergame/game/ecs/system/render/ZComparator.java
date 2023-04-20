@@ -11,7 +11,7 @@ public class ZComparator implements Comparator<Entity> {
 	private ComponentMapper<PositionComponent> posCmp;
 
 	public ZComparator() {
-		posCmp = ComponentMappers.position;
+		posCmp = ComponentMappers.position();
 	}
 
 	@Override

@@ -6,10 +6,10 @@ import com.strafergame.game.entities.EntityType;
 
 public class EntityTypeComponent implements Component {
 	public EntityType entityType;
-	public EntityState entityState;
+	public EntityState entityState=EntityState.idle;
 
 	public void reset() {
 		this.entityType = null;
-		this.entityState = null;
+		this.entityState = EntityState.idle;
 	}
 }

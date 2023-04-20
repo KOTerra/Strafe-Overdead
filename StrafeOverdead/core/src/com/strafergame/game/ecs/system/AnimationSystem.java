@@ -16,8 +16,8 @@ public class AnimationSystem extends IteratingSystem {
 
 	@Override
 	protected void processEntity(final Entity entity, final float deltaTime) {
-		final AnimationComponent aniCmp = ComponentMappers.animation.get(entity);
-		final SpriteComponent spriteCmp = ComponentMappers.sprite.get(entity);
+		final AnimationComponent aniCmp = ComponentMappers.animation().get(entity);
+		final SpriteComponent spriteCmp = ComponentMappers.sprite().get(entity);
 
 		aniCmp.timer += deltaTime;
 
