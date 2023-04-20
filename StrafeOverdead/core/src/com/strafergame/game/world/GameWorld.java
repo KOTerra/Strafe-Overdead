@@ -25,7 +25,7 @@ public class GameWorld implements Disposable {
 	private Sprite backgroundTest;
 	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/map.tmx", TiledMap.class);
 
-	public final static float FIXED_TIME_STEP = 1 / 45f;
+	public static final float FIXED_TIME_STEP = 1 / 45f;
 
 	Strafer game;
 
@@ -86,13 +86,11 @@ public class GameWorld implements Disposable {
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_ADD)) {
 				Strafer.worldCamera.zoom -= .02f;
 			}
-
-			if (Gdx.input.isKeyPressed(Keys.NUMPAD_1)) {
-				Strafer.worldCamera.setFocusOn(player);
-			}
-
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_0)) {
 				Strafer.worldCamera.removeFocus();
+			}
+			if (Gdx.input.isKeyPressed(Keys.NUMPAD_1)) {
+				Strafer.worldCamera.setFocusOn(player);
 			}
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
 
