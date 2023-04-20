@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.MovementComponent;
@@ -35,7 +36,7 @@ public class MovementSystem extends IteratingSystem {
 		posCmp.prevX = -spriteCmp.width / 2;
 		posCmp.prevY = -spriteCmp.height / 2;
 
-		b2dCmp.body = Box2DHelper.createBody(box2dWorld.getWorld(), spriteCmp.height, spriteCmp.height, 0, 0,
+		b2dCmp.body = Box2DHelper.createBody(box2dWorld.getWorld(), spriteCmp.width, spriteCmp.width, 0, 0,
 				new Vector3(posCmp.prevX, posCmp.prevY, 0), BodyType.DynamicBody);
 
 	}
