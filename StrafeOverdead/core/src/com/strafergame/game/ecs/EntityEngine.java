@@ -43,7 +43,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
 	}
 
-	public void addPlayer(final Vector2 playerSpawnLocation) {
+	public Entity createPlayer(final Vector2 playerSpawnLocation) {
 		final Entity player = this.createEntity();
 		PlayerComponent plyrCmp=this.createComponent(PlayerComponent.class);
 		player.add(plyrCmp);
@@ -73,6 +73,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		Box2dComponent b2dCmp = this.createComponent(Box2dComponent.class);
 		player.add(b2dCmp);
 		this.addEntity(player);
+		return player;
 	}
 
 	@Override

@@ -1,10 +1,12 @@
 package com.strafergame.graphics;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
 import com.strafergame.Strafer;
-import com.strafergame.game.entities.Entity;
+import com.strafergame.game.ecs.ComponentMappers;
+import com.strafergame.game.ecs.component.PositionComponent;
 
 /**
  * an orthographic camera which follows an assigned entity, mainly the player
@@ -18,7 +20,6 @@ public class WorldCamera extends OrthographicCamera {
 	 * the entity which the camera follows
 	 */
 	private Entity focusEntity;
-	
 
 	/**
 	 * whether the camera follows an entity or not
@@ -90,7 +91,8 @@ public class WorldCamera extends OrthographicCamera {
 		super.update();
 
 		if (focused) {
-			cameraSnapPosition.set(focusEntity.getRenderX(), focusEntity.getRenderY(), 0);
+			PositionComponent posCmp = ComponentMappers.position().get(focusEntity);
+			cameraSnapPosition.set(posCmp.renderX, posCmp.renderY, 0);
 			Strafer.worldCamera.position.interpolate(cameraSnapPosition, alpha, interpolation);
 		}
 	}

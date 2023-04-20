@@ -2,6 +2,7 @@ package com.strafergame.game.world;
 
 import java.util.Locale;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,8 +16,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
-import com.strafergame.game.entities.Entity;
-import com.strafergame.game.entities.player.Player;
 import com.strafergame.game.world.collision.Box2DHelper;
 import com.strafergame.game.world.collision.Box2DWorld;
 
@@ -25,11 +24,7 @@ import box2dLight.RayHandler;
 public class GameWorld implements Disposable {
 
 	private Sprite backgroundTest;
-	private Player playerTest1;
-	private Player playerTest2;
 	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/map.tmx", TiledMap.class);
-
-	private Array<Entity> entities;
 
 	public final static float FIXED_TIME_STEP = 1 / 45f;
 	private float accumulator = 0f;
@@ -45,11 +40,12 @@ public class GameWorld implements Disposable {
 	RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
 	EntityEngine entityEngine = new EntityEngine(box2DWorld, rayHandler);
 
+	Entity player;
+
 	public GameWorld(Strafer game) {
 		this.game = game;
-		this.entities = new Array<>();
 
-		entityEngine.addPlayer(new Vector2(0, 0));
+		player = entityEngine.createPlayer(new Vector2(0, 0));
 
 		addTestAssets();
 	}
@@ -58,14 +54,6 @@ public class GameWorld implements Disposable {
 		entityEngine.update(delta);
 		debugUpdate();
 
-	}
-
-	public void draw() {
-		// backgroundTest.draw(Strafer.spriteBatch);
-
-		for (Entity e : this.getEntities()) {
-			e.draw(Strafer.spriteBatch);
-		}
 	}
 
 	@Override
@@ -79,14 +67,7 @@ public class GameWorld implements Disposable {
 		backgroundTest.setSize(backgroundTest.getWidth() * Strafer.SCALE_FACTOR,
 				backgroundTest.getHeight() * Strafer.SCALE_FACTOR);
 
-		playerTest1 = new Player();
-		playerTest1.setGameWorld(this);
-	//	this.addEntity(playerTest1);
-
-		playerTest2 = new Player();
-		playerTest2.setGameWorld(this);
-	//	this.addEntity(playerTest2);
-	Strafer.worldCamera.setFocusOn(playerTest1);
+		Strafer.worldCamera.setFocusOn(player);
 
 		Strafer.tiledMapRenderer.setMap(tiledMapTest);
 
@@ -111,17 +92,14 @@ public class GameWorld implements Disposable {
 			}
 
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_1)) {
-				Strafer.worldCamera.setFocusOn(playerTest1);
+				Strafer.worldCamera.setFocusOn(player);
 			}
-			if (Gdx.input.isKeyPressed(Keys.NUMPAD_2)) {
-				Strafer.worldCamera.setFocusOn(playerTest2);
-			}
+
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_0)) {
 				Strafer.worldCamera.removeFocus();
 			}
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
-				// playerTest1.getBody().setTransform(playerTest1.getX() + .5f,
-				// playerTest1.getY() + .5f, 0);
+
 			}
 			if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
 				game.setScreen(Strafer.titleScreen);
@@ -134,39 +112,8 @@ public class GameWorld implements Disposable {
 	}
 
 	void debugUpdate() {
-		act();
-		float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
-		accumulator += frameTime;
-		while (accumulator >= FIXED_TIME_STEP) {
-			savePositions();
-			accumulator -= FIXED_TIME_STEP;
-			box2DWorld.step(FIXED_TIME_STEP);
-
-		}
-
-		alpha = accumulator / FIXED_TIME_STEP;
 
 		debugControls();
-	}
-
-	private void addEntity(Entity entity) {
-		entities.add(entity);
-	}
-
-	public void savePositions() {
-		for (Entity e : this.getEntities()) {
-			e.savePosition();
-		}
-	}
-
-	private void act() {
-		for (Entity e : this.getEntities()) {
-			e.act();
-		}
-	}
-
-	private Array<Entity> getEntities() {
-		return entities;
 	}
 
 	public Box2DWorld getBox2DWorld() {

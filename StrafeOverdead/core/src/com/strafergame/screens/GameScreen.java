@@ -49,10 +49,6 @@ public class GameScreen implements Screen {
 
 		gameWorld.update(delta);
 
-		Strafer.spriteBatch.begin();
-		gameWorld.draw();
-		Strafer.spriteBatch.end();
-
 		Strafer.uiManager.draw();
 
 		gameWorld.getBox2DWorld().render();
