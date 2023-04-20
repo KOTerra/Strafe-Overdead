@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.MovementComponent;
@@ -42,7 +41,7 @@ public class MovementSystem extends IteratingSystem {
 	}
 
 	private void move() {
-		for (Entity e : getEntities()) {
+		for (Entity e : this.getEntities()) {
 			Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
 			MovementComponent movCmp = ComponentMappers.movement().get(e);
 			if (!b2dCmp.initiatedPhysics) {

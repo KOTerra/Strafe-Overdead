@@ -1,7 +1,13 @@
 package com.strafergame.game.ecs.component;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.utils.Pool.Poolable;
 
-public class CameraComponent implements Component {
+public class CameraComponent implements Component, Poolable {
+
+	@Override
+	public void reset() {
+
+	}
 
 }

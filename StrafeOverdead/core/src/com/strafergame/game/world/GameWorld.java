@@ -49,7 +49,7 @@ public class GameWorld implements Disposable {
 		this.game = game;
 		this.entities = new Array<>();
 
-		entityEngine.makePlayer(new Vector2(0, 0));
+		entityEngine.addPlayer(new Vector2(0, 0));
 
 		addTestAssets();
 	}
