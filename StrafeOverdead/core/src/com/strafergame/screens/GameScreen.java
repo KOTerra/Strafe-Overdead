@@ -25,9 +25,10 @@ public class GameScreen implements Screen {
 		hud = new HUD();
 	}
 
-	public void update(float delta) {
-		Strafer.extendViewport.apply();
+	public void update(float delta) {	
 		Strafer.worldCamera.update();
+		Strafer.extendViewport.apply();
+
 		Strafer.spriteBatch.setProjectionMatrix(Strafer.worldCamera.combined);
 		Strafer.tiledMapRenderer.setView(Strafer.worldCamera);
 

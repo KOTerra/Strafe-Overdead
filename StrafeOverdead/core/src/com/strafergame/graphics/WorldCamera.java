@@ -92,7 +92,11 @@ public class WorldCamera extends OrthographicCamera {
 
 		if (focused) {
 			PositionComponent posCmp = ComponentMappers.position().get(focusEntity);
-			cameraSnapPosition.set(posCmp.renderX, posCmp.renderY, 0);
+			float x = Math.round(posCmp.renderX / Strafer.SCALE_FACTOR) * Strafer.SCALE_FACTOR;
+			float y = Math.round(posCmp.renderY / Strafer.SCALE_FACTOR) * Strafer.SCALE_FACTOR;
+
+			cameraSnapPosition.set(x, y, 0);
+
 			Strafer.worldCamera.position.interpolate(cameraSnapPosition, alpha, interpolation);
 		}
 	}
