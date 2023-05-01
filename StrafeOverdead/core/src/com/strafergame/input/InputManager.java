@@ -40,7 +40,7 @@ public class InputManager {
 			inputMultiplexer.addProcessor(keyboardHandler);
 		}
 		if (Controllers.getControllers().notEmpty()) {
-
+			System.out.println("controller");
 		}
 	}
 

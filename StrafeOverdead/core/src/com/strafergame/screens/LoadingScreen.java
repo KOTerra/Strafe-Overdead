@@ -93,12 +93,8 @@ public class LoadingScreen implements Screen {
 		Strafer.assetManager.load("images/back.png", Texture.class);
 		Strafer.assetManager.load("ui/backgrounds/banner.png", Texture.class);
 
-		 TmxMapLoader.Parameters tmxParams = new TmxMapLoader.Parameters();
-		    tmxParams.textureMinFilter = Texture.TextureFilter.Linear;
-		    tmxParams.textureMagFilter = Texture.TextureFilter.Nearest;
-		    tmxParams.generateMipMaps = true;
 		Strafer.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-		Strafer.assetManager.load("maps/test/map.tmx", TiledMap.class,tmxParams);
+		Strafer.assetManager.load("maps/test/map.tmx", TiledMap.class);
 
 		Strafer.assetManager.setLoader(TextureAtlas.class, new TextureAtlasLoader(new InternalFileHandleResolver()));
 		Strafer.assetManager.load("spritesheets/player/player.atlas", TextureAtlas.class);

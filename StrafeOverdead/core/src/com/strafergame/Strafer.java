@@ -9,10 +9,10 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.strafergame.graphics.OrthogonalTiledMapRendererBleeding;
 import com.strafergame.graphics.WorldCamera;
 import com.strafergame.input.InputManager;
 import com.strafergame.screens.GameScreen;
@@ -130,7 +130,7 @@ public class Strafer extends Game {
 	/**
 	 * the map renderer
 	 */
-	public static OrthogonalTiledMapRenderer tiledMapRenderer;
+	public static OrthogonalTiledMapRendererBleeding tiledMapRenderer;
 
 	public static GameRenderer gameRenderer;
 
@@ -142,8 +142,7 @@ public class Strafer extends Game {
 	@Override
 	public void create() {
 		try {// TODO
-			i18n = I18NBundle.createBundle(Gdx.files.internal(
-					"assets/i18n/ui/bundle"),
+			i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"),
 					new Locale(Settings.getPreferences().getString("LANGUAGE")), "utf-8");
 			// i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"),
 			// new Locale("ro", "utf-8"));
@@ -161,7 +160,8 @@ public class Strafer extends Game {
 		worldCamera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
 		extendViewport = new ExtendViewport(WORLD_WIDTH, WORLD_HEIGHT, worldCamera);
 
-		tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap, SCALE_FACTOR, spriteBatch);
+		tiledMapRenderer = new OrthogonalTiledMapRendererBleeding(tiledMap, SCALE_FACTOR);
+
 		tiledMapRenderer.setView(worldCamera);
 
 		uiCamera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
