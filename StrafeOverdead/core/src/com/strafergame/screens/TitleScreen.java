@@ -80,6 +80,7 @@ public class TitleScreen implements Screen {
 			Gdx.graphics.setCursor(cursor);
 		}
 		titleMenu.setVisible(true);
+		
 	}
 
 	public void renderBackground() {

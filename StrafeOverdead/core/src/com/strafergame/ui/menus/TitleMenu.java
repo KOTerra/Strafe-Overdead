@@ -1,9 +1,15 @@
 package com.strafergame.ui.menus;
 
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
@@ -36,7 +42,7 @@ public class TitleMenu extends Table {
 		background.addActor(banner);
 		banner.setAlign(Align.center);
 		Strafer.uiManager.addActor(background);
-		
+
 	}
 
 	private void makeButtons() {
@@ -76,13 +82,19 @@ public class TitleMenu extends Table {
 
 	@Override
 	public void setVisible(boolean a) {
+		if (a) {
+			background.addAction(Actions.sequence(alpha(0), delay(0.1f), fadeIn(0.6f, Interpolation.fade)));
+			this.addAction(Actions.sequence(alpha(0), delay(0.1f), fadeIn(0.6f, Interpolation.fade)));
+		}
 		super.setVisible(a);
 		background.setVisible(a);
+
 	}
 
 	public void resize() {
 		background.setBounds(0, 0, Strafer.uiManager.getWidth(), Strafer.uiManager.getHeight());
 		banner.setScale(background.getHeight() / banner.getHeight());
+
 	}
 
 	private void showLoadGameMenu() {
