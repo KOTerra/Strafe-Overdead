@@ -3,6 +3,9 @@ package com.strafergame.graphics;
 import java.util.EnumMap;
 import java.util.HashMap;
 
+import com.badlogic.gdx.graphics.Pixmap.Filter;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -39,7 +42,7 @@ public class AnimationProvider {
 	public static Animation<Sprite> getAnimation(com.badlogic.ashley.core.Entity entity) {
 		EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
 		PositionComponent posCmp = ComponentMappers.position().get(entity);
-		if(posCmp==null) {
+		if (posCmp == null) {
 			return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState.toString());
 		}
 
@@ -64,7 +67,10 @@ public class AnimationProvider {
 		for (AtlasRegion a : Strafer.assetManager
 				.get("spritesheets/" + entityType + "/" + entityType + ".atlas", TextureAtlas.class)
 				.findRegions(entityType + "_" + animation)) {
+			a.getTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+			// a.getTexture().setAnisotropicFilter(10);
 			Sprite s = new Sprite(a);
+
 			s.setScale(Strafer.SCALE_FACTOR);
 			array.add(s);
 

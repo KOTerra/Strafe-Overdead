@@ -58,19 +58,19 @@ public class Strafer extends Game {
 	public static float stateTime = 0f;
 
 	/**
-	 * the world width measured in tiles. a tile is 64x64 pixels
+	 * the world width measured in tiles.
 	 */
 	public static final float WORLD_WIDTH = 30;
 
 	/**
-	 * the world height measured in tiles. a tile is 64x64 pixels
+	 * the world height measured in tiles.
 	 */
 	public static final float WORLD_HEIGHT = 16.875f;
 
 	/**
-	 * used to scale from pixel units to world units
+	 * used to scale from pixel units to world units. 1x1m tile=32x32pixels
 	 */
-	public static final float SCALE_FACTOR = 1 / 64f;
+	public static final float SCALE_FACTOR = 1 / 32f;
 
 	/**
 	 * the aspect ratio of the window

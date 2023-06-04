@@ -23,7 +23,7 @@ import box2dLight.RayHandler;
 public class GameWorld implements Disposable {
 
 	private Sprite backgroundTest;
-	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/map.tmx", TiledMap.class);
+	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/test.tmx", TiledMap.class);
 
 	public static final float FIXED_TIME_STEP = 1 / 45f;
 
@@ -68,8 +68,8 @@ public class GameWorld implements Disposable {
 		Strafer.tiledMapRenderer.setMap(tiledMapTest);
 
 		TiledMapTileLayer walls = (TiledMapTileLayer) tiledMapTest.getLayers().get("walls");
-		for (int i = 1; i <= walls.getTileWidth(); i++) {
-			for (int j = 1; j <= walls.getTileHeight(); j++) {
+		for (int i = 1; i <= walls.getWidth(); i++) {
+			for (int j = 1; j <= walls.getHeight(); j++) {
 				if (walls.getCell(i, j) != null) {
 					Box2DHelper.createWall(box2DWorld.getWorld(), 1, 1, new Vector3(i, j, 0));
 				}

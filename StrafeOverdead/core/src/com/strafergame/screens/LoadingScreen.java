@@ -78,7 +78,7 @@ public class LoadingScreen implements Screen {
 		update(delta);
 
 		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.setColor(Color.valueOf("#40444b"));
+		shapeRenderer.setColor(Color.valueOf("#4F526b"));
 		float height = (Gdx.graphics.getHeight() / 1080f) * 360f;
 		shapeRenderer.rect(0, Gdx.graphics.getHeight() / 2f - height / 2f, Gdx.graphics.getWidth() * progress, height);
 		shapeRenderer.end();
@@ -94,7 +94,7 @@ public class LoadingScreen implements Screen {
 		Strafer.assetManager.load("ui/backgrounds/banner.png", Texture.class);
 
 		Strafer.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-		Strafer.assetManager.load("maps/test/map.tmx", TiledMap.class);
+		Strafer.assetManager.load("maps/test/test.tmx", TiledMap.class);
 
 		Strafer.assetManager.setLoader(TextureAtlas.class, new TextureAtlasLoader(new InternalFileHandleResolver()));
 		Strafer.assetManager.load("spritesheets/player/player.atlas", TextureAtlas.class);

@@ -3,9 +3,12 @@ package com.strafergame.screens;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.strafergame.Strafer;
 import com.strafergame.ui.menus.TitleMenu;
 
@@ -27,6 +30,7 @@ public class TitleScreen implements Screen {
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		renderBackground();
 		Strafer.uiManager.act(delta);
 		Strafer.uiManager.draw();
 		Strafer.uiManager.setDebugAll(Strafer.inDebug);
@@ -78,4 +82,13 @@ public class TitleScreen implements Screen {
 		titleMenu.setVisible(true);
 	}
 
+	public void renderBackground() {
+
+		ShapeRenderer shapeRenderer = new ShapeRenderer();
+		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(Color.valueOf("#4F526b"));
+		float height = (Gdx.graphics.getHeight() / 1080f) * 360f;
+		shapeRenderer.rect(0, Gdx.graphics.getHeight() / 2f - height / 2f, Gdx.graphics.getWidth(), height);
+		shapeRenderer.end();
+	}
 }
