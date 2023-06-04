@@ -25,7 +25,7 @@ public class GameScreen implements Screen {
 		hud = new HUD();
 	}
 
-	public void update(float delta) {	
+	public void update(float delta) {
 		Strafer.worldCamera.update();
 		Strafer.extendViewport.apply();
 
@@ -35,8 +35,6 @@ public class GameScreen implements Screen {
 		Strafer.uiScreenViewport.apply();
 
 		Strafer.uiManager.act(delta);
-
-		Strafer.updateStateTime();
 
 	}
 

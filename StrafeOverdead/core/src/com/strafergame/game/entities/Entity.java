@@ -135,7 +135,7 @@ public class Entity {
 	 */
 	private void updateAnimation() {
 		animation = AnimationProvider.getAnimation(this);
-		currentFrame = animation.getKeyFrame(Strafer.getStateTime(), true);
+		// currentFrame = animation.getKeyFrame(Strafer.getStateTime(), true);
 
 		// setSize(currentFrame.getRegionWidth() * Strafer.SCALE_FACTOR,
 		// currentFrame.getRegionHeight() * Strafer.SCALE_FACTOR);

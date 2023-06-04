@@ -185,19 +185,4 @@ public class Strafer extends Game {
 		this.getScreen().dispose();
 	}
 
-	public static float getStateTime() {
-		return stateTime;
-	}
-
-	public static void setStateTime(float stateTime) {
-		Strafer.stateTime = stateTime;
-	}
-
-	public static void updateStateTime() {
-		Strafer.setStateTime(Strafer.getStateTime() + Gdx.graphics.getDeltaTime());
-		if (Strafer.getStateTime() > 10000000f) {
-			Strafer.setStateTime(0);
-		}
-	}
-
 }

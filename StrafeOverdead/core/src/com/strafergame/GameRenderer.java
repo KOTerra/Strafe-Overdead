@@ -22,8 +22,6 @@ public class GameRenderer implements Disposable {
 		Strafer.uiManager.act(delta);
 		// gameWorld.act(delta);
 
-		Strafer.updateStateTime();
-
 	}
 
 	public void render(float alpha) {

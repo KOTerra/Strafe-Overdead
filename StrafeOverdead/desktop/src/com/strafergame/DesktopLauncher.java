@@ -9,7 +9,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(144);
 		config.useVsync(true);
-		config.setWindowedMode(960, 512);
+		config.setWindowedMode(1280, 720);
 		config.setTitle("Strafe Overdead");
 		// config.setDecorated(false);
 		config.setResizable(true);
