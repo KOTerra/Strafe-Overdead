@@ -1,7 +1,7 @@
 player.png
 size: 230, 193
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Linear,Linear
 repeat: none
 player_idle_a
   rotate: false

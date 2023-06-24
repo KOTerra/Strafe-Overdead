@@ -1,117 +1,117 @@
 player.png
-size: 148, 1023
+size: 230, 193
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 player_idle_a
   rotate: false
-  xy: 89, 1
-  size: 58, 123
-  orig: 128, 128
-  offset: 35, 0
+  xy: 47, 67
+  size: 30, 62
+  orig: 64, 64
+  offset: 17, 0
   index: 0
 player_idle_a
   rotate: false
-  xy: 89, 126
-  size: 58, 123
-  orig: 128, 128
-  offset: 35, 0
+  xy: 79, 67
+  size: 30, 62
+  orig: 64, 64
+  offset: 17, 0
   index: 1
 player_idle_a
   rotate: false
-  xy: 89, 501
-  size: 58, 121
-  orig: 128, 128
-  offset: 35, 0
+  xy: 47, 131
+  size: 30, 61
+  orig: 64, 64
+  offset: 17, 0
   index: 2
 player_idle_a
   rotate: false
-  xy: 89, 747
-  size: 58, 119
-  orig: 128, 128
-  offset: 35, 0
+  xy: 111, 131
+  size: 30, 60
+  orig: 64, 64
+  offset: 17, 0
   index: 3
 player_idle_d
   rotate: false
-  xy: 89, 251
-  size: 58, 123
-  orig: 128, 128
-  offset: 35, 0
+  xy: 111, 67
+  size: 30, 62
+  orig: 64, 64
+  offset: 17, 0
   index: 0
 player_idle_d
   rotate: false
-  xy: 89, 376
-  size: 58, 123
-  orig: 128, 128
-  offset: 35, 0
+  xy: 143, 67
+  size: 30, 62
+  orig: 64, 64
+  offset: 17, 0
   index: 1
 player_idle_d
   rotate: false
-  xy: 89, 624
-  size: 58, 121
-  orig: 128, 128
-  offset: 35, 0
+  xy: 79, 131
+  size: 30, 61
+  orig: 64, 64
+  offset: 17, 0
   index: 2
 player_idle_d
   rotate: false
-  xy: 89, 868
-  size: 58, 119
-  orig: 128, 128
-  offset: 35, 0
+  xy: 143, 131
+  size: 30, 60
+  orig: 64, 64
+  offset: 17, 0
   index: 3
 player_idle_s
   rotate: false
   xy: 1, 1
-  size: 86, 128
-  orig: 128, 128
-  offset: 21, 0
+  size: 44, 64
+  orig: 64, 64
+  offset: 10, 0
   index: 0
 player_idle_s
   rotate: false
-  xy: 1, 131
-  size: 86, 128
-  orig: 128, 128
-  offset: 21, 0
+  xy: 47, 1
+  size: 44, 64
+  orig: 64, 64
+  offset: 10, 0
   index: 1
 player_idle_s
   rotate: false
-  xy: 1, 519
-  size: 86, 126
-  orig: 128, 128
-  offset: 21, 0
+  xy: 185, 1
+  size: 44, 63
+  orig: 64, 64
+  offset: 10, 0
   index: 2
 player_idle_s
   rotate: false
-  xy: 1, 774
-  size: 86, 124
-  orig: 128, 128
-  offset: 21, 0
+  xy: 1, 67
+  size: 44, 62
+  orig: 64, 64
+  offset: 10, 0
   index: 3
 player_idle_w
   rotate: false
-  xy: 1, 261
-  size: 86, 127
-  orig: 128, 128
-  offset: 21, 0
+  xy: 93, 1
+  size: 44, 64
+  orig: 64, 64
+  offset: 10, 0
   index: 0
 player_idle_w
   rotate: false
-  xy: 1, 390
-  size: 86, 127
-  orig: 128, 128
-  offset: 21, 0
+  xy: 139, 1
+  size: 44, 64
+  orig: 64, 64
+  offset: 10, 0
   index: 1
 player_idle_w
   rotate: false
-  xy: 1, 647
-  size: 86, 125
-  orig: 128, 128
-  offset: 21, 0
+  xy: 185, 66
+  size: 44, 63
+  orig: 64, 64
+  offset: 10, 0
   index: 2
 player_idle_w
   rotate: false
-  xy: 1, 900
-  size: 86, 122
-  orig: 128, 128
-  offset: 21, 0
+  xy: 1, 131
+  size: 44, 61
+  orig: 64, 64
+  offset: 10, 0
   index: 3
