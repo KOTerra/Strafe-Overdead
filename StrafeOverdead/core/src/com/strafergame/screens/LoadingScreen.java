@@ -14,8 +14,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 import com.strafergame.GameState;
 import com.strafergame.Strafer;
+import com.strafergame.assets.AssetUtils;
 import com.strafergame.graphics.AnimationProvider;
 
 public class LoadingScreen implements Screen {
@@ -86,18 +88,28 @@ public class LoadingScreen implements Screen {
 	}
 
 	private void queueAssetsToLoad() {
-		// should load automatically based on folder structure
-		// if in folder sprites load as atlas animation etc
+		Array<String> images = AssetUtils.listFilesInAssets("images", "png");
+		images.addAll(AssetUtils.listFilesInAssets("ui/textures", "png"));
+
+		Array<String> spritesheets = AssetUtils.listFilesInAssets("spritesheets", "atlas");
+		Array<String> maps = AssetUtils.listFilesInAssets("maps", "tmx");
+
 		Strafer.assetManager.setLoader(Texture.class, new TextureLoader(new InternalFileHandleResolver()));
-		Strafer.assetManager.load("images/pep.png", Texture.class);
-		Strafer.assetManager.load("images/back.png", Texture.class);
-		Strafer.assetManager.load("ui/backgrounds/banner.png", Texture.class);
+		for (String file : images) {
+			Strafer.assetManager.load(file, Texture.class);
+		}
 
 		Strafer.assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-		Strafer.assetManager.load("maps/test/test.tmx", TiledMap.class);
+		for (String file : maps) {
+			Strafer.assetManager.load(file, TiledMap.class);
+		}
 
 		Strafer.assetManager.setLoader(TextureAtlas.class, new TextureAtlasLoader(new InternalFileHandleResolver()));
-		Strafer.assetManager.load("spritesheets/player/player.atlas", TextureAtlas.class);
+		for (String file : spritesheets) {
+
+			Strafer.assetManager.load(file, TextureAtlas.class);
+
+		}
 
 	}
 

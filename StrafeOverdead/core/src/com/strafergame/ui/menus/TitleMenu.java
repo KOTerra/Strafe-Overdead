@@ -38,7 +38,7 @@ public class TitleMenu extends Table {
 	}
 
 	private void makeBackground() {
-		banner = new VisImage(Strafer.assetManager.get("ui/backgrounds/banner.png", Texture.class));
+		banner = new VisImage(Strafer.assetManager.get("ui/textures/banner.png", Texture.class));
 		background.addActor(banner);
 		banner.setAlign(Align.center);
 		Strafer.uiManager.addActor(background);

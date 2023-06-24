@@ -73,7 +73,7 @@ public class TitleScreen implements Screen {
 	public void show() {
 		if (Gdx.app.getType().equals(ApplicationType.Desktop)) {
 
-			Pixmap pixmap = new Pixmap(Gdx.files.internal("assets/ui/cursor.png"));
+			Pixmap pixmap = new Pixmap(Gdx.files.internal("ui/cursor.png"));
 			// Set hotspot to the middle of it (0,0 would be the top-left corner)
 			Cursor cursor = Gdx.graphics.newCursor(pixmap, 0, 0);
 			pixmap.dispose(); // We don't need the pixmap anymore
