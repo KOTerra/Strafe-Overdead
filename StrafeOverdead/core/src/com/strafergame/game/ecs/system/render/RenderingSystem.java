@@ -8,7 +8,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
-import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.PositionComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
@@ -49,7 +48,7 @@ public class RenderingSystem extends SortedIteratingSystem {
 			if (spriteCmp.sprite == null || posCmp.isHidden) {
 				continue;
 			}
-			//System.err.println(spriteCmp.sprite.getWidth() * Strafer.SCALE_FACTOR);
+			// System.err.println(spriteCmp.sprite.getWidth() * Strafer.SCALE_FACTOR);
 
 			batch.draw(spriteCmp.sprite, posCmp.renderX - spriteCmp.width / 2, posCmp.renderY, // -
 																								// getHeight()
