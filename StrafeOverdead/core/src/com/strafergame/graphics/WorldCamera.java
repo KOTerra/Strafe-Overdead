@@ -34,7 +34,7 @@ public class WorldCamera extends OrthographicCamera {
 	/**
 	 * the alpha used in the interpolation process
 	 */
-	private float alpha = 0.05f;
+	private float alpha = 0.03f;
 
 	/*
 	 * type of interpolation
@@ -49,7 +49,7 @@ public class WorldCamera extends OrthographicCamera {
 	 */
 	public WorldCamera(float width, float height) {
 		super(width, height);
-		super.zoom = 1.1f;
+		super.zoom = 1f;
 	}
 
 	/**

@@ -65,7 +65,7 @@ public class AnimationProvider {
 		for (AtlasRegion a : Strafer.assetManager
 				.get("spritesheets/" + entityType + "/" + entityType + ".atlas", TextureAtlas.class)
 				.findRegions(entityType + "_" + animation)) {
-			a.getTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+			a.getTexture().setFilter(TextureFilter.Linear, TextureFilter.Nearest);
 			// a.getTexture().setAnisotropicFilter(10);
 			Sprite s = new Sprite(a);
 
