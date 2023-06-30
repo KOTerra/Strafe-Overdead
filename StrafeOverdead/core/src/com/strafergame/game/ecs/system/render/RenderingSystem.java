@@ -9,6 +9,7 @@ import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.PositionComponent;
@@ -35,6 +36,7 @@ public class RenderingSystem extends SortedIteratingSystem {
 		vertexShader = Gdx.files.internal("shaders/default.vert").readString();
 		fragmentShader = Gdx.files.internal("shaders/default.frag").readString();
 		shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
+	
 
 		spriteMapper = ComponentMappers.sprite();
 		positionMapper = ComponentMappers.position();
@@ -51,6 +53,8 @@ public class RenderingSystem extends SortedIteratingSystem {
 		batch.enableBlending();
 		batch.begin();
 		batch.setShader(shaderProgram);
+
+		shaderProgram.setUniformf("u_resolution", new Vector2(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
 
 
 		// loop through each entity in our render queue

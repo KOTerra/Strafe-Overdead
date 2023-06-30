@@ -2,6 +2,7 @@ package com.strafergame.game.world;
 
 import java.util.Locale;
 
+
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -17,7 +18,6 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.world.collision.Box2DHelper;
 import com.strafergame.game.world.collision.Box2DWorld;
-
 import box2dLight.RayHandler;
 
 public class GameWorld implements Disposable {
@@ -32,6 +32,7 @@ public class GameWorld implements Disposable {
 	/**
 	 * 
 	 */
+	 
 	private final Box2DWorld box2DWorld = new Box2DWorld();
 	private final RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
 	private final EntityEngine entityEngine = new EntityEngine(box2DWorld, rayHandler);
