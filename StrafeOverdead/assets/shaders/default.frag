@@ -1,15 +1,16 @@
 #ifdef GL_ES
-    precision mediump float;
-#endif
+precision mediump float;
+#endif 
 
+// varying input variables from our vertex shader
+varying vec4 v_color;
 varying vec2 v_texCoords;
+
+// a special uniform for textures 
 uniform sampler2D u_texture;
 
-void main() {
-    vec2 pixelSize = vec2(1.0 / textureSize(u_texture, 0));
-    vec2 uv = v_texCoords - mod(v_texCoords, pixelSize) + 0.5 * pixelSize;
-
-    gl_FragColor = texture2D(u_texture, uv);
+void main()
+{
+	// set the colour for this fragment|pixel
+	gl_FragColor = v_color * texture2D(u_texture, v_texCoords);
 }
-
-
