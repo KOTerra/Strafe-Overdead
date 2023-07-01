@@ -2,7 +2,6 @@ package com.strafergame.game.world;
 
 import java.util.Locale;
 
-
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -24,7 +23,7 @@ public class GameWorld implements Disposable {
 
 	private Sprite backgroundTest;
 	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/test.tmx", TiledMap.class);
-	
+
 	public static final float FIXED_TIME_STEP = 1 / 45f;
 
 	Strafer game;
@@ -32,7 +31,7 @@ public class GameWorld implements Disposable {
 	/**
 	 * 
 	 */
-	 
+
 	private final Box2DWorld box2DWorld = new Box2DWorld();
 	private final RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
 	private final EntityEngine entityEngine = new EntityEngine(box2DWorld, rayHandler);
@@ -43,7 +42,7 @@ public class GameWorld implements Disposable {
 		this.game = game;
 
 		player = entityEngine.createPlayer(new Vector2(0, 0));
-	
+
 		addTestAssets();
 	}
 
@@ -55,7 +54,7 @@ public class GameWorld implements Disposable {
 
 	@Override
 	public void dispose() {
-		box2DWorld.dispose();
+		entityEngine.dispose();
 	}
 
 	void addTestAssets() {

@@ -76,6 +76,8 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
 	@Override
 	public void dispose() {
+		box2dWorld.dispose();
+		rayHandler.dispose();
 	}
 
 }

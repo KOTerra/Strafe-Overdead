@@ -14,6 +14,7 @@ import com.strafergame.ui.menus.TitleMenu;
 
 public class TitleScreen implements Screen {
 	TitleMenu titleMenu;
+	ShapeRenderer shapeRenderer = new ShapeRenderer();
 
 	public TitleScreen(Strafer game) {
 		titleMenu = new TitleMenu(game);
@@ -40,6 +41,7 @@ public class TitleScreen implements Screen {
 	@Override
 	public void dispose() {
 		Strafer.uiManager.dispose();
+		shapeRenderer.dispose();
 	}
 
 	/**
@@ -85,7 +87,7 @@ public class TitleScreen implements Screen {
 
 	public void renderBackground() {
 
-		ShapeRenderer shapeRenderer = new ShapeRenderer();
+		
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.valueOf("#4F526b"));
 		float height = (Gdx.graphics.getHeight() / 1080f) * 360f;

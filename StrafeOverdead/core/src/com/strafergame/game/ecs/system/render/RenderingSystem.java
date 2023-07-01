@@ -6,10 +6,8 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.PositionComponent;
@@ -18,9 +16,9 @@ import com.strafergame.game.ecs.component.SpriteComponent;
 public class RenderingSystem extends SortedIteratingSystem {
 
 	private SpriteBatch batch; // a reference to our spritebatch
-	String vertexShader;
-	String fragmentShader;
-	ShaderProgram shaderProgram;
+	// String vertexShader;
+	// String fragmentShader;
+	// ShaderProgram shaderProgram;
 
 	private Array<Entity> renderQueue; // an array used to allow sorting of images allowing us to draw images on top of
 										// each other
@@ -33,10 +31,9 @@ public class RenderingSystem extends SortedIteratingSystem {
 		super(Family.all(SpriteComponent.class, PositionComponent.class).get(), new ZComparator());
 
 		this.batch = batch;
-		vertexShader = Gdx.files.internal("shaders/default.vert").readString();
-		fragmentShader = Gdx.files.internal("shaders/default.frag").readString();
-		shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
-	
+		// vertexShader = Gdx.files.internal("shaders/default.vert").readString();
+		// fragmentShader = Gdx.files.internal("shaders/default.frag").readString();
+		// shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
 
 		spriteMapper = ComponentMappers.sprite();
 		positionMapper = ComponentMappers.position();
@@ -52,10 +49,7 @@ public class RenderingSystem extends SortedIteratingSystem {
 
 		batch.enableBlending();
 		batch.begin();
-		batch.setShader(shaderProgram);
-
-		shaderProgram.setUniformf("u_resolution", new Vector2(Gdx.graphics.getWidth(),Gdx.graphics.getHeight()));
-
+		// batch.setShader(shaderProgram);
 
 		// loop through each entity in our render queue
 		for (Entity entity : renderQueue) {
