@@ -14,7 +14,6 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.PositionComponent;
-import com.strafergame.game.entities.Entity;
 import com.strafergame.game.entities.EntityType;
 
 public class AnimationProvider {
@@ -25,11 +24,6 @@ public class AnimationProvider {
 			EntityType.class);
 
 	static final HashMap<String, Animation<Sprite>> PLAYER_ANIMATIONS = new HashMap<>();
-
-	public static Animation<Sprite> getAnimation(Entity entity) {
-		return TYPE_ANIMATIONS.get(entity.getEntityType()).get(entity.getEntityState() + "_" + entity.getDirection());
-
-	}
 
 	/**
 	 * for ecs

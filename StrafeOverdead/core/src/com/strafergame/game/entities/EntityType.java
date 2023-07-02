@@ -10,12 +10,8 @@ public enum EntityType {
 	/**
 	 * the PLAYER type
 	 */
-	player(10f);
-
-	float speed;
-
-	EntityType(float speed) {
-		this.speed = speed;
-	}
+	player,
+	dummy,
+	npc;
 
 }
