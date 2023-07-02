@@ -2,6 +2,7 @@ package com.strafergame.game.ecs.component;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 import box2dLight.Light;
@@ -9,6 +10,7 @@ import box2dLight.Light;
 public class Box2dComponent implements Component, Poolable {
 	public boolean initiatedPhysics = false;
 	public Body body;
+	public Fixture fingerprint;
 	public Light light;
 	public float lightDistance;
 	public float lightFluctuationDistance;

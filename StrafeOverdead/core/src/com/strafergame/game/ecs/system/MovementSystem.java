@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.MovementComponent;
@@ -37,6 +38,7 @@ public class MovementSystem extends IteratingSystem {
 
 		b2dCmp.body = Box2DHelper.createBody(box2dWorld.getWorld(), spriteCmp.width, spriteCmp.width, 0, 0,
 				new Vector3(posCmp.prevX, posCmp.prevY, 0), BodyType.DynamicBody);
+		b2dCmp.fingerprint = b2dCmp.body.getFixtureList().get(0);
 
 	}
 
@@ -67,9 +69,6 @@ public class MovementSystem extends IteratingSystem {
 			PositionComponent posCmp = ComponentMappers.position().get(e);
 			posCmp.renderX = MathUtils.lerp(posCmp.prevX, b2dCmp.body.getPosition().x, alpha);
 			posCmp.renderY = MathUtils.lerp(posCmp.prevY, b2dCmp.body.getPosition().y, alpha);
-			// posCmp.renderX = Math.round(MathUtils.lerp(posCmp.prevX,
-			// b2dCmp.body.getPosition().x,
-			// alpha)/Strafer.SCALE_FACTOR)*Strafer.SCALE_FACTOR;
 
 		}
 	}
