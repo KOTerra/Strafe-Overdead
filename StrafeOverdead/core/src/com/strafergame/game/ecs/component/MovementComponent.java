@@ -8,5 +8,5 @@ public class MovementComponent implements Component {
 	public float dirX = 0f;
 	public float dirY = 0f;
 	public float speed = 0f;
-
+	public float dashForce = 0f;
 }

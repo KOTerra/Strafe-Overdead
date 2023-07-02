@@ -27,6 +27,9 @@ public class KeyboardInputProcessor implements InputProcessor {
 		if (keycode == KeyboardMapping.MOVE_RIGHT_KEY) {
 			PlayerControl.MOVE_RIGHT = true;
 		}
+		if (keycode == KeyboardMapping.DASH_KEY) {
+			PlayerControl.DASH = true;
+		}
 		return true;
 	}
 
@@ -44,12 +47,16 @@ public class KeyboardInputProcessor implements InputProcessor {
 		if (keycode == KeyboardMapping.MOVE_RIGHT_KEY) {
 			PlayerControl.MOVE_RIGHT = false;
 		}
+		if (keycode == KeyboardMapping.DASH_KEY) {
+			PlayerControl.DASH = false;
+		}
 		return true;
 	}
 
 	@Override
 	public boolean keyTyped(char character) {
-		return false;
+
+		return true;
 	}
 
 	@Override

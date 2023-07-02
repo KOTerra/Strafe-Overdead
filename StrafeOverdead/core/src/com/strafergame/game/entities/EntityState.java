@@ -20,6 +20,10 @@ public enum EntityState {
 	 */
 	run,
 	/**
+	 * the DASH state
+	 */
+	dash,
+	/**
 	 * the DEATH state
 	 */
 	death;

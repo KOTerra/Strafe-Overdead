@@ -10,4 +10,5 @@ public class PlayerControl {
 
 	public static boolean MOVE_RIGHT = false;
 
+	public static boolean DASH = false;
 }

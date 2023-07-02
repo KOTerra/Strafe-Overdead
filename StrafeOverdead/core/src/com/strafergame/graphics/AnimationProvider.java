@@ -14,6 +14,7 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.PositionComponent;
+import com.strafergame.game.entities.EntityState;
 import com.strafergame.game.entities.EntityType;
 
 public class AnimationProvider {
@@ -35,10 +36,15 @@ public class AnimationProvider {
 		EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
 		PositionComponent posCmp = ComponentMappers.position().get(entity);
 		if (posCmp == null) {
-			return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState.toString());
+			// return
+			// TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState.toString());
+			return TYPE_ANIMATIONS.get(typeCmp.entityType).get(EntityState.idle.toString());
 		}
 
-		return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState + "_" + posCmp.direction);
+		// return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState + "_"
+		// + posCmp.direction);
+		return TYPE_ANIMATIONS.get(typeCmp.entityType).get(EntityState.idle + "_" + posCmp.direction);
+
 	}
 
 	private AnimationProvider() {

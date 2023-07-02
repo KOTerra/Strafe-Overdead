@@ -61,6 +61,8 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
 		MovementComponent movCmp = this.createComponent(MovementComponent.class);
 		movCmp.speed = plyrCmp.baseSpeed;
+		movCmp.dashForce = plyrCmp.dashForce;
+		
 		player.add(movCmp);
 
 		SpriteComponent spriteCmp = this.createComponent(SpriteComponent.class);

@@ -5,14 +5,19 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.strafergame.Strafer;
+import com.badlogic.gdx.utils.Timer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.Box2dComponent;
+import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.MovementComponent;
 import com.strafergame.game.ecs.component.PositionComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
+import com.strafergame.game.entities.EntityState;
+import com.strafergame.game.entities.EntityType;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DHelper;
 import com.strafergame.game.world.collision.Box2DWorld;
@@ -46,11 +51,27 @@ public class MovementSystem extends IteratingSystem {
 		for (Entity e : this.getEntities()) {
 			Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
 			MovementComponent movCmp = ComponentMappers.movement().get(e);
+			EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 			if (!b2dCmp.initiatedPhysics) {
 				initPhysics(e);
 				b2dCmp.initiatedPhysics = true;
 			}
-			b2dCmp.body.setLinearVelocity(movCmp.dirX * movCmp.speed, movCmp.dirY * movCmp.speed);
+			switch (typeCmp.entityState) {
+			case idle:
+			case walk: {
+				b2dCmp.body.setLinearVelocity(movCmp.dirX * movCmp.speed, movCmp.dirY * movCmp.speed);
+				typeCmp.entityState = EntityState.idle;
+				break;
+			}
+			case dash: {
+				dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dirX, movCmp.dirY), typeCmp, movCmp.dashForce, .1f);
+				break;
+			}
+			default:
+				break;
+
+			}
+
 		}
 	}
 
@@ -93,4 +114,20 @@ public class MovementSystem extends IteratingSystem {
 
 	}
 
+	public void dashBodyOnce(final Body body, Vector2 direction, final EntityTypeComponent ettCmp, float dashForce,
+			float dashDuration) {
+		Vector2 impulse = direction.cpy().scl(dashForce);
+		body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
+
+		// Schedule a task to reset the body velocity after the dash duration
+		Timer.schedule(new Timer.Task() {
+			@Override
+			public void run() {
+				// Reset the body's linear velocity to zero
+				body.setLinearVelocity(0, 0);
+				ettCmp.entityState = EntityState.idle;
+			}
+		}, dashDuration);
+
+	}
 }
