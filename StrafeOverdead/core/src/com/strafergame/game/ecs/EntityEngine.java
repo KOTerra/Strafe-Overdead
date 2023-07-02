@@ -2,6 +2,8 @@ package com.strafergame.game.ecs;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.strafergame.Strafer;
@@ -72,6 +74,34 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		player.add(b2dCmp);
 		this.addEntity(player);
 		return player;
+	}
+
+	public Entity createDummy(final Vector2 location, float scale) {
+		final Entity dummy = this.createEntity();
+		EntityTypeComponent typeCmp = this.createComponent(EntityTypeComponent.class);
+		typeCmp.entityType = EntityType.dummy;
+		dummy.add(typeCmp);
+
+		PositionComponent posCmp = this.createComponent(PositionComponent.class);
+		posCmp.isHidden = false;
+		posCmp.x = location.x;
+		posCmp.y = location.y;
+		dummy.add(posCmp);
+
+		MovementComponent movCmp = this.createComponent(MovementComponent.class);
+		movCmp.speed = 0;
+		dummy.add(movCmp);
+
+		SpriteComponent spriteCmp = this.createComponent(SpriteComponent.class);
+		dummy.add(spriteCmp);
+		spriteCmp.sprite = new Sprite(Strafer.assetManager.get("images/dummy.png", Texture.class));
+		spriteCmp.height = spriteCmp.sprite.getHeight() * scale * Strafer.SCALE_FACTOR;
+		spriteCmp.width = spriteCmp.sprite.getWidth() * scale * Strafer.SCALE_FACTOR;
+
+		Box2dComponent b2dCmp = this.createComponent(Box2dComponent.class);
+		dummy.add(b2dCmp);
+		this.addEntity(dummy);
+		return dummy;
 	}
 
 	@Override

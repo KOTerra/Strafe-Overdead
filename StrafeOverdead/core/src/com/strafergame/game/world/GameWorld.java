@@ -35,6 +35,8 @@ public class GameWorld implements Disposable {
 	private final Box2DWorld box2DWorld = new Box2DWorld();
 	private final RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
 	private final EntityEngine entityEngine = new EntityEngine(box2DWorld, rayHandler);
+	private Entity dummy;
+	private Entity dummy2;
 
 	private Entity player;
 
@@ -62,6 +64,8 @@ public class GameWorld implements Disposable {
 		backgroundTest.setPosition(0, 0);
 		backgroundTest.setSize(backgroundTest.getWidth() * Strafer.SCALE_FACTOR,
 				backgroundTest.getHeight() * Strafer.SCALE_FACTOR);
+		dummy = entityEngine.createDummy(new Vector2(10, 5), 3);
+		dummy2 = entityEngine.createDummy(new Vector2(10, 5), 1);
 
 		Strafer.worldCamera.setFocusOn(player);
 
@@ -91,6 +95,10 @@ public class GameWorld implements Disposable {
 			}
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_1)) {
 				Strafer.worldCamera.setFocusOn(player);
+			}
+			if (Gdx.input.isKeyPressed(Keys.NUMPAD_2)) {
+
+				Strafer.worldCamera.setFocusBetween(true, player, dummy, dummy2);
 			}
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
 
