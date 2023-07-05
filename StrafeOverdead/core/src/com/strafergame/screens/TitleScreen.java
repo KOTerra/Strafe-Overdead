@@ -15,6 +15,7 @@ import com.strafergame.ui.menus.TitleMenu;
 public class TitleScreen implements Screen {
 	TitleMenu titleMenu;
 	ShapeRenderer shapeRenderer = new ShapeRenderer();
+	Cursor cursor;
 
 	public TitleScreen(Strafer game) {
 		titleMenu = new TitleMenu(game);
@@ -41,6 +42,7 @@ public class TitleScreen implements Screen {
 	@Override
 	public void dispose() {
 		Strafer.uiManager.dispose();
+		cursor.dispose();
 		shapeRenderer.dispose();
 	}
 
@@ -77,17 +79,16 @@ public class TitleScreen implements Screen {
 
 			Pixmap pixmap = new Pixmap(Gdx.files.internal("ui/cursor.png"));
 			// Set hotspot to the middle of it (0,0 would be the top-left corner)
-			Cursor cursor = Gdx.graphics.newCursor(pixmap, 0, 0);
-			pixmap.dispose(); // We don't need the pixmap anymore
+			cursor = Gdx.graphics.newCursor(pixmap, 0, 0);
+			pixmap.dispose(); 
 			Gdx.graphics.setCursor(cursor);
 		}
 		titleMenu.setVisible(true);
-		
+
 	}
 
 	public void renderBackground() {
 
-		
 		shapeRenderer.begin(ShapeType.Filled);
 		shapeRenderer.setColor(Color.valueOf("#4F526b"));
 		float height = (Gdx.graphics.getHeight() / 1080f) * 360f;
