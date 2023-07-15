@@ -3,6 +3,7 @@ package com.strafergame.game.ecs.system.player;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.utils.Timer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
@@ -14,6 +15,8 @@ import com.strafergame.game.entities.EntityState;
 import com.strafergame.input.PlayerControl;
 
 public class PlayerControlSystem extends IteratingSystem {
+
+	private boolean isDashCooldown = false;
 
 	public PlayerControlSystem() {
 		super(Family.all(PlayerComponent.class).get());
@@ -55,7 +58,19 @@ public class PlayerControlSystem extends IteratingSystem {
 			typeCmp.entityState = EntityState.walk;
 		}
 		if (PlayerControl.DASH) {
-			typeCmp.entityState = EntityState.dash;
+			if (!isDashCooldown) {
+				isDashCooldown = true;
+				typeCmp.entityState = EntityState.dash;
+				Timer.schedule(new Timer.Task() {
+					@Override
+					public void run() {
+						isDashCooldown = false;
+					}
+				}, plyrCmp.dashCooldown);
+			} else {
+				typeCmp.entityState = EntityState.dash;
+
+			}
 		}
 	}
 

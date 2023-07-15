@@ -6,5 +6,5 @@ public class PlayerComponent implements Component {
 
 	public float baseSpeed = 10f;
 	public float dashForce = 25f;
-
+	public float dashCooldown = 1f;
 }

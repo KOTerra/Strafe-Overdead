@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 
-public class Box2DHelper {
+public abstract class Box2DFactory {
 
 	public static Body createBody(World world, float width, float height, float xOffset, float yOffset, Vector3 pos,
 			BodyDef.BodyType type) {
@@ -79,7 +79,7 @@ public class Box2DHelper {
 		boxShape.dispose();
 	}
 
-	private Box2DHelper() {
+	private Box2DFactory() {
 	}
 
 }

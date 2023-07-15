@@ -18,7 +18,7 @@ import com.strafergame.game.ecs.component.PositionComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
 import com.strafergame.game.entities.EntityState;
 import com.strafergame.game.world.GameWorld;
-import com.strafergame.game.world.collision.Box2DHelper;
+import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
 
 public class MovementSystem extends IteratingSystem {
@@ -40,7 +40,7 @@ public class MovementSystem extends IteratingSystem {
 		posCmp.prevX = -spriteCmp.width / 2;
 		posCmp.prevY = -spriteCmp.height / 2;
 
-		b2dCmp.body = Box2DHelper.createBody(box2dWorld.getWorld(), spriteCmp.width, spriteCmp.width, 0, 0,
+		b2dCmp.body = Box2DFactory.createBody(box2dWorld.getWorld(), spriteCmp.width, spriteCmp.width, 0, 0,
 				new Vector3(posCmp.prevX, posCmp.prevY, 0), BodyType.DynamicBody);
 		b2dCmp.fingerprint = b2dCmp.body.getFixtureList().get(0);
 

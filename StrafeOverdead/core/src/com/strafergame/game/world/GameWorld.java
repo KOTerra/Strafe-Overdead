@@ -15,7 +15,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
-import com.strafergame.game.world.collision.Box2DHelper;
+import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
 import box2dLight.RayHandler;
 
@@ -75,7 +75,7 @@ public class GameWorld implements Disposable {
 		for (int i = 1; i <= walls.getWidth(); i++) {
 			for (int j = 1; j <= walls.getHeight(); j++) {
 				if (walls.getCell(i, j) != null) {
-					Box2DHelper.createWall(box2DWorld.getWorld(), 1, 1, new Vector3(i, j, 0));
+					Box2DFactory.createWall(box2DWorld.getWorld(), 1, 1, new Vector3(i, j, 0));
 				}
 			}
 		}
