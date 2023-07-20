@@ -7,6 +7,7 @@ import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.MovementComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
+import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.PlayerComponent;
 import com.strafergame.game.ecs.component.PositionComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
@@ -50,6 +51,11 @@ public abstract class ComponentMappers {
 	}
 
 	private ComponentMappers() {
+	}
+
+	public static final ComponentMapper<AttackComponent> hitbox() {
+		return ComponentMapper.getFor(AttackComponent.class);
+
 	}
 
 }

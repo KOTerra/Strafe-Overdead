@@ -24,6 +24,14 @@ public enum EntityState {
 	 */
 	dash,
 	/**
+	 * the HIT state
+	 */
+	hit,
+	/**
+	 * the RECOVER state after a hit
+	 */
+	recover,
+	/**
 	 * the DEATH state
 	 */
 	death;
