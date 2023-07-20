@@ -13,6 +13,7 @@ import com.strafergame.game.ecs.component.AnimationComponent;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
+import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.MovementComponent;
 import com.strafergame.game.ecs.component.PlayerComponent;
 import com.strafergame.game.ecs.component.PositionComponent;
@@ -20,6 +21,8 @@ import com.strafergame.game.ecs.component.SpriteComponent;
 import com.strafergame.game.ecs.system.AnimationSystem;
 import com.strafergame.game.ecs.system.CameraSystem;
 import com.strafergame.game.ecs.system.MovementSystem;
+import com.strafergame.game.ecs.system.combat.CombatSystem;
+import com.strafergame.game.ecs.system.combat.HealthSystem;
 import com.strafergame.game.ecs.system.player.PlayerControlSystem;
 import com.strafergame.game.ecs.system.render.RenderingSystem;
 import com.strafergame.game.entities.EntityType;
@@ -43,6 +46,8 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		addSystem(new AnimationSystem());
 		addSystem(new MovementSystem(this.box2dWorld));
 		addSystem(new PlayerControlSystem());
+		addSystem(new HealthSystem(box2dWorld));
+		addSystem(new CombatSystem());
 		addSystem(new CameraSystem());
 		addSystem(new RenderingSystem(Strafer.spriteBatch));
 
@@ -83,6 +88,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		player.add(b2dCmp);
 
 		HealthComponent hlthComponent = this.createComponent(HealthComponent.class);
+		hlthComponent.hitPoints = 10;
 		player.add(hlthComponent);
 
 		this.addEntity(player);
@@ -120,6 +126,19 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		return dummy;
 	}
 
+	public Entity createHitboxDummy(final Vector2 location) {
+		final Entity dummy = this.createEntity();
+		AttackComponent attckCmp = this.createComponent(AttackComponent.class);
+
+		attckCmp.damagePerSecond = 1;
+		attckCmp.doesKnockback = true;
+		attckCmp.knockbackMagnitude = 5;
+		Box2DFactory.createBodyWithHitbox(attckCmp, box2dWorld.getWorld(), 1, 1, 0, 0, location);
+		dummy.add(attckCmp);
+
+		return dummy;
+	}
+
 	private void initPhysics(Entity e) {
 		Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
 		PositionComponent posCmp = ComponentMappers.position().get(e);
@@ -130,7 +149,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
 		Box2DFactory.createBody(b2dCmp, box2dWorld.getWorld(), spriteCmp.width, spriteCmp.width, 0, 0,
 				new Vector3(posCmp.prevX, posCmp.prevY, 0), BodyType.DynamicBody);
-		Box2DFactory.addSensorToBody(box2dWorld.getWorld(), b2dCmp, spriteCmp.width, spriteCmp.height, 0,
+		Box2DFactory.addHurtboxToBody(box2dWorld.getWorld(), b2dCmp, spriteCmp.width, spriteCmp.height, 0,
 				spriteCmp.height / 2);
 		b2dCmp.initiatedPhysics = true;
 	}

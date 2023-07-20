@@ -46,6 +46,10 @@ public class MovementSystem extends IteratingSystem {
 					dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dirX, movCmp.dirY), typeCmp, movCmp.dashForce, .1f);
 					break;
 				}
+				case death: {
+					
+					break;
+				}
 				default:
 					break;
 
