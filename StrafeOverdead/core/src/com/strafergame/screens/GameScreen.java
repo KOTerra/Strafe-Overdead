@@ -58,6 +58,7 @@ public class GameScreen implements Screen {
 	public void resize(int width, int height) {
 		Strafer.extendViewport.update(width, height);
 		Strafer.uiScreenViewport.update(width, height, true);
+	hud.resize();
 	}
 
 	@Override

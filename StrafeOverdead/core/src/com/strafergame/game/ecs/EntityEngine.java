@@ -7,13 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.strafergame.Strafer;
-import com.strafergame.game.ecs.component.AnimationComponent;
-import com.strafergame.game.ecs.component.Box2dComponent;
-import com.strafergame.game.ecs.component.EntityTypeComponent;
-import com.strafergame.game.ecs.component.MovementComponent;
-import com.strafergame.game.ecs.component.PlayerComponent;
-import com.strafergame.game.ecs.component.PositionComponent;
-import com.strafergame.game.ecs.component.SpriteComponent;
+import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.system.AnimationSystem;
 import com.strafergame.game.ecs.system.CameraSystem;
 import com.strafergame.game.ecs.system.MovementSystem;
@@ -74,6 +68,10 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
 		Box2dComponent b2dCmp = this.createComponent(Box2dComponent.class);
 		player.add(b2dCmp);
+
+		HealthComponent hlthComponent = this.createComponent(HealthComponent.class);
+		player.add(hlthComponent);
+
 		this.addEntity(player);
 		return player;
 	}

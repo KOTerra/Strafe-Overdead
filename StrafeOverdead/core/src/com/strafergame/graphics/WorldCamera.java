@@ -1,6 +1,7 @@
 package com.strafergame.graphics;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
@@ -190,11 +191,11 @@ public class WorldCamera extends OrthographicCamera {
 			default:
 				break;
 			}
-			
+
 			Strafer.worldCamera.position
 					.set(Math.round(Strafer.worldCamera.position.x / Strafer.SCALE_FACTOR) * Strafer.SCALE_FACTOR,
 							Math.round(Strafer.worldCamera.position.y / Strafer.SCALE_FACTOR) * Strafer.SCALE_FACTOR, 0)
-					.interpolate(cameraSnapPosition, alpha, interpolation);
+					.interpolate(cameraSnapPosition, alpha , interpolation);
 
 		}
 	}
