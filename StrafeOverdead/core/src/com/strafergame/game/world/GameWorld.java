@@ -44,7 +44,7 @@ public class GameWorld implements Disposable {
 		this.game = game;
 
 		player = entityEngine.createPlayer(new Vector2(0, 0));
-		
+
 		addTestAssets();
 	}
 
@@ -66,6 +66,7 @@ public class GameWorld implements Disposable {
 				backgroundTest.getHeight() * Strafer.SCALE_FACTOR);
 		dummy = entityEngine.createDummy(new Vector2(10, 5), 3);
 		dummy2 = entityEngine.createDummy(new Vector2(10, 5), 1);
+		entityEngine.createHitboxDummy(new Vector2(15, 5));
 
 		Strafer.worldCamera.setFocusOn(player);
 
