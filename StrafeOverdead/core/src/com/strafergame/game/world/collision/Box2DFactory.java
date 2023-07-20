@@ -53,7 +53,7 @@ public abstract class Box2DFactory {
 
 		// Attach the fixture to the existing body
 		Fixture fixture = b2dCmp.body.createFixture(fixtureDef);
-		b2dCmp.hitbox = fixture;
+		b2dCmp.hurtbox = fixture;
 		// Dispose of the shape after creating the fixture
 		sensorShape.dispose();
 		return fixture;
