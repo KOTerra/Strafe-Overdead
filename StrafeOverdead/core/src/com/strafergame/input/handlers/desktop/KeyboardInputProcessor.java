@@ -6,6 +6,8 @@ import com.strafergame.settings.KeyboardMapping;
 
 public class KeyboardInputProcessor implements InputProcessor {
 
+	private boolean dashKeyPressed = false;
+
 	public KeyboardInputProcessor() {
 	}
 
@@ -28,7 +30,13 @@ public class KeyboardInputProcessor implements InputProcessor {
 			PlayerControl.MOVE_RIGHT = true;
 		}
 		if (keycode == KeyboardMapping.DASH_KEY) {
-			PlayerControl.DASH = true;
+			if (!dashKeyPressed) {
+				PlayerControl.DASH = true;
+				dashKeyPressed = true;
+			} else {
+				PlayerControl.DASH = false;
+			}
+
 		}
 		return true;
 	}
@@ -49,6 +57,7 @@ public class KeyboardInputProcessor implements InputProcessor {
 		}
 		if (keycode == KeyboardMapping.DASH_KEY) {
 			PlayerControl.DASH = false;
+			dashKeyPressed = false;
 		}
 		return true;
 	}

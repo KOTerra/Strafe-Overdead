@@ -34,7 +34,6 @@ public class HealthSystem extends IteratingSystem {
 				if (hlthCmp.hitPoints <= 0) {
 					ettCmp.entityState = EntityState.death;
 				}
-				System.err.println(hlthCmp.hitPoints);
 
 			}
 		}

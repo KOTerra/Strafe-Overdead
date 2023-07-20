@@ -16,8 +16,6 @@ import com.strafergame.input.PlayerControl;
 
 public class PlayerControlSystem extends IteratingSystem {
 
-	private boolean isDashCooldown = false;
-
 	public PlayerControlSystem() {
 		super(Family.all(PlayerComponent.class).get());
 	}
@@ -25,14 +23,15 @@ public class PlayerControlSystem extends IteratingSystem {
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		move(entity);
+		dash(entity);
 	}
 
 	private void move(Entity e) {
 		PositionComponent posCmp = ComponentMappers.position().get(e);
-		MovementComponent movCmp = ComponentMappers.movement().get(e);
+		final MovementComponent movCmp = ComponentMappers.movement().get(e);
 		PlayerComponent plyrCmp = ComponentMappers.player().get(e);
 		Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
-		EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
+		final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
 		movCmp.dirX = 0;
 		movCmp.dirY = 0;
@@ -40,35 +39,49 @@ public class PlayerControlSystem extends IteratingSystem {
 		if (PlayerControl.MOVE_UP) {
 			movCmp.dirY = 1;
 			posCmp.direction = EntityDirection.w;
-			typeCmp.entityState = EntityState.walk;
 		}
 		if (PlayerControl.MOVE_DOWN) {
 			movCmp.dirY = -1;
 			posCmp.direction = EntityDirection.s;
-			typeCmp.entityState = EntityState.walk;
 		}
 		if (PlayerControl.MOVE_LEFT) {
 			movCmp.dirX = -1;
 			posCmp.direction = EntityDirection.a;
-			typeCmp.entityState = EntityState.walk;
 		}
 		if (PlayerControl.MOVE_RIGHT) {
 			movCmp.dirX = 1;
 			posCmp.direction = EntityDirection.d;
-			typeCmp.entityState = EntityState.walk;
 		}
-		if (PlayerControl.DASH) {
-			if (!isDashCooldown) {
-				isDashCooldown = true;
-				typeCmp.entityState = EntityState.dash;
+		if (movCmp.moving()) {
+			typeCmp.entityState = EntityState.walk;
+		} else {
+			typeCmp.entityState = EntityState.idle;
+		}
+
+	}
+
+	private void dash(Entity e) {
+		final MovementComponent movCmp = ComponentMappers.movement().get(e);
+		final EntityTypeComponent ettCmp = ComponentMappers.entityType().get(e);
+		final PlayerComponent plyrCmp = ComponentMappers.player().get(e);
+
+		if (!movCmp.isDashCooldown) {
+			if (PlayerControl.DASH && movCmp.moving()) {
+				movCmp.isDashCooldown = true;
+				ettCmp.entityState = EntityState.dash;
 				Timer.schedule(new Timer.Task() {
 					@Override
 					public void run() {
-						isDashCooldown = false;
+						ettCmp.entityState = EntityState.idle;
+						Timer.schedule(new Timer.Task() {
+							@Override
+							public void run() {
+								movCmp.isDashCooldown = false;
+							}
+						}, plyrCmp.dashCooldown);
 					}
-				}, plyrCmp.dashCooldown);
-			} else {
-				typeCmp.entityState = EntityState.dash;
+				}, movCmp.dashDuration);
+				
 
 			}
 		}

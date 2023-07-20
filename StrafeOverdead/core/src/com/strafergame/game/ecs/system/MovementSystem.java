@@ -43,11 +43,13 @@ public class MovementSystem extends IteratingSystem {
 					break;
 				}
 				case dash: {
-					dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dirX, movCmp.dirY), typeCmp, movCmp.dashForce, .1f);
+
+					dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dirX, movCmp.dirY), movCmp, typeCmp,
+							movCmp.isDashCooldown, movCmp.dashForce);
 					break;
 				}
 				case death: {
-					
+
 					break;
 				}
 				default:
@@ -97,20 +99,13 @@ public class MovementSystem extends IteratingSystem {
 
 	}
 
-	public void dashBodyOnce(final Body body, Vector2 direction, final EntityTypeComponent ettCmp, float dashForce,
-			float dashDuration) {
-		Vector2 impulse = direction.cpy().scl(dashForce);
-		body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
-
-		// Schedule a task to reset the body velocity after the dash duration
-		Timer.schedule(new Timer.Task() {
-			@Override
-			public void run() {
-				// Reset the body's linear velocity to zero
-				body.setLinearVelocity(0, 0);
-				ettCmp.entityState = EntityState.idle;
-			}
-		}, dashDuration);
+	public void dashBodyOnce(final Body body, Vector2 direction, MovementComponent movCmp,
+			final EntityTypeComponent ettCmp, boolean dashCooldown, float dashForce) {
+		if (dashCooldown) {
+			Vector2 impulse = direction.cpy().scl(dashForce);
+			body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
+			
+		}
 
 	}
 }
