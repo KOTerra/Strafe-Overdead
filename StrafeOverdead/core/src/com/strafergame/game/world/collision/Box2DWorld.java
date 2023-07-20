@@ -17,7 +17,7 @@ public class Box2DWorld implements Disposable {
 	public Box2DWorld() {
 		world = new World(new Vector2(0f, 0f), false);
 		debugRenderer = new Box2DDebugRenderer();
-
+		world.setContactListener(new FilteredContactListener());
 	}
 
 	public void step(float delta) {

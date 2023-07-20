@@ -5,12 +5,13 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.strafergame.game.ecs.component.Box2dComponent;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.strafergame.game.ecs.component.Box2dComponent;
+import com.strafergame.game.ecs.component.AttackComponent;
 
 public abstract class Box2DFactory {
 
@@ -40,7 +41,7 @@ public abstract class Box2DFactory {
 		return body;
 	}
 
-	public static Fixture addSensorToBody(World world, Box2dComponent b2dCmp, float width, float height, float xOffset,
+	public static Fixture addHurtboxToBody(World world, Box2dComponent b2dCmp, float width, float height, float xOffset,
 			float yOffset) {
 		// Create the shape for the sensor (e.g., rectangle)
 		PolygonShape sensorShape = new PolygonShape();
@@ -50,16 +51,47 @@ public abstract class Box2DFactory {
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = sensorShape;
 		fixtureDef.isSensor = true; // Set the fixture as a sensor
+		fixtureDef.filter.categoryBits = FilteredContactListener.HURTBOX_CATEGORY;// hurtbox
+		fixtureDef.filter.maskBits = FilteredContactListener.HITBOX_CATEGORY;// hitbox
 
 		// Attach the fixture to the existing body
-		Fixture fixture = b2dCmp.body.createFixture(fixtureDef);
-		b2dCmp.hurtbox = fixture;
+		b2dCmp.hurtbox = b2dCmp.body.createFixture(fixtureDef);
+
 		// Dispose of the shape after creating the fixture
 		sensorShape.dispose();
-		return fixture;
+		return b2dCmp.hurtbox;
 	}
 
-	public static Body createSensor(World world, float width, float height, float xOffset, float yOffset, Vector3 pos,
+	public static Body createBodyWithHitbox(AttackComponent hitCmp, World world, float width, float height,
+			float xOffset, float yOffset, Vector2 pos) {
+		Body body;
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.position.x = pos.x + xOffset;
+		bodyDef.position.y = pos.y + yOffset;
+		bodyDef.angle = 0;
+		bodyDef.fixedRotation = true;
+		bodyDef.type = BodyDef.BodyType.DynamicBody;
+		body = world.createBody(bodyDef);
+
+		// Create the shape for the sensor (e.g., rectangle)
+		PolygonShape sensorShape = new PolygonShape();
+		sensorShape.setAsBox(width / 2, height / 2, new Vector2(xOffset, yOffset), 0);
+
+		// Create the fixture definition for the sensor
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = sensorShape;
+		fixtureDef.isSensor = true; // Set the fixture as a sensor
+		fixtureDef.filter.categoryBits = FilteredContactListener.HITBOX_CATEGORY;
+		fixtureDef.filter.maskBits = FilteredContactListener.HURTBOX_CATEGORY;
+
+		hitCmp.body = body;
+		hitCmp.hitbox = hitCmp.body.createFixture(fixtureDef);
+		hitCmp.hitbox.setUserData(hitCmp);
+		return body;
+
+	}
+
+	public static Body createSensor(World world, float width, float height, float xOffset, float yOffset, Vector2 pos,
 			BodyDef.BodyType type) {
 		Body body;
 		BodyDef bodyDef = new BodyDef();
