@@ -1,10 +1,6 @@
 package com.strafergame.ui;
 
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -25,7 +21,7 @@ public class HUD extends Table {
 		Strafer.uiManager.addActor(this);
 		this.healthBar= makeHealthBar();
 
-		mockUI();
+		mobileUI();
 
 	}
 
@@ -34,12 +30,15 @@ public class HUD extends Table {
 
 
 		add(healthbar).expandX().top().left();
+		//healthbar.addListener(null);
+		//TODO add listener that handles the health bar stuff
 		row();
 		add(new Table()).fillY().expandY();
 		row();
 		return healthbar;
 	}
-	private void mockUI() {
+
+	private void mobileUI() {
 		align(Align.bottomLeft);
 		/*
 		 * VisTextButton mockButton = new VisTextButton(Strafer.i18n.get("hud")); row();
@@ -73,6 +72,10 @@ public class HUD extends Table {
 
 	public void hide() {
 		setVisible(!isVisible());
+	}
+
+	public VisProgressBar getHealthBar() {
+		return healthBar;
 	}
 
 }
