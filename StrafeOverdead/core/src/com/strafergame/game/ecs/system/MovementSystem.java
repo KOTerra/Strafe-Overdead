@@ -6,19 +6,15 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Timer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.MovementComponent;
 import com.strafergame.game.ecs.component.PositionComponent;
-import com.strafergame.game.ecs.component.SpriteComponent;
 import com.strafergame.game.entities.EntityState;
 import com.strafergame.game.world.GameWorld;
-import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
 
 public class MovementSystem extends IteratingSystem {
@@ -32,45 +28,29 @@ public class MovementSystem extends IteratingSystem {
 		this.box2dWorld = box2dWorld;
 	}
 
-	private void initPhysics(Entity e) {
-		Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
-		PositionComponent posCmp = ComponentMappers.position().get(e);
-		SpriteComponent spriteCmp = ComponentMappers.sprite().get(e);
-
-		posCmp.prevX = -spriteCmp.width / 2;
-		posCmp.prevY = -spriteCmp.height / 2;
-
-		b2dCmp.body = Box2DFactory.createBody(box2dWorld.getWorld(), spriteCmp.width, spriteCmp.width, 0, 0,
-				new Vector3(posCmp.prevX, posCmp.prevY, 0), BodyType.DynamicBody);
-		b2dCmp.fingerprint = b2dCmp.body.getFixtureList().get(0);
-
-	}
-
 	private void move() {
 		for (Entity e : this.getEntities()) {
 			Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
-			MovementComponent movCmp = ComponentMappers.movement().get(e);
-			EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
-			if (!b2dCmp.initiatedPhysics) {
-				initPhysics(e);
-				b2dCmp.initiatedPhysics = true;
-			}
-			switch (typeCmp.entityState) {
-			case idle:
-			case walk: {
-				b2dCmp.body.setLinearVelocity(movCmp.dirX * movCmp.speed, movCmp.dirY * movCmp.speed);
-				typeCmp.entityState = EntityState.idle;
-				break;
-			}
-			case dash: {
-				dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dirX, movCmp.dirY), typeCmp, movCmp.dashForce, .1f);
-				break;
-			}
-			default:
-				break;
+			if (b2dCmp.initiatedPhysics) {
+				MovementComponent movCmp = ComponentMappers.movement().get(e);
+				EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
-			}
+				switch (typeCmp.entityState) {
+				case idle:
+				case walk: {
+					b2dCmp.body.setLinearVelocity(movCmp.dirX * movCmp.speed, movCmp.dirY * movCmp.speed);
+					typeCmp.entityState = EntityState.idle;
+					break;
+				}
+				case dash: {
+					dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dirX, movCmp.dirY), typeCmp, movCmp.dashForce, .1f);
+					break;
+				}
+				default:
+					break;
 
+				}
+			}
 		}
 	}
 

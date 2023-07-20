@@ -11,6 +11,7 @@ public class Box2dComponent implements Component, Poolable {
 	public boolean initiatedPhysics = false;
 	public Body body;
 	public Fixture fingerprint;
+	public Fixture hitbox;
 	public Light light;
 	public float lightDistance;
 	public float lightFluctuationDistance;

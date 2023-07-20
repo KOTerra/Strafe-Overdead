@@ -6,6 +6,7 @@ import com.strafergame.game.ecs.component.CameraComponent;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.MovementComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
+import com.strafergame.game.ecs.component.HealthComponent;
 import com.strafergame.game.ecs.component.PlayerComponent;
 import com.strafergame.game.ecs.component.PositionComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
@@ -42,6 +43,10 @@ public abstract class ComponentMappers {
 
 	public static final ComponentMapper<PlayerComponent> player() {
 		return ComponentMapper.getFor(PlayerComponent.class);
+	}
+
+	public static final ComponentMapper<HealthComponent> health() {
+		return ComponentMapper.getFor(HealthComponent.class);
 	}
 
 	private ComponentMappers() {
