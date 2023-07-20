@@ -16,12 +16,12 @@ public class ZComparator implements Comparator<Entity> {
 
 	@Override
 	public int compare(Entity a, Entity b) {
-		float ay = posCmp.get(a).y;
-		float by = posCmp.get(b).y;
-		if (ay > by) {
+		float ay = posCmp.get(a).renderY;
+		float by = posCmp.get(b).renderY;
+		if (ay < by) {
 			return 1;
 		}
-		if (ay < by) {
+		if (ay > by) {
 			return -1;
 		}
 		return 0;

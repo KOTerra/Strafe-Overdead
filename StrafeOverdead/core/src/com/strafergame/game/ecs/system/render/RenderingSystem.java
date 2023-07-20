@@ -37,7 +37,7 @@ public class RenderingSystem extends SortedIteratingSystem {
 		spriteMapper = ComponentMappers.sprite();
 		positionMapper = ComponentMappers.position();
 
-		renderQueue = new Array<Entity>();
+		renderQueue = new Array<>();
 	}
 
 	@Override
