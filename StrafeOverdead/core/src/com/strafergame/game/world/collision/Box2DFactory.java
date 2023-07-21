@@ -91,28 +91,20 @@ public abstract class Box2DFactory {
 
 	}
 
-	public static Body createSensor(World world, float width, float height, float xOffset, float yOffset, Vector2 pos,
-			BodyDef.BodyType type) {
-		Body body;
-		BodyDef bodyDef = new BodyDef();
-		bodyDef.position.x = pos.x + xOffset;
-		bodyDef.position.y = pos.y + yOffset;
-		bodyDef.angle = 0;
-		bodyDef.fixedRotation = true;
-		bodyDef.type = type;
-		body = world.createBody(bodyDef);
-
+	public static Fixture createSensor(Body body, float radius, short fltrCategory, short fltrMask) {
 		FixtureDef fixtureDef = new FixtureDef();
-		PolygonShape boxShape = new PolygonShape();
-		boxShape.setAsBox(width / 2, height / 2);
+		CircleShape circle = new CircleShape();
+		circle.setRadius(radius);
+		circle.setPosition(body.getPosition());
 
-		fixtureDef.shape = boxShape;
+		fixtureDef.shape = circle;
 		fixtureDef.isSensor = true;
+		fixtureDef.filter.categoryBits = fltrCategory;
+		fixtureDef.filter.maskBits = fltrMask;
+		Fixture fixture = body.createFixture(fixtureDef);
+		circle.dispose();
 
-		body.createFixture(fixtureDef);
-		boxShape.dispose();
-
-		return body;
+		return fixture;
 	}
 
 	public static void createWall(World world, float width, float height, Vector3 pos) {
