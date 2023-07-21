@@ -11,4 +11,7 @@ public class PlayerControl {
 	public static boolean MOVE_RIGHT = false;
 
 	public static boolean DASH = false;
+
+	public static boolean PAUSE_TRIGGER = false;
+	public static boolean MAP_TRIGGER = false;
 }

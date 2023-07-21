@@ -87,4 +87,10 @@ public class PlayerControlSystem extends IteratingSystem {
 		}
 	}
 
+	
+	private void menuTriggers() {
+		//pause
+		//map
+		//etc
+	}
 }

@@ -38,6 +38,13 @@ public class KeyboardInputProcessor implements InputProcessor {
 			}
 
 		}
+
+		if (keycode == KeyboardMapping.PAUSE_TRIGGER_KEY) {
+			PlayerControl.PAUSE_TRIGGER = true;
+		}
+		if (keycode == KeyboardMapping.MAP_TRIGGER_KEY) {
+			PlayerControl.MAP_TRIGGER = true;
+		}
 		return true;
 	}
 
@@ -58,6 +65,13 @@ public class KeyboardInputProcessor implements InputProcessor {
 		if (keycode == KeyboardMapping.DASH_KEY) {
 			PlayerControl.DASH = false;
 			dashKeyPressed = false;
+		}
+
+		if (keycode == KeyboardMapping.PAUSE_TRIGGER_KEY) {
+			PlayerControl.PAUSE_TRIGGER = false;
+		}
+		if (keycode == KeyboardMapping.MAP_TRIGGER_KEY) {
+			PlayerControl.MAP_TRIGGER = false;
 		}
 		return true;
 	}
