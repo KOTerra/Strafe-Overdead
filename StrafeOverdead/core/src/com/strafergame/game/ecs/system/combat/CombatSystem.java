@@ -22,7 +22,7 @@ public class CombatSystem extends IteratingSystem {
 	protected void processEntity(Entity entity, float deltaTime) {
 		Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
 		EntityTypeComponent ettCmp = ComponentMappers.entityType().get(entity);
-		AttackComponent attckCmp = AttackHitPair.getAttack(b2dCmp);
+		AttackComponent attckCmp = AttackContactPair.getAttack(b2dCmp);
 		switch (ettCmp.entityState) {
 		case hit: {
 			knockback(b2dCmp, attckCmp, ettCmp);
