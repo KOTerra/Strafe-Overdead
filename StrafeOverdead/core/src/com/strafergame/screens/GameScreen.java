@@ -23,6 +23,8 @@ public class GameScreen implements Screen {
 		this.game = game;
 		gameWorld = new GameWorld(game);
 		hud = new HUD();
+		Strafer.uiManager.setHud(hud);
+
 	}
 
 	public void update(float delta) {
@@ -58,7 +60,7 @@ public class GameScreen implements Screen {
 	public void resize(int width, int height) {
 		Strafer.extendViewport.update(width, height);
 		Strafer.uiScreenViewport.update(width, height, true);
-	hud.resize();
+		hud.resize();
 	}
 
 	@Override

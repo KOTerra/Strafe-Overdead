@@ -1,5 +1,6 @@
 package com.strafergame.ui;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
@@ -13,25 +14,25 @@ import com.strafergame.input.PlayerControl;
 public class HUD extends Table {
 
 	private VisProgressBar healthBar;
+	private Entity player;
+
 	public HUD() {
 		setFillParent(true);
 		pad(40);
 
 		align(Align.center);
 		Strafer.uiManager.addActor(this);
-		this.healthBar= makeHealthBar();
+		this.healthBar = makeHealthBar();
 
 		mobileUI();
 
 	}
 
-	private VisProgressBar makeHealthBar(){
-		VisProgressBar healthbar=new VisProgressBar(0,100,1,false);
+	private VisProgressBar makeHealthBar() {
+		VisProgressBar healthbar = new VisProgressBar(0, 200, 1, false);
 
+		add(healthbar).expandX().width(healthbar.getMaxValue()).top().left();
 
-		add(healthbar).expandX().top().left();
-		//healthbar.addListener(null);
-		//TODO add listener that handles the health bar stuff
 		row();
 		add(new Table()).fillY().expandY();
 		row();
@@ -40,7 +41,7 @@ public class HUD extends Table {
 
 	private void mobileUI() {
 		align(Align.bottomLeft);
-	
+
 		final float deadzone = 5f;
 		final Touchpad touchpad = new Touchpad(deadzone, VisUI.getSkin());
 		touchpad.setScale(20);
@@ -57,8 +58,9 @@ public class HUD extends Table {
 			}
 		});
 		add(touchpad).bottom().left().pad(60);
-		//row();
+		// row();
 	}
+
 	public void resize() {
 		setBounds(0, 0, Strafer.uiManager.getWidth(), Strafer.uiManager.getHeight());
 

@@ -12,6 +12,8 @@ import com.strafergame.Strafer;
 
 public class UiManager extends Stage implements Disposable {
 
+	private HUD hud;
+
 	public UiManager(Viewport viewport, SpriteBatch spriteBatch) {
 		super(viewport, spriteBatch);
 
@@ -33,6 +35,15 @@ public class UiManager extends Stage implements Disposable {
 	@Override
 	public void dispose() {
 		super.dispose();
+	}
+
+	public HUD getHud() {
+		return hud;
+	}
+
+	public void setHud(HUD hud) {
+		this.hud = hud;
+		this.addActor(hud);
 	}
 
 }

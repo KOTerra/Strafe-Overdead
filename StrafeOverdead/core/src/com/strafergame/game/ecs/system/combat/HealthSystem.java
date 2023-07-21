@@ -22,7 +22,7 @@ public class HealthSystem extends IteratingSystem {
 		Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
 		HealthComponent hlthCmp = ComponentMappers.health().get(entity);
 		EntityTypeComponent ettCmp = ComponentMappers.entityType().get(entity);
-		AttackComponent attckCmp = AttackHitPair.getAttack(b2dCmp);
+		AttackComponent attckCmp = AttackContactPair.getAttack(b2dCmp);
 
 		if (attckCmp != null) {
 			if (attckCmp instanceof AttackComponent) {
