@@ -40,13 +40,7 @@ public class HUD extends Table {
 
 	private void mobileUI() {
 		align(Align.bottomLeft);
-		/*
-		 * VisTextButton mockButton = new VisTextButton(Strafer.i18n.get("hud")); row();
-		 * add(mockButton); mockButton.addListener(new ChangeListener() {
-		 * 
-		 * @Override public void changed(ChangeEvent event, Actor actor) {
-		 * System.out.println("ai hud bos"); hide(); } }); pack();
-		 */
+	
 		final float deadzone = 5f;
 		final Touchpad touchpad = new Touchpad(deadzone, VisUI.getSkin());
 		touchpad.setScale(20);

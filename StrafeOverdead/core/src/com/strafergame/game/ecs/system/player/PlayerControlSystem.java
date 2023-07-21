@@ -18,13 +18,15 @@ import com.strafergame.input.PlayerControl;
 public class PlayerControlSystem extends IteratingSystem {
 
 	Strafer game;
+
 	public PlayerControlSystem(Strafer game) {
 		super(Family.all(PlayerComponent.class).get());
-		this.game=game;
+		this.game = game;
 	}
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
+		menuTriggers();
 		move(entity);
 		dash(entity);
 	}
@@ -84,15 +86,13 @@ public class PlayerControlSystem extends IteratingSystem {
 						}, plyrCmp.dashCooldown);
 					}
 				}, movCmp.dashDuration);
-				
 
 			}
 		}
 	}
 
-	
 	private void menuTriggers() {
-		if(PlayerControl.PAUSE_TRIGGER){
+		if (PlayerControl.PAUSE_TRIGGER) {
 			game.setScreen(Strafer.titleScreen);
 		}
 	}

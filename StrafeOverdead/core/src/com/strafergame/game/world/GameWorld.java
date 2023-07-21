@@ -34,7 +34,7 @@ public class GameWorld implements Disposable {
 
 	private final Box2DWorld box2DWorld = new Box2DWorld();
 	private final RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
-	private final EntityEngine entityEngine ;
+	private final EntityEngine entityEngine;
 	private Entity dummy;
 	private Entity dummy2;
 
@@ -42,7 +42,7 @@ public class GameWorld implements Disposable {
 
 	public GameWorld(Strafer game) {
 		this.game = game;
-		entityEngine = new EntityEngine(box2DWorld, rayHandler);
+		entityEngine = new EntityEngine(game, box2DWorld, rayHandler);
 		player = entityEngine.createPlayer(new Vector2(0, 0));
 
 		addTestAssets();
