@@ -25,6 +25,7 @@ import com.strafergame.game.ecs.system.combat.CombatSystem;
 import com.strafergame.game.ecs.system.combat.HealthSystem;
 import com.strafergame.game.ecs.system.player.PlayerControlSystem;
 import com.strafergame.game.ecs.system.render.RenderingSystem;
+import com.strafergame.game.ecs.system.save.AutoSaveSystem;
 import com.strafergame.game.entities.EntityType;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
@@ -51,6 +52,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		addSystem(new HealthSystem(box2dWorld));
 		addSystem(new CombatSystem());
 		addSystem(new CameraSystem());
+		addSystem(new AutoSaveSystem(300));
 		addSystem(new RenderingSystem(Strafer.spriteBatch));
 
 	}
