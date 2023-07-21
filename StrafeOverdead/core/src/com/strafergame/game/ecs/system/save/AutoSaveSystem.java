@@ -15,6 +15,9 @@ public class AutoSaveSystem extends IntervalIteratingSystem {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	protected void processEntity(final Entity entity) {
+		if (SaveSystem.suppressAutosave) {
+			return;
+		}
 		AutoSaveComponent svCmp = ComponentMappers.save().get(entity);
 		svCmp.saved = false;
 		new Thread(new Runnable() {
