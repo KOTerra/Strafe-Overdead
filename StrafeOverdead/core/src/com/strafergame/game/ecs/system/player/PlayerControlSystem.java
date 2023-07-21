@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.utils.Timer;
+import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
@@ -16,8 +17,10 @@ import com.strafergame.input.PlayerControl;
 
 public class PlayerControlSystem extends IteratingSystem {
 
-	public PlayerControlSystem() {
+	Strafer game;
+	public PlayerControlSystem(Strafer game) {
 		super(Family.all(PlayerComponent.class).get());
+		this.game=game;
 	}
 
 	@Override
@@ -89,8 +92,8 @@ public class PlayerControlSystem extends IteratingSystem {
 
 	
 	private void menuTriggers() {
-		//pause
-		//map
-		//etc
+		if(PlayerControl.PAUSE_TRIGGER){
+			game.setScreen(Strafer.titleScreen);
+		}
 	}
 }

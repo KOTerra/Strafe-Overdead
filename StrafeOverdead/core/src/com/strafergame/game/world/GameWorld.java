@@ -34,7 +34,7 @@ public class GameWorld implements Disposable {
 
 	private final Box2DWorld box2DWorld = new Box2DWorld();
 	private final RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
-	private final EntityEngine entityEngine = new EntityEngine(box2DWorld, rayHandler);
+	private final EntityEngine entityEngine ;
 	private Entity dummy;
 	private Entity dummy2;
 
@@ -42,7 +42,7 @@ public class GameWorld implements Disposable {
 
 	public GameWorld(Strafer game) {
 		this.game = game;
-
+		entityEngine = new EntityEngine(box2DWorld, rayHandler);
 		player = entityEngine.createPlayer(new Vector2(0, 0));
 
 		addTestAssets();
@@ -104,9 +104,7 @@ public class GameWorld implements Disposable {
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
 
 			}
-			if (Gdx.input.isKeyPressed(Keys.ESCAPE)) {
-				game.setScreen(Strafer.titleScreen);
-			}
+
 			if (Gdx.input.isKeyPressed(Keys.NUMPAD_8)) {
 				Strafer.i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"), new Locale("ro"),
 						"utf-8");

@@ -34,18 +34,20 @@ import box2dLight.RayHandler;
 
 public class EntityEngine extends PooledEngine implements Disposable {
 
+	final Strafer game;
 	private final Box2DWorld box2dWorld;
 	private final RayHandler rayHandler;
 
-	public EntityEngine(final Box2DWorld box2dWorld, final RayHandler rayHandler) {
+	public EntityEngine(final Strafer game,final Box2DWorld box2dWorld, final RayHandler rayHandler) {
 		super();
+		this.game=game;
 		this.box2dWorld = box2dWorld;
 		this.rayHandler = rayHandler;
 
 		// iterating systems
 		addSystem(new AnimationSystem());
 		addSystem(new MovementSystem(this.box2dWorld));
-		addSystem(new PlayerControlSystem());
+		addSystem(new PlayerControlSystem(game));
 		addSystem(new HealthSystem(box2dWorld));
 		addSystem(new CombatSystem());
 		addSystem(new CameraSystem());
