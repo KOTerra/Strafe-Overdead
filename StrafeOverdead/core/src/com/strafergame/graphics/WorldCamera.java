@@ -1,7 +1,6 @@
 package com.strafergame.graphics;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector3;
@@ -112,6 +111,11 @@ public class WorldCamera extends OrthographicCamera {
 		this.interpolation = interpolation;
 	}
 
+	public void addToFocus(Entity entity) {
+		this.focusType = FocusType.ENTITY_GROUP_FOCUS;
+		this.focusEntities.add(entity);
+	}
+
 	public void setFocusOnLocation(Vector3 location) {
 		this.focusType = FocusType.LOCATION_FOCUS;
 		this.locationFocus = location;
@@ -172,7 +176,6 @@ public class WorldCamera extends OrthographicCamera {
 
 			case ENTITY_FOCUS: {
 				PositionComponent posCmp = ComponentMappers.position().get(focusEntities.get(0));
-
 				cameraSnapPosition.set(posCmp.renderX, posCmp.renderY, 0);
 				break;
 			}
@@ -195,7 +198,7 @@ public class WorldCamera extends OrthographicCamera {
 			Strafer.worldCamera.position
 					.set(Math.round(Strafer.worldCamera.position.x / Strafer.SCALE_FACTOR) * Strafer.SCALE_FACTOR,
 							Math.round(Strafer.worldCamera.position.y / Strafer.SCALE_FACTOR) * Strafer.SCALE_FACTOR, 0)
-					.interpolate(cameraSnapPosition, alpha , interpolation);
+					.interpolate(cameraSnapPosition, alpha, interpolation);
 
 		}
 	}

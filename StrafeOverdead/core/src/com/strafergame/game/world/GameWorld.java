@@ -5,8 +5,6 @@ import java.util.Locale;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
@@ -17,11 +15,11 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
+
 import box2dLight.RayHandler;
 
 public class GameWorld implements Disposable {
 
-	private Sprite backgroundTest;
 	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/test.tmx", TiledMap.class);
 
 	public static final float FIXED_TIME_STEP = 1 / 90f;
@@ -38,7 +36,7 @@ public class GameWorld implements Disposable {
 	private Entity dummy;
 	private Entity dummy2;
 
-	private Entity player;
+	public static Entity player;
 
 	public GameWorld(Strafer game) {
 		this.game = game;
@@ -60,13 +58,10 @@ public class GameWorld implements Disposable {
 	}
 
 	void addTestAssets() {
-		backgroundTest = new Sprite(Strafer.assetManager.get("images/back.png", Texture.class));
-		backgroundTest.setPosition(0, 0);
-		backgroundTest.setSize(backgroundTest.getWidth() * Strafer.SCALE_FACTOR,
-				backgroundTest.getHeight() * Strafer.SCALE_FACTOR);
+
 		dummy = entityEngine.createDummy(new Vector2(10, 5), 3);
 		dummy2 = entityEngine.createDummy(new Vector2(10, 5), 1);
-		entityEngine.createHitboxDummy(new Vector2(15, 5));
+		entityEngine.createHitboxDummy(new Vector2(15, 5), null);
 
 		Strafer.worldCamera.setFocusOn(player);
 

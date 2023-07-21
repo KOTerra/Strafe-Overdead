@@ -22,7 +22,7 @@ public class ProximityTestSystem extends IteratingSystem {
 			// System.err.println(plyrCmp.baseSpeed);
 		}
 		if (ProximityContactPair.isPlayerInProximity(dtctrCmp)) {
-			System.err.println(entity.hashCode());
+			// System.err.println(entity.hashCode());
 		}
 	}
 

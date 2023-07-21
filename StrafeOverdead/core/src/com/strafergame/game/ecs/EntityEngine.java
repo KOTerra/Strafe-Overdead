@@ -12,6 +12,7 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.component.AnimationComponent;
 import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.Box2dComponent;
+import com.strafergame.game.ecs.component.CameraComponent;
 import com.strafergame.game.ecs.component.DetectorComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
@@ -19,9 +20,10 @@ import com.strafergame.game.ecs.component.MovementComponent;
 import com.strafergame.game.ecs.component.PlayerComponent;
 import com.strafergame.game.ecs.component.PositionComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
+import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.AnimationSystem;
-import com.strafergame.game.ecs.system.CameraSystem;
 import com.strafergame.game.ecs.system.MovementSystem;
+import com.strafergame.game.ecs.system.camera.CameraSystem;
 import com.strafergame.game.ecs.system.combat.CombatSystem;
 import com.strafergame.game.ecs.system.combat.HealthSystem;
 import com.strafergame.game.ecs.system.combat.ProximityTestSystem;
@@ -29,7 +31,6 @@ import com.strafergame.game.ecs.system.player.HudSystem;
 import com.strafergame.game.ecs.system.player.PlayerControlSystem;
 import com.strafergame.game.ecs.system.render.RenderingSystem;
 import com.strafergame.game.ecs.system.save.AutoSaveSystem;
-import com.strafergame.game.entities.EntityType;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.collision.FilteredContactListener;
@@ -60,7 +61,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		addSystem(new AutoSaveSystem(300));
 		addSystem(new RenderingSystem(Strafer.spriteBatch));
 
-		addSystem(new ProximityTestSystem());
+		// addSystem(new ProximityTestSystem());
 
 	}
 
@@ -116,6 +117,9 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		EntityTypeComponent typeCmp = this.createComponent(EntityTypeComponent.class);
 		typeCmp.entityType = EntityType.dummy;
 		dummy.add(typeCmp);
+		CameraComponent camCmp = this.createComponent(CameraComponent.class);
+		camCmp.type = EntityType.dummy;
+		dummy.add(camCmp);
 
 		PositionComponent posCmp = this.createComponent(PositionComponent.class);
 		posCmp.isHidden = false;
@@ -150,11 +154,12 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		return dummy;
 	}
 
-	public Entity createHitboxDummy(final Vector2 location) {
+	public Entity createHitboxDummy(final Vector2 location, final Entity owner) {
 		final Entity dummy = this.createEntity();
 		AttackComponent attckCmp = this.createComponent(AttackComponent.class);
 
-		attckCmp.damagePerSecond = 1;
+		attckCmp.owner = owner;
+		attckCmp.damagePerSecond = 10;
 		attckCmp.doesKnockback = true;
 		attckCmp.knockbackMagnitude = 5;
 		Box2DFactory.createBodyWithHitbox(attckCmp, box2dWorld.getWorld(), 1, 1, 0, 0, location);
