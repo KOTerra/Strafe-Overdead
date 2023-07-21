@@ -24,7 +24,7 @@ public class GameWorld implements Disposable {
 	private Sprite backgroundTest;
 	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/test.tmx", TiledMap.class);
 
-	public static final float FIXED_TIME_STEP = 1 / 90;
+	public static final float FIXED_TIME_STEP = 1 / 90f;
 
 	Strafer game;
 

@@ -24,18 +24,18 @@ public class HealthSystem extends IteratingSystem {
 		EntityTypeComponent ettCmp = ComponentMappers.entityType().get(entity);
 		AttackComponent attckCmp = AttackContactPair.getAttack(b2dCmp);
 
-		if (attckCmp != null) {
-			if (attckCmp instanceof AttackComponent) {
-
-				ettCmp.entityState = EntityState.hit;
-
-				hlthCmp.hitPoints -= attckCmp.damagePerSecond * deltaTime;
-
-				if (hlthCmp.hitPoints <= 0) {
-					ettCmp.entityState = EntityState.death;
-				}
-
+		if (attckCmp instanceof AttackComponent) {
+			if (attckCmp.owner != null && attckCmp.owner.equals(entity)) {
+				return;
 			}
+			ettCmp.entityState = EntityState.hit;
+
+			hlthCmp.hitPoints -= attckCmp.damagePerSecond * deltaTime;
+
+			if (hlthCmp.hitPoints <= 0) {
+				ettCmp.entityState = EntityState.death;
+			}
+
 		}
 	}
 
