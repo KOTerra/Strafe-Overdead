@@ -13,7 +13,7 @@ import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.MovementComponent;
 import com.strafergame.game.ecs.component.PositionComponent;
-import com.strafergame.game.entities.EntityState;
+import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DWorld;
 

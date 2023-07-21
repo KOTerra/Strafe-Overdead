@@ -10,7 +10,7 @@ import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
-import com.strafergame.game.entities.EntityState;
+import com.strafergame.game.ecs.states.EntityState;
 
 public class CombatSystem extends IteratingSystem {
 

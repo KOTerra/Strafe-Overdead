@@ -14,8 +14,8 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.PositionComponent;
-import com.strafergame.game.entities.EntityState;
-import com.strafergame.game.entities.EntityType;
+import com.strafergame.game.ecs.states.EntityState;
+import com.strafergame.game.ecs.states.EntityType;
 
 public class AnimationProvider {
 

@@ -1,4 +1,4 @@
-package com.strafergame.game.entities;
+package com.strafergame.game.ecs.states;
 
 /**
  * the type of an entity
@@ -10,8 +10,6 @@ public enum EntityType {
 	/**
 	 * the PLAYER type
 	 */
-	player,
-	dummy,
-	npc;
+	player, dummy, checkpoint, npc;
 
 }

@@ -8,7 +8,7 @@ import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
-import com.strafergame.game.entities.EntityState;
+import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.world.collision.Box2DWorld;
 
 public class HealthSystem extends IteratingSystem {

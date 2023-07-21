@@ -2,7 +2,7 @@ package com.strafergame.game.ecs.component;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool.Poolable;
-import com.strafergame.game.entities.EntityDirection;
+import com.strafergame.game.ecs.states.EntityDirection;
 
 public class PositionComponent implements Component, Poolable {
 	public float x = 0f;

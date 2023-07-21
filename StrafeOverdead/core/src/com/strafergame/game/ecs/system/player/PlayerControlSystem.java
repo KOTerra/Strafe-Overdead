@@ -11,8 +11,8 @@ import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.MovementComponent;
 import com.strafergame.game.ecs.component.PlayerComponent;
 import com.strafergame.game.ecs.component.PositionComponent;
-import com.strafergame.game.entities.EntityDirection;
-import com.strafergame.game.entities.EntityState;
+import com.strafergame.game.ecs.states.EntityDirection;
+import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.input.PlayerControl;
 
 public class PlayerControlSystem extends IteratingSystem {
