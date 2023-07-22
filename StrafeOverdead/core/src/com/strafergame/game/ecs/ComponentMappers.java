@@ -5,6 +5,7 @@ import com.strafergame.game.ecs.component.AnimationComponent;
 import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.CameraComponent;
+import com.strafergame.game.ecs.component.CheckpointComponent;
 import com.strafergame.game.ecs.component.DetectorComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
@@ -60,6 +61,9 @@ public abstract class ComponentMappers {
 		return ComponentMapper.getFor(DetectorComponent.class);
 	}
 
+	public static final ComponentMapper<CheckpointComponent> checkpoint() {
+		return ComponentMapper.getFor(CheckpointComponent.class);
+	}
 	@SuppressWarnings("rawtypes")
 	public static final ComponentMapper<AutoSaveComponent> save() {
 		return ComponentMapper.getFor(AutoSaveComponent.class);
@@ -67,4 +71,6 @@ public abstract class ComponentMappers {
 
 	private ComponentMappers() {
 	}
+
+	
 }

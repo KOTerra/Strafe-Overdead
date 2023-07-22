@@ -112,8 +112,10 @@ public class WorldCamera extends OrthographicCamera {
 	}
 
 	public void addToFocus(Entity entity) {
-		this.focusType = FocusType.ENTITY_GROUP_FOCUS;
-		this.focusEntities.add(entity);
+		if (!focusEntities.contains(entity, true)) {
+			this.focusEntities.add(entity);
+		}
+		focusType = FocusType.ENTITY_GROUP_FOCUS;
 	}
 
 	public void setFocusOnLocation(Vector3 location) {
@@ -122,6 +124,13 @@ public class WorldCamera extends OrthographicCamera {
 	}
 
 	public void setFocusBetween(boolean weighted, Entity... entities) {
+		this.focusType = FocusType.ENTITY_GROUP_FOCUS;
+		this.weighted = weighted;
+		focusEntities.clear();
+		focusEntities.addAll(entities);
+	}
+
+	public void setFocusBetween(boolean weighted, Array<Entity> entities) {
 		this.focusType = FocusType.ENTITY_GROUP_FOCUS;
 		this.weighted = weighted;
 		focusEntities.clear();
@@ -203,6 +212,14 @@ public class WorldCamera extends OrthographicCamera {
 		}
 	}
 
+	public boolean isWeighted() {
+		return weighted;
+	}
+
+	public void setWeighted(boolean weighted) {
+		this.weighted = weighted;
+	}
+
 	public Array<Entity> getFocusEntities() {
 		return focusEntities;
 	}
@@ -212,7 +229,7 @@ public class WorldCamera extends OrthographicCamera {
 	}
 
 	public boolean isInFocus() {
-		return focusType.equals(FocusType.NONE) ? false : true;
+		return !focusType.equals(FocusType.NONE);
 	}
 
 }

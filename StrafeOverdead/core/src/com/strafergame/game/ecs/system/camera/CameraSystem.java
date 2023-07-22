@@ -7,6 +7,7 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.CameraComponent;
 import com.strafergame.game.ecs.component.DetectorComponent;
+import com.strafergame.game.ecs.component.PlayerComponent;
 import com.strafergame.game.ecs.system.combat.ProximityContactPair;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.graphics.WorldCamera;
@@ -17,16 +18,22 @@ public class CameraSystem extends IteratingSystem {
 
 	public CameraSystem() {
 		super(Family.all(CameraComponent.class, DetectorComponent.class).get());
+
 	}
 
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		DetectorComponent dtctrCmp = ComponentMappers.detector().get(entity);
 		CameraComponent camCmp = ComponentMappers.camera().get(entity);
+		PlayerComponent plyrCmp = ComponentMappers.player().get(GameWorld.player);
+
 		if (ProximityContactPair.isPlayerInProximity(dtctrCmp)) {
 			switch (camCmp.type) {
 			case dummy: {
+
 				cam.addToFocus(entity);
+				cam.addToFocus(GameWorld.player);
+
 				break;
 			}
 			case checkpoint: {
@@ -37,8 +44,12 @@ public class CameraSystem extends IteratingSystem {
 				break;
 			}
 		} else {
-			cam.setFocusOn(GameWorld.player);
+			
+			if (plyrCmp.nearDetectors.size == 0) {
+				cam.setFocusOn(GameWorld.player);
+			}
 		}
+
 	}
 
 }

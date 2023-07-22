@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.ecs.system.save.CheckpointAction;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
 
@@ -62,6 +63,13 @@ public class GameWorld implements Disposable {
 		dummy = entityEngine.createDummy(new Vector2(10, 5), 3);
 		dummy2 = entityEngine.createDummy(new Vector2(10, 5), 1);
 		entityEngine.createHitboxDummy(new Vector2(15, 5), null);
+		entityEngine.createCheckpoint(new CheckpointAction() {
+
+			@Override
+			public void execute() {
+				// System.out.println("checkpoint reached");
+			}
+		}, new Vector2(20, 5));
 
 		Strafer.worldCamera.setFocusOn(player);
 

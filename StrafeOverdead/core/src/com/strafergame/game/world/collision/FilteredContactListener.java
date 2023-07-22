@@ -1,10 +1,13 @@
 package com.strafergame.game.world.collision;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.strafergame.game.ecs.ComponentMappers;
+import com.strafergame.game.ecs.component.PlayerComponent;
 import com.strafergame.game.ecs.system.combat.AttackContactPair;
 import com.strafergame.game.ecs.system.combat.ProximityContactPair;
 
@@ -73,9 +76,23 @@ public class FilteredContactListener implements ContactListener {
 		boolean isFixtureBDetector = fixtureB.getFilterData().categoryBits == PLAYER_DETECTOR_CATEGORY;
 		if (isFixtureAPlayer && isFixtureBDetector) {
 			fixtureB.setUserData(new ProximityContactPair(fixtureA, fixtureB));
+			Entity player = (Entity) fixtureA.getUserData();
+			if (player != null) {
+				PlayerComponent plyrCmp = ComponentMappers.player().get(player);
+				if (!plyrCmp.nearDetectors.contains(fixtureB, true)) {
+					plyrCmp.nearDetectors.add(fixtureB);
+				}
+			}
 		}
 		if (isFixtureADetector && isFixtureBPlayer) {
 			fixtureA.setUserData(new ProximityContactPair(fixtureB, fixtureA));
+			Entity player = (Entity) fixtureB.getUserData();
+			if (player != null) {
+				PlayerComponent plyrCmp = ComponentMappers.player().get(player);
+				if (!plyrCmp.nearDetectors.contains(fixtureA, true)) {
+					plyrCmp.nearDetectors.add(fixtureA);
+				}
+			}
 		}
 	}
 
@@ -84,9 +101,19 @@ public class FilteredContactListener implements ContactListener {
 		Fixture fixtureB = contact.getFixtureB();
 		if (fixtureA.getFilterData().categoryBits == PLAYER_DETECTOR_CATEGORY) {
 			fixtureA.setUserData(null);
+			Entity player = (Entity) fixtureB.getUserData();
+			if (player != null) {
+				PlayerComponent plyrCmp = ComponentMappers.player().get(player);
+				plyrCmp.nearDetectors.removeValue(fixtureA, true);
+			}
 		}
 		if (fixtureB.getFilterData().categoryBits == PLAYER_DETECTOR_CATEGORY) {
 			fixtureB.setUserData(null);
+			Entity player = (Entity) fixtureA.getUserData();
+			if (player != null) {
+				PlayerComponent plyrCmp = ComponentMappers.player().get(player);
+				plyrCmp.nearDetectors.removeValue(fixtureB, true);
+			}
 		}
 	}
 
