@@ -16,7 +16,7 @@ import com.strafergame.game.ecs.component.AttackComponent;
 public abstract class Box2DFactory {
 
 	public static Body createBody(Box2dComponent b2dCmp, World world, float width, float height, float xOffset,
-			float yOffset, Vector3 pos, BodyDef.BodyType type) {
+			float yOffset, Vector2 pos, BodyDef.BodyType type) {
 		Body body;
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set((pos.x + width / 2) + xOffset, (pos.y + height / 2) + yOffset);
@@ -36,6 +36,27 @@ public abstract class Box2DFactory {
 		Fixture fingerprint = body.createFixture(fixtureDef);
 		b2dCmp.fingerprint = fingerprint;
 		b2dCmp.body = body;
+		boxShape.dispose();
+
+		return body;
+	}
+
+	public static Body createBody(World world, float width, float height, Vector2 pos, BodyDef.BodyType type) {
+		Body body;
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.position.set((pos.x + width / 2), (pos.y + height / 2));
+		bodyDef.fixedRotation = true;
+		bodyDef.type = type;
+		body = world.createBody(bodyDef);
+
+		FixtureDef fixtureDef = new FixtureDef();
+		PolygonShape boxShape = new PolygonShape();
+		boxShape.setAsBox(width / 2, height / 2);
+		fixtureDef.shape = boxShape;
+		fixtureDef.restitution = 0;
+
+		body.createFixture(fixtureDef);
+
 		boxShape.dispose();
 
 		return body;
@@ -95,7 +116,7 @@ public abstract class Box2DFactory {
 		FixtureDef fixtureDef = new FixtureDef();
 		CircleShape circle = new CircleShape();
 		circle.setRadius(radius);
-		circle.setPosition(body.getPosition());
+		circle.setPosition(body.getLocalCenter());
 
 		fixtureDef.shape = circle;
 		fixtureDef.isSensor = true;

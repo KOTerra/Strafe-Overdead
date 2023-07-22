@@ -34,11 +34,11 @@ public class ProximityContactPair {
 
 	public static boolean isPlayerInProximity(DetectorComponent dtctrCmp) {
 		ProximityContactPair pair = (ProximityContactPair) dtctrCmp.detector.getUserData();
-		return pair != null && pair.detector != null;
+		return pair != null ;
 	}
 
 	public static boolean isPlayerInProximity(ProximityContactPair pair) {
-		return pair != null && pair.detector != null;
+		return pair != null ;
 	}
 
 }

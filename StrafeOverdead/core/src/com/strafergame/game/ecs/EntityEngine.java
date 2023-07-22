@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Disposable;
 import com.strafergame.Strafer;
@@ -13,6 +13,7 @@ import com.strafergame.game.ecs.component.AnimationComponent;
 import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.CameraComponent;
+import com.strafergame.game.ecs.component.CheckpointComponent;
 import com.strafergame.game.ecs.component.DetectorComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
@@ -22,15 +23,16 @@ import com.strafergame.game.ecs.component.PositionComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.AnimationSystem;
+import com.strafergame.game.ecs.system.CheckpointSystem;
 import com.strafergame.game.ecs.system.MovementSystem;
 import com.strafergame.game.ecs.system.camera.CameraSystem;
 import com.strafergame.game.ecs.system.combat.CombatSystem;
 import com.strafergame.game.ecs.system.combat.HealthSystem;
-import com.strafergame.game.ecs.system.combat.ProximityTestSystem;
 import com.strafergame.game.ecs.system.player.HudSystem;
 import com.strafergame.game.ecs.system.player.PlayerControlSystem;
 import com.strafergame.game.ecs.system.render.RenderingSystem;
 import com.strafergame.game.ecs.system.save.AutoSaveSystem;
+import com.strafergame.game.ecs.system.save.CheckpointAction;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.collision.FilteredContactListener;
@@ -58,6 +60,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		addSystem(new CombatSystem());
 		addSystem(new CameraSystem());
 		addSystem(new HudSystem());
+		addSystem(new CheckpointSystem());
 		addSystem(new AutoSaveSystem(300));
 		addSystem(new RenderingSystem(Strafer.spriteBatch));
 
@@ -101,7 +104,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		player.add(b2dCmp);
 
 		HealthComponent hlthComponent = this.createComponent(HealthComponent.class);
-		hlthComponent.hitPoints = 10;
+		hlthComponent.hitPoints = 200;
 		player.add(hlthComponent);
 
 		this.addEntity(player);
@@ -151,6 +154,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		dctrCmp.detector = Box2DFactory.createSensor(b2dCmp.body, FilteredContactListener.DETECTOR_RADIUS,
 				FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.PLAYER_CATEGORY);
 		dummy.add(dctrCmp);
+
 		return dummy;
 	}
 
@@ -164,8 +168,34 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		attckCmp.knockbackMagnitude = 5;
 		Box2DFactory.createBodyWithHitbox(attckCmp, box2dWorld.getWorld(), 1, 1, 0, 0, location);
 		dummy.add(attckCmp);
-
+		this.addEntity(dummy);
 		return dummy;
+	}
+
+	public Entity createCheckpoint(CheckpointAction action, final Vector2 location) {
+		final Entity checkpoint = this.createEntity();
+		CheckpointComponent chkCmp = this.createComponent(CheckpointComponent.class);
+		chkCmp.action = action;
+		checkpoint.add(chkCmp);
+
+		PositionComponent posCmp = this.createComponent(PositionComponent.class);
+		posCmp.renderX = location.x;
+		posCmp.renderY = location.y;
+		checkpoint.add(posCmp);
+
+		CameraComponent camCmp = this.createComponent(CameraComponent.class);
+		camCmp.type = EntityType.checkpoint;
+		checkpoint.add(camCmp);
+
+		Body body = Box2DFactory.createBody(box2dWorld.getWorld(), 1f, 1f, location, BodyType.StaticBody);
+		body.setUserData(checkpoint);
+		DetectorComponent dctrCmp = this.createComponent(DetectorComponent.class);
+		dctrCmp.detector = Box2DFactory.createSensor(body, FilteredContactListener.DETECTOR_RADIUS,
+				FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.PLAYER_CATEGORY);
+		checkpoint.add(dctrCmp);
+		this.addEntity(checkpoint);
+
+		return checkpoint;
 	}
 
 	private void initPhysics(Entity e) {
@@ -177,7 +207,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		posCmp.prevY = -spriteCmp.height / 2;
 
 		Box2DFactory.createBody(b2dCmp, box2dWorld.getWorld(), spriteCmp.width, spriteCmp.width, 0, 0,
-				new Vector3(posCmp.prevX, posCmp.prevY, 0), BodyType.DynamicBody);
+				new Vector2(posCmp.prevX, posCmp.prevY), BodyType.DynamicBody);
 		Box2DFactory.addHurtboxToBody(box2dWorld.getWorld(), b2dCmp, spriteCmp.width, spriteCmp.height, 0,
 				spriteCmp.height / 2);
 		b2dCmp.initiatedPhysics = true;
