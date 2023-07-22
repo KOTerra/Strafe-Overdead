@@ -36,14 +36,14 @@ public class AnimationProvider {
 		EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
 		PositionComponent posCmp = ComponentMappers.position().get(entity);
 		if (posCmp == null) {
+			return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState.toString());
 			// return
-			// TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState.toString());
-			return TYPE_ANIMATIONS.get(typeCmp.entityType).get(EntityState.idle.toString());
+			// TYPE_ANIMATIONS.get(typeCmp.entityType).get(EntityState.idle.toString());
 		}
 
-		// return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState + "_"
-		// + posCmp.direction);
-		return TYPE_ANIMATIONS.get(typeCmp.entityType).get(EntityState.idle + "_" + posCmp.direction);
+		return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState + "_" + posCmp.direction);
+		// return TYPE_ANIMATIONS.get(typeCmp.entityType).get(EntityState.idle + "_" +
+		// posCmp.direction);
 
 	}
 
@@ -55,6 +55,16 @@ public class AnimationProvider {
 		PLAYER_ANIMATIONS.put("idle_a", makeSprites(0.25f, EntityType.player, "idle_a"));
 		PLAYER_ANIMATIONS.put("idle_s", makeSprites(0.25f, EntityType.player, "idle_s"));
 		PLAYER_ANIMATIONS.put("idle_d", makeSprites(0.25f, EntityType.player, "idle_d"));
+
+		PLAYER_ANIMATIONS.put("walk_w", makeSprites(0.25f, EntityType.player, "walk_w"));
+		PLAYER_ANIMATIONS.put("walk_a", makeSprites(0.25f, EntityType.player, "walk_a"));
+		PLAYER_ANIMATIONS.put("walk_s", makeSprites(0.25f, EntityType.player, "walk_s"));
+		PLAYER_ANIMATIONS.put("walk_d", makeSprites(0.25f, EntityType.player, "walk_d"));
+
+		PLAYER_ANIMATIONS.put("hit_w", makeSprites(0.25f, EntityType.player, "hit_w"));
+		PLAYER_ANIMATIONS.put("hit_a", makeSprites(0.25f, EntityType.player, "hit_a"));
+		PLAYER_ANIMATIONS.put("hit_s", makeSprites(0.25f, EntityType.player, "hit_s"));
+		PLAYER_ANIMATIONS.put("hit_d", makeSprites(0.25f, EntityType.player, "hit_d"));
 		TYPE_ANIMATIONS.put(EntityType.player, PLAYER_ANIMATIONS);
 
 	}
@@ -66,7 +76,6 @@ public class AnimationProvider {
 				.get("spritesheets/" + entityType + "/" + entityType + ".atlas", TextureAtlas.class)
 				.findRegions(entityType + "_" + animation)) {
 			a.getTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-			// a.getTexture().setAnisotropicFilter(10);
 			Sprite s = new Sprite(a);
 
 			s.setScale(Strafer.SCALE_FACTOR);
