@@ -1,6 +1,8 @@
 package com.strafergame.ui;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
@@ -23,8 +25,9 @@ public class HUD extends Table {
 		align(Align.center);
 		Strafer.uiManager.addActor(this);
 		this.healthBar = makeHealthBar();
-
-		mobileUI();
+		if (Gdx.app.getType().equals(ApplicationType.iOS) || Gdx.app.getType().equals(ApplicationType.Android)) {
+			mobileUI();
+		}
 
 	}
 

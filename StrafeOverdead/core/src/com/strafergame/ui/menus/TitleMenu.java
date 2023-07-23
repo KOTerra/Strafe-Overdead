@@ -56,7 +56,7 @@ public class TitleMenu extends Table {
 		row();
 		add(loadGameButton);
 
-		VisTextButton optionsButton = new VisTextButton("Settings");
+		VisTextButton optionsButton = new VisTextButton(Strafer.i18n.get("optionsButton"));
 		optionsButton.addListener(new ChangeListener() {
 
 			@Override
@@ -67,7 +67,7 @@ public class TitleMenu extends Table {
 		row();
 		add(optionsButton);
 
-		VisTextButton quitButton = new VisTextButton("Afara");
+		VisTextButton quitButton = new VisTextButton(Strafer.i18n.get("quitButton"));
 		quitButton.addListener(new ChangeListener() {
 
 			@Override
