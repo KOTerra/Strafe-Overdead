@@ -112,6 +112,8 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		plyrCmp.sensor = Box2DFactory.createSensor(b2dCmp.body, FilteredContactListener.DETECTOR_RADIUS,
 				FilteredContactListener.PLAYER_CATEGORY, FilteredContactListener.PLAYER_DETECTOR_CATEGORY);
 		plyrCmp.sensor.setUserData(player);
+
+		b2dCmp.body.setTransform(playerSpawnLocation, 0);
 		return player;
 	}
 
@@ -155,6 +157,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 				FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.PLAYER_CATEGORY);
 		dummy.add(dctrCmp);
 
+		b2dCmp.body.setTransform(location, 0);
 		return dummy;
 	}
 

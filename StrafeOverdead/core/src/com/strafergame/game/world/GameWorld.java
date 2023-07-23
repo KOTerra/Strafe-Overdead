@@ -42,7 +42,7 @@ public class GameWorld implements Disposable {
 	public GameWorld(Strafer game) {
 		this.game = game;
 		entityEngine = new EntityEngine(game, box2DWorld, rayHandler);
-		player = entityEngine.createPlayer(new Vector2(0, 0));
+		player = entityEngine.createPlayer(new Vector2(4, 2));
 
 		addTestAssets();
 	}
@@ -60,16 +60,10 @@ public class GameWorld implements Disposable {
 
 	void addTestAssets() {
 
-		dummy = entityEngine.createDummy(new Vector2(10, 5), 3);
-		dummy2 = entityEngine.createDummy(new Vector2(10, 5), 1);
-		entityEngine.createHitboxDummy(new Vector2(15, 5),1,8, null);
-		entityEngine.createCheckpoint(new CheckpointAction() {
-
-			@Override
-			public void execute() {
-				// System.out.println("checkpoint reached");
-			}
-		}, new Vector2(20, 5));
+		dummy = entityEngine.createDummy(new Vector2(40, 60), 3);
+		dummy2 = entityEngine.createDummy(new Vector2(30, 20), 1);
+		entityEngine.createHitboxDummy(new Vector2(15, 5), 1, 8, null);
+		
 
 		Strafer.worldCamera.setFocusOn(player);
 
@@ -80,6 +74,20 @@ public class GameWorld implements Disposable {
 			for (int j = 1; j <= walls.getHeight(); j++) {
 				if (walls.getCell(i, j) != null) {
 					Box2DFactory.createWall(box2DWorld.getWorld(), 1, 1, new Vector3(i, j, 0));
+				}
+			}
+		}
+		TiledMapTileLayer check = (TiledMapTileLayer) tiledMapTest.getLayers().get("checkpoint");
+		for (int i = 1; i <= check.getWidth(); i++) {
+			for (int j = 1; j <= check.getHeight(); j++) {
+				if (check.getCell(i, j) != null) {
+					entityEngine.createCheckpoint(new CheckpointAction() {
+
+						@Override
+						public void execute() {
+							// System.out.println("checkpoint reached");
+						}
+					}, new Vector2(i, j));
 				}
 			}
 		}
