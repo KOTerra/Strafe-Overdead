@@ -104,7 +104,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		player.add(b2dCmp);
 
 		HealthComponent hlthComponent = this.createComponent(HealthComponent.class);
-		hlthComponent.hitPoints = 200;
+		hlthComponent.hitPoints = 20;
 		player.add(hlthComponent);
 
 		this.addEntity(player);
@@ -158,7 +158,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		return dummy;
 	}
 
-	public Entity createHitboxDummy(final Vector2 location, final Entity owner) {
+	public Entity createHitboxDummy(final Vector2 location, int width, int height, final Entity owner) {
 		final Entity dummy = this.createEntity();
 		AttackComponent attckCmp = this.createComponent(AttackComponent.class);
 
@@ -166,7 +166,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		attckCmp.damagePerSecond = 10;
 		attckCmp.doesKnockback = true;
 		attckCmp.knockbackMagnitude = 5;
-		Box2DFactory.createBodyWithHitbox(attckCmp, box2dWorld.getWorld(), 1, 1, 0, 0, location);
+		Box2DFactory.createBodyWithHitbox(attckCmp, box2dWorld.getWorld(), width, height, 0, 0, location);
 		dummy.add(attckCmp);
 		this.addEntity(dummy);
 		return dummy;

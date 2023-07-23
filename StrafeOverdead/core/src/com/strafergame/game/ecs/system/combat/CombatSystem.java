@@ -37,7 +37,7 @@ public class CombatSystem extends IteratingSystem {
 		}
 	}
 
-	private void knockback(Box2dComponent b2dCmp, AttackComponent attckCmp, EntityTypeComponent ettcmp) {
+	private void knockback(Box2dComponent b2dCmp, AttackComponent attckCmp, final EntityTypeComponent ettcmp) {
 
 		if (attckCmp != null) {
 			if (attckCmp instanceof AttackComponent) {
@@ -55,6 +55,7 @@ public class CombatSystem extends IteratingSystem {
 				}
 			}
 		}
+
 		ettcmp.entityState = EntityState.idle;
 
 	}

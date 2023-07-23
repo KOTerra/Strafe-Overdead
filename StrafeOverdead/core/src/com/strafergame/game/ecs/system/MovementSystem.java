@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Timer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
@@ -101,11 +100,8 @@ public class MovementSystem extends IteratingSystem {
 
 	public void dashBodyOnce(final Body body, Vector2 direction, MovementComponent movCmp,
 			final EntityTypeComponent ettCmp, boolean dashCooldown, float dashForce) {
-		if (dashCooldown) {
-			Vector2 impulse = direction.cpy().scl(dashForce);
-			body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
-			
-		}
+		Vector2 impulse = direction.cpy().scl(dashForce);
+		body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
 
 	}
 }

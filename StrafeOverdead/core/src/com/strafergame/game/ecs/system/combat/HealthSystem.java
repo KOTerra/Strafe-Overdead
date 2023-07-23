@@ -37,6 +37,10 @@ public class HealthSystem extends IteratingSystem {
 			}
 
 		}
+		if (ettCmp.entityState.equals(EntityState.death)) {
+			// dies
+		}
+
 	}
 
 }

@@ -62,7 +62,7 @@ public class GameWorld implements Disposable {
 
 		dummy = entityEngine.createDummy(new Vector2(10, 5), 3);
 		dummy2 = entityEngine.createDummy(new Vector2(10, 5), 1);
-		entityEngine.createHitboxDummy(new Vector2(15, 5), null);
+		entityEngine.createHitboxDummy(new Vector2(15, 5),1,8, null);
 		entityEngine.createCheckpoint(new CheckpointAction() {
 
 			@Override

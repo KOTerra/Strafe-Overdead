@@ -60,7 +60,9 @@ public class PlayerControlSystem extends IteratingSystem {
 		if (movCmp.moving()) {
 			typeCmp.entityState = EntityState.walk;
 		} else {
-			typeCmp.entityState = EntityState.idle;
+			if (!typeCmp.entityState.equals(EntityState.death)) {
+				typeCmp.entityState = EntityState.idle;
+			}
 		}
 
 	}
@@ -78,16 +80,19 @@ public class PlayerControlSystem extends IteratingSystem {
 					@Override
 					public void run() {
 						ettCmp.entityState = EntityState.idle;
-						Timer.schedule(new Timer.Task() {
-							@Override
-							public void run() {
-								movCmp.isDashCooldown = false;
-							}
-						}, plyrCmp.dashCooldown);
+
 					}
 				}, movCmp.dashDuration);
+				Timer.schedule(new Timer.Task() {
+					@Override
+					public void run() {
+						movCmp.isDashCooldown = false;
+					}
+				}, plyrCmp.dashCooldownDuration);
 
 			}
+		} else {
+			ettCmp.entityState = EntityState.dash;
 		}
 	}
 
