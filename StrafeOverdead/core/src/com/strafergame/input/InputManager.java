@@ -4,44 +4,47 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.controllers.Controllers;
+import com.strafergame.input.handlers.controller.ControllerInputHandler;
 import com.strafergame.input.handlers.desktop.KeyboardInputProcessor;
 
 /**
  * decides and updates which type of input processors to use (mobile, desktop or
  * controller)
- * 
- * @author mihai_stoica
  *
+ * @author mihai_stoica
  */
 public class InputManager {
 
-	InputMultiplexer inputMultiplexer = new InputMultiplexer();
+    InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-	KeyboardInputProcessor keyboardHandler;
+    KeyboardInputProcessor keyboardHandler;
 
-	private final PlayerControl playerControl = new PlayerControl();
+    ControllerInputHandler controllerHandler;
 
-	private final UIControl uiController = new UIControl();
+    private final PlayerControl playerControl = new PlayerControl();
 
-	public InputManager() {
-		Gdx.input.setInputProcessor(inputMultiplexer);
-		decideOnHandler();
-	}
+    private final UIControl uiController = new UIControl();
 
-	private void decideOnHandler() {
-		ApplicationType appType = Gdx.app.getType();
-		if (appType.equals(ApplicationType.Android) || appType.equals(ApplicationType.iOS)) {
+    public InputManager() {
+        Gdx.input.setInputProcessor(inputMultiplexer);
+        decideOnHandler();
+    }
 
-		} else {
-			if (keyboardHandler == null) {
-				keyboardHandler = new KeyboardInputProcessor();
-			}
-			inputMultiplexer.clear();
-			inputMultiplexer.addProcessor(keyboardHandler);
-		}
-		if (Controllers.getControllers().notEmpty()) {
-			System.out.println("controller");
-		}
-	}
+    private void decideOnHandler() {
+        ApplicationType appType = Gdx.app.getType();
+        if (appType.equals(ApplicationType.Android) || appType.equals(ApplicationType.iOS)) {
+
+        } else {
+            if (keyboardHandler == null) {
+                keyboardHandler = new KeyboardInputProcessor();
+            }
+            inputMultiplexer.clear();
+            inputMultiplexer.addProcessor(keyboardHandler);
+        }
+        if (Controllers.getControllers().notEmpty()) {
+
+            Controllers.addListener(controllerHandler);
+        }
+    }
 
 }

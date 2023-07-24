@@ -1,19 +1,7 @@
 package com.strafergame.game.ecs;
 
 import com.badlogic.ashley.core.ComponentMapper;
-import com.strafergame.game.ecs.component.AnimationComponent;
-import com.strafergame.game.ecs.component.AttackComponent;
-import com.strafergame.game.ecs.component.Box2dComponent;
-import com.strafergame.game.ecs.component.CameraComponent;
-import com.strafergame.game.ecs.component.CheckpointComponent;
-import com.strafergame.game.ecs.component.DetectorComponent;
-import com.strafergame.game.ecs.component.EntityTypeComponent;
-import com.strafergame.game.ecs.component.HealthComponent;
-import com.strafergame.game.ecs.component.MovementComponent;
-import com.strafergame.game.ecs.component.PlayerComponent;
-import com.strafergame.game.ecs.component.PositionComponent;
-import com.strafergame.game.ecs.component.AutoSaveComponent;
-import com.strafergame.game.ecs.component.SpriteComponent;
+import com.strafergame.game.ecs.component.*;
 
 public abstract class ComponentMappers {
 
@@ -53,12 +41,16 @@ public abstract class ComponentMappers {
 		return ComponentMapper.getFor(HealthComponent.class);
 	}
 
-	public static final ComponentMapper<AttackComponent> hitbox() {
+	public static final ComponentMapper<AttackComponent> attack() {
 		return ComponentMapper.getFor(AttackComponent.class);
 	}
 
 	public static final ComponentMapper<DetectorComponent> detector() {
 		return ComponentMapper.getFor(DetectorComponent.class);
+	}
+
+	public static final ComponentMapper<ItemComponent> item(){
+		return ComponentMapper.getFor(ItemComponent.class);
 	}
 
 	public static final ComponentMapper<CheckpointComponent> checkpoint() {

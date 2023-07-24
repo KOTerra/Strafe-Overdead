@@ -9,6 +9,7 @@ import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
 import com.strafergame.game.ecs.states.EntityState;
+import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.world.collision.Box2DWorld;
 
 public class HealthSystem extends IteratingSystem {
@@ -37,8 +38,10 @@ public class HealthSystem extends IteratingSystem {
 			}
 
 		}
-		if (ettCmp.entityState.equals(EntityState.death)) {
-			// dies
+		if (ettCmp.entityState.equals(EntityState.death)){
+			if(!ettCmp.entityType.equals(EntityType.player)){
+				this.getEngine().removeEntity(entity);
+			}
 		}
 
 	}

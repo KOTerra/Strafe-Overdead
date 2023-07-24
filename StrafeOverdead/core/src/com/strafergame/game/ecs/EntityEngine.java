@@ -9,18 +9,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.utils.Disposable;
 import com.strafergame.Strafer;
-import com.strafergame.game.ecs.component.AnimationComponent;
-import com.strafergame.game.ecs.component.AttackComponent;
-import com.strafergame.game.ecs.component.Box2dComponent;
-import com.strafergame.game.ecs.component.CameraComponent;
-import com.strafergame.game.ecs.component.CheckpointComponent;
-import com.strafergame.game.ecs.component.DetectorComponent;
-import com.strafergame.game.ecs.component.EntityTypeComponent;
-import com.strafergame.game.ecs.component.HealthComponent;
-import com.strafergame.game.ecs.component.MovementComponent;
-import com.strafergame.game.ecs.component.PlayerComponent;
-import com.strafergame.game.ecs.component.PositionComponent;
-import com.strafergame.game.ecs.component.SpriteComponent;
+import com.strafergame.game.ecs.component.*;
+import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.AnimationSystem;
 import com.strafergame.game.ecs.system.CheckpointSystem;
@@ -28,6 +18,7 @@ import com.strafergame.game.ecs.system.MovementSystem;
 import com.strafergame.game.ecs.system.camera.CameraSystem;
 import com.strafergame.game.ecs.system.combat.CombatSystem;
 import com.strafergame.game.ecs.system.combat.HealthSystem;
+import com.strafergame.game.ecs.system.items.ItemHoldSystem;
 import com.strafergame.game.ecs.system.player.HudSystem;
 import com.strafergame.game.ecs.system.player.PlayerControlSystem;
 import com.strafergame.game.ecs.system.render.RenderingSystem;
@@ -57,6 +48,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		addSystem(new MovementSystem(this.box2dWorld));
 		addSystem(new PlayerControlSystem(this.game));
 		addSystem(new HealthSystem(box2dWorld));
+		addSystem(new ItemHoldSystem());
 		addSystem(new CombatSystem());
 		addSystem(new CameraSystem());
 		addSystem(new HudSystem());
@@ -121,6 +113,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		final Entity dummy = this.createEntity();
 		EntityTypeComponent typeCmp = this.createComponent(EntityTypeComponent.class);
 		typeCmp.entityType = EntityType.dummy;
+		typeCmp.entityState= EntityState.idle;
 		dummy.add(typeCmp);
 		CameraComponent camCmp = this.createComponent(CameraComponent.class);
 		camCmp.type = EntityType.dummy;
@@ -173,6 +166,27 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		dummy.add(attckCmp);
 		this.addEntity(dummy);
 		return dummy;
+	}
+
+	public Entity createItem(Entity owner,final Vector2 holdPos, int width, int height){
+		Entity item=new Entity();
+		ItemComponent itmCmp=this.createComponent(ItemComponent.class);
+		itmCmp.owner=owner;
+		itmCmp.holdPosition=holdPos;
+		item.add(itmCmp);
+
+		PositionComponent posCmp=this.createComponent(PositionComponent.class);
+		item.add(posCmp);
+
+		AttackComponent attckCmp = this.createComponent(AttackComponent.class);
+		attckCmp.owner=owner;
+		attckCmp.damagePerSecond=40;
+		attckCmp.doesKnockback=true;
+		attckCmp.knockbackMagnitude=5;
+		Box2DFactory.createBodyWithHitbox(attckCmp, box2dWorld.getWorld(), width, height, 0, 0, holdPos);
+		item.add(attckCmp);
+
+		return item;
 	}
 
 	public Entity createCheckpoint(CheckpointAction action, final Vector2 location) {

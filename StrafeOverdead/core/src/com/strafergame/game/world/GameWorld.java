@@ -12,7 +12,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
+import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.save.CheckpointAction;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
@@ -50,7 +52,6 @@ public class GameWorld implements Disposable {
 	public void update(float delta) {
 		entityEngine.update(delta);
 		debugUpdate();
-
 	}
 
 	@Override

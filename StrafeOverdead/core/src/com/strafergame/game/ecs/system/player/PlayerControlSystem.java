@@ -3,9 +3,11 @@ package com.strafergame.game.ecs.system.player;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
+import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.MovementComponent;
@@ -17,88 +19,101 @@ import com.strafergame.input.PlayerControl;
 
 public class PlayerControlSystem extends IteratingSystem {
 
-	Strafer game;
+    Strafer game;
 
-	public PlayerControlSystem(Strafer game) {
-		super(Family.all(PlayerComponent.class).get());
-		this.game = game;
-	}
+    Entity item;
 
-	@Override
-	protected void processEntity(Entity entity, float deltaTime) {
-		menuTriggers();
-		move(entity);
-		dash(entity);
-	}
+    public PlayerControlSystem(Strafer game) {
+        super(Family.all(PlayerComponent.class).get());
+        this.game = game;
+    }
 
-	private void move(Entity e) {
-		PositionComponent posCmp = ComponentMappers.position().get(e);
-		final MovementComponent movCmp = ComponentMappers.movement().get(e);
-		PlayerComponent plyrCmp = ComponentMappers.player().get(e);
-		Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
-		final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
+    @Override
+    protected void processEntity(Entity entity, float deltaTime) {
+        menuTriggers();
+        move(entity);
+        dash(entity);
+    }
 
-		movCmp.dirX = 0;
-		movCmp.dirY = 0;
+    private void move(Entity e) {
+        PositionComponent posCmp = ComponentMappers.position().get(e);
+        final MovementComponent movCmp = ComponentMappers.movement().get(e);
+        PlayerComponent plyrCmp = ComponentMappers.player().get(e);
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
+        final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
-		if (PlayerControl.MOVE_UP) {
-			movCmp.dirY = 1;
-			posCmp.direction = EntityDirection.w;
-		}
-		if (PlayerControl.MOVE_DOWN) {
-			movCmp.dirY = -1;
-			posCmp.direction = EntityDirection.s;
-		}
-		if (PlayerControl.MOVE_LEFT) {
-			movCmp.dirX = -1;
-			posCmp.direction = EntityDirection.a;
-		}
-		if (PlayerControl.MOVE_RIGHT) {
-			movCmp.dirX = 1;
-			posCmp.direction = EntityDirection.d;
-		}
-		if (movCmp.moving()) {
-			typeCmp.entityState = EntityState.walk;
-		} else {
-			if (!typeCmp.entityState.equals(EntityState.death)) {
-				typeCmp.entityState = EntityState.idle;
-			}
-		}
+        movCmp.dirX = 0;
+        movCmp.dirY = 0;
 
-	}
+        if (PlayerControl.MOVE_UP) {
+            movCmp.dirY = 1;
+            posCmp.direction = EntityDirection.w;
+        }
+        if (PlayerControl.MOVE_DOWN) {
+            movCmp.dirY = -1;
+            posCmp.direction = EntityDirection.s;
+        }
+        if (PlayerControl.MOVE_LEFT) {
+            movCmp.dirX = -1;
+            posCmp.direction = EntityDirection.a;
+        }
+        if (PlayerControl.MOVE_RIGHT) {
+            movCmp.dirX = 1;
+            posCmp.direction = EntityDirection.d;
+        }
+        if (movCmp.moving()) {
+            typeCmp.entityState = EntityState.walk;
+        } else {
+            if (!typeCmp.entityState.equals(EntityState.death)) {
+                typeCmp.entityState = EntityState.idle;
+            }
+        }
 
-	private void dash(Entity e) {
-		final MovementComponent movCmp = ComponentMappers.movement().get(e);
-		final EntityTypeComponent ettCmp = ComponentMappers.entityType().get(e);
-		final PlayerComponent plyrCmp = ComponentMappers.player().get(e);
+    }
 
-		if (!movCmp.isDashCooldown) {
-			if (PlayerControl.DASH && movCmp.moving()) {
-				movCmp.isDashCooldown = true;
-				ettCmp.entityState = EntityState.dash;
-				Timer.schedule(new Timer.Task() {
-					@Override
-					public void run() {
-						ettCmp.entityState = EntityState.idle;
+    private void dash(Entity e) {
+        final MovementComponent movCmp = ComponentMappers.movement().get(e);
+        final EntityTypeComponent ettCmp = ComponentMappers.entityType().get(e);
+        final PlayerComponent plyrCmp = ComponentMappers.player().get(e);
 
-					}
-				}, movCmp.dashDuration);
-				Timer.schedule(new Timer.Task() {
-					@Override
-					public void run() {
-						movCmp.isDashCooldown = false;
-					}
-				}, plyrCmp.dashCooldownDuration);
+        final EntityEngine entityEngine = (EntityEngine) this.getEngine();
 
-			}
-		} else {
-			ettCmp.entityState = EntityState.dash;
-		}
-	}
+        if (item == null) {
+            item = entityEngine.createItem(e, new Vector2(0, 0), 3, 3);
+        }
 
-	private void menuTriggers() {
-		if (PlayerControl.PAUSE_TRIGGER) {
-			game.setScreen(Strafer.titleScreen);
-		}
-	}
+        if (!movCmp.isDashCooldown) {
+            if (PlayerControl.DASH && movCmp.moving()) {
+                movCmp.isDashCooldown = true;
+                ettCmp.entityState = EntityState.dash;
+                if (!entityEngine.getEntities().contains(item, true)) {
+                    entityEngine.addEntity(item);
+                }
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        ettCmp.entityState = EntityState.idle;
+                        if (entityEngine.getEntities().contains(item, true)) {
+                            entityEngine.removeEntity(item);
+                        }
+                    }
+                }, movCmp.dashDuration);
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        movCmp.isDashCooldown = false;
+                    }
+                }, plyrCmp.dashCooldownDuration);
+
+            }
+        } else {
+            ettCmp.entityState = EntityState.dash;
+        }
+    }
+
+    private void menuTriggers() {
+        if (PlayerControl.PAUSE_TRIGGER) {
+            game.setScreen(Strafer.titleScreen);
+        }
+    }
 }

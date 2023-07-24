@@ -3,7 +3,7 @@ package com.strafergame.input.handlers.controller;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 
-public class ControllerListenerBase implements ControllerListener {
+public class ControllerInputHandler implements ControllerListener {
 
 	@Override
 	public boolean buttonDown(Controller controller, int buttonIndex) {
