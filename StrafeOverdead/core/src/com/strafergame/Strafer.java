@@ -15,10 +15,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.strafergame.graphics.OrthogonalTiledMapRendererBleeding;
 import com.strafergame.graphics.WorldCamera;
 import com.strafergame.input.InputManager;
-import com.strafergame.screens.GameScreen;
-import com.strafergame.screens.LoadingScreen;
-import com.strafergame.screens.SettingsScreen;
-import com.strafergame.screens.TitleScreen;
+import com.strafergame.screens.*;
 import com.strafergame.settings.Settings;
 import com.strafergame.ui.UiManager;
 
@@ -121,6 +118,11 @@ public class Strafer extends Game {
 	 * the game screen
 	 */
 	public static GameScreen gameScreen;
+	/**
+	 * the game over screen
+	 */
+	public static GameOverScreen gameOverScreen;
+
 
 	/**
 	 * the tiled map
@@ -139,7 +141,7 @@ public class Strafer extends Game {
 	 */
 	public static boolean inDebug = true;
 
-	@Override
+    @Override
 	public void create() {
 
 		i18n = I18NBundle.createBundle(Gdx.files.internal("i18n/ui/bundle"),

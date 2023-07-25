@@ -60,7 +60,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
 	}
 
-	public Entity createPlayer(final Vector2 playerSpawnLocation) {
+	public Entity createPlayer(int hp,final Vector2 playerSpawnLocation) {
 		final Entity player = this.createEntity();
 		PlayerComponent plyrCmp = this.createComponent(PlayerComponent.class);
 		player.add(plyrCmp);
@@ -96,7 +96,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		player.add(b2dCmp);
 
 		HealthComponent hlthComponent = this.createComponent(HealthComponent.class);
-		hlthComponent.hitPoints = 20;
+		hlthComponent.hitPoints = hp;
 		player.add(hlthComponent);
 
 		this.addEntity(player);

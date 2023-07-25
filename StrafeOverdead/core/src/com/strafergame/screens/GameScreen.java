@@ -56,6 +56,13 @@ public class GameScreen implements Screen {
 
 	}
 
+	public void showGameOverMenu() {
+		if (Strafer.gameOverScreen == null) {
+			Strafer.gameOverScreen = new GameOverScreen(game);
+		}
+		game.setScreen(Strafer.gameOverScreen);
+	}
+
 	@Override
 	public void resize(int width, int height) {
 		Strafer.extendViewport.update(width, height);
@@ -88,6 +95,10 @@ public class GameScreen implements Screen {
 	public void show() {
 
 		hud.setVisible(true);
+	}
+
+	public GameWorld getGameWorld(){
+		return gameWorld;
 	}
 
 }

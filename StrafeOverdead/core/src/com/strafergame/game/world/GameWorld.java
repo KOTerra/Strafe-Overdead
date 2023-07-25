@@ -12,7 +12,12 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
+import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.ecs.component.Box2dComponent;
+import com.strafergame.game.ecs.component.EntityTypeComponent;
+import com.strafergame.game.ecs.component.HealthComponent;
+import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.save.CheckpointAction;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
@@ -38,10 +43,13 @@ public class GameWorld implements Disposable {
 
     public static Entity player;
 
+    private Vector2 playerSpawn=new Vector2(4,2);
+    private int playerInitialHealth=100;
+
     public GameWorld(Strafer game) {
         this.game = game;
         entityEngine = new EntityEngine(game, box2DWorld, rayHandler);
-        player = entityEngine.createPlayer(new Vector2(4, 2));
+        player = entityEngine.createPlayer(playerInitialHealth,playerSpawn);
 
         addTestAssets();
     }
@@ -108,6 +116,22 @@ public class GameWorld implements Disposable {
         }
     }
 
+    public void reset(){
+        for(Entity e:entityEngine.getEntities()){
+            if(e!=player){
+                entityEngine.removeEntity(e);
+            }
+        }
+        addTestAssets();
+
+        HealthComponent hlthCmp = ComponentMappers.health().get(player);
+        hlthCmp.hitPoints=playerInitialHealth;
+        EntityTypeComponent ettCmp=ComponentMappers.entityType().get(player);
+        ettCmp.entityState= EntityState.idle;
+        Box2dComponent b2dCmp =ComponentMappers.box2d().get(player);
+        b2dCmp.body.setTransform(playerSpawn,0);
+    }
+
     void debugControls() {
         if (Strafer.inDebug) {
 
@@ -124,7 +148,8 @@ public class GameWorld implements Disposable {
                 Strafer.worldCamera.setFocusOn(player);
             }
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_2)) {
-
+               // game.setScreen(Strafer.gameOverScreen);
+                this.reset();
             }
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
 

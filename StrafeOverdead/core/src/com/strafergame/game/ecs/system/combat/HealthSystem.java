@@ -3,6 +3,7 @@ package com.strafergame.game.ecs.system.combat;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.Box2dComponent;
@@ -41,6 +42,9 @@ public class HealthSystem extends IteratingSystem {
 		if (ettCmp.entityState.equals(EntityState.death)){
 			if(!ettCmp.entityType.equals(EntityType.player)){
 				this.getEngine().removeEntity(entity);
+			}
+			else{
+				Strafer.gameScreen.showGameOverMenu();
 			}
 		}
 
