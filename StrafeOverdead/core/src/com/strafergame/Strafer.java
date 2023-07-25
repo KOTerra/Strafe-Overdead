@@ -49,12 +49,6 @@ public class Strafer extends Game {
 	public static GameState gameState;
 
 	/**
-	 * the time elapsed. used to retrieve time dependent data such as animation
-	 * frames
-	 */
-	public static float stateTime = 0f;
-
-	/**
 	 * the world width measured in tiles.
 	 */
 	public static final float WORLD_WIDTH = 30;
@@ -139,7 +133,7 @@ public class Strafer extends Game {
 	/**
 	 * whether game is in debug mode
 	 */
-	public static boolean inDebug = true;
+	public static boolean inDebug = false;
 
     @Override
 	public void create() {

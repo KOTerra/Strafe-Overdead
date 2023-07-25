@@ -5,6 +5,7 @@ import com.strafergame.game.ecs.component.*;
 
 public abstract class ComponentMappers {
 
+
 	public static final ComponentMapper<EntityTypeComponent> entityType() {
 		return ComponentMapper.getFor(EntityTypeComponent.class);
 	}

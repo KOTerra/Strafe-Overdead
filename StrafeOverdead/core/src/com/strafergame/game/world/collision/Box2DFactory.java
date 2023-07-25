@@ -18,6 +18,7 @@ public abstract class Box2DFactory {
 	public static Body createBody(Box2dComponent b2dCmp, World world, float width, float height, float xOffset,
 			float yOffset, Vector2 pos, BodyDef.BodyType type) {
 		Body body;
+
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.position.set((pos.x + width / 2) + xOffset, (pos.y + height / 2) + yOffset);
 		bodyDef.angle = 0;

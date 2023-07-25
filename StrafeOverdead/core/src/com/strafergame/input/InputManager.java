@@ -42,7 +42,9 @@ public class InputManager {
             inputMultiplexer.addProcessor(keyboardHandler);
         }
         if (Controllers.getControllers().notEmpty()) {
-
+            if (controllerHandler == null) {
+                controllerHandler = new ControllerInputHandler();
+            }
             Controllers.addListener(controllerHandler);
         }
     }
