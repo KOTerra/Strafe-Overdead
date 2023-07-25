@@ -109,7 +109,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
 		return player;
 	}
 
-	public Entity createDummy(final Vector2 location, float scale) {
+	public Entity createEnemy(final Vector2 location, float scale) {
 		final Entity dummy = this.createEntity();
 		EntityTypeComponent typeCmp = this.createComponent(EntityTypeComponent.class);
 		typeCmp.entityType = EntityType.dummy;

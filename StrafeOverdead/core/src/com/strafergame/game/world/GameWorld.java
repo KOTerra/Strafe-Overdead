@@ -12,125 +12,138 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
-import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
-import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.save.CheckpointAction;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
 
 import box2dLight.RayHandler;
+import com.strafergame.game.world.map.LayerLoadAction;
 
 public class GameWorld implements Disposable {
 
-	private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/test.tmx", TiledMap.class);
+    private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/test.tmx", TiledMap.class);
 
-	public static final float FIXED_TIME_STEP = 1 / 90f;
+    public static final float FIXED_TIME_STEP = 1 / 90f;
 
-	Strafer game;
+    Strafer game;
 
-	/**
-	 * 
-	 */
+    /**
+     *
+     */
 
-	private final Box2DWorld box2DWorld = new Box2DWorld();
-	private final RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
-	private final EntityEngine entityEngine;
-	private Entity dummy;
-	private Entity dummy2;
+    private final Box2DWorld box2DWorld = new Box2DWorld();
+    private final RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
+    private final EntityEngine entityEngine;
 
-	public static Entity player;
+    public static Entity player;
 
-	public GameWorld(Strafer game) {
-		this.game = game;
-		entityEngine = new EntityEngine(game, box2DWorld, rayHandler);
-		player = entityEngine.createPlayer(new Vector2(4, 2));
+    public GameWorld(Strafer game) {
+        this.game = game;
+        entityEngine = new EntityEngine(game, box2DWorld, rayHandler);
+        player = entityEngine.createPlayer(new Vector2(4, 2));
 
-		addTestAssets();
-	}
+        addTestAssets();
+    }
 
-	public void update(float delta) {
-		entityEngine.update(delta);
-		debugUpdate();
-	}
+    public void update(float delta) {
+        entityEngine.update(delta);
+        debugUpdate();
+    }
 
-	@Override
-	public void dispose() {
-		entityEngine.dispose();
-	}
+    @Override
+    public void dispose() {
+        entityEngine.dispose();
+    }
 
-	void addTestAssets() {
+    void addTestAssets() {
 
-		dummy = entityEngine.createDummy(new Vector2(40, 60), 3);
-		dummy2 = entityEngine.createDummy(new Vector2(30, 20), 1);
-		entityEngine.createHitboxDummy(new Vector2(15, 5), 1, 8, null);
-		
+        //dummy = entityEngine.createEnemy(new Vector2(40, 60), 3);
+      //  dummy2 = entityEngine.createEnemy(new Vector2(30, 20), 1);
+        //entityEngine.createHitboxDummy(new Vector2(15, 5), 1, 8, null);
 
-		Strafer.worldCamera.setFocusOn(player);
 
-		Strafer.tiledMapRenderer.setMap(tiledMapTest);
+        Strafer.worldCamera.setFocusOn(player);
 
-		TiledMapTileLayer walls = (TiledMapTileLayer) tiledMapTest.getLayers().get("walls");
-		for (int i = 1; i <= walls.getWidth(); i++) {
-			for (int j = 1; j <= walls.getHeight(); j++) {
-				if (walls.getCell(i, j) != null) {
-					Box2DFactory.createWall(box2DWorld.getWorld(), 1, 1, new Vector3(i, j, 0));
-				}
-			}
-		}
-		TiledMapTileLayer check = (TiledMapTileLayer) tiledMapTest.getLayers().get("checkpoint");
-		for (int i = 1; i <= check.getWidth(); i++) {
-			for (int j = 1; j <= check.getHeight(); j++) {
-				if (check.getCell(i, j) != null) {
-					entityEngine.createCheckpoint(new CheckpointAction() {
+        Strafer.tiledMapRenderer.setMap(tiledMapTest);
 
-						@Override
-						public void execute() {
-							// System.out.println("checkpoint reached");
-						}
-					}, new Vector2(i, j));
-				}
-			}
-		}
-	}
 
-	void debugControls() {
-		if (Strafer.inDebug) {
+        loadLayer(tiledMapTest, "walls", new LayerLoadAction() {
+            @Override
+            public void execute(int i, int j) {
+                Box2DFactory.createWall(box2DWorld.getWorld(), 1, 1, new Vector3(i, j, 0));
+            }
+        });
 
-			if (Gdx.input.isKeyPressed(Keys.NUMPAD_SUBTRACT)) {
-				Strafer.worldCamera.zoom += .02f;
-			}
-			if (Gdx.input.isKeyPressed(Keys.NUMPAD_ADD)) {
-				Strafer.worldCamera.zoom -= .02f;
-			}
-			if (Gdx.input.isKeyPressed(Keys.NUMPAD_0)) {
-				Strafer.worldCamera.removeFocus();
-			}
-			if (Gdx.input.isKeyPressed(Keys.NUMPAD_1)) {
-				Strafer.worldCamera.setFocusOn(player);
-			}
-			if (Gdx.input.isKeyPressed(Keys.NUMPAD_2)) {
+        loadLayer(tiledMapTest, "checkpoint", new LayerLoadAction() {
+            @Override
+            public void execute(int i, int j) {
+                entityEngine.createCheckpoint(new CheckpointAction() {
 
-				Strafer.worldCamera.setFocusBetween(true, player, dummy, dummy2);
-			}
-			if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
+                    @Override
+                    public void execute() {
+                        // System.out.println("checkpoint reached");
+                    }
+                }, new Vector2(i, j));
+            }
+        });
 
-			}
+        loadLayer(tiledMapTest, "enemies", new LayerLoadAction() {
+            @Override
+            public void execute(int i, int j) {
+                entityEngine.createEnemy(new Vector2(i, j), 1);
+            }
+        });
 
-			if (Gdx.input.isKeyPressed(Keys.NUMPAD_8)) {
-				Strafer.i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"), new Locale("ro"),
-						"utf-8");
-			}
-		}
-	}
+    }
 
-	void debugUpdate() {
+    private void loadLayer(TiledMap map, String layerName, LayerLoadAction lla) {
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(layerName);
+        for (int i = 1; i <= layer.getWidth(); i++) {
+            for (int j = 1; j <= layer.getHeight(); j++) {
+                if (layer.getCell(i, j) != null) {
+                    lla.execute(i,j);
+                }
+            }
+        }
+    }
 
-		debugControls();
-	}
+    void debugControls() {
+        if (Strafer.inDebug) {
 
-	public Box2DWorld getBox2DWorld() {
-		return box2DWorld;
-	}
+            if (Gdx.input.isKeyPressed(Keys.NUMPAD_SUBTRACT)) {
+                Strafer.worldCamera.zoom += .02f;
+            }
+            if (Gdx.input.isKeyPressed(Keys.NUMPAD_ADD)) {
+                Strafer.worldCamera.zoom -= .02f;
+            }
+            if (Gdx.input.isKeyPressed(Keys.NUMPAD_0)) {
+                Strafer.worldCamera.removeFocus();
+            }
+            if (Gdx.input.isKeyPressed(Keys.NUMPAD_1)) {
+                Strafer.worldCamera.setFocusOn(player);
+            }
+            if (Gdx.input.isKeyPressed(Keys.NUMPAD_2)) {
+
+            }
+            if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
+
+            }
+
+            if (Gdx.input.isKeyPressed(Keys.NUMPAD_8)) {
+                Strafer.i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"), new Locale("ro"),
+                        "utf-8");
+            }
+        }
+    }
+
+    void debugUpdate() {
+
+        debugControls();
+    }
+
+    public Box2DWorld getBox2DWorld() {
+        return box2DWorld;
+    }
 
 }
