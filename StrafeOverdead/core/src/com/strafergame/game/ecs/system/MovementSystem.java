@@ -18,90 +18,93 @@ import com.strafergame.game.world.collision.Box2DWorld;
 
 public class MovementSystem extends IteratingSystem {
 
-	private float accumulator = 0f;
+    private float accumulator = 0f;
 
-	private Box2DWorld box2dWorld;
+    private Box2DWorld box2dWorld;
 
-	public MovementSystem(Box2DWorld box2dWorld) {
-		super(Family.all(Box2dComponent.class, PositionComponent.class, MovementComponent.class).get());
-		this.box2dWorld = box2dWorld;
-	}
+    public MovementSystem(Box2DWorld box2dWorld) {
+        super(Family.all(Box2dComponent.class, PositionComponent.class, MovementComponent.class).get());
+        this.box2dWorld = box2dWorld;
+    }
 
-	private void move() {
-		for (Entity e : this.getEntities()) {
-			Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
-			if (b2dCmp.initiatedPhysics) {
-				MovementComponent movCmp = ComponentMappers.movement().get(e);
-				EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
+    @Override
+    public void update(float delta) {
+        move();
+        float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
+        accumulator += frameTime;
+        while (accumulator >= GameWorld.FIXED_TIME_STEP) {
+            savePositions();
+            accumulator -= GameWorld.FIXED_TIME_STEP;
+            box2dWorld.step(GameWorld.FIXED_TIME_STEP);
+        }
+        float alpha = accumulator / GameWorld.FIXED_TIME_STEP;
+        interpolateRenderPositions(alpha);
 
-				switch (typeCmp.entityState) {
-				case idle:
-				case walk: {
-					b2dCmp.body.setLinearVelocity(movCmp.dirX * movCmp.speed, movCmp.dirY * movCmp.speed);
-					typeCmp.entityState = EntityState.idle;
-					break;
-				}
-				case dash: {
+    }
 
-					dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dirX, movCmp.dirY), movCmp, typeCmp,
-							movCmp.isDashCooldown, movCmp.dashForce);
-					break;
-				}
-				case death: {
 
-					break;
-				}
-				default:
-					break;
+    private void move() {
+        for (Entity e : this.getEntities()) {
+            Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
+            if (b2dCmp.initiatedPhysics) {
+                MovementComponent movCmp = ComponentMappers.movement().get(e);
+                EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
-				}
-			}
-		}
-	}
+                switch (typeCmp.entityState) {
+                    case idle:
+                    case walk: {
+                        b2dCmp.body.setLinearVelocity(movCmp.dirX * movCmp.speed, movCmp.dirY * movCmp.speed);
+                        typeCmp.entityState = EntityState.idle;
+                        break;
+                    }
+                    case dash: {
 
-	public void savePositions() {
-		for (Entity e : this.getEntities()) {
-			Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
-			PositionComponent posCmp = ComponentMappers.position().get(e);
-			posCmp.prevX = b2dCmp.body.getPosition().x;
-			posCmp.prevY = b2dCmp.body.getPosition().y;
-		}
-	}
+                        dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dirX, movCmp.dirY), movCmp, typeCmp,
+                                movCmp.isDashCooldown, movCmp.dashForce);
+                        break;
+                    }
+                    case death: {
 
-	private void interpolateRenderPositions(float alpha) {
-		for (Entity e : this.getEntities()) {
-			Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
-			PositionComponent posCmp = ComponentMappers.position().get(e);
-			posCmp.renderX = MathUtils.lerp(posCmp.prevX, b2dCmp.body.getPosition().x, alpha);
-			posCmp.renderY = MathUtils.lerp(posCmp.prevY, b2dCmp.body.getPosition().y, alpha);
+                        break;
+                    }
+                    default:
+                        break;
 
-		}
-	}
+                }
+            }
+        }
+    }
 
-	@Override
-	public void update(float delta) {
-		move();
-		float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
-		accumulator += frameTime;
-		while (accumulator >= GameWorld.FIXED_TIME_STEP) {
-			savePositions();
-			accumulator -= GameWorld.FIXED_TIME_STEP;
-			box2dWorld.step(GameWorld.FIXED_TIME_STEP);
-		}
-		float alpha = accumulator / GameWorld.FIXED_TIME_STEP;
-		interpolateRenderPositions(alpha);
+    public void savePositions() {
+        for (Entity e : this.getEntities()) {
+            Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
+            PositionComponent posCmp = ComponentMappers.position().get(e);
+            posCmp.prevX = b2dCmp.body.getPosition().x;
+            posCmp.prevY = b2dCmp.body.getPosition().y;
 
-	}
+        }
+    }
 
-	@Override
-	protected void processEntity(Entity entity, float deltaTime) {
+    private void interpolateRenderPositions(float alpha) {
+        for (Entity e : this.getEntities()) {
+            Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
+            PositionComponent posCmp = ComponentMappers.position().get(e);
+            posCmp.renderX = MathUtils.lerp(posCmp.prevX, b2dCmp.body.getPosition().x, alpha);
+            posCmp.renderY = MathUtils.lerp(posCmp.prevY, b2dCmp.body.getPosition().y, alpha);
 
-	}
+        }
+    }
 
-	public void dashBodyOnce(final Body body, Vector2 direction, MovementComponent movCmp,
-			final EntityTypeComponent ettCmp, boolean dashCooldown, float dashForce) {
-		Vector2 impulse = direction.cpy().scl(dashForce);
-		body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
 
-	}
+    @Override
+    protected void processEntity(Entity entity, float deltaTime) {
+
+    }
+
+    public void dashBodyOnce(final Body body, Vector2 direction, MovementComponent movCmp,
+                             final EntityTypeComponent ettCmp, boolean dashCooldown, float dashForce) {
+        Vector2 impulse = direction.cpy().scl(dashForce);
+        body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
+
+    }
 }

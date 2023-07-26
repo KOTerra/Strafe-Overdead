@@ -21,8 +21,8 @@ public class ItemHoldSystem extends IteratingSystem {
         PositionComponent ownerPosCmp = ComponentMappers.position().get(itmCmp.owner);
         AttackComponent attckCmp=ComponentMappers.attack().get(entity);
         Box2dComponent ownerB2dCmp = ComponentMappers.box2d().get(itmCmp.owner);
-        posCmp.x = ownerPosCmp.x + itmCmp.holdPosition.x;
-        posCmp.y = ownerPosCmp.y + itmCmp.holdPosition.y;
+        posCmp.renderX = ownerPosCmp.renderX + itmCmp.holdPosition.x;
+        posCmp.renderY = ownerPosCmp.renderY + itmCmp.holdPosition.y;
         attckCmp.hitbox.getBody().setTransform(ownerB2dCmp.body.getPosition(), 0);
 
     }

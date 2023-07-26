@@ -71,8 +71,8 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
 		PositionComponent posCmp = this.createComponent(PositionComponent.class);
 		posCmp.isHidden = false;
-		posCmp.x = playerSpawnLocation.x;
-		posCmp.y = playerSpawnLocation.y;
+		posCmp.renderX = playerSpawnLocation.x;
+		posCmp.renderY = playerSpawnLocation.y;
 		player.add(posCmp);
 
 		MovementComponent movCmp = this.createComponent(MovementComponent.class);
@@ -121,8 +121,8 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
 		PositionComponent posCmp = this.createComponent(PositionComponent.class);
 		posCmp.isHidden = false;
-		posCmp.x = location.x;
-		posCmp.y = location.y;
+		posCmp.renderX = location.x;
+		posCmp.renderY = location.y;
 		dummy.add(posCmp);
 
 		MovementComponent movCmp = this.createComponent(MovementComponent.class);
