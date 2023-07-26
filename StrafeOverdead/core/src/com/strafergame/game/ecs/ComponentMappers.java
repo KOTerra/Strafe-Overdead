@@ -54,6 +54,10 @@ public abstract class ComponentMappers {
 		return ComponentMapper.getFor(ItemComponent.class);
 	}
 
+	public static final ComponentMapper<ItemHolderComponent> itemHolding(){
+		return ComponentMapper.getFor(ItemHolderComponent.class);
+	}
+
 	public static final ComponentMapper<CheckpointComponent> checkpoint() {
 		return ComponentMapper.getFor(CheckpointComponent.class);
 	}
