@@ -43,13 +43,13 @@ public class GameWorld implements Disposable {
 
     public static Entity player;
 
-    private Vector2 playerSpawn=new Vector2(4,2);
-    private int playerInitialHealth=100;
+    private Vector2 playerSpawn = new Vector2(4, 2);
+    private int playerInitialHealth = 100;
 
     public GameWorld(Strafer game) {
         this.game = game;
         entityEngine = new EntityEngine(game, box2DWorld, rayHandler);
-        player = entityEngine.createPlayer(playerInitialHealth,playerSpawn);
+        player = entityEngine.createPlayer(playerInitialHealth, playerSpawn);
 
         addTestAssets();
     }
@@ -65,11 +65,6 @@ public class GameWorld implements Disposable {
     }
 
     void addTestAssets() {
-
-        //dummy = entityEngine.createEnemy(new Vector2(40, 60), 3);
-      //  dummy2 = entityEngine.createEnemy(new Vector2(30, 20), 1);
-        //entityEngine.createHitboxDummy(new Vector2(15, 5), 1, 8, null);
-
 
         Strafer.worldCamera.setFocusOn(player);
 
@@ -90,7 +85,7 @@ public class GameWorld implements Disposable {
 
                     @Override
                     public void execute() {
-                        // System.out.println("checkpoint reached");
+                         System.out.println("checkpoint reached");
                     }
                 }, new Vector2(i, j));
             }
@@ -110,26 +105,26 @@ public class GameWorld implements Disposable {
         for (int i = 1; i <= layer.getWidth(); i++) {
             for (int j = 1; j <= layer.getHeight(); j++) {
                 if (layer.getCell(i, j) != null) {
-                    lla.execute(i,j);
+                    lla.execute(i, j);
                 }
             }
         }
     }
 
-    public void reset(){
-        for(Entity e:entityEngine.getEntities()){
-            if(e!=player){
+    public void reset() {
+        for (Entity e : entityEngine.getEntities()) {
+            if (e != player) {
                 entityEngine.removeEntity(e);
             }
         }
         addTestAssets();
 
         HealthComponent hlthCmp = ComponentMappers.health().get(player);
-        hlthCmp.hitPoints=playerInitialHealth;
-        EntityTypeComponent ettCmp=ComponentMappers.entityType().get(player);
-        ettCmp.entityState= EntityState.idle;
-        Box2dComponent b2dCmp =ComponentMappers.box2d().get(player);
-        b2dCmp.body.setTransform(playerSpawn,0);
+        hlthCmp.hitPoints = playerInitialHealth;
+        EntityTypeComponent ettCmp = ComponentMappers.entityType().get(player);
+        ettCmp.entityState = EntityState.idle;
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(player);
+        b2dCmp.body.setTransform(playerSpawn, 0);
     }
 
     void debugControls() {
@@ -148,7 +143,7 @@ public class GameWorld implements Disposable {
                 Strafer.worldCamera.setFocusOn(player);
             }
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_2)) {
-               // game.setScreen(Strafer.gameOverScreen);
+                // game.setScreen(Strafer.gameOverScreen);
                 this.reset();
             }
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
