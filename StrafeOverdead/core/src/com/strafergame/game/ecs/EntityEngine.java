@@ -28,7 +28,7 @@ import com.strafergame.game.ecs.system.save.CheckpointAction;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.collision.FilteredContactListener;
-import com.strafergame.graphics.AnimationProvider;
+import com.strafergame.assets.AnimationProvider;
 
 public class EntityEngine extends PooledEngine implements Disposable {
 

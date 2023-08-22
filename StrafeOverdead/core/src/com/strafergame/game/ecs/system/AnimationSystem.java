@@ -7,7 +7,7 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.AnimationComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
-import com.strafergame.graphics.AnimationProvider;
+import com.strafergame.assets.AnimationProvider;
 
 public class AnimationSystem extends IteratingSystem {
 	public AnimationSystem() {

@@ -90,7 +90,7 @@ public class TitleScreen implements Screen {
 	public void renderBackground() {
 
 		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.setColor(Color.valueOf("#4F526b"));
+		shapeRenderer.setColor(Color.valueOf("#4a496b"));
 		float height = (Gdx.graphics.getHeight() / 1080f) * 360f;
 		shapeRenderer.rect(0, Gdx.graphics.getHeight() / 2f - height / 2f, Gdx.graphics.getWidth(), height);
 		shapeRenderer.end();

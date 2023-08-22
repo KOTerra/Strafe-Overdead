@@ -17,7 +17,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.strafergame.GameState;
 import com.strafergame.Strafer;
 import com.strafergame.assets.AssetUtils;
-import com.strafergame.graphics.AnimationProvider;
+import com.strafergame.assets.AnimationProvider;
 
 public class LoadingScreen implements Screen {
 
@@ -79,7 +79,7 @@ public class LoadingScreen implements Screen {
 		update(delta);
 
 		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.setColor(Color.valueOf("#4F526b"));
+		shapeRenderer.setColor(Color.valueOf("#4a496b"));
 		float height = (Gdx.graphics.getHeight() / 1080f) * 360f;
 		shapeRenderer.rect(0, Gdx.graphics.getHeight() / 2f - height / 2f, Gdx.graphics.getWidth() * progress, height);
 		shapeRenderer.end();
