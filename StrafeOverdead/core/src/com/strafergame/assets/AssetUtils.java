@@ -20,9 +20,8 @@ public class AssetUtils {
 	    if (dirHandle.isDirectory()) {
 	        for (FileHandle file : dirHandle.list()) {
 	            if (file.isDirectory()) {
-	                // Recursively list files in subdirectories
 	                Array<String> subDirectoryFiles = listFilesInAssets(file.path(), extension);
-	                res.addAll(subDirectoryFiles); // Accumulate the results from subdirectories
+	                res.addAll(subDirectoryFiles);
 	            } else {
 	                String relativePath = file.path();
 	                if (file.extension().equalsIgnoreCase(extension)) {
