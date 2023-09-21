@@ -126,27 +126,6 @@ public abstract class Box2DFactory {
 
         return fixture;
     }
-
-    public static void createWall(World world, float width, float height, Vector3 pos) {
-        Body body;
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set((pos.x + width / 2), (pos.y + height / 2));
-        bodyDef.angle = 0;
-        bodyDef.fixedRotation = true;
-        bodyDef.type = BodyType.StaticBody;
-        body = world.createBody(bodyDef);
-
-        FixtureDef fixtureDef = new FixtureDef();
-        PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(width / 2, height / 2);
-
-        fixtureDef.shape = boxShape;
-        fixtureDef.restitution = 0;
-
-        body.createFixture(fixtureDef);
-        boxShape.dispose();
-    }
-
     public static void createCollision(World world, MapObject mapObject) {
         float sf = Strafer.SCALE_FACTOR;
         if (mapObject instanceof RectangleMapObject) {

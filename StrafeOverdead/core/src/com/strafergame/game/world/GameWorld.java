@@ -76,26 +76,29 @@ public class GameWorld implements Disposable {
         loadTileLayer(tiledMapTest, "walls", new TileLayerLoadAction() {
             @Override
             public void execute(int i, int j) {
-              //  Box2DFactory.createWall(box2DWorld.getWorld(), 1, 1, new Vector3(i, j, 0));
+                //  Box2DFactory.createWall(box2DWorld.getWorld(), 1, 1, new Vector3(i, j, 0));
             }
         });
         loadObjectLayer(tiledMapTest, "collisions", new ObjectLayerLoadAction() {
             @Override
             public void execute(MapObject mapObject) {
-                Box2DFactory.createCollision(box2DWorld.getWorld(),mapObject);
+                Box2DFactory.createCollision(box2DWorld.getWorld(), mapObject);
             }
         });
 
-        loadTileLayer(tiledMapTest, "checkpoints", new TileLayerLoadAction() {
+        loadObjectLayer(tiledMapTest, "checkpoints", new ObjectLayerLoadAction() {
+
             @Override
-            public void execute(int i, int j) {
+            public void execute(MapObject mapObject) {
+                final float x = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("x") - .5f;
+                final float y = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("y") - .5f;
                 entityEngine.createCheckpoint(new CheckpointAction() {
 
                     @Override
                     public void execute() {
-                       // System.out.println("checkpoint reached");
+                        // System.out.println("checkpoint reached");
                     }
-                }, new Vector2(i, j));
+                }, new Vector2(x, y));
             }
         });
 
