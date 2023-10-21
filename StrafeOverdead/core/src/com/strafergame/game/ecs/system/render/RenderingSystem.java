@@ -8,6 +8,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.PositionComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
@@ -26,10 +27,10 @@ public class RenderingSystem extends SortedIteratingSystem {
 	private ComponentMapper<SpriteComponent> spriteMapper;
 	private ComponentMapper<PositionComponent> positionMapper;
 
-	public RenderingSystem(SpriteBatch batch) {
+	public RenderingSystem() {
 		super(Family.all(SpriteComponent.class, PositionComponent.class).get(), new ZComparator());
 
-		this.batch = batch;
+		this.batch = Strafer.spriteBatch;
 		// vertexShader = Gdx.files.internal("shaders/default.vert").readString();
 		// fragmentShader = Gdx.files.internal("shaders/default.frag").readString();
 		// shaderProgram = new ShaderProgram(vertexShader, fragmentShader);

@@ -167,7 +167,11 @@ public class GameWorld implements Disposable {
                 this.reset();
             }
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
+                   entityEngine.pauseSystems(null,true);
+            }
 
+            if (Gdx.input.isKeyPressed(Keys.NUMPAD_6)) {
+                entityEngine.pauseSystems(null,false);
             }
 
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_8)) {

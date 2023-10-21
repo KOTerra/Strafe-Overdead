@@ -1,18 +1,11 @@
 package com.strafergame.game.ecs;
 
 import box2dLight.RayHandler;
-import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.strafergame.Strafer;
-import com.strafergame.game.ecs.component.*;
-import com.strafergame.game.ecs.states.EntityState;
-import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.AnimationSystem;
 import com.strafergame.game.ecs.system.CheckpointSystem;
 import com.strafergame.game.ecs.system.MovementSystem;
@@ -24,17 +17,27 @@ import com.strafergame.game.ecs.system.player.HudSystem;
 import com.strafergame.game.ecs.system.player.PlayerControlSystem;
 import com.strafergame.game.ecs.system.render.RenderingSystem;
 import com.strafergame.game.ecs.system.save.AutoSaveSystem;
-import com.strafergame.game.ecs.system.save.CheckpointAction;
-import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
-import com.strafergame.game.world.collision.FilteredContactListener;
-import com.strafergame.assets.AnimationProvider;
 
 public class EntityEngine extends PooledEngine implements Disposable {
 
     final Strafer game;
     private final Box2DWorld box2dWorld;
     private final RayHandler rayHandler;
+
+
+    private AutoSaveSystem autoSaveSystem;
+    private MovementSystem movementSystem;
+    private HealthSystem healthSystem;
+    private PlayerControlSystem playerControlSystem;
+
+    private final RenderingSystem renderingSystem = new RenderingSystem();
+    private final CheckpointSystem checkpointSystem = new CheckpointSystem();
+    private final AnimationSystem animationSystem = new AnimationSystem();
+    private final ItemHoldSystem itemHoldSystem = new ItemHoldSystem();
+    private final CombatSystem combatSystem = new CombatSystem();
+    private final CameraSystem cameraSystem = new CameraSystem();
+    private final HudSystem hudSystem = new HudSystem();
 
     public EntityEngine(final Strafer game, final Box2DWorld box2dWorld, final RayHandler rayHandler) {
         super();
@@ -43,23 +46,43 @@ public class EntityEngine extends PooledEngine implements Disposable {
         this.rayHandler = rayHandler;
         EntityFactory.entityEngine = this;
 
+        autoSaveSystem = new AutoSaveSystem(300);
+        movementSystem = new MovementSystem(this.box2dWorld);
+        healthSystem = new HealthSystem(box2dWorld);
+        playerControlSystem = new PlayerControlSystem(this.game);
+
         // iterating systems
-        addSystem(new AnimationSystem());
-        addSystem(new MovementSystem(this.box2dWorld));
-        addSystem(new PlayerControlSystem(this.game));
-        addSystem(new HealthSystem(box2dWorld));
-        addSystem(new ItemHoldSystem());
-        addSystem(new CombatSystem());
-        addSystem(new CameraSystem());
-        addSystem(new HudSystem());
-        addSystem(new CheckpointSystem());
-        addSystem(new AutoSaveSystem(300));
-        addSystem(new RenderingSystem(Strafer.spriteBatch));
-
-        // addSystem(new ProximityTestSystem());
-
+        addSystem(animationSystem);
+        addSystem(movementSystem);
+        addSystem(playerControlSystem);
+        addSystem(healthSystem);
+        addSystem(itemHoldSystem);
+        addSystem(combatSystem);
+        addSystem(cameraSystem);
+        addSystem(hudSystem);
+        addSystem(checkpointSystem);
+        addSystem(autoSaveSystem);
+        addSystem(renderingSystem);
     }
 
+    /**
+     * Pauses or unpauses the processing of EntitySystems that are already added to the Entity Engine
+     *
+     * @param systems what systems' process state should be changed, Leave null if the default ones are to be used
+     * @param pause   true if to pause, false if to unpause
+     */
+    public void pauseSystems(Array<EntitySystem> systems, boolean pause) {
+        if (systems == null) {
+            systems = new Array<EntitySystem>();
+            systems.add(movementSystem,playerControlSystem,combatSystem,healthSystem);
+            systems.add(animationSystem);
+        }
+        for (EntitySystem sys : systems) {
+            if (this.getSystems().contains(sys, true)) {
+                sys.setProcessing(!pause);
+            }
+        }
+    }
 
     @Override
     public void dispose() {
