@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.ecs.EntityFactory;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
@@ -51,7 +52,7 @@ public class GameWorld implements Disposable {
     public GameWorld(Strafer game) {
         this.game = game;
         entityEngine = new EntityEngine(game, box2DWorld, rayHandler);
-        player = entityEngine.createPlayer(playerInitialHealth, playerSpawn);
+        player = EntityFactory.createPlayer(playerInitialHealth, playerSpawn);
 
         addTestAssets();
     }
@@ -92,7 +93,7 @@ public class GameWorld implements Disposable {
             public void execute(MapObject mapObject) {
                 final float x = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("x") - .5f;
                 final float y = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("y") - .5f;
-                entityEngine.createCheckpoint(new CheckpointAction() {
+                EntityFactory.createCheckpoint(new CheckpointAction() {
 
                     @Override
                     public void execute() {
@@ -105,7 +106,7 @@ public class GameWorld implements Disposable {
         loadTileLayer(tiledMapTest, "enemies", new TileLayerLoadAction() {
             @Override
             public void execute(int i, int j) {
-                entityEngine.createEnemy(new Vector2(i, j), 1);
+                EntityFactory.createEnemy(new Vector2(i, j), 1);
             }
         });
 

@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.ecs.EntityFactory;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.MovementComponent;
@@ -79,7 +80,7 @@ public class PlayerControlSystem extends IteratingSystem {
         final EntityEngine entityEngine = (EntityEngine) this.getEngine();
 
         if (item == null) {
-            item = entityEngine.createItem(e, new Vector2(0, 0), 3, 3);
+            item = EntityFactory.createItem(e, new Vector2(0, 0), 3, 3);
         }
 
         if (!movCmp.isDashCooldown) {
