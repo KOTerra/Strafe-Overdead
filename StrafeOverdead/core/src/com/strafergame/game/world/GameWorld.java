@@ -47,7 +47,8 @@ public class GameWorld implements Disposable {
     private int playerInitialHealth = 100;
 
     public GameWorld() {
-        entityEngine = new EntityEngine(box2DWorld, rayHandler);
+        entityEngine = EntityEngine.getInstance();
+        entityEngine.initSystems(box2DWorld, rayHandler);
         player = EntityFactory.createPlayer(playerInitialHealth, playerSpawn);
 
         addTestAssets();

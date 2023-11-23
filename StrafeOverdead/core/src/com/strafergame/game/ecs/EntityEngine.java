@@ -22,10 +22,11 @@ import com.strafergame.game.world.collision.Box2DWorld;
 public class EntityEngine extends PooledEngine implements Disposable {
 
     private static EntityEngine instance;
-    final Strafer game;
-    private final Box2DWorld box2dWorld;
-    private final RayHandler rayHandler;
 
+    private boolean initialised = false;
+    final Strafer game;
+    private Box2DWorld box2dWorld;
+    private RayHandler rayHandler;
 
     private AutoSaveSystem autoSaveSystem;
     private MovementSystem movementSystem;
@@ -40,30 +41,34 @@ public class EntityEngine extends PooledEngine implements Disposable {
     private final CameraSystem cameraSystem = new CameraSystem();
     private final HudSystem hudSystem = new HudSystem();
 
-    public EntityEngine(final Box2DWorld box2dWorld, final RayHandler rayHandler) {
+    public EntityEngine() {
         super();
         this.game = Strafer.getInstance();
-        this.box2dWorld = box2dWorld;
-        this.rayHandler = rayHandler;
-        EntityFactory.entityEngine = this;
+    }
 
-        autoSaveSystem = new AutoSaveSystem(300);
-        movementSystem = new MovementSystem(this.box2dWorld);
-        healthSystem = new HealthSystem(box2dWorld);
-        playerControlSystem = new PlayerControlSystem();
+    public void initSystems(Box2DWorld box2dWorld, RayHandler rayHandler) {
+        if (!initialised) {
+            this.box2dWorld = box2dWorld;
+            this.rayHandler = rayHandler;
+            autoSaveSystem = new AutoSaveSystem(300);
+            movementSystem = new MovementSystem(this.box2dWorld);
+            healthSystem = new HealthSystem(box2dWorld);
+            playerControlSystem = new PlayerControlSystem();
 
-        // iterating systems
-        addSystem(animationSystem);
-        addSystem(movementSystem);
-        addSystem(playerControlSystem);
-        addSystem(healthSystem);
-        addSystem(itemHoldSystem);
-        addSystem(combatSystem);
-        addSystem(cameraSystem);
-        addSystem(hudSystem);
-        addSystem(checkpointSystem);
-        addSystem(autoSaveSystem);
-        addSystem(renderingSystem);
+            // iterating systems
+            addSystem(animationSystem);
+            addSystem(movementSystem);
+            addSystem(playerControlSystem);
+            addSystem(healthSystem);
+            addSystem(itemHoldSystem);
+            addSystem(combatSystem);
+            addSystem(cameraSystem);
+            addSystem(hudSystem);
+            addSystem(checkpointSystem);
+            addSystem(autoSaveSystem);
+            addSystem(renderingSystem);
+            initialised = true;
+        }
     }
 
     @Override
@@ -103,6 +108,13 @@ public class EntityEngine extends PooledEngine implements Disposable {
     }
 
     public static EntityEngine getInstance() {
+        if (instance == null) {
+            instance = new EntityEngine();
+        }
         return instance;
+    }
+
+    public boolean isInitialised() {
+        return initialised;
     }
 }
