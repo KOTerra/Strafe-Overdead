@@ -16,7 +16,7 @@ import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.FilteredContactListener;
 
 public abstract class EntityFactory {
-    private static EntityEngine entityEngine = EntityEngine.getInstance();
+    private static final EntityEngine entityEngine = EntityEngine.getInstance();
 
     public static Entity createPlayer(int hp, final Vector2 playerSpawnLocation) {
         final Entity player = entityEngine.createEntity();

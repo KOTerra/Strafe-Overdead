@@ -12,6 +12,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.strafergame.game.GameStateManager;
 import com.strafergame.game.GameStateType;
 import com.strafergame.graphics.OrthogonalTiledMapRendererBleeding;
 import com.strafergame.graphics.WorldCamera;
@@ -36,14 +37,19 @@ public class Strafer extends Game {
     public static I18NBundle i18n;
 
     /**
-     * the sprite batch
+     * the game state manager
      */
-    public static SpriteBatch spriteBatch;
+    private GameStateManager gameStateManager=GameStateManager.getInstance();
 
     /**
      * input manager of the game
      */
     public static InputManager inputManager;
+
+    /**
+     * the sprite batch
+     */
+    public static SpriteBatch spriteBatch;
 
     /**
      * the world width measured in tiles.

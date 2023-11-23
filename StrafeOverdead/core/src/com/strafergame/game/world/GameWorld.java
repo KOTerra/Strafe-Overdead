@@ -13,6 +13,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
+import com.strafergame.game.GameStateManager;
+import com.strafergame.game.GameStateType;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.EntityFactory;
@@ -164,11 +166,12 @@ public class GameWorld implements Disposable {
                 this.reset();
             }
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
-                entityEngine.pauseSystems(null, true);
+
+                GameStateManager.getInstance().getStateMachine().changeState(GameStateType.PAUSE);
             }
 
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_6)) {
-                entityEngine.pauseSystems(null, false);
+                GameStateManager.getInstance().getStateMachine().changeState(GameStateType.PLAY);
             }
 
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_8)) {

@@ -11,11 +11,16 @@ public enum GameStateType implements State<GameStateManager> {
     MENU,
     PAUSE {
         public void enter(GameStateManager entity) {
-
+            EntityEngine.getInstance().pauseSystems(null,true);
+        }
+        public void exit(GameStateManager entity) {
+            EntityEngine.getInstance().pauseSystems(null,false);
         }
     },
     CUTSCENE,
-    PLAY;
+    PLAY{
+
+    };
 
     @Override
     public void enter(GameStateManager entity) {
