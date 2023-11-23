@@ -17,8 +17,8 @@ public class TitleScreen implements Screen {
 	ShapeRenderer shapeRenderer = new ShapeRenderer();
 	Cursor cursor;
 
-	public TitleScreen(Strafer game) {
-		titleMenu = new TitleMenu(game);
+	public TitleScreen( ) {
+		titleMenu = new TitleMenu();
 
 	}
 

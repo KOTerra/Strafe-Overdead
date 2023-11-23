@@ -21,6 +21,7 @@ import com.strafergame.game.world.collision.Box2DWorld;
 
 public class EntityEngine extends PooledEngine implements Disposable {
 
+    private static EntityEngine instance;
     final Strafer game;
     private final Box2DWorld box2dWorld;
     private final RayHandler rayHandler;
@@ -39,9 +40,9 @@ public class EntityEngine extends PooledEngine implements Disposable {
     private final CameraSystem cameraSystem = new CameraSystem();
     private final HudSystem hudSystem = new HudSystem();
 
-    public EntityEngine(final Strafer game, final Box2DWorld box2dWorld, final RayHandler rayHandler) {
+    public EntityEngine(final Box2DWorld box2dWorld, final RayHandler rayHandler) {
         super();
-        this.game = game;
+        this.game = Strafer.getInstance();
         this.box2dWorld = box2dWorld;
         this.rayHandler = rayHandler;
         EntityFactory.entityEngine = this;
@@ -49,7 +50,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
         autoSaveSystem = new AutoSaveSystem(300);
         movementSystem = new MovementSystem(this.box2dWorld);
         healthSystem = new HealthSystem(box2dWorld);
-        playerControlSystem = new PlayerControlSystem(this.game);
+        playerControlSystem = new PlayerControlSystem();
 
         // iterating systems
         addSystem(animationSystem);
@@ -65,6 +66,13 @@ public class EntityEngine extends PooledEngine implements Disposable {
         addSystem(renderingSystem);
     }
 
+    @Override
+    public void update(float deltaTime) {
+        super.update(deltaTime);
+
+    }
+
+
     /**
      * Pauses or unpauses the processing of EntitySystems that are already added to the Entity Engine
      *
@@ -73,8 +81,8 @@ public class EntityEngine extends PooledEngine implements Disposable {
      */
     public void pauseSystems(Array<EntitySystem> systems, boolean pause) {
         if (systems == null) {
-            systems = new Array<EntitySystem>();
-            systems.add(movementSystem,playerControlSystem,combatSystem,healthSystem);
+            systems = new Array<>();
+            systems.add(movementSystem, playerControlSystem, combatSystem, healthSystem);
             systems.add(animationSystem);
         }
         for (EntitySystem sys : systems) {
@@ -92,5 +100,9 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
     public Box2DWorld getBox2dWorld() {
         return box2dWorld;
+    }
+
+    public static EntityEngine getInstance() {
+        return instance;
     }
 }

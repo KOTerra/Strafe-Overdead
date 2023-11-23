@@ -6,12 +6,10 @@ import com.strafergame.ui.menus.GameOverMenu;
 
 public class GameOverScreen implements Screen {
 
-    Strafer game;
     GameOverMenu menu;
 
-    public GameOverScreen(Strafer game) {
-        this.game = game;
-        menu=new GameOverMenu(game);
+    public GameOverScreen( ) {
+        menu=new GameOverMenu();
     }
 
     @Override

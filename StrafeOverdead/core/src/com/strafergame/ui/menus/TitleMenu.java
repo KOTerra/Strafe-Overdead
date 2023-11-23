@@ -20,95 +20,95 @@ import com.strafergame.screens.GameScreen;
 import com.strafergame.screens.SettingsScreen;
 
 public class TitleMenu extends Table {
-	Strafer game;
-	Group background = new Group();
-	VisImage banner;
+    Strafer game;
+    Group background = new Group();
+    VisImage banner;
 
-	public TitleMenu(Strafer game) {
-		this.game = game;
-		makeBackground();
+    public TitleMenu() {
+        this.game = Strafer.getInstance();
+        makeBackground();
 
-		setFillParent(true);
-		pad(150);
-		defaults().space(20);
-		align(Align.right);
-		Strafer.uiManager.addActor(this);
+        setFillParent(true);
+        pad(150);
+        defaults().space(20);
+        align(Align.right);
+        Strafer.uiManager.addActor(this);
 
-		makeButtons();
-	}
+        makeButtons();
+    }
 
-	private void makeBackground() {
-		banner = new VisImage(Strafer.assetManager.get("ui/textures/banner.png", Texture.class));
-		background.addActor(banner);
-		banner.setAlign(Align.center);
-		Strafer.uiManager.addActor(background);
+    private void makeBackground() {
+        banner = new VisImage(Strafer.assetManager.get("ui/textures/banner.png", Texture.class));
+        background.addActor(banner);
+        banner.setAlign(Align.center);
+        Strafer.uiManager.addActor(background);
 
-	}
+    }
 
-	private void makeButtons() {
-		VisTextButton loadGameButton = new VisTextButton(Strafer.i18n.get("playButton"));
-		loadGameButton.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				showLoadGameMenu();
-			}
-		});
-		row();
-		add(loadGameButton);
+    private void makeButtons() {
+        VisTextButton loadGameButton = new VisTextButton(Strafer.i18n.get("playButton"));
+        loadGameButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                showLoadGameMenu();
+            }
+        });
+        row();
+        add(loadGameButton);
 
-		VisTextButton optionsButton = new VisTextButton(Strafer.i18n.get("optionsButton"));
-		optionsButton.addListener(new ChangeListener() {
+        VisTextButton optionsButton = new VisTextButton(Strafer.i18n.get("optionsButton"));
+        optionsButton.addListener(new ChangeListener() {
 
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				showSettingsMenu();
-			}
-		});
-		row();
-		add(optionsButton);
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                showSettingsMenu();
+            }
+        });
+        row();
+        add(optionsButton);
 
-		VisTextButton quitButton = new VisTextButton(Strafer.i18n.get("quitButton"));
-		quitButton.addListener(new ChangeListener() {
+        VisTextButton quitButton = new VisTextButton(Strafer.i18n.get("quitButton"));
+        quitButton.addListener(new ChangeListener() {
 
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				Gdx.app.exit();
-			}
-		});
-		row();
-		add(quitButton);
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Gdx.app.exit();
+            }
+        });
+        row();
+        add(quitButton);
 
-	}
+    }
 
-	@Override
-	public void setVisible(boolean a) {
-		if (a) {
-			background.addAction(Actions.sequence(alpha(0), delay(0.1f), fadeIn(0.6f, Interpolation.fade)));
-			this.addAction(Actions.sequence(alpha(0), delay(0.1f), fadeIn(0.6f, Interpolation.fade)));
-		}
-		super.setVisible(a);
-		background.setVisible(a);
+    @Override
+    public void setVisible(boolean a) {
+        if (a) {
+            background.addAction(Actions.sequence(alpha(0), delay(0.1f), fadeIn(0.6f, Interpolation.fade)));
+            this.addAction(Actions.sequence(alpha(0), delay(0.1f), fadeIn(0.6f, Interpolation.fade)));
+        }
+        super.setVisible(a);
+        background.setVisible(a);
 
-	}
+    }
 
-	public void resize() {
-		background.setBounds(0, 0, Strafer.uiManager.getWidth(), Strafer.uiManager.getHeight());
-		banner.setScale(background.getHeight() / banner.getHeight());
+    public void resize() {
+        background.setBounds(0, 0, Strafer.uiManager.getWidth(), Strafer.uiManager.getHeight());
+        banner.setScale(background.getHeight() / banner.getHeight());
 
-	}
+    }
 
-	private void showLoadGameMenu() {
-		if (Strafer.gameScreen == null) {
-			Strafer.gameScreen = new GameScreen(game);
-		}
-		game.setScreen(Strafer.gameScreen);
-	}
+    private void showLoadGameMenu() {
+        if (Strafer.gameScreen == null) {
+            Strafer.gameScreen = new GameScreen();
+        }
+        game.setScreen(Strafer.gameScreen);
+    }
 
-	private void showSettingsMenu() {
-		if (Strafer.settingsScreen == null) {
-			Strafer.settingsScreen = new SettingsScreen(game);
-		}
-		game.setScreen(Strafer.settingsScreen);
+    private void showSettingsMenu() {
+        if (Strafer.settingsScreen == null) {
+            Strafer.settingsScreen = new SettingsScreen();
+        }
+        game.setScreen(Strafer.settingsScreen);
 
-	}
+    }
 }

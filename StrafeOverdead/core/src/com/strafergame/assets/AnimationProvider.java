@@ -47,14 +47,13 @@ public class AnimationProvider {
 
     }
 
-    public static void prepareAnimations(){
+    public static void prepareAnimations() {
         AnimationFactory.prepareAnimations();
         TYPE_ANIMATIONS.put(EntityType.player, PLAYER_ANIMATIONS);
     }
 
     private AnimationProvider() {
     }
-
 
 
 }

@@ -24,9 +24,9 @@ public class PlayerControlSystem extends IteratingSystem {
 
     Entity item;
 
-    public PlayerControlSystem(Strafer game) {
+    public PlayerControlSystem() {
         super(Family.all(PlayerComponent.class).get());
-        this.game = game;
+        this.game = Strafer.getInstance();
     }
 
     @Override

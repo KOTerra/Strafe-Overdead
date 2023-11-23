@@ -34,12 +34,9 @@ public class GameWorld implements Disposable {
 
     public static final float FIXED_TIME_STEP = 1 / 90f;
 
-    Strafer game;
-
     /**
      *
      */
-
     private final Box2DWorld box2DWorld = new Box2DWorld();
     private final RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
     private final EntityEngine entityEngine;
@@ -49,9 +46,8 @@ public class GameWorld implements Disposable {
     private Vector2 playerSpawn = new Vector2(4, 2);
     private int playerInitialHealth = 100;
 
-    public GameWorld(Strafer game) {
-        this.game = game;
-        entityEngine = new EntityEngine(game, box2DWorld, rayHandler);
+    public GameWorld() {
+        entityEngine = new EntityEngine(box2DWorld, rayHandler);
         player = EntityFactory.createPlayer(playerInitialHealth, playerSpawn);
 
         addTestAssets();
@@ -167,11 +163,11 @@ public class GameWorld implements Disposable {
                 this.reset();
             }
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
-                   entityEngine.pauseSystems(null,true);
+                entityEngine.pauseSystems(null, true);
             }
 
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_6)) {
-                entityEngine.pauseSystems(null,false);
+                entityEngine.pauseSystems(null, false);
             }
 
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_8)) {
@@ -185,6 +181,7 @@ public class GameWorld implements Disposable {
 
         debugControls();
     }
+
 
     public Box2DWorld getBox2DWorld() {
         return box2DWorld;

@@ -13,10 +13,9 @@ public class GameOverMenu extends Table {
     Strafer game;
     VisTextButton titleScreenButton =new VisTextButton("Title Screen");
     VisTextButton retryButton=new VisTextButton("Retry");
-    public GameOverMenu(final Strafer game){
-        this.game=game;
+    public GameOverMenu(  ){
         Strafer.uiManager.addActor(this);
-
+        this.game=Strafer.getInstance();
         titleScreenButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -37,7 +36,7 @@ public class GameOverMenu extends Table {
 
     private void showTitleMenu(){
         if (Strafer.titleScreen == null) {
-            Strafer.titleScreen = new TitleScreen(game);
+            Strafer.titleScreen = new TitleScreen();
         }
         game.setScreen(Strafer.titleScreen);
     }

@@ -10,8 +10,8 @@ public class SettingsScreen implements Screen {
 
 	SettingsMenu settingsMenu;
 
-	public SettingsScreen(Strafer game) {
-		settingsMenu = new SettingsMenu(game);
+	public SettingsScreen( ) {
+		settingsMenu = new SettingsMenu();
 	}
 
 	@Override

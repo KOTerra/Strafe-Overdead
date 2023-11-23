@@ -17,218 +17,216 @@ import com.strafergame.screens.TitleScreen;
 
 public class SettingsMenu extends Table {
 
-	private final TabbedPane tabbedPane;
+    private final TabbedPane tabbedPane;
 
-	private final Table currentContentTable;
+    private final Table currentContentTable;
 
-	private final Tab graphicsTab;
-	private final Tab audioTab;
-	private final Tab controlsTab;
+    private final Tab graphicsTab;
+    private final Tab audioTab;
+    private final Tab controlsTab;
 
-	private final VisTextButton backButton;
+    private final VisTextButton backButton;
 
-	private Strafer game;
 
-	Skin skin = VisUI.getSkin();
+    Skin skin = VisUI.getSkin();
 
-	public SettingsMenu(Strafer game) {
-		this.game = game;
+    public SettingsMenu() {
 
-		setFillParent(true);
-		align(Align.top);
-		Strafer.uiManager.addActor(this);
+        setFillParent(true);
+        align(Align.top);
+        Strafer.uiManager.addActor(this);
 
-		backButton = new VisTextButton("<-    ");
+        backButton = new VisTextButton("<-    ");
 
-		// Set up the tabs
-		tabbedPane = new TabbedPane();
-		tabbedPane.getTabsPane().setDraggable(null);
-		tabbedPane.getTabsPane().addActor(backButton);
-		tabbedPane.getTabsPane().align(Align.center).fill();
-		tabbedPane.getTabsPane().clipBegin();
-		backButton.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				showTitleMenu();
-			}
-		});
+        // Set up the tabs
+        tabbedPane = new TabbedPane();
+        tabbedPane.getTabsPane().setDraggable(null);
+        tabbedPane.getTabsPane().addActor(backButton);
+        tabbedPane.getTabsPane().align(Align.center).fill();
+        tabbedPane.getTabsPane().clipBegin();
+        backButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                showTitleMenu();
+            }
+        });
 
-		// Add the tabs to the menu
-		add(tabbedPane.getTable()).top().growX().padBottom(20).row();
-		currentContentTable = new Table();
-		add(currentContentTable).growX();
+        // Add the tabs to the menu
+        add(tabbedPane.getTable()).top().growX().padBottom(20).row();
+        currentContentTable = new Table();
+        add(currentContentTable).growX();
 
-		graphicsTab = new Tab(false, false) {
-			Table content = new Table();
-			private final ScrollPane graphicsScrollPane = new ScrollPane(new GraphicsSettingsPane());
+        graphicsTab = new Tab(false, false) {
+            Table content = new Table();
+            private final ScrollPane graphicsScrollPane = new ScrollPane(new GraphicsSettingsPane());
 
-			@Override
-			public String getTabTitle() {
-				return "Graphics";
-			}
+            @Override
+            public String getTabTitle() {
+                return "Graphics";
+            }
 
-			@Override
-			public Table getContentTable() {
-				content.clear();
+            @Override
+            public Table getContentTable() {
+                content.clear();
 
-				content.add(graphicsScrollPane).top().grow();
-				return content;
-			}
+                content.add(graphicsScrollPane).top().grow();
+                return content;
+            }
 
-		};
+        };
 
-		audioTab = new Tab(false, false) {
-			Table content = new Table();
-			private final ScrollPane audioScrollPane = new ScrollPane(new AudioSettingsPane(), skin);
+        audioTab = new Tab(false, false) {
+            Table content = new Table();
+            private final ScrollPane audioScrollPane = new ScrollPane(new AudioSettingsPane(), skin);
 
-			@Override
-			public String getTabTitle() {
-				return "Audio";
-			}
+            @Override
+            public String getTabTitle() {
+                return "Audio";
+            }
 
-			@Override
-			public Table getContentTable() {
-				content.clear();
-				content.add(audioScrollPane).growX().row();
-				return content;
-			}
-		};
+            @Override
+            public Table getContentTable() {
+                content.clear();
+                content.add(audioScrollPane).growX().row();
+                return content;
+            }
+        };
 
-		controlsTab = new Tab(false, false) {
-			Table content = new Table();
+        controlsTab = new Tab(false, false) {
+            Table content = new Table();
 
-			private final ScrollPane controlsScrollPane = new ScrollPane(new ControlsSettingsPane());
+            private final ScrollPane controlsScrollPane = new ScrollPane(new ControlsSettingsPane());
 
-			@Override
-			public String getTabTitle() {
-				return "Controls";
-			}
+            @Override
+            public String getTabTitle() {
+                return "Controls";
+            }
 
-			@Override
-			public Table getContentTable() {
-				content.clear();
+            @Override
+            public Table getContentTable() {
+                content.clear();
 
-				content.add(controlsScrollPane).top().expand();
-				return content;
-			}
-		};
-		tabbedPane.addListener(new TabbedPaneAdapter() {
-			@Override
-			public void switchedTab(Tab tab) {
-				currentContentTable.clearChildren();
+                content.add(controlsScrollPane).top().expand();
+                return content;
+            }
+        };
+        tabbedPane.addListener(new TabbedPaneAdapter() {
+            @Override
+            public void switchedTab(Tab tab) {
+                currentContentTable.clearChildren();
 
-				currentContentTable.add(tab.getContentTable()).top().grow();
-			}
-		});
+                currentContentTable.add(tab.getContentTable()).top().grow();
+            }
+        });
 
-		tabbedPane.add(graphicsTab);
-		tabbedPane.add(audioTab);
-		tabbedPane.add(controlsTab);
+        tabbedPane.add(graphicsTab);
+        tabbedPane.add(audioTab);
+        tabbedPane.add(controlsTab);
 
-	}
+    }
 
-	public void updateSettings() {
-		// Update the settings for each tab
-		((GraphicsSettingsPane) graphicsTab.getContentTable()).updateSettings();
-		((AudioSettingsPane) audioTab.getContentTable()).updateSettings();
-		((ControlsSettingsPane) controlsTab.getContentTable()).updateSettings();
-	}
+    public void updateSettings() {
+        // Update the settings for each tab
+        ((GraphicsSettingsPane) graphicsTab.getContentTable()).updateSettings();
+        ((AudioSettingsPane) audioTab.getContentTable()).updateSettings();
+        ((ControlsSettingsPane) controlsTab.getContentTable()).updateSettings();
+    }
 
-	// Inner class for the graphics settings pane
-	private static class GraphicsSettingsPane extends Table {
+    // Inner class for the graphics settings pane
+    private static class GraphicsSettingsPane extends Table {
 
-		public GraphicsSettingsPane() {
-			// Add the graphics settings widgets to the table
-			// ...
-			setFillParent(true);
-			// pad(150);
-			defaults().space(20);
-			align(Align.top);
-			add(new VisLabel("graphicSetting")).row();
-			add(new VisLabel("graphicSetting 2"));
+        public GraphicsSettingsPane() {
+            // Add the graphics settings widgets to the table
+            // ...
+            setFillParent(true);
+            // pad(150);
+            defaults().space(20);
+            align(Align.top);
+            add(new VisLabel("graphicSetting")).row();
+            add(new VisLabel("graphicSetting 2"));
 
-		}
+        }
 
-		public void updateSettings() {
-			// Update the graphics settings based on user input
-			// ...
-		}
-	}
+        public void updateSettings() {
+            // Update the graphics settings based on user input
+            // ...
+        }
+    }
 
-	// Inner class for the audio settings pane
-	private static class AudioSettingsPane extends Table {
+    // Inner class for the audio settings pane
+    private static class AudioSettingsPane extends Table {
 
-		public AudioSettingsPane() {
-			// Add the audio settings widgets to the table
-			// ...
+        public AudioSettingsPane() {
+            // Add the audio settings widgets to the table
+            // ...
 
-			// pad(150);
-			defaults().space(20);
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
-			add(new VisLabel("audioSetting")).top().row();
+            // pad(150);
+            defaults().space(20);
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
+            add(new VisLabel("audioSetting")).top().row();
 
-		}
+        }
 
-		public void updateSettings() {
-			// Update the audio settings based on user input
-			// ...
-		}
-	}
+        public void updateSettings() {
+            // Update the audio settings based on user input
+            // ...
+        }
+    }
 
-	// Inner class for the controls settings pane
-	private static class ControlsSettingsPane extends Table {
+    // Inner class for the controls settings pane
+    private static class ControlsSettingsPane extends Table {
 
-		public ControlsSettingsPane() {
-			// Add the controls settings widgets to the table
-			// ...
-			defaults().space(20);
-			align(Align.top);
-			add(new VisLabel("controlSetting")).row();
-			add(new VisLabel("controlSetting 2")).row();
+        public ControlsSettingsPane() {
+            // Add the controls settings widgets to the table
+            // ...
+            defaults().space(20);
+            align(Align.top);
+            add(new VisLabel("controlSetting")).row();
+            add(new VisLabel("controlSetting 2")).row();
 
-			add(new VisLabel("controlSetting")).row();
-			add(new VisLabel("controlSetting 2")).row();
+            add(new VisLabel("controlSetting")).row();
+            add(new VisLabel("controlSetting 2")).row();
 
-			add(new VisLabel("controlSetting")).row();
-			add(new VisLabel("controlSetting 2")).row();
+            add(new VisLabel("controlSetting")).row();
+            add(new VisLabel("controlSetting 2")).row();
 
-			add(new VisLabel("controlSetting")).row();
-			add(new VisLabel("controlSetting 2")).row();
+            add(new VisLabel("controlSetting")).row();
+            add(new VisLabel("controlSetting 2")).row();
 
-			add(new VisLabel("controlSetting")).row();
-			add(new VisLabel("controlSetting 2"));
-		}
+            add(new VisLabel("controlSetting")).row();
+            add(new VisLabel("controlSetting 2"));
+        }
 
-		public void updateSettings() {
-			// Update the controls settings based on user input
-			// ...
-		}
-	}
+        public void updateSettings() {
+            // Update the controls settings based on user input
+            // ...
+        }
+    }
 
-	private void showTitleMenu() {
-		if (Strafer.titleScreen == null) {
-			Strafer.titleScreen = new TitleScreen(game);
-		}
-		game.setScreen(Strafer.titleScreen);
+    private void showTitleMenu() {
+        if (Strafer.titleScreen == null) {
+            Strafer.titleScreen = new TitleScreen();
+        }
+        Strafer.getInstance().setScreen(Strafer.titleScreen);
 
-	}
+    }
 }
