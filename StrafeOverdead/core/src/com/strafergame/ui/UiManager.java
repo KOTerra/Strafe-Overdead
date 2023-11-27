@@ -9,41 +9,53 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.VisUI.SkinScale;
 import com.strafergame.Strafer;
+import com.strafergame.game.GameStateManager;
+import com.strafergame.game.GameStateType;
+import com.strafergame.input.UIControl;
+import com.strafergame.ui.menus.TitleMenu;
 
 public class UiManager extends Stage implements Disposable {
 
-	private HUD hud;
+    private HUD hud;
 
-	public UiManager(Viewport viewport, SpriteBatch spriteBatch) {
-		super(viewport, spriteBatch);
+    public UiManager(Viewport viewport, SpriteBatch spriteBatch) {
+        super(viewport, spriteBatch);
 
-	}
+    }
 
-	public void init() {
-		((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(Strafer.uiManager);
+    public void init() {
+        ((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(Strafer.uiManager);
 
-		VisUI.load(SkinScale.X2);
+        VisUI.load(SkinScale.X2);
 
-	}
+    }
 
-	@Override
-	public void act(float delta) {
-		super.act(delta);
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        pauseTrigger();
+    }
 
-	}
+    private void pauseTrigger() {
+        if (UIControl.PAUSE_TRIGGER) {
+            GameStateManager.getInstance().getStateMachine().changeState(GameStateType.PAUSE);
+            //this.getHud().hide();
+           // this.addActor(new TitleMenu());
+        }
+    }
 
-	@Override
-	public void dispose() {
-		super.dispose();
-	}
+    @Override
+    public void dispose() {
+        super.dispose();
+    }
 
-	public HUD getHud() {
-		return hud;
-	}
+    public HUD getHud() {
+        return hud;
+    }
 
-	public void setHud(HUD hud) {
-		this.hud = hud;
-		this.addActor(hud);
-	}
+    public void setHud(HUD hud) {
+        this.hud = hud;
+        this.addActor(hud);
+    }
 
 }

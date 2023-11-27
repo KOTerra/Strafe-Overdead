@@ -165,14 +165,6 @@ public class GameWorld implements Disposable {
                 // game.setScreen(Strafer.gameOverScreen);
                 this.reset();
             }
-            if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
-
-                GameStateManager.getInstance().getStateMachine().changeState(GameStateType.PAUSE);
-            }
-
-            if (Gdx.input.isKeyPressed(Keys.NUMPAD_6)) {
-                GameStateManager.getInstance().getStateMachine().changeState(GameStateType.PLAY);
-            }
 
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_8)) {
                 Strafer.i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"), new Locale("ro"),

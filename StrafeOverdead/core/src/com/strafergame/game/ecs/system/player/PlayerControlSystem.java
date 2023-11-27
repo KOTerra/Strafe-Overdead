@@ -31,7 +31,6 @@ public class PlayerControlSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        menuTriggers();
         move(entity);
         dash(entity);
     }
@@ -112,9 +111,5 @@ public class PlayerControlSystem extends IteratingSystem {
         }
     }
 
-    private void menuTriggers() {
-        if (PlayerControl.PAUSE_TRIGGER) {
-            game.setScreen(Strafer.titleScreen);
-        }
-    }
+
 }

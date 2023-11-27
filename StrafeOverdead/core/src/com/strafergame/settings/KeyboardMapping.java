@@ -9,7 +9,7 @@ public class KeyboardMapping {
 	public static int MOVE_RIGHT_KEY = Keys.valueOf(Settings.getPreferences().getString("KEYBOARD_MOVE_RIGHT", "D"));
 	public static int DASH_KEY = Keys.valueOf(Settings.getPreferences().getString("KEYBOARD_DASH", "Space"));
 
-	public static int PAUSE_TRIGGER_KEY = Keys.valueOf(Settings.getPreferences().getString("KEYBOARD_DASH", "Escape"));
-	public static int MAP_TRIGGER_KEY = Keys.valueOf(Settings.getPreferences().getString("KEYBOARD_DASH", "Tab"));
+	public static int PAUSE_TRIGGER_KEY = Keys.valueOf(Settings.getPreferences().getString("KEYBOARD_PAUSE_TRIGGER", "Escape"));
+	public static int MAP_TRIGGER_KEY = Keys.valueOf(Settings.getPreferences().getString("KEYBOARD_MAP_TRIGGER", "Tab"));
 
 }

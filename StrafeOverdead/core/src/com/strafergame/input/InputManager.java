@@ -5,7 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.controllers.Controllers;
 import com.strafergame.input.handlers.controller.ControllerInputHandler;
+import com.strafergame.input.handlers.controller.UIControllerInputHandler;
 import com.strafergame.input.handlers.desktop.KeyboardInputProcessor;
+import com.strafergame.input.handlers.desktop.UIKeyboardInputProcessor;
 
 /**
  * decides and updates which type of input processors to use (mobile, desktop or
@@ -17,13 +19,6 @@ public class InputManager {
 
     InputMultiplexer inputMultiplexer = new InputMultiplexer();
 
-    KeyboardInputProcessor keyboardHandler;
-
-    ControllerInputHandler controllerHandler;
-
-    private final PlayerControl playerControl = new PlayerControl();
-
-    private final UIControl uiController = new UIControl();
 
     public InputManager() {
         Gdx.input.setInputProcessor(inputMultiplexer);
@@ -35,17 +30,14 @@ public class InputManager {
         if (appType.equals(ApplicationType.Android) || appType.equals(ApplicationType.iOS)) {
 
         } else {
-            if (keyboardHandler == null) {
-                keyboardHandler = new KeyboardInputProcessor();
-            }
+
             inputMultiplexer.clear();
-            inputMultiplexer.addProcessor(keyboardHandler);
+            inputMultiplexer.setProcessors(UIKeyboardInputProcessor.getInstance(), KeyboardInputProcessor.getInstance());
+
         }
         if (Controllers.getControllers().notEmpty()) {
-            if (controllerHandler == null) {
-                controllerHandler = new ControllerInputHandler();
-            }
-            Controllers.addListener(controllerHandler);
+            Controllers.addListener(ControllerInputHandler.getInstance());
+            Controllers.addListener(UIControllerInputHandler.getInstance());
         }
     }
 

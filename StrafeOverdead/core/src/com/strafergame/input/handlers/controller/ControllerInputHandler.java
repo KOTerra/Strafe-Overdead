@@ -6,18 +6,16 @@ import com.strafergame.input.PlayerControl;
 
 public class ControllerInputHandler implements ControllerListener {
 
-    private final float DEADZONE=.25f;
+    private static ControllerInputHandler instance;
+
+    private final float DEADZONE = .25f;
+
     @Override
     public boolean buttonDown(Controller controller, int buttonIndex) {
         if (buttonIndex == controller.getMapping().buttonB) {
             PlayerControl.DASH = true;
         }
-        if (buttonIndex == controller.getMapping().buttonStart) {
-            PlayerControl.PAUSE_TRIGGER = true;
-        }
-        if (buttonIndex == controller.getMapping().buttonBack) {
-            PlayerControl.MAP_TRIGGER = true;
-        }
+
         return true;
     }
 
@@ -26,12 +24,7 @@ public class ControllerInputHandler implements ControllerListener {
         if (buttonIndex == controller.getMapping().buttonB) {
             PlayerControl.DASH = false;
         }
-        if (buttonIndex == controller.getMapping().buttonStart) {
-            PlayerControl.PAUSE_TRIGGER = false;
-        }
-        if (buttonIndex == controller.getMapping().buttonBack) {
-            PlayerControl.MAP_TRIGGER = false;
-        }
+
         return true;
     }
 
@@ -83,4 +76,12 @@ public class ControllerInputHandler implements ControllerListener {
     @Override
     public void disconnected(Controller controller) {
     }
+
+    public static ControllerInputHandler getInstance() {
+        if (instance == null) {
+            instance = new ControllerInputHandler();
+        }
+        return instance;
+    }
+
 }

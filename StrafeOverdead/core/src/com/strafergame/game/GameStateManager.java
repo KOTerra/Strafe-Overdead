@@ -1,6 +1,6 @@
 package com.strafergame.game;
 
-import com.badlogic.gdx.ai.fsm.DefaultStateMachine;
+import com.badlogic.gdx.ai.fsm.StackStateMachine;
 import com.badlogic.gdx.ai.fsm.StateMachine;
 
 public class GameStateManager {
@@ -8,7 +8,7 @@ public class GameStateManager {
     private final StateMachine<GameStateManager, GameStateType> stateMachine;
 
     public GameStateManager() {
-        stateMachine = new DefaultStateMachine<>(this);
+        stateMachine = new StackStateMachine<>(this);
         stateMachine.setInitialState(GameStateType.MENU);
     }
 
