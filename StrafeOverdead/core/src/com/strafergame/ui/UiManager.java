@@ -12,6 +12,7 @@ import com.strafergame.Strafer;
 import com.strafergame.game.GameStateManager;
 import com.strafergame.game.GameStateType;
 import com.strafergame.input.UIControl;
+import com.strafergame.ui.menus.PauseMenu;
 import com.strafergame.ui.menus.TitleMenu;
 
 public class UiManager extends Stage implements Disposable {
@@ -39,8 +40,8 @@ public class UiManager extends Stage implements Disposable {
     private void pauseTrigger() {
         if (UIControl.PAUSE_TRIGGER) {
             GameStateManager.getInstance().getStateMachine().changeState(GameStateType.PAUSE);
-            //this.getHud().hide();
-           // this.addActor(new TitleMenu());
+            this.addActor(PauseMenu.getInstance());
+            PauseMenu.getInstance().setVisible(true);
         }
     }
 
