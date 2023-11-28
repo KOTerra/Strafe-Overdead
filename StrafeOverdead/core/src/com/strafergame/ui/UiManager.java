@@ -34,15 +34,29 @@ public class UiManager extends Stage implements Disposable {
     @Override
     public void act(float delta) {
         super.act(delta);
-        pauseTrigger();
+        triggerChanges();
     }
 
-    private void pauseTrigger() {
+    private void triggerChanges() {
         if (UIControl.PAUSE_TRIGGER) {
             GameStateManager.getInstance().getStateMachine().changeState(GameStateType.PAUSE);
-            this.addActor(PauseMenu.getInstance());
-            PauseMenu.getInstance().setVisible(true);
         }
+    }
+
+    public void pauseTrigger() {
+        this.addActor(PauseMenu.getInstance());
+        PauseMenu.getInstance().setVisible(true);
+        hud.setVisible(false);
+    }
+
+    public void resumeTrigger() {
+        PauseMenu.getInstance().setVisible(false);
+        hud.setVisible(true);
+    }
+
+    public void titleTrigger() {
+        PauseMenu.getInstance().setVisible(false);
+        hud.setVisible(false);
     }
 
     @Override

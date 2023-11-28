@@ -12,6 +12,7 @@ public enum GameStateType implements State<GameStateManager> {
     PAUSE {
         public void enter(GameStateManager entity) {
             EntityEngine.getInstance().pauseSystems(null,true);
+            Strafer.uiManager.pauseTrigger();
         }
         public void exit(GameStateManager entity) {
             EntityEngine.getInstance().pauseSystems(null,false);

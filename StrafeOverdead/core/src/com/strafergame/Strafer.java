@@ -37,11 +37,6 @@ public class Strafer extends Game {
     public static I18NBundle i18n;
 
     /**
-     * the game state manager
-     */
-    private GameStateManager gameStateManager = GameStateManager.getInstance();
-
-    /**
      * input manager of the game
      */
     public static InputManager inputManager;
