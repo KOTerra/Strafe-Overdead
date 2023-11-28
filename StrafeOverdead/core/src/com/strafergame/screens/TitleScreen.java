@@ -13,86 +13,95 @@ import com.strafergame.Strafer;
 import com.strafergame.ui.menus.TitleMenu;
 
 public class TitleScreen implements Screen {
-	TitleMenu titleMenu;
-	ShapeRenderer shapeRenderer = new ShapeRenderer();
-	Cursor cursor;
 
-	public TitleScreen( ) {
-		titleMenu = new TitleMenu();
+    private static TitleScreen instance;
+    TitleMenu titleMenu;
+    ShapeRenderer shapeRenderer = new ShapeRenderer();
+    Cursor cursor;
 
-	}
+    public TitleScreen() {
+        titleMenu = new TitleMenu();
 
-	@Override
-	public void resize(int width, int height) {
-		Strafer.uiManager.getViewport().update(width, height, true);
-		titleMenu.resize();
+    }
 
-	}
+    @Override
+    public void resize(int width, int height) {
+        Strafer.uiManager.getViewport().update(width, height, true);
+        titleMenu.resize();
 
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		renderBackground();
-		Strafer.uiManager.act(delta);
-		Strafer.uiManager.draw();
-		Strafer.uiManager.setDebugAll(Strafer.inDebug);
+    }
 
-	}
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        renderBackground();
+        Strafer.uiManager.act(delta);
+        Strafer.uiManager.draw();
+        Strafer.uiManager.setDebugAll(Strafer.inDebug);
 
-	@Override
-	public void dispose() {
-		Strafer.uiManager.dispose();
-		cursor.dispose();
-		shapeRenderer.dispose();
-	}
+    }
 
-	/**
-	 * changed to another screen
-	 */
-	@Override
-	public void hide() {
-		titleMenu.setVisible(false);
-	}
+    @Override
+    public void dispose() {
+        Strafer.uiManager.dispose();
+        cursor.dispose();
+        shapeRenderer.dispose();
+    }
 
-	/**
-	 * app out of focus or closed
-	 */
-	@Override
-	public void pause() {
+    /**
+     * changed to another screen
+     */
+    @Override
+    public void hide() {
+        titleMenu.setVisible(false);
+    }
 
-	}
+    /**
+     * app out of focus or closed
+     */
+    @Override
+    public void pause() {
 
-	/**
-	 * app returned to focus
-	 */
-	@Override
-	public void resume() {
+    }
 
-	}
+    /**
+     * app returned to focus
+     */
+    @Override
+    public void resume() {
 
-	/**
-	 * changed to this screen
-	 */
-	@Override
-	public void show() {
-		if (Gdx.app.getType().equals(ApplicationType.Desktop)) {
+    }
 
-			Pixmap pixmap = new Pixmap(Gdx.files.internal("ui/cursor.png"));
-			// Set hotspot to the middle of it (0,0 would be the top-left corner)
-			cursor = Gdx.graphics.newCursor(pixmap, 0, 0);
-			pixmap.dispose(); 
-			Gdx.graphics.setCursor(cursor);
-		}
-		titleMenu.setVisible(true);
+    /**
+     * changed to this screen
+     */
+    @Override
+    public void show() {
+        if (Gdx.app.getType().equals(ApplicationType.Desktop)) {
 
-	}
+            Pixmap pixmap = new Pixmap(Gdx.files.internal("ui/cursor.png"));
+            // Set hotspot to the middle of it (0,0 would be the top-left corner)
+            cursor = Gdx.graphics.newCursor(pixmap, 0, 0);
+            pixmap.dispose();
+            Gdx.graphics.setCursor(cursor);
+        }
+        titleMenu.setVisible(true);
 
-	public void renderBackground() {
+    }
 
-		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.setColor(Color.valueOf("#4a496b"));
-		float height = (Gdx.graphics.getHeight() / 1080f) * 360f;
-		shapeRenderer.rect(0, Gdx.graphics.getHeight() / 2f - height / 2f, Gdx.graphics.getWidth(), height);
-		shapeRenderer.end();
-	}
+    public void renderBackground() {
+
+        shapeRenderer.begin(ShapeType.Filled);
+        shapeRenderer.setColor(Color.valueOf("#4a496b"));
+        float height = (Gdx.graphics.getHeight() / 1080f) * 360f;
+        shapeRenderer.rect(0, Gdx.graphics.getHeight() / 2f - height / 2f, Gdx.graphics.getWidth(), height);
+        shapeRenderer.end();
+    }
+
+    public static TitleScreen getInstance() {
+        if (instance == null) {
+            instance = new TitleScreen();
+        }
+        return instance;
+    }
 }

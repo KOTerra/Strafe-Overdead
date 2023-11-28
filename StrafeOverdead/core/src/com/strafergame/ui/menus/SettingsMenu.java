@@ -47,7 +47,7 @@ public class SettingsMenu extends Table {
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                showTitleMenu();
+                Strafer.getInstance().setScreen(TitleScreen.getInstance());
             }
         });
 
@@ -222,11 +222,4 @@ public class SettingsMenu extends Table {
         }
     }
 
-    private void showTitleMenu() {
-        if (Strafer.titleScreen == null) {
-            Strafer.titleScreen = new TitleScreen();
-        }
-        Strafer.getInstance().setScreen(Strafer.titleScreen);
-
-    }
 }

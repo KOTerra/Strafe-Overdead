@@ -6,10 +6,12 @@ import com.strafergame.ui.menus.GameOverMenu;
 
 public class GameOverScreen implements Screen {
 
+    private static GameOverScreen instance;
+
     GameOverMenu menu;
 
-    public GameOverScreen( ) {
-        menu=new GameOverMenu();
+    public GameOverScreen() {
+        menu = new GameOverMenu();
     }
 
     @Override
@@ -45,5 +47,12 @@ public class GameOverScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public static GameOverScreen getInstance() {
+        if (instance == null) {
+            instance = new GameOverScreen();
+        }
+        return instance;
     }
 }

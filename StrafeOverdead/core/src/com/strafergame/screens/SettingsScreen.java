@@ -8,60 +8,69 @@ import com.strafergame.ui.menus.SettingsMenu;
 
 public class SettingsScreen implements Screen {
 
-	SettingsMenu settingsMenu;
+    private static SettingsScreen instance;
 
-	public SettingsScreen( ) {
-		settingsMenu = new SettingsMenu();
-	}
+    SettingsMenu settingsMenu;
 
-	@Override
-	public void resize(int width, int height) {
-		Strafer.uiManager.getViewport().update(width, height, true);
+    public SettingsScreen() {
+        settingsMenu = new SettingsMenu();
+    }
 
-	}
+    @Override
+    public void resize(int width, int height) {
+        Strafer.uiManager.getViewport().update(width, height, true);
 
-	@Override
-	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		Strafer.uiManager.act(delta);
-		Strafer.uiManager.draw();
-	}
+    }
 
-	@Override
-	public void dispose() {
-		Strafer.uiManager.dispose();
-	}
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Strafer.uiManager.act(delta);
+        Strafer.uiManager.draw();
+    }
 
-	/**
-	 * changed to another screen
-	 */
-	@Override
-	public void hide() {
-		settingsMenu.setVisible(false);
-	}
+    @Override
+    public void dispose() {
+        Strafer.uiManager.dispose();
+    }
 
-	/**
-	 * app out of focus or closed
-	 */
-	@Override
-	public void pause() {
+    /**
+     * changed to another screen
+     */
+    @Override
+    public void hide() {
+        settingsMenu.setVisible(false);
+    }
 
-	}
+    /**
+     * app out of focus or closed
+     */
+    @Override
+    public void pause() {
 
-	/**
-	 * app returned to focus
-	 */
-	@Override
-	public void resume() {
-	}
+    }
 
-	/**
-	 * changed to this screen
-	 */
-	@Override
-	public void show() {
+    /**
+     * app returned to focus
+     */
+    @Override
+    public void resume() {
+    }
 
-		settingsMenu.setVisible(true);
-	}
+    /**
+     * changed to this screen
+     */
+    @Override
+    public void show() {
+
+        settingsMenu.setVisible(true);
+    }
+
+    public static SettingsScreen getInstance() {
+        if (instance == null) {
+            instance = new SettingsScreen();
+        }
+        return instance;
+    }
 
 }

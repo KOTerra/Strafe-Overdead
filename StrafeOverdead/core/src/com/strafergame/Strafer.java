@@ -39,7 +39,7 @@ public class Strafer extends Game {
     /**
      * the game state manager
      */
-    private GameStateManager gameStateManager=GameStateManager.getInstance();
+    private GameStateManager gameStateManager = GameStateManager.getInstance();
 
     /**
      * input manager of the game
@@ -96,30 +96,6 @@ public class Strafer extends Game {
      */
     public static UiManager uiManager;
 
-    /**
-     * the loading screen
-     */
-    public static LoadingScreen loadingScreen;
-
-    /**
-     * the title screen
-     */
-    public static TitleScreen titleScreen;
-
-    /**
-     * the settings screen
-     */
-    public static SettingsScreen settingsScreen;
-
-    /**
-     * the game screen
-     */
-    public static GameScreen gameScreen;
-    /**
-     * the game over screen
-     */
-    public static GameOverScreen gameOverScreen;
-
 
     /**
      * the tiled map
@@ -138,12 +114,13 @@ public class Strafer extends Game {
      */
     public static boolean inDebug = true;
 
-    public static Strafer getInstance(){
-        if(instance==null){
-            instance=new Strafer();
+    public static Strafer getInstance() {
+        if (instance == null) {
+            instance = new Strafer();
         }
         return instance;
     }
+
     @Override
     public void create() {
 
@@ -171,8 +148,7 @@ public class Strafer extends Game {
 
         gameRenderer = new GameRenderer();
 
-        loadingScreen = new LoadingScreen();
-        setScreen(loadingScreen);
+        setScreen(LoadingScreen.getInstance());
     }
 
     @Override

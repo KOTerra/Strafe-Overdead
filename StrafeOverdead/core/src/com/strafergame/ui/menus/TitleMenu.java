@@ -61,7 +61,7 @@ public class TitleMenu extends Table {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                showSettingsMenu();
+                game.setScreen(SettingsScreen.getInstance());
             }
         });
         row();
@@ -98,17 +98,7 @@ public class TitleMenu extends Table {
     }
 
     private void showLoadGameMenu() {
-        if (Strafer.gameScreen == null) {
-            Strafer.gameScreen = new GameScreen();
-        }
-        game.setScreen(Strafer.gameScreen);
+        game.setScreen(GameScreen.getInstance());
     }
 
-    private void showSettingsMenu() {
-        if (Strafer.settingsScreen == null) {
-            Strafer.settingsScreen = new SettingsScreen();
-        }
-        game.setScreen(Strafer.settingsScreen);
-
-    }
 }

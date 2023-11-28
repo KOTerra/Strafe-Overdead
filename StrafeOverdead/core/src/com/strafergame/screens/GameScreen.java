@@ -10,6 +10,8 @@ import com.strafergame.ui.HUD;
 
 public class GameScreen implements Screen {
 
+    private static GameScreen instance;
+
     /**
      * reference to the game class
      */
@@ -55,10 +57,8 @@ public class GameScreen implements Screen {
     }
 
     public void showGameOverMenu() {
-        if (Strafer.gameOverScreen == null) {
-            Strafer.gameOverScreen = new GameOverScreen();
-        }
-        Strafer.getInstance().setScreen(Strafer.gameOverScreen);
+
+        Strafer.getInstance().setScreen(GameOverScreen.getInstance());
     }
 
     @Override
@@ -97,6 +97,13 @@ public class GameScreen implements Screen {
 
     public GameWorld getGameWorld() {
         return gameWorld;
+    }
+
+    public static GameScreen getInstance() {
+        if (instance == null) {
+            instance = new GameScreen();
+        }
+        return instance;
     }
 
 }

@@ -12,6 +12,7 @@ import com.strafergame.game.ecs.component.HealthComponent;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.world.collision.Box2DWorld;
+import com.strafergame.screens.GameScreen;
 
 public class HealthSystem extends IteratingSystem {
 
@@ -44,7 +45,7 @@ public class HealthSystem extends IteratingSystem {
 				this.getEngine().removeEntity(entity);
 			}
 			else{
-				Strafer.gameScreen.showGameOverMenu();
+				GameScreen.getInstance().showGameOverMenu();
 			}
 		}
 
