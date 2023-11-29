@@ -84,7 +84,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
      * @param systems what systems' process state should be changed, Leave null if the default ones are to be used
      * @param pause   true if to pause, false if to unpause
      */
-    public void pauseSystems(Array<EntitySystem> systems, boolean pause) {
+    public void pauseOnSystems(Array<EntitySystem> systems, boolean pause) {
         if (systems == null) {
             systems = new Array<>();
             systems.add(movementSystem, playerControlSystem, combatSystem, healthSystem);

@@ -29,7 +29,7 @@ public class PauseMenu extends Table {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 GameStateManager.getInstance().getStateMachine().changeState(GameStateType.MENU);
-                Strafer.uiManager.titleTrigger();
+                Strafer.uiManager.emptyTrigger();
                 Strafer.getInstance().setScreen(TitleScreen.getInstance());
             }
         });

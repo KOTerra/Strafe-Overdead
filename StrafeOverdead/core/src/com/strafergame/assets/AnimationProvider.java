@@ -1,21 +1,14 @@
 package com.strafergame.assets;
 
-import java.util.EnumMap;
-import java.util.HashMap;
-
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.utils.Array;
-import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.PositionComponent;
-import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
+
+import java.util.EnumMap;
+import java.util.HashMap;
 
 public class AnimationProvider {
 

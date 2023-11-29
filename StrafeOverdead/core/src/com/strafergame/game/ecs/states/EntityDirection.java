@@ -5,5 +5,5 @@ package com.strafergame.game.ecs.states;
  */
 
 public enum EntityDirection {
-	w, s, a, d;
+    w, s, a, d;
 }

@@ -91,7 +91,6 @@ public class Strafer extends Game {
      */
     public static UiManager uiManager;
 
-
     /**
      * the tiled map
      */

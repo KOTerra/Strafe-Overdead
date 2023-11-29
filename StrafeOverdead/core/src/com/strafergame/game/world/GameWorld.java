@@ -162,8 +162,17 @@ public class GameWorld implements Disposable {
                 Strafer.worldCamera.setFocusOn(player);
             }
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_2)) {
-                // game.setScreen(Strafer.gameOverScreen);
                 this.reset();
+            }
+
+            if (Gdx.input.isKeyPressed(Keys.NUMPAD_4)) {
+                HealthComponent hc = ComponentMappers.health().get(player);
+                hc.hitPoints -= 3;
+            }
+            if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
+                HealthComponent hc = ComponentMappers.health().get(player);
+                hc.hitPoints += 3;
+
             }
 
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_8)) {
