@@ -18,7 +18,6 @@ public class AnimationProvider {
     public static final EnumMap<EntityType, HashMap<String, Animation<Sprite>>> TYPE_ANIMATIONS = new EnumMap<>(
             EntityType.class);
 
-    // public static final HashMap<String, Animation<Sprite>> PLAYER_ANIMATIONS = new HashMap<>();
 
     /**
      * for ecs

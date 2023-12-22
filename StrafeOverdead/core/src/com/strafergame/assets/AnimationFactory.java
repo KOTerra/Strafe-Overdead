@@ -12,41 +12,29 @@ import static com.strafergame.assets.AnimationProvider.*;
 
 public abstract class AnimationFactory {
     public static void prepareAnimations() {
-        TYPE_ANIMATIONS.get(EntityType.player).put("idle_w", makeSprites(0.25f, EntityType.player, "idle_w", true));
-        TYPE_ANIMATIONS.get(EntityType.player).put("idle_a", makeSprites(0.25f, EntityType.player, "idle_a", true));
-        TYPE_ANIMATIONS.get(EntityType.player).put("idle_s", makeSprites(0.25f, EntityType.player, "idle_s", true));
-        TYPE_ANIMATIONS.get(EntityType.player).put("idle_d", makeSprites(0.25f, EntityType.player, "idle_d", true));
 
-        TYPE_ANIMATIONS.get(EntityType.player).put("walk_w", makeSprites(0.25f, EntityType.player, "walk_w", true));
-        TYPE_ANIMATIONS.get(EntityType.player).put("walk_a", makeSprites(0.25f, EntityType.player, "walk_a", true));
-        TYPE_ANIMATIONS.get(EntityType.player).put("walk_s", makeSprites(0.25f, EntityType.player, "walk_s", true));
-        TYPE_ANIMATIONS.get(EntityType.player).put("walk_d", makeSprites(0.25f, EntityType.player, "walk_d", true));
+        for (EntityType e : EntityType.values()) {
+            if (Strafer.assetManager.contains("spritesheets/" + e + "/" + e + ".atlas")) {
+                TextureAtlas ta = Strafer.assetManager
+                        .get("spritesheets/" + e + "/" + e + ".atlas", TextureAtlas.class);
 
-        TYPE_ANIMATIONS.get(EntityType.player).put("hit_w", makeSprites(0.25f, EntityType.player, "hit_w", false));
-        TYPE_ANIMATIONS.get(EntityType.player).put("hit_a", makeSprites(0.25f, EntityType.player, "hit_a", false));
-        TYPE_ANIMATIONS.get(EntityType.player).put("hit_s", makeSprites(0.25f, EntityType.player, "hit_s", false));
-        TYPE_ANIMATIONS.get(EntityType.player).put("hit_d", makeSprites(0.25f, EntityType.player, "hit_d", false));
-
-        TYPE_ANIMATIONS.get(EntityType.player).put("dash_w", makeSprites(0.25f, EntityType.player, "dash_w", false));
-        TYPE_ANIMATIONS.get(EntityType.player).put("dash_a", makeSprites(0.25f, EntityType.player, "dash_a", false));
-        TYPE_ANIMATIONS.get(EntityType.player).put("dash_s", makeSprites(0.25f, EntityType.player, "dash_s", false));
-        TYPE_ANIMATIONS.get(EntityType.player).put("dash_d", makeSprites(0.25f, EntityType.player, "dash_d", false));
-
-        TYPE_ANIMATIONS.get(EntityType.player).put("death_w", makeSprites(0.25f, EntityType.player, "death_w", false));
-        TYPE_ANIMATIONS.get(EntityType.player).put("death_a", makeSprites(0.25f, EntityType.player, "death_a", false));
-        TYPE_ANIMATIONS.get(EntityType.player).put("death_s", makeSprites(0.25f, EntityType.player, "death_s", false));
-        TYPE_ANIMATIONS.get(EntityType.player).put("death_d", makeSprites(0.25f, EntityType.player, "death_d", false));
-
-
+                String reg = "^" + e.toString() + "_";
+                for (TextureAtlas.AtlasRegion ar : ta.getRegions()) {
+                    String s = ar.toString();
+                    s = s.replaceFirst(reg, "");
+                    //AnimationDictionary stuff or other descriptors in name_0.25_loop_etc
+                    TYPE_ANIMATIONS.get(e).put(s, makeSprites(0.25f, e, s, true));
+                }
+            }
+        }
     }
 
-    private static Animation<Sprite> makeSprites(float duration, EntityType entityType, String animation,
-                                                 boolean loop) {
+    private static Animation<Sprite> makeSprites(float duration, EntityType entityType, String animation, boolean loop) {
         Array<Sprite> array = new Array<>();
 
         String name = entityType.toString();
-        if(animation!=null) {
-            name= name + '_' + animation;
+        if (animation != null) {
+            name = name + '_' + animation;
         }
 
         for (TextureAtlas.AtlasRegion a : Strafer.assetManager
@@ -64,9 +52,10 @@ public abstract class AnimationFactory {
 
     private static Animation<Sprite> makeSprites(float duration, EntityType entityType,
                                                  boolean loop) {
-        return makeSprites(duration,entityType,null,loop);
+        return makeSprites(duration, entityType, null, loop);
     }
-        private static Animation.PlayMode getPlayMode(boolean loop) {
+
+    private static Animation.PlayMode getPlayMode(boolean loop) {
         return loop ? Animation.PlayMode.LOOP : Animation.PlayMode.NORMAL;
     }
 }
