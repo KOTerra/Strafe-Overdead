@@ -5,25 +5,35 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.JsonValue;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.states.EntityType;
+import com.sun.tools.classfile.ConstantPool;
 
 import static com.strafergame.assets.AnimationProvider.*;
 
 public abstract class AnimationFactory {
     public static void prepareAnimations() {
 
+        AnimationDictionary.loadEntries();
         for (EntityType e : EntityType.values()) {
             if (Strafer.assetManager.contains("spritesheets/" + e + "/" + e + ".atlas")) {
                 TextureAtlas ta = Strafer.assetManager
                         .get("spritesheets/" + e + "/" + e + ".atlas", TextureAtlas.class);
 
                 String reg = "^" + e.toString() + "_";
+                String s;
+                float duration;
+                boolean loop;
                 for (TextureAtlas.AtlasRegion ar : ta.getRegions()) {
-                    String s = ar.toString();
+                    s = ar.toString();
+                    duration = AnimationDictionary.getDuration(s);
+                    loop = AnimationDictionary.isLooping(s);
+
                     s = s.replaceFirst(reg, "");
-                    //AnimationDictionary stuff or other descriptors in name_0.25_loop_etc
-                    TYPE_ANIMATIONS.get(e).put(s, makeSprites(0.25f, e, s, true));
+                    TYPE_ANIMATIONS.get(e).put(s, makeSprites(duration, e, s, loop));
                 }
             }
         }
