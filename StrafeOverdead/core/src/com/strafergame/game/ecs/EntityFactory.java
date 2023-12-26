@@ -29,8 +29,7 @@ public abstract class EntityFactory {
 
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
         posCmp.isHidden = false;
-        posCmp.renderX = playerSpawnLocation.x;
-        posCmp.renderY = playerSpawnLocation.y;
+        posCmp.renderPos=playerSpawnLocation.cpy();
         player.add(posCmp);
 
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
@@ -79,8 +78,7 @@ public abstract class EntityFactory {
 
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
         posCmp.isHidden = false;
-        posCmp.renderX = location.x;
-        posCmp.renderY = location.y;
+        posCmp.renderPos=location;
         dummy.add(posCmp);
 
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
@@ -154,8 +152,7 @@ public abstract class EntityFactory {
         checkpoint.add(chkCmp);
 
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
-        posCmp.renderX = location.x;
-        posCmp.renderY = location.y;
+        posCmp.renderPos=location;
         checkpoint.add(posCmp);
 
         CameraComponent camCmp = entityEngine.createComponent(CameraComponent.class);
@@ -178,11 +175,11 @@ public abstract class EntityFactory {
         PositionComponent posCmp = ComponentMappers.position().get(e);
         SpriteComponent spriteCmp = ComponentMappers.sprite().get(e);
 
-        posCmp.prevX = -spriteCmp.width / 2;
-        posCmp.prevY = -spriteCmp.height / 2;
+        posCmp.prevPos.x = -spriteCmp.width / 2;
+        posCmp.prevPos.y = -spriteCmp.height / 2;
 
         Box2DFactory.createBody(b2dCmp, entityEngine.getBox2dWorld().getWorld(), spriteCmp.width, spriteCmp.width, 0, 0,
-                new Vector2(posCmp.prevX, posCmp.prevY), BodyDef.BodyType.DynamicBody);
+                posCmp.prevPos, BodyDef.BodyType.DynamicBody);
         Box2DFactory.addHurtboxToBody(entityEngine.getBox2dWorld().getWorld(), b2dCmp, spriteCmp.width, spriteCmp.height, 0,
                 spriteCmp.height / 2);
         b2dCmp.initiatedPhysics = true;

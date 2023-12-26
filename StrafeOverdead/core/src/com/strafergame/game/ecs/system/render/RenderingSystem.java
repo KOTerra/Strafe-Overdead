@@ -59,7 +59,7 @@ public class RenderingSystem extends SortedIteratingSystem {
 				continue;
 			}
 
-			batch.draw(spriteCmp.sprite, posCmp.renderX - spriteCmp.width / 2, posCmp.renderY, // -
+			batch.draw(spriteCmp.sprite, posCmp.renderPos.x - spriteCmp.width / 2, posCmp.renderPos.y, // -
 																								// getHeight()
 					// / 2, //
 					// coordonatele

@@ -13,8 +13,6 @@ import java.util.HashMap;
 
 public class AnimationProvider {
 
-    public static final float FRAME_DURATION = 0.25f;
-
     public static final EnumMap<EntityType, HashMap<String, Animation<Sprite>>> TYPE_ANIMATIONS = new EnumMap<>(
             EntityType.class);
 

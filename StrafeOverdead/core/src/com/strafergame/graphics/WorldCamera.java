@@ -152,8 +152,8 @@ public class WorldCamera extends OrthographicCamera {
 			Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
 			if (posCmp != null && b2dCmp != null) {
 				float weight = weighted ? b2dCmp.fingerprint.getShape().getRadius() : 1;
-				weightedSumX += posCmp.renderX * weight;
-				weightedSumY += posCmp.renderY * weight;
+				weightedSumX += posCmp.renderPos.x * weight;
+				weightedSumY += posCmp.renderPos.y * weight;
 				totalWeight += weight;
 			}
 		}
@@ -185,7 +185,7 @@ public class WorldCamera extends OrthographicCamera {
 
 			case ENTITY_FOCUS: {
 				PositionComponent posCmp = ComponentMappers.position().get(focusEntities.get(0));
-				cameraSnapPosition.set(posCmp.renderX, posCmp.renderY, 0);
+				cameraSnapPosition.set(posCmp.renderPos.x,posCmp.renderPos.y, 0);
 				break;
 			}
 			case ENTITY_GROUP_FOCUS: {

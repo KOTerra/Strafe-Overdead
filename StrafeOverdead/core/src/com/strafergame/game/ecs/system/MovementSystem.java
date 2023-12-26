@@ -50,6 +50,7 @@ public class MovementSystem extends IteratingSystem {
                 MovementComponent movCmp = ComponentMappers.movement().get(e);
                 EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
+                //interface in posCmp care sa implementeze dupa tip de entity cum se misca, miscat de AI, sau ca aici etc
                 switch (typeCmp.entityState) {
                     case idle:
                     case walk: {
@@ -79,8 +80,8 @@ public class MovementSystem extends IteratingSystem {
         for (Entity e : this.getEntities()) {
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
             PositionComponent posCmp = ComponentMappers.position().get(e);
-            posCmp.prevX = b2dCmp.body.getPosition().x;
-            posCmp.prevY = b2dCmp.body.getPosition().y;
+
+            posCmp.prevPos = b2dCmp.body.getPosition().cpy();
 
         }
     }
@@ -89,8 +90,10 @@ public class MovementSystem extends IteratingSystem {
         for (Entity e : this.getEntities()) {
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
             PositionComponent posCmp = ComponentMappers.position().get(e);
-            posCmp.renderX = MathUtils.lerp(posCmp.prevX, b2dCmp.body.getPosition().x, alpha);
-            posCmp.renderY = MathUtils.lerp(posCmp.prevY, b2dCmp.body.getPosition().y, alpha);
+
+
+            posCmp.renderPos.set(MathUtils.lerp(posCmp.prevPos.x, b2dCmp.body.getPosition().x, alpha),
+                    MathUtils.lerp(posCmp.prevPos.y, b2dCmp.body.getPosition().y, alpha));
 
         }
     }

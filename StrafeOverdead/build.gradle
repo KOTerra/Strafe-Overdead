@@ -58,7 +58,7 @@ project(":desktop") {
     }
 }
 
-project(":android") {
+/*project(":android") {
     apply plugin: "com.android.application"
 
     configurations { natives }
@@ -87,6 +87,7 @@ project(":android") {
         
     }
 }
+*/
 
 project(":ios") {
     apply plugin: "java-library"
@@ -105,7 +106,6 @@ project(":ios") {
         
     }
 }
-
 project(":core") {
     apply plugin: "java-library"
 
