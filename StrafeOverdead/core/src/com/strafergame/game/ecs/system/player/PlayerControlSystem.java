@@ -42,23 +42,22 @@ public class PlayerControlSystem extends IteratingSystem {
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
         final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
-        movCmp.dirX = 0;
-        movCmp.dirY = 0;
+        movCmp.dir.set(0f, 0f);
 
         if (PlayerControl.MOVE_UP) {
-            movCmp.dirY = 1;
+            movCmp.dir.y = 1f;
             posCmp.direction = EntityDirection.w;
         }
         if (PlayerControl.MOVE_DOWN) {
-            movCmp.dirY = -1;
+            movCmp.dir.y = -1f;
             posCmp.direction = EntityDirection.s;
         }
         if (PlayerControl.MOVE_LEFT) {
-            movCmp.dirX = -1;
+            movCmp.dir.x = -1f;
             posCmp.direction = EntityDirection.a;
         }
         if (PlayerControl.MOVE_RIGHT) {
-            movCmp.dirX = 1;
+            movCmp.dir.x = 1f;
             posCmp.direction = EntityDirection.d;
         }
         if (movCmp.moving()) {

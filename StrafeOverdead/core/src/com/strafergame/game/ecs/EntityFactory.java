@@ -1,6 +1,8 @@
 package com.strafergame.game.ecs;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+import com.badlogic.gdx.ai.steer.behaviors.Wander;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -12,8 +14,11 @@ import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.save.CheckpointAction;
+import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.FilteredContactListener;
+
+import javax.swing.*;
 
 public abstract class EntityFactory {
     private static final EntityEngine entityEngine = EntityEngine.getInstance();
@@ -29,11 +34,11 @@ public abstract class EntityFactory {
 
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
         posCmp.isHidden = false;
-        posCmp.renderPos=playerSpawnLocation.cpy();
+        posCmp.renderPos = playerSpawnLocation.cpy();
         player.add(posCmp);
 
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
-        movCmp.speed = plyrCmp.baseSpeed;
+        movCmp.maxLinearSpeed = plyrCmp.baseSpeed;
         movCmp.dashDuration = 1f;
         movCmp.dashForce = plyrCmp.dashForce;
 
@@ -63,6 +68,9 @@ public abstract class EntityFactory {
         plyrCmp.sensor.setUserData(player);
 
         b2dCmp.body.setTransform(playerSpawnLocation, 0);
+
+        player.add(entityEngine.createComponent(SteeringComponent.class).setOwner(player));
+
         return player;
     }
 
@@ -78,11 +86,10 @@ public abstract class EntityFactory {
 
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
         posCmp.isHidden = false;
-        posCmp.renderPos=location;
+        posCmp.renderPos = location;
         dummy.add(posCmp);
 
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
-        movCmp.speed = 0;
         dummy.add(movCmp);
 
         HealthComponent hlthComponent = entityEngine.createComponent(HealthComponent.class);
@@ -107,6 +114,13 @@ public abstract class EntityFactory {
         dummy.add(dctrCmp);
 
         b2dCmp.body.setTransform(location, 0);
+
+        SteeringComponent steerCmp = entityEngine.createComponent(SteeringComponent.class);
+        steerCmp.setOwner(dummy);
+        SteeringComponent playerSteerCmp = ComponentMappers.steering().get(GameWorld.player);
+        steerCmp.behavior = new Arrive<>(steerCmp, playerSteerCmp);
+        dummy.add(steerCmp);
+
         return dummy;
     }
 
@@ -152,7 +166,7 @@ public abstract class EntityFactory {
         checkpoint.add(chkCmp);
 
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
-        posCmp.renderPos=location;
+        posCmp.renderPos = location;
         checkpoint.add(posCmp);
 
         CameraComponent camCmp = entityEngine.createComponent(CameraComponent.class);

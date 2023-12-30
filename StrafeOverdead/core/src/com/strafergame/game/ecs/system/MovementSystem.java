@@ -8,11 +8,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.strafergame.game.ecs.ComponentMappers;
-import com.strafergame.game.ecs.component.Box2dComponent;
-import com.strafergame.game.ecs.component.EntityTypeComponent;
-import com.strafergame.game.ecs.component.MovementComponent;
-import com.strafergame.game.ecs.component.PositionComponent;
+import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.states.EntityState;
+import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DWorld;
 
@@ -50,17 +48,27 @@ public class MovementSystem extends IteratingSystem {
                 MovementComponent movCmp = ComponentMappers.movement().get(e);
                 EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
+                if (!typeCmp.entityType.equals(EntityType.player)) {
+                    SteeringComponent steerCmp = ComponentMappers.steering().get(e);
+                    if (steerCmp != null) {
+                        steerCmp.update();
+                    }
+                }
+
+
                 //interface in posCmp care sa implementeze dupa tip de entity cum se misca, miscat de AI, sau ca aici etc
                 switch (typeCmp.entityState) {
                     case idle:
                     case walk: {
-                        b2dCmp.body.setLinearVelocity(movCmp.dirX * movCmp.speed, movCmp.dirY * movCmp.speed);
-                        typeCmp.entityState = EntityState.idle;
+                        if (typeCmp.entityType.equals(EntityType.player)) {
+                            b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, movCmp.dir.y * movCmp.maxLinearSpeed);
+                            typeCmp.entityState = EntityState.idle;
+                        }
                         break;
                     }
                     case dash: {
 
-                        dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dirX, movCmp.dirY), movCmp, typeCmp,
+                        dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dir.x, movCmp.dir.y), movCmp, typeCmp,
                                 movCmp.isDashCooldown, movCmp.dashForce);
                         break;
                     }

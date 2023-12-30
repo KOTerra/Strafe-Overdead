@@ -50,6 +50,10 @@ public abstract class ComponentMappers {
 		return ComponentMapper.getFor(DetectorComponent.class);
 	}
 
+	public static final ComponentMapper<SteeringComponent> steering(){
+		return ComponentMapper.getFor(SteeringComponent.class);
+	}
+
 	public static final ComponentMapper<ItemComponent> item(){
 		return ComponentMapper.getFor(ItemComponent.class);
 	}
