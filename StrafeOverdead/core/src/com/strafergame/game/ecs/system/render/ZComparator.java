@@ -18,13 +18,7 @@ public class ZComparator implements Comparator<Entity> {
 	public int compare(Entity a, Entity b) {
 		float ay = posCmp.get(a).renderPos.y;
 		float by = posCmp.get(b).renderPos.y;
-		if (ay < by) {
-			return 1;
-		}
-		if (ay > by) {
-			return -1;
-		}
-		return 0;
-	}
+        return Float.compare(by, ay);
+    }
 
 }

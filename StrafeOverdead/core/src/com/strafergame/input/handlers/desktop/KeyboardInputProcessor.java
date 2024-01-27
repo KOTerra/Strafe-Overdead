@@ -70,6 +70,7 @@ public class KeyboardInputProcessor implements InputProcessor {
         return true;
     }
 
+
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
         return false;
@@ -77,6 +78,11 @@ public class KeyboardInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchUp(int x, int y, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
