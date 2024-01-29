@@ -23,6 +23,7 @@ public class TitleMenu extends Table {
     Group background = new Group();
     VisImage banner;
 
+    VisTextButton loadGameButton;
     public TitleMenu() {
         this.game = Strafer.getInstance();
         makeBackground();
@@ -45,7 +46,7 @@ public class TitleMenu extends Table {
     }
 
     private void makeButtons() {
-        VisTextButton loadGameButton = new VisTextButton(Strafer.i18n.get("playButton"));
+        loadGameButton = new VisTextButton(Strafer.i18n.get("playButton"));
 
         row();
         add(loadGameButton);
@@ -95,7 +96,7 @@ public class TitleMenu extends Table {
         }
         super.setVisible(a);
         background.setVisible(a);
-
+    Strafer.uiManager.setFocusedActor(loadGameButton);
     }
 
     public void resize() {
