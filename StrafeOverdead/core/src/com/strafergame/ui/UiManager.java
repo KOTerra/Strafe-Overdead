@@ -13,8 +13,9 @@ import com.strafergame.game.GameStateManager;
 import com.strafergame.game.GameStateType;
 import com.strafergame.input.UIControl;
 import com.strafergame.ui.menus.PauseMenu;
+import de.golfgl.gdx.controllers.ControllerMenuStage;
 
-public class UiManager extends Stage implements Disposable {
+public class UiManager extends ControllerMenuStage implements Disposable {
 
     private HUD hud;
 

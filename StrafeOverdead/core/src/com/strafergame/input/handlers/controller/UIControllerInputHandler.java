@@ -47,7 +47,7 @@ public class UIControllerInputHandler implements ControllerListener {
     }
 
     public static UIControllerInputHandler getInstance() {
-        if (getInstance() == null) {
+        if (instance == null) {
             instance = new UIControllerInputHandler();
         }
         return instance;
