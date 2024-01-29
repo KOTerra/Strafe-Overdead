@@ -1,14 +1,11 @@
 package com.strafergame.ui.menus;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.delay;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -18,6 +15,8 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.strafergame.Strafer;
 import com.strafergame.screens.GameScreen;
 import com.strafergame.screens.SettingsScreen;
+
+import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 public class TitleMenu extends Table {
     Strafer game;
@@ -33,7 +32,7 @@ public class TitleMenu extends Table {
         defaults().space(20);
         align(Align.right);
         Strafer.uiManager.addActor(this);
-
+        setTouchable(Touchable.enabled);
         makeButtons();
     }
 
@@ -47,16 +46,25 @@ public class TitleMenu extends Table {
 
     private void makeButtons() {
         VisTextButton loadGameButton = new VisTextButton(Strafer.i18n.get("playButton"));
+
+        row();
+        add(loadGameButton);
+        Strafer.uiManager.addFocusableActor(loadGameButton);
+        Strafer.uiManager.setFocusedActor(loadGameButton);
+        Strafer.uiManager.setEscapeActor(loadGameButton);
+
         loadGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 showLoadGameMenu();
             }
         });
-        row();
-        add(loadGameButton);
+
 
         VisTextButton optionsButton = new VisTextButton(Strafer.i18n.get("optionsButton"));
+        row();
+        add(optionsButton);
+        Strafer.uiManager.addFocusableActor(optionsButton);
         optionsButton.addListener(new ChangeListener() {
 
             @Override
@@ -64,10 +72,12 @@ public class TitleMenu extends Table {
                 game.setScreen(SettingsScreen.getInstance());
             }
         });
-        row();
-        add(optionsButton);
+
 
         VisTextButton quitButton = new VisTextButton(Strafer.i18n.get("quitButton"));
+        row();
+        add(quitButton);
+        Strafer.uiManager.addFocusableActor(quitButton);
         quitButton.addListener(new ChangeListener() {
 
             @Override
@@ -75,9 +85,6 @@ public class TitleMenu extends Table {
                 Gdx.app.exit();
             }
         });
-        row();
-        add(quitButton);
-
     }
 
     @Override

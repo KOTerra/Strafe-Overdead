@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.controllers.Controllers;
+import com.strafergame.Strafer;
 import com.strafergame.input.handlers.controller.ControllerInputHandler;
 import com.strafergame.input.handlers.controller.UIControllerInputHandler;
 import com.strafergame.input.handlers.desktop.KeyboardInputProcessor;
@@ -32,12 +33,14 @@ public class InputManager {
         } else {
 
             inputMultiplexer.clear();
-            inputMultiplexer.setProcessors(UIKeyboardInputProcessor.getInstance(), KeyboardInputProcessor.getInstance());
+            inputMultiplexer.setProcessors(Strafer.uiManager,UIKeyboardInputProcessor.getInstance(), KeyboardInputProcessor.getInstance());
+
 
         }
         if (Controllers.getControllers().notEmpty()) {
-            Controllers.addListener(ControllerInputHandler.getInstance());
             Controllers.addListener(UIControllerInputHandler.getInstance());
+            Controllers.addListener(ControllerInputHandler.getInstance());
+
         }
     }
 

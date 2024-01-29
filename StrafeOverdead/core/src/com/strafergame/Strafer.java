@@ -123,8 +123,6 @@ public class Strafer extends Game {
 
         spriteBatch = new SpriteBatch();
 
-        inputManager = new InputManager();
-
         aspectRatio = (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
         worldCamera = new WorldCamera(WORLD_HEIGHT * aspectRatio, WORLD_HEIGHT);
         worldCamera.position.set(WORLD_WIDTH / 2, WORLD_HEIGHT / 2, 0);
@@ -139,6 +137,8 @@ public class Strafer extends Game {
 
         uiManager = new UiManager(uiScreenViewport, spriteBatch);
         uiManager.init();
+
+        inputManager = new InputManager();
 
         gameRenderer = new GameRenderer();
 

@@ -1,14 +1,10 @@
 package com.strafergame.ui;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.VisUI.SkinScale;
-import com.strafergame.Strafer;
 import com.strafergame.game.GameStateManager;
 import com.strafergame.game.GameStateType;
 import com.strafergame.input.UIControl;
@@ -25,11 +21,13 @@ public class UiManager extends ControllerMenuStage implements Disposable {
     }
 
     public void init() {
-        ((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(Strafer.uiManager);
-
+        setSendMouseOverEvents(false);
+        //((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(this);
+        //Gdx.input.setInputProcessor(this);
         VisUI.load(SkinScale.X2);
 
     }
+
 
     @Override
     public void act(float delta) {
@@ -41,7 +39,7 @@ public class UiManager extends ControllerMenuStage implements Disposable {
         if (UIControl.PAUSE_TRIGGER) {
             GameStateManager.getInstance().getStateMachine().changeState(GameStateType.PAUSE);
         }
-        if(GameStateManager.getInstance().getStateMachine().isInState(GameStateType.CUTSCENE)){
+        if (GameStateManager.getInstance().getStateMachine().isInState(GameStateType.CUTSCENE)) {
             emptyTrigger();
         }
     }
@@ -49,17 +47,23 @@ public class UiManager extends ControllerMenuStage implements Disposable {
     public void pauseTrigger() {
         this.addActor(PauseMenu.getInstance());
         PauseMenu.getInstance().setVisible(true);
-        hud.setVisible(false);
+        if (hud != null) {
+            hud.setVisible(false);
+        }
     }
 
     public void resumeTrigger() {
         PauseMenu.getInstance().setVisible(false);
-        hud.setVisible(true);
+        if (hud != null) {
+            hud.setVisible(true);
+        }
     }
 
     public void emptyTrigger() {
         PauseMenu.getInstance().setVisible(false);
-        hud.setVisible(false);
+        if (hud != null) {
+            hud.setVisible(false);
+        }
     }
 
     @Override
