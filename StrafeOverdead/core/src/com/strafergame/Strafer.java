@@ -1,7 +1,5 @@
 package com.strafergame;
 
-import java.util.Locale;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -17,9 +15,11 @@ import com.strafergame.game.GameStateType;
 import com.strafergame.graphics.OrthogonalTiledMapRendererBleeding;
 import com.strafergame.graphics.WorldCamera;
 import com.strafergame.input.InputManager;
-import com.strafergame.screens.*;
+import com.strafergame.screens.LoadingScreen;
 import com.strafergame.settings.Settings;
 import com.strafergame.ui.UiManager;
+
+import java.util.Locale;
 
 /**
  * The game class
@@ -142,6 +142,7 @@ public class Strafer extends Game {
 
         gameRenderer = new GameRenderer();
 
+        GameStateManager.changeState(GameStateType.LOADING);
         setScreen(LoadingScreen.getInstance());
     }
 

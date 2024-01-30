@@ -31,16 +31,12 @@ public class InputManager {
         if (appType.equals(ApplicationType.Android) || appType.equals(ApplicationType.iOS)) {
 
         } else {
-
             inputMultiplexer.clear();
             inputMultiplexer.setProcessors(Strafer.uiManager,UIKeyboardInputProcessor.getInstance(), KeyboardInputProcessor.getInstance());
-
-
         }
         if (Controllers.getControllers().notEmpty()) {
             Controllers.addListener(UIControllerInputHandler.getInstance());
             Controllers.addListener(ControllerInputHandler.getInstance());
-
         }
     }
 

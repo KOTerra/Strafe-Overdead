@@ -13,8 +13,9 @@ import com.badlogic.gdx.utils.Align;
 import com.kotcrab.vis.ui.widget.VisImage;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.strafergame.Strafer;
-import com.strafergame.screens.GameScreen;
-import com.strafergame.screens.SettingsScreen;
+import com.strafergame.game.GameStateManager;
+import com.strafergame.game.GameStateType;
+
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
@@ -24,6 +25,7 @@ public class TitleMenu extends Table {
     VisImage banner;
 
     VisTextButton loadGameButton;
+
     public TitleMenu() {
         this.game = Strafer.getInstance();
         makeBackground();
@@ -57,7 +59,7 @@ public class TitleMenu extends Table {
         loadGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                showLoadGameMenu();
+                GameStateManager.changeState(GameStateType.PLAY);
             }
         });
 
@@ -70,7 +72,7 @@ public class TitleMenu extends Table {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(SettingsScreen.getInstance());
+                GameStateManager.changeState(GameStateType.SETTINGS_MENU);
             }
         });
 
@@ -96,17 +98,13 @@ public class TitleMenu extends Table {
         }
         super.setVisible(a);
         background.setVisible(a);
-    Strafer.uiManager.setFocusedActor(loadGameButton);
+        Strafer.uiManager.setFocusedActor(loadGameButton);
     }
 
     public void resize() {
         background.setBounds(0, 0, Strafer.uiManager.getWidth(), Strafer.uiManager.getHeight());
         banner.setScale(background.getHeight() / banner.getHeight());
-
     }
 
-    private void showLoadGameMenu() {
-        game.setScreen(GameScreen.getInstance());
-    }
 
 }

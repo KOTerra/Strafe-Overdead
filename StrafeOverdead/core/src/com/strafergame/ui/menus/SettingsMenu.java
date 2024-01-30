@@ -13,7 +13,8 @@ import com.kotcrab.vis.ui.widget.tabbedpane.Tab;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPane;
 import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 import com.strafergame.Strafer;
-import com.strafergame.screens.TitleScreen;
+import com.strafergame.game.GameStateManager;
+import com.strafergame.game.GameStateType;
 
 public class SettingsMenu extends Table {
 
@@ -47,7 +48,7 @@ public class SettingsMenu extends Table {
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Strafer.getInstance().setScreen(TitleScreen.getInstance());
+                GameStateManager.changeState(GameStateType.TITLE_MENU);
             }
         });
 

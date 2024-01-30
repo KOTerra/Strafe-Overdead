@@ -9,7 +9,7 @@ public class GameStateManager {
 
     public GameStateManager() {
         stateMachine = new StackStateMachine<>(this);
-        stateMachine.setInitialState(GameStateType.MENU);
+        stateMachine.setInitialState(GameStateType.PRE_LOADING);
     }
 
     public void update() {
@@ -28,5 +28,14 @@ public class GameStateManager {
         return this.stateMachine;
     }
 
+    public static boolean isState(GameStateType type){
+        return getInstance().stateMachine.isInState(type);
+    }
+    public static void changeState(GameStateType type){
+        getInstance().stateMachine.changeState(type);
+    }
+    public static GameStateType getState(){
+        return getInstance().stateMachine.getCurrentState();
+    }
 
 }

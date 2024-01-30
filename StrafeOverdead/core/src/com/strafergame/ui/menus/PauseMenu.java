@@ -1,8 +1,6 @@
 package com.strafergame.ui.menus;
 
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
@@ -12,7 +10,6 @@ import com.strafergame.game.GameStateManager;
 import com.strafergame.game.GameStateType;
 import com.strafergame.screens.TitleScreen;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
 
 public class PauseMenu extends Table {
@@ -26,7 +23,7 @@ public class PauseMenu extends Table {
         resumeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                GameStateManager.getInstance().getStateMachine().changeState(GameStateType.PLAY);
+                GameStateManager.changeState(GameStateType.PLAY);
                 Strafer.uiManager.resumeTrigger();
             }
         });
@@ -35,9 +32,7 @@ public class PauseMenu extends Table {
         titleScreenButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                GameStateManager.getInstance().getStateMachine().changeState(GameStateType.MENU);
-                Strafer.uiManager.emptyTrigger();
-                Strafer.getInstance().setScreen(TitleScreen.getInstance());
+                GameStateManager.changeState(GameStateType.TITLE_MENU);
             }
         });
 

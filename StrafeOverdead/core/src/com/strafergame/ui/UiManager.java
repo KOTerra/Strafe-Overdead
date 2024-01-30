@@ -37,10 +37,21 @@ public class UiManager extends ControllerMenuStage implements Disposable {
 
     private void triggerChanges() {
         if (UIControl.PAUSE_TRIGGER) {
-            GameStateManager.getInstance().getStateMachine().changeState(GameStateType.PAUSE);
+            GameStateType state = GameStateManager.getState();
+            switch (state) {
+                case PLAY: {
+                    GameStateManager.changeState(GameStateType.PAUSE);
+                    break;
+                } case SETTINGS_MENU:{
+                    GameStateManager.changeState(GameStateType.TITLE_MENU);
+                    break;
+                }
+                default:
+                    break;
+            }
         }
-        if (GameStateManager.getInstance().getStateMachine().isInState(GameStateType.CUTSCENE)) {
-            emptyTrigger();
+        if (GameStateManager.isState(GameStateType.CUTSCENE)) {
+            emptyTrigger();//maybe change
         }
     }
 
