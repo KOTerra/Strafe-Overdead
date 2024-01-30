@@ -10,6 +10,11 @@ import com.strafergame.screens.TitleScreen;
 
 //pause and add ecs systems and listeners based on the gamestate
 public enum GameStateType implements State<GameStateManager> {
+    /**
+     * Called on Launcher? Maybe not ok to manage states before game creation
+     *
+     * Mandatory settings to be read from preferences that are required at app start such as fullscreen mode
+     */
     PRE_LOADING,
     LOADING,
     TITLE_MENU {
