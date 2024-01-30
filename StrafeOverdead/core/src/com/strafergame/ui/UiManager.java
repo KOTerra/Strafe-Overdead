@@ -1,6 +1,9 @@
 package com.strafergame.ui;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
@@ -17,7 +20,6 @@ public class UiManager extends ControllerMenuStage implements Disposable {
 
     public UiManager(Viewport viewport, SpriteBatch spriteBatch) {
         super(viewport, spriteBatch);
-
     }
 
     public void init() {
@@ -33,6 +35,7 @@ public class UiManager extends ControllerMenuStage implements Disposable {
     public void act(float delta) {
         super.act(delta);
         triggerChanges();
+        controllerInput();
     }
 
     private void triggerChanges() {
@@ -42,7 +45,8 @@ public class UiManager extends ControllerMenuStage implements Disposable {
                 case PLAY: {
                     GameStateManager.changeState(GameStateType.PAUSE);
                     break;
-                } case SETTINGS_MENU:{
+                }
+                case SETTINGS_MENU: {
                     GameStateManager.changeState(GameStateType.TITLE_MENU);
                     break;
                 }
@@ -51,7 +55,7 @@ public class UiManager extends ControllerMenuStage implements Disposable {
             }
         }
         if (GameStateManager.isState(GameStateType.CUTSCENE)) {
-            emptyTrigger();//maybe change
+            //emptyTrigger();//maybe change
         }
     }
 
@@ -75,6 +79,30 @@ public class UiManager extends ControllerMenuStage implements Disposable {
         if (hud != null) {
             hud.setVisible(false);
         }
+    }
+
+
+    public static boolean canControlUI() {
+        if (GameStateManager.isState(GameStateType.PLAY)) {
+            return false;
+        }
+        return true;
+    }
+
+    private void controllerInput() {//nu merge clicku
+        if (UIControl.DOWN_SELECT) {
+            moveFocusByDirection(MoveFocusDirection.south);
+        }
+        if (UIControl.UP_SELECT) {
+            moveFocusByDirection(MoveFocusDirection.north);
+        }
+        //aici e problema ar trb rezolvat doar cu overrideuri sa nu se strice internele din super
+        if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {//provizoriu e ok
+            fireEventOnActor(getFocusedActor(), UIControl.SELECT ? InputEvent.Type.touchDown : InputEvent.Type.touchUp, 0, null);
+        }
+        UIControl.UP_SELECT = false;
+        UIControl.DOWN_SELECT = false;
+        UIControl.SELECT = false;
     }
 
     @Override

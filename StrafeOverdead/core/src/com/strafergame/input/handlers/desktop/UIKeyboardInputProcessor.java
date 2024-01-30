@@ -12,7 +12,7 @@ public class UIKeyboardInputProcessor implements InputProcessor {
 
     /**
      * return true only if event handled ,if false, event is passed to the next
-     * processor in multiplexer
+     * processor in the multiplexer
      */
     @Override
     public boolean keyDown(int keycode) {

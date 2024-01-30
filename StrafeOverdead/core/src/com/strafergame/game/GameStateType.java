@@ -1,5 +1,6 @@
 package com.strafergame.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.strafergame.Strafer;
@@ -12,7 +13,7 @@ import com.strafergame.screens.TitleScreen;
 public enum GameStateType implements State<GameStateManager> {
     /**
      * Called on Launcher? Maybe not ok to manage states before game creation
-     *
+     * <p>
      * Mandatory settings to be read from preferences that are required at app start such as fullscreen mode
      */
     PRE_LOADING,
@@ -26,6 +27,7 @@ public enum GameStateType implements State<GameStateManager> {
     SETTINGS_MENU {
         @Override
         public void enter(GameStateManager entity) {
+            Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
             Strafer.getInstance().setScreen(SettingsScreen.getInstance());
         }
 

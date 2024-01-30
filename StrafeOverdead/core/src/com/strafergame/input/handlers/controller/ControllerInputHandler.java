@@ -3,6 +3,7 @@ package com.strafergame.input.handlers.controller;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.strafergame.input.PlayerControl;
+import com.strafergame.input.UIControl;
 
 public class ControllerInputHandler implements ControllerListener {
 
@@ -15,7 +16,6 @@ public class ControllerInputHandler implements ControllerListener {
         if (buttonIndex == controller.getMapping().buttonB) {
             PlayerControl.DASH = true;
         }
-
         return true;
     }
 
