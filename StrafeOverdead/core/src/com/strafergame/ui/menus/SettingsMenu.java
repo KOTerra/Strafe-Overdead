@@ -1,7 +1,6 @@
 package com.strafergame.ui.menus;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -15,6 +14,7 @@ import com.kotcrab.vis.ui.widget.tabbedpane.TabbedPaneAdapter;
 import com.strafergame.Strafer;
 import com.strafergame.game.GameStateManager;
 import com.strafergame.game.GameStateType;
+import de.golfgl.gdx.controllers.ControllerScrollPane;
 
 public class SettingsMenu extends Table {
 
@@ -59,7 +59,7 @@ public class SettingsMenu extends Table {
 
         graphicsTab = new Tab(false, false) {
             Table content = new Table();
-            private final ScrollPane graphicsScrollPane = new ScrollPane(new GraphicsSettingsPane());
+            private final ControllerScrollPane graphicsScrollPane = new ControllerScrollPane(new GraphicsSettingsPane());
 
             @Override
             public String getTabTitle() {
@@ -71,6 +71,8 @@ public class SettingsMenu extends Table {
                 content.clear();
 
                 content.add(graphicsScrollPane).top().grow();
+                graphicsScrollPane.setScrollY(0);
+                Strafer.uiManager.setFocusedActor(GraphicsSettingsPane.first);
                 return content;
             }
 
@@ -78,7 +80,7 @@ public class SettingsMenu extends Table {
 
         audioTab = new Tab(false, false) {
             Table content = new Table();
-            private final ScrollPane audioScrollPane = new ScrollPane(new AudioSettingsPane(), skin);
+            private final ControllerScrollPane audioScrollPane = new ControllerScrollPane(new AudioSettingsPane(), skin);
 
             @Override
             public String getTabTitle() {
@@ -89,6 +91,8 @@ public class SettingsMenu extends Table {
             public Table getContentTable() {
                 content.clear();
                 content.add(audioScrollPane).growX().row();
+                audioScrollPane.setScrollY(0);
+                Strafer.uiManager.setFocusedActor(AudioSettingsPane.first);
                 return content;
             }
         };
@@ -96,7 +100,7 @@ public class SettingsMenu extends Table {
         controlsTab = new Tab(false, false) {
             Table content = new Table();
 
-            private final ScrollPane controlsScrollPane = new ScrollPane(new ControlsSettingsPane());
+            private final ControllerScrollPane controlsScrollPane = new ControllerScrollPane(new ControlsSettingsPane());
 
             @Override
             public String getTabTitle() {
@@ -108,6 +112,9 @@ public class SettingsMenu extends Table {
                 content.clear();
 
                 content.add(controlsScrollPane).top().expand();
+                controlsScrollPane.setScrollY(0);
+                Strafer.uiManager.setFocusedActor(ControlsSettingsPane.first);
+
                 return content;
             }
         };
@@ -117,6 +124,9 @@ public class SettingsMenu extends Table {
                 currentContentTable.clearChildren();
 
                 currentContentTable.add(tab.getContentTable()).top().grow();
+
+
+                //reset scroll to top
             }
         });
 
@@ -135,16 +145,24 @@ public class SettingsMenu extends Table {
 
     // Inner class for the graphics settings pane
     private static class GraphicsSettingsPane extends Table {
+        public static final VisLabel first = new VisLabel("GraphicSetting  #1");
 
         public GraphicsSettingsPane() {
             // Add the graphics settings widgets to the table
             // ...
-            setFillParent(true);
+            //setFillParent(true);
             // pad(150);
-            defaults().space(20);
-            align(Align.top);
-            add(new VisLabel("graphicSetting")).row();
-            add(new VisLabel("graphicSetting 2"));
+            defaults().space(70);
+
+
+            add(first).top().row();
+            Strafer.uiManager.addFocusableActor(first);
+            for (int i = 2; i <= 20; i++) {
+                VisLabel label = new VisLabel("GraphicSetting  #" + i);
+                add(label).top().row();
+                Strafer.uiManager.addFocusableActor(label);
+            }
+
 
         }
 
@@ -156,34 +174,22 @@ public class SettingsMenu extends Table {
 
     // Inner class for the audio settings pane
     private static class AudioSettingsPane extends Table {
+        public static final VisLabel first = new VisLabel("audioSetting  #1");
 
         public AudioSettingsPane() {
             // Add the audio settings widgets to the table
             // ...
 
             // pad(150);
-            defaults().space(20);
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
-            add(new VisLabel("audioSetting")).top().row();
+            defaults().space(70);
+
+            add(first).top().row();
+            Strafer.uiManager.addFocusableActor(first);
+            for (int i = 2; i <= 20; i++) {
+                VisLabel label = new VisLabel("audioSetting  #" + i);
+                add(label).top().row();
+                Strafer.uiManager.addFocusableActor(label);
+            }
 
         }
 
@@ -195,26 +201,21 @@ public class SettingsMenu extends Table {
 
     // Inner class for the controls settings pane
     private static class ControlsSettingsPane extends Table {
+        public static final VisLabel first = new VisLabel("controlSetting  #1");
 
         public ControlsSettingsPane() {
             // Add the controls settings widgets to the table
             // ...
-            defaults().space(20);
-            align(Align.top);
-            add(new VisLabel("controlSetting")).row();
-            add(new VisLabel("controlSetting 2")).row();
+            defaults().space(70);
 
-            add(new VisLabel("controlSetting")).row();
-            add(new VisLabel("controlSetting 2")).row();
+            add(first).top().row();
+            Strafer.uiManager.addFocusableActor(first);
+            for (int i = 2; i <= 20; i++) {
+                VisLabel label = new VisLabel("ControlSetting  #" + i);
+                add(label).top().row();
+                Strafer.uiManager.addFocusableActor(label);
+            }
 
-            add(new VisLabel("controlSetting")).row();
-            add(new VisLabel("controlSetting 2")).row();
-
-            add(new VisLabel("controlSetting")).row();
-            add(new VisLabel("controlSetting 2")).row();
-
-            add(new VisLabel("controlSetting")).row();
-            add(new VisLabel("controlSetting 2"));
         }
 
         public void updateSettings() {
@@ -222,5 +223,6 @@ public class SettingsMenu extends Table {
             // ...
         }
     }
+
 
 }
