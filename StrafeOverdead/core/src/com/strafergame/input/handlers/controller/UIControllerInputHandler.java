@@ -123,7 +123,7 @@ public class UIControllerInputHandler implements ControllerListener {
             }
             case 1: {
                 if (value > DEADZONE) {
-                    if (!yAxisAlreadyMoved) {
+                    if (!yAxisAlreadyMoved) { //////////////////////////////////////////////////////////sau a trecut 1sec sau .5sec timer
                         UIControl.DOWN_SELECT = true;
                         UIControl.UP_SELECT = false;
 

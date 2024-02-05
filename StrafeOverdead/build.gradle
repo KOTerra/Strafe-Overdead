@@ -1,18 +1,17 @@
 buildscript {
-    
+
 
     repositories {
-        mavenLocal()
-        mavenCentral()
+        //mavenLocal()
+       // mavenCentral()
         gradlePluginPortal()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         google()
-  
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.3.1'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.20'
-
 
     }
 }
@@ -33,13 +32,13 @@ allprojects {
     }
 
     repositories {
-        mavenLocal()
-        mavenCentral()
+      //mavenLocal()
+      //  mavenCentral()
         google()
         gradlePluginPortal()
+        maven { url "https://jitpack.io" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
-        maven { url "https://jitpack.io" }
     }
 
 }
@@ -55,7 +54,7 @@ project(":desktop") {
         api "com.badlogicgames.gdx-controllers:gdx-controllers-desktop:$gdxControllersVersion"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-        
+
     }
 }
 
@@ -85,7 +84,7 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86_64"
         api "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
-        
+
     }
 }
 
@@ -104,7 +103,8 @@ project(":ios") {
         api "com.badlogicgames.gdx-controllers:gdx-controllers-ios:$gdxControllersVersion"
         api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
         api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
-        
+
+
     }
 }
 project(":core") {
@@ -125,10 +125,14 @@ project(":core") {
         api "com.github.tommyettinger:anim8-gdx:0.4.0"
         api "de.golfgl.gdxcontrollerutils:gdx-controllerutils-scene2d:$controllerUtilsVersion"
         api "de.golfgl.gdxcontrollerutils:gdx-controllerutils-mapping:$controllerUtilsVersion"
+        api 'com.github.tommyettinger:colorful:0.8.5'
 
+        api 'com.github.tommyettinger:textratypist:0.10.0'
 
-        implementation 'com.crashinvaders.vfx:gdx-vfx-core:0.5.1'
-        implementation 'com.crashinvaders.vfx:gdx-vfx-effects:0.5.1'  
+        api 'com.crashinvaders.vfx:gdx-vfx-core:0.5.1'
+        api 'com.crashinvaders.vfx:gdx-vfx-effects:0.5.1'
+
+        api 'com.github.lyze237:gdx-AarthSkins:9d753e6c39'
 
     }
 }

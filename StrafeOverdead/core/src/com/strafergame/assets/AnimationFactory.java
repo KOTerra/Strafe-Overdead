@@ -5,14 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.states.EntityType;
-import com.sun.tools.classfile.ConstantPool;
 
-import static com.strafergame.assets.AnimationProvider.*;
+import static com.strafergame.assets.AnimationProvider.TYPE_ANIMATIONS;
 
 public abstract class AnimationFactory {
     public static void prepareAnimations() {

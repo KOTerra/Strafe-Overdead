@@ -124,9 +124,6 @@ public class SettingsMenu extends Table {
                 currentContentTable.clearChildren();
 
                 currentContentTable.add(tab.getContentTable()).top().grow();
-
-
-                //reset scroll to top
             }
         });
 
