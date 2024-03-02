@@ -39,6 +39,7 @@ allprojects {
         maven { url "https://jitpack.io" }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        flatDir {dirs "/libs"}
     }
 
 }
@@ -134,5 +135,6 @@ project(":core") {
 
         api 'com.github.lyze237:gdx-AarthSkins:9d753e6c39'
 
+        implementation name: 'YarnGdx'
     }
 }

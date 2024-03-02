@@ -28,6 +28,8 @@ import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.ObjectLayerLoadAction;
 import com.strafergame.game.world.map.TileLayerLoadAction;
 
+import com.kyper.yarn.*;
+
 import java.util.Locale;
 
 public class GameWorld implements Disposable {
