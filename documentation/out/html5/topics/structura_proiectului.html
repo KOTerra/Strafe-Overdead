@@ -1,0 +1,29 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2023"><meta name="DC.rights.owner" content="(C) Copyright 2023"><meta name="DC.type" content="topic"><meta name="DC.format" content="HTML5"><meta name="DC.identifier" content="structura_proiectului"><link rel="stylesheet" type="text/css" href="../commonltr.css"><title>Structura Proiectului</title></head><body id="structura_proiectului"><main role="main"><article role="article" aria-labelledby="ariaid-title1">
+    <h1 class="title topictitle1" id="ariaid-title1">Structura Proiectului</h1>
+    <div class="body">
+        <p class="p">Orice proiect <strong class="ph b">libGDX</strong> poate fi generat cu setup tool-ul dedicat. Acesta genereaza
+            dupa preferintele utilizatorului mai multe proiecte Java care au dependente intre ele in
+            functie de platformele si plugin-urile selectate in setup. Pentru build s-a folosit
+                <strong class="ph b">Gradle</strong>, dar dependentele catre <strong class="ph b">LWJGL</strong> sunt gestionate de libGDX cu
+            Maven. In cazul Strafer, exista:</p>
+        <div class="p">
+            <ul class="ul" id="structura_proiectului__ul_n3v_lqq_g5b">
+                <li class="li">proiectul master ce inglobeaza toate proiectele</li>
+            </ul>
+        </div>
+        <div class="p">
+            <ul class="ul" id="structura_proiectului__ul_lc4_lqq_g5b">
+                <li class="li">proiectul core avand pachetele comune pentru toate versiunile</li>
+            </ul>
+        </div>
+        <div class="p">
+            <ul class="ul" id="structura_proiectului__ul_mxh_mqq_g5b">
+                <li class="li">proiectele<strong class="ph b">launcher</strong> pentru fiecare platforma Android si Desktop (entry
+                    point-ul aplicatiei)</li>
+            </ul>
+        </div>
+        <p class="p"> </p>
+    </div>
+</article></main></body></html>
