@@ -1,1 +1,0 @@
-Folder containing all DITA generic topics.
