@@ -6,8 +6,8 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.*;
 
-public class ItemHoldSystem extends IteratingSystem {
-    public ItemHoldSystem() {
+public class AttachmentSystem extends IteratingSystem {
+    public AttachmentSystem() {
         super(Family.all(ItemComponent.class, PositionComponent.class, AttackComponent.class).get());
     }
 
@@ -18,8 +18,9 @@ public class ItemHoldSystem extends IteratingSystem {
         AttackComponent attckCmp = ComponentMappers.attack().get(entity);
         PositionComponent ownerPosCmp = ComponentMappers.position().get(itmCmp.owner);
         Box2dComponent ownerB2dCmp = ComponentMappers.box2d().get(itmCmp.owner);
-        ItemHolderComponent hldCmp = ComponentMappers.itemHolding().get(itmCmp.owner);
-
+        //  ItemHolderComponent hldCmp = ComponentMappers.itemHolding().get(itmCmp.owner);
+        //  to replace with AttachmentComponent
+        // calculate relative positions to child and parent with appropriate attachment types and attachment positions
 
         posCmp.renderPos.x = ownerPosCmp.renderPos.x + itmCmp.holdPosition.x;
         posCmp.renderPos.y = ownerPosCmp.renderPos.y + itmCmp.holdPosition.y;
