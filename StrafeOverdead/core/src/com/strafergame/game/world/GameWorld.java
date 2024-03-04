@@ -9,26 +9,22 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
-import com.strafergame.game.GameStateManager;
-import com.strafergame.game.GameStateType;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
-import com.strafergame.game.ecs.EntityFactory;
+import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.component.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
+import com.strafergame.game.ecs.factories.MapEntityFactory;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.save.CheckpointAction;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.ObjectLayerLoadAction;
 import com.strafergame.game.world.map.TileLayerLoadAction;
-
-import com.kyper.yarn.*;
 
 import java.util.Locale;
 
@@ -94,7 +90,7 @@ public class GameWorld implements Disposable {
             public void execute(MapObject mapObject) {
                 final float x = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("x") - .5f;
                 final float y = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("y") - .5f;
-                EntityFactory.createCheckpoint(new CheckpointAction() {
+                MapEntityFactory.createCheckpoint(new CheckpointAction() {
 
                     @Override
                     public void execute() {

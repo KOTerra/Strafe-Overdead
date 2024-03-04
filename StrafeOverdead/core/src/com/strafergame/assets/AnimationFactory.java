@@ -56,6 +56,9 @@ public abstract class AnimationFactory {
         return new Animation<Sprite>(duration, array, getPlayMode(loop));
     }
 
+    private AnimationFactory() {
+    }
+
     private static Animation<Sprite> makeSprites(float duration, EntityType entityType,
                                                  boolean loop) {
         return makeSprites(duration, entityType, null, loop);

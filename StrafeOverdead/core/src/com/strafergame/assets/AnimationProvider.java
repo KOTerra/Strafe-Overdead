@@ -10,10 +10,11 @@ import com.strafergame.game.ecs.states.EntityType;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.Map;
 
 public class AnimationProvider {
 
-    public static final EnumMap<EntityType, HashMap<String, Animation<Sprite>>> TYPE_ANIMATIONS = new EnumMap<>(
+    protected static final Map<EntityType, HashMap<String, Animation<Sprite>>> TYPE_ANIMATIONS = new EnumMap<>(
             EntityType.class);
 
 
@@ -34,7 +35,7 @@ public class AnimationProvider {
 
     public static void prepareAnimations() {//for
         for (EntityType e : EntityType.values()) {
-            TYPE_ANIMATIONS.put(e, new HashMap<String, Animation<Sprite>>());
+            TYPE_ANIMATIONS.put(e, new HashMap<>());
         }
         AnimationFactory.prepareAnimations();
     }

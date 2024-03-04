@@ -12,7 +12,7 @@ import com.strafergame.game.ecs.system.MovementSystem;
 import com.strafergame.game.ecs.system.camera.CameraSystem;
 import com.strafergame.game.ecs.system.combat.CombatSystem;
 import com.strafergame.game.ecs.system.combat.HealthSystem;
-import com.strafergame.game.ecs.system.items.ItemHoldSystem;
+import com.strafergame.game.ecs.system.items.AttachmentSystem;
 import com.strafergame.game.ecs.system.player.HudSystem;
 import com.strafergame.game.ecs.system.player.PlayerControlSystem;
 import com.strafergame.game.ecs.system.render.RenderingSystem;
@@ -36,7 +36,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
     private final RenderingSystem renderingSystem = new RenderingSystem();
     private final CheckpointSystem checkpointSystem = new CheckpointSystem();
     private final AnimationSystem animationSystem = new AnimationSystem();
-    private final ItemHoldSystem itemHoldSystem = new ItemHoldSystem();
+    private final AttachmentSystem attachmentSystem = new AttachmentSystem();
     private final CombatSystem combatSystem = new CombatSystem();
     private final CameraSystem cameraSystem = new CameraSystem();
     private final HudSystem hudSystem = new HudSystem();
@@ -60,7 +60,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
             addSystem(movementSystem);
             addSystem(playerControlSystem);
             addSystem(healthSystem);
-            addSystem(itemHoldSystem);
+            addSystem(attachmentSystem);
             addSystem(combatSystem);
             addSystem(cameraSystem);
             addSystem(hudSystem);
