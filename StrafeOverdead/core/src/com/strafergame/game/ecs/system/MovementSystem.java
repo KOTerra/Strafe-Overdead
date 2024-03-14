@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Timer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.states.EntityState;
@@ -49,40 +50,53 @@ public class MovementSystem extends IteratingSystem {
                 EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
                 if (!typeCmp.entityType.equals(EntityType.player)) {
-                    SteeringComponent steerCmp = ComponentMappers.steering().get(e);
-                    if (steerCmp != null) {
-                        steerCmp.update();
+                    switch (typeCmp.entityState) {
+                        case idle: {
+                            //conditions to switch from idle to walk (ex. sees enemy)
+                            typeCmp.entityState = EntityState.walk;
+                            break;
+                        }
+                        case walk: {
+                            SteeringComponent steerCmp = ComponentMappers.steering().get(e);
+                            if (steerCmp != null) {
+                                steerCmp.update();
+                            }
+                            break;
+                        }
+
+                        default: {
+                            break;
+                        }
                     }
-                }
-
-
-                //interface in posCmp care sa implementeze dupa tip de entity cum se misca, miscat de AI, sau ca aici etc
-                switch (typeCmp.entityState) {
-                    case idle:
-                    case walk: {
-                        if (typeCmp.entityType.equals(EntityType.player)) {
+                } else {
+                    //interface in posCmp care sa implementeze dupa tip de entity cum se misca, miscat de AI, sau ca aici etc
+                    switch (typeCmp.entityState) {
+                        case idle:
+                        case walk: {
                             b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, movCmp.dir.y * movCmp.maxLinearSpeed);
                             typeCmp.entityState = EntityState.idle;
+
+                            break;
                         }
-                        break;
-                    }
-                    case dash: {
+                        case dash: {
 
-                        dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dir.x, movCmp.dir.y), movCmp, typeCmp,
-                                movCmp.isDashCooldown, movCmp.dashForce);
-                        break;
-                    }
-                    case death: {
+                            dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dir.x, movCmp.dir.y), movCmp, typeCmp,
+                                    movCmp.isDashCooldown, movCmp.dashForce);
+                            break;
+                        }
+                        case death: {
 
-                        break;
-                    }
-                    default:
-                        break;
+                            break;
+                        }
+                        default:
+                            break;
 
+                    }
                 }
             }
         }
     }
+
 
     public void savePositions() {
         for (Entity e : this.getEntities()) {

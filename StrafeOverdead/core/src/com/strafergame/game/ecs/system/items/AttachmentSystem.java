@@ -16,14 +16,14 @@ public class AttachmentSystem extends IteratingSystem {
         ItemComponent itmCmp = ComponentMappers.item().get(entity);
         PositionComponent posCmp = ComponentMappers.position().get(entity);
         AttackComponent attckCmp = ComponentMappers.attack().get(entity);
-        PositionComponent ownerPosCmp = ComponentMappers.position().get(itmCmp.owner);
+        PositionComponent ownerPosCmp = ComponentMappers.position().get(itmCmp.owner);//parent
         Box2dComponent ownerB2dCmp = ComponentMappers.box2d().get(itmCmp.owner);
         //  ItemHolderComponent hldCmp = ComponentMappers.itemHolding().get(itmCmp.owner);
         //  to replace with AttachmentComponent
         // calculate relative positions to child and parent with appropriate attachment types and attachment positions
 
-        posCmp.renderPos.x = ownerPosCmp.renderPos.x + itmCmp.holdPosition.x;
-        posCmp.renderPos.y = ownerPosCmp.renderPos.y + itmCmp.holdPosition.y;
+        posCmp.renderPos.x = ownerPosCmp.renderPos.x;
+        posCmp.renderPos.y = ownerPosCmp.renderPos.y ;  //+attch.
         attckCmp.hitbox.getBody().setTransform(ownerB2dCmp.body.getPosition(), 0);
     }
 }

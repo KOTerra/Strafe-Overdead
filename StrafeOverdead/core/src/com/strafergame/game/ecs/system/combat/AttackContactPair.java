@@ -21,8 +21,7 @@ public class AttackContactPair {
 	public static AttackComponent getAttack(Box2dComponent b2dCmp) {
 		AttackContactPair pair = (AttackContactPair) b2dCmp.hurtbox.getUserData();
 		if (pair != null) {
-			AttackComponent attckCmp = (AttackComponent) pair.hitbox.getUserData();
-			return attckCmp;
+            return (AttackComponent) pair.hitbox.getUserData();
 		}
 		return null;
 	}

@@ -23,9 +23,9 @@ public class AttachmentComponent implements Component, Pool.Poolable {
     /**
      * where items are held next to the owner sprite on each direction. position is relative to the body
      */
-    EnumMap<EntityDirection, Vector2> childPositions;
+    EnumMap<EntityDirection, Vector2> childAttachPoints;
 
-    EnumMap<EntityDirection, Vector2> parentPositions;
+    EnumMap<EntityDirection, Vector2> parentAttachPoints;
     @Override
     public void reset() {
 

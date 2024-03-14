@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.utils.Timer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.Box2dComponent;
@@ -14,50 +15,60 @@ import com.strafergame.game.ecs.states.EntityState;
 
 public class CombatSystem extends IteratingSystem {
 
-	public CombatSystem() {
-		super(Family.all(Box2dComponent.class, EntityTypeComponent.class).get());
-	}
+    public CombatSystem() {
+        super(Family.all(Box2dComponent.class, EntityTypeComponent.class).get());
+    }
 
-	@Override
-	protected void processEntity(Entity entity, float deltaTime) {
-		Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
-		EntityTypeComponent ettCmp = ComponentMappers.entityType().get(entity);
-		AttackComponent attckCmp = AttackContactPair.getAttack(b2dCmp);
-		switch (ettCmp.entityState) {
-		case hit: {
-			knockback(b2dCmp, attckCmp, ettCmp);
-			break;
-		}
-		case recover: {
-			break;
-		}
-		default: {
-			break;
-		}
-		}
-	}
+    @Override
+    protected void processEntity(Entity entity, float deltaTime) {
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
+        AttackComponent attckCmp = AttackContactPair.getAttack(b2dCmp);
+        switch (typeCmp.entityState) {
+            case hit: {
+                knockback(b2dCmp, attckCmp, typeCmp);
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        typeCmp.entityState = EntityState.recover;
+                    }
+                }, .1f);
+                break;
+            }
+            case recover: {
+                b2dCmp.body.setLinearVelocity(0f, 0f);
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        typeCmp.entityState = EntityState.walk;
+                    }
+                }, 1f);
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
 
-	private void knockback(Box2dComponent b2dCmp, AttackComponent attckCmp, final EntityTypeComponent ettcmp) {
+    private void knockback(Box2dComponent b2dCmp, AttackComponent attckCmp, final EntityTypeComponent ettcmp) {
 
-		if (attckCmp != null) {
-			if (attckCmp instanceof AttackComponent) {
-				Fixture hurt = b2dCmp.hurtbox;
+        if (attckCmp != null) {
+            Fixture hurtbox = b2dCmp.hurtbox;
 
-				if (hurt != null && attckCmp.doesKnockback) {
+            if (hurtbox != null && attckCmp.doesKnockback) {
 
-					Body hurtBody = hurt.getBody();
-					Vector2 knockbackDirection = attckCmp.body.getWorldCenter().sub(hurtBody.getWorldCenter()).nor();
-					knockbackDirection.scl(attckCmp.knockbackMagnitude);
-					knockbackDirection.scl(-1);
+                Body hurtBody = hurtbox.getBody();
+                Vector2 knockbackDirection = attckCmp.body.getWorldCenter().sub(hurtBody.getWorldCenter()).nor();
+                knockbackDirection.scl(-attckCmp.knockbackMagnitude);
 
-					hurtBody.applyLinearImpulse(knockbackDirection, hurtBody.getWorldCenter(), true);
-					return;
-				}
-			}
-		}
+                //hurtBody.applyLinearImpulse(knockbackDirection, hurtBody.getWorldCenter(), true);
+                hurtBody.applyForce(knockbackDirection, hurtBody.getWorldCenter(), true);
 
-		ettcmp.entityState = EntityState.idle;
+                return;
+            }
+        }
 
-	}
+    }
 
 }

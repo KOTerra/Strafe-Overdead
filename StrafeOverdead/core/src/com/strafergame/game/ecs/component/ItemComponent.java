@@ -7,8 +7,6 @@ import com.badlogic.gdx.utils.Pool;
 
 public class ItemComponent implements Component, Pool.Poolable {
     public Entity owner;
-    public Vector2 holdPosition = new Vector2(0, 0);
-
     @Override
     public void reset() {
 
