@@ -10,6 +10,6 @@ public enum ItemAttachmentType {
     //Detaching from hold into range
     TRANSFER,
 
-    //attach with offset? idk
+    //attach with offset? floating at distance, orbiting etc idk
     RANGE;
 }

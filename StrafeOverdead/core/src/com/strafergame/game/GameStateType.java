@@ -6,6 +6,7 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.screens.GameScreen;
+import com.strafergame.screens.LoadingScreen;
 import com.strafergame.screens.SettingsScreen;
 import com.strafergame.screens.TitleScreen;
 
@@ -16,8 +17,15 @@ public enum GameStateType implements State<GameStateManager> {
      * <p>
      * Mandatory settings to be read from preferences that are required at app start such as fullscreen mode
      */
-    PRE_LOADING,
-    LOADING,
+    PRE_LOADING {
+
+    },
+    LOADING {
+        @Override
+        public void enter(GameStateManager entity) {
+            Strafer.getInstance().setScreen(LoadingScreen.getInstance());
+        }
+    },
     TITLE_MENU {
         @Override
         public void enter(GameStateManager entity) {

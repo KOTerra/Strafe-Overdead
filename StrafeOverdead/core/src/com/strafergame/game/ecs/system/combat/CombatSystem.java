@@ -26,6 +26,7 @@ public class CombatSystem extends IteratingSystem {
         AttackComponent attckCmp = AttackContactPair.getAttack(b2dCmp);
         switch (typeCmp.entityState) {
             case hit: {
+                //states flow to be moved in state machines or behaviour trees so timer stuff can be programed on state entry etc
                 knockback(b2dCmp, attckCmp, typeCmp);
                 Timer.schedule(new Timer.Task() {
                     @Override

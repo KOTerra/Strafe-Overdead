@@ -143,7 +143,6 @@ public class Strafer extends Game {
         gameRenderer = new GameRenderer();
 
         GameStateManager.changeState(GameStateType.LOADING);
-        setScreen(LoadingScreen.getInstance());
     }
 
     @Override
