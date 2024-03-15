@@ -23,6 +23,7 @@ import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.save.CheckpointAction;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
+import com.strafergame.game.world.map.MapManager;
 import com.strafergame.game.world.map.ObjectLayerLoadAction;
 import com.strafergame.game.world.map.TileLayerLoadAction;
 
@@ -31,7 +32,12 @@ import java.util.Locale;
 public class GameWorld implements Disposable {
 
     private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/test.tmx", TiledMap.class);
+    private Vector2 playerSpawn = new Vector2(4, 2);
+    private int playerInitialHealth = 100;
 
+    /**
+     * the physics engine updates 90 times each second no matter the framerate so it can use kg/m/s
+     */
     public static final float FIXED_TIME_STEP = 1 / 90f;
 
     /**
@@ -39,19 +45,20 @@ public class GameWorld implements Disposable {
      */
     private final Box2DWorld box2DWorld = new Box2DWorld();
     private final RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
+
+    private final MapManager mapManager;
     private final EntityEngine entityEngine;
 
     public static Entity player;
 
-    private Vector2 playerSpawn = new Vector2(4, 2);
-    private int playerInitialHealth = 100;
 
     public GameWorld() {
         entityEngine = EntityEngine.getInstance();
         entityEngine.initSystems(box2DWorld, rayHandler);
+        mapManager = new MapManager(box2DWorld, rayHandler);
         player = EntityFactory.createPlayer(playerInitialHealth, playerSpawn);
 
-        addTestAssets();
+        mapManager.loadMap(tiledMapTest);
     }
 
     public void update(float delta) {
@@ -64,69 +71,6 @@ public class GameWorld implements Disposable {
         entityEngine.dispose();
     }
 
-    void addTestAssets() {
-
-        Strafer.worldCamera.setFocusOn(player);
-
-        Strafer.tiledMapRenderer.setMap(tiledMapTest);
-
-
-        loadTileLayer(tiledMapTest, "walls", new TileLayerLoadAction() {
-            @Override
-            public void execute(int i, int j) {
-                //  Box2DFactory.createWall(box2DWorld.getWorld(), 1, 1, new Vector3(i, j, 0));
-            }
-        });
-        loadObjectLayer(tiledMapTest, "collisions", new ObjectLayerLoadAction() {
-            @Override
-            public void execute(MapObject mapObject) {
-                Box2DFactory.createCollision(box2DWorld.getWorld(), mapObject);
-            }
-        });
-
-        loadObjectLayer(tiledMapTest, "checkpoints", new ObjectLayerLoadAction() {
-
-            @Override
-            public void execute(MapObject mapObject) {
-                final float x = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("x") - .5f;
-                final float y = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("y") - .5f;
-                MapEntityFactory.createCheckpoint(new CheckpointAction() {
-
-                    @Override
-                    public void execute() {
-                        // System.out.println("checkpoint reached");
-                    }
-                }, new Vector2(x, y));
-            }
-        });
-
-        loadTileLayer(tiledMapTest, "enemies", new TileLayerLoadAction() {
-            @Override
-            public void execute(int i, int j) {
-                EntityFactory.createEnemy(new Vector2(i, j), 1);
-            }
-        });
-
-    }
-
-    private void loadTileLayer(TiledMap map, String layerName, TileLayerLoadAction lla) {
-        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(layerName);
-        for (int i = 1; i <= layer.getWidth(); i++) {
-            for (int j = 1; j <= layer.getHeight(); j++) {
-                if (layer.getCell(i, j) != null) {
-                    lla.execute(i, j);
-                }
-            }
-        }
-    }
-
-    private void loadObjectLayer(TiledMap map, String layerName, ObjectLayerLoadAction lla) {
-        MapObjects objects = map.getLayers().get(layerName).getObjects();
-        for (MapObject mapObject : objects) {
-            lla.execute(mapObject);
-        }
-    }
-
 
     public void reset() {
         for (Entity e : entityEngine.getEntities()) {
@@ -134,7 +78,7 @@ public class GameWorld implements Disposable {
                 entityEngine.removeEntity(e);
             }
         }
-        addTestAssets();
+        mapManager.loadMap(tiledMapTest);
 
         HealthComponent hlthCmp = ComponentMappers.health().get(player);
         hlthCmp.hitPoints = playerInitialHealth;
@@ -174,8 +118,7 @@ public class GameWorld implements Disposable {
             }
 
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_8)) {
-                Strafer.i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"), new Locale("ro"),
-                        "utf-8");
+                Strafer.i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"), new Locale("ro"), "utf-8");
             }
         }
     }
