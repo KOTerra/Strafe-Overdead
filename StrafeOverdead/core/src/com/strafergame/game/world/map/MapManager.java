@@ -73,6 +73,4 @@ public class MapManager {
             lla.execute(mapObject);
         }
     }
-
-
 }

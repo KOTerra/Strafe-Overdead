@@ -2,6 +2,7 @@ package com.strafergame.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Disposable;
@@ -36,6 +37,7 @@ public class UiManager extends ControllerMenuStage implements Disposable {
         super.act(delta);
         triggerChanges();
         controllerInput();
+        highlight();
     }
 
     private void triggerChanges() {
@@ -106,6 +108,17 @@ public class UiManager extends ControllerMenuStage implements Disposable {
         UIControl.UP_SELECT = false;
         UIControl.DOWN_SELECT = false;
         UIControl.SELECT = false;
+    }
+
+
+    private void highlight() {
+        Color c = getFocusedActor().getColor();
+        if (c.a == 1f) {
+            c.a = .5f;
+        } else {
+            c.a = 1;
+        }
+        getFocusedActor().setColor(c);
     }
 
     @Override
