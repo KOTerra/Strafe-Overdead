@@ -10,7 +10,7 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.factories.MapEntityFactory;
 import com.strafergame.game.world.GameWorld;
-import com.strafergame.game.world.collision.Box2DFactory;
+import com.strafergame.game.world.collision.Box2DMapFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
 
 public class MapManager {
@@ -40,7 +40,11 @@ public class MapManager {
             //  Box2DFactory.createWall(box2DWorld.getWorld(), 1, 1, new Vector3(i, j, 0));
         });
         loadObjectLayer(tiledMapTest, "collisions", mapObject -> {
-            Box2DFactory.createCollision(box2DWorld.getWorld(), mapObject);
+            Box2DMapFactory.createCollisionBody(box2DWorld.getWorld(), mapObject);
+            ///
+        });
+        loadObjectLayer(tiledMapTest, "elevations", mapObject -> {
+            MapEntityFactory.createElevation(box2DWorld.getWorld(), mapObject);
             ///
         });
 

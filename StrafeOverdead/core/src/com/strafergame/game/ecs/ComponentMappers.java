@@ -2,6 +2,8 @@ package com.strafergame.game.ecs;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.strafergame.game.ecs.component.*;
+import com.strafergame.game.ecs.component.physics.Box2dComponent;
+import com.strafergame.game.ecs.component.physics.DetectorComponent;
 
 public abstract class ComponentMappers {
 
@@ -60,6 +62,10 @@ public abstract class ComponentMappers {
 
     public static final ComponentMapper<AttachmentComponent> attach() {
         return ComponentMapper.getFor(AttachmentComponent.class);
+    }
+
+    public static final ComponentMapper<ElevationComponent> elevate() {
+        return ComponentMapper.getFor(ElevationComponent.class);
     }
 
     public static final ComponentMapper<CheckpointComponent> checkpoint() {

@@ -2,7 +2,7 @@ package com.strafergame.game.ecs.system.combat;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.strafergame.game.ecs.component.DetectorComponent;
+import com.strafergame.game.ecs.component.physics.DetectorComponent;
 
 public class ProximityContactPair {
 	public Fixture detector;

@@ -1,14 +1,19 @@
 package com.strafergame.game.ecs.factories;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.*;
+import com.strafergame.game.ecs.component.physics.Box2dComponent;
+import com.strafergame.game.ecs.component.physics.DetectorComponent;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.save.CheckpointAction;
 import com.strafergame.game.world.collision.Box2DFactory;
+import com.strafergame.game.world.collision.Box2DMapFactory;
 import com.strafergame.game.world.collision.FilteredContactListener;
 
 public class MapEntityFactory {
@@ -28,6 +33,18 @@ public class MapEntityFactory {
         return dummy;
     }
 
+
+    public static Entity createElevation(World world, MapObject mapObject) {
+        final Entity slope = entityEngine.createEntity();
+
+        ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
+        elvCmp.body = Box2DMapFactory.createCollisionBody(world, mapObject);
+
+        slope.add(elvCmp);
+
+
+        return slope;
+    }
 
     public static Entity createCheckpoint(CheckpointAction action, final Vector2 location) {
         final Entity checkpoint = entityEngine.createEntity();

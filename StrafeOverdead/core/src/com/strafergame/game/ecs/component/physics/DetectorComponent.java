@@ -1,4 +1,4 @@
-package com.strafergame.game.ecs.component;
+package com.strafergame.game.ecs.component.physics;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.physics.box2d.Fixture;

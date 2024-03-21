@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.*;
+import com.strafergame.game.ecs.component.physics.Box2dComponent;
 
 public class AttachmentSystem extends IteratingSystem {
     public AttachmentSystem() {
@@ -23,7 +24,7 @@ public class AttachmentSystem extends IteratingSystem {
         // calculate relative positions to child and parent with appropriate attachment types and attachment positions
 
         posCmp.renderPos.x = ownerPosCmp.renderPos.x;
-        posCmp.renderPos.y = ownerPosCmp.renderPos.y ;  //+attch.
+        posCmp.renderPos.y = ownerPosCmp.renderPos.y;  //+attch.
         attckCmp.hitbox.getBody().setTransform(ownerB2dCmp.body.getPosition(), 0);
     }
 }
