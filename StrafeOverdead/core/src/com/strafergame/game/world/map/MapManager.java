@@ -35,7 +35,6 @@ public class MapManager {
 
         Strafer.tiledMapRenderer.setMap(tiledMapTest);
 
-
         // map.getLayers().forEach();
 
         loadTileLayer(tiledMapTest, "walls0", (i, j) -> {

@@ -46,7 +46,8 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
         update(delta);
-        Strafer.tiledMapRenderer.render();
+
+       // Strafer.tiledMapRenderer.render();
 
         gameWorld.update(delta);
 

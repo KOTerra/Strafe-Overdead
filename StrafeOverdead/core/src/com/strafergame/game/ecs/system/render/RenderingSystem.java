@@ -42,7 +42,7 @@ public class RenderingSystem extends SortedIteratingSystem {
 	}
 
 	@Override
-	public void update(float deltaTime) {
+	public void update(float deltaTime) {//call map renderer renderMapLayer(Layer)
 		super.update(deltaTime);
 
 		renderQueue.sort(comparator);

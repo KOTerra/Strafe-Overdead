@@ -20,7 +20,6 @@ import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.FilteredContactListener;
 
 
-
 public abstract class EntityFactory {
     private static final EntityEngine entityEngine = EntityEngine.getInstance();
 
@@ -36,6 +35,7 @@ public abstract class EntityFactory {
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
         posCmp.isHidden = false;
         posCmp.renderPos = playerSpawnLocation.cpy();
+        posCmp.elevation = 0;
         player.add(posCmp);
 
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
@@ -88,6 +88,7 @@ public abstract class EntityFactory {
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
         posCmp.isHidden = false;
         posCmp.renderPos = location;
+        posCmp.elevation = 0;
         dummy.add(posCmp);
 
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
@@ -124,7 +125,6 @@ public abstract class EntityFactory {
 
         return dummy;
     }
-
 
 
     public static void initPhysics(Entity e) {

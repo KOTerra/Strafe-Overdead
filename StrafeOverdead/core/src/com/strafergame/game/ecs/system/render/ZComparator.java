@@ -8,17 +8,23 @@ import com.strafergame.game.ecs.component.PositionComponent;
 import java.util.Comparator;
 
 public class ZComparator implements Comparator<Entity> {
-	private ComponentMapper<PositionComponent> posCmp;
+    private ComponentMapper<PositionComponent> posCmp;
 
-	public ZComparator() {
-		posCmp = ComponentMappers.position();
-	}
+    public ZComparator() {
+        posCmp = ComponentMappers.position();
+    }
 
-	@Override
-	public int compare(Entity a, Entity b) {
-		float ay = posCmp.get(a).renderPos.y;
-		float by = posCmp.get(b).renderPos.y;
-        return Float.compare(by, ay);
+    @Override
+    public int compare(Entity a, Entity b) {
+        float ay = posCmp.get(a).renderPos.y;
+        float by = posCmp.get(b).renderPos.y;
+        float ae = posCmp.get(a).elevation;
+        float be = posCmp.get(b).elevation;
+
+        if (Float.compare(be, ae) == 0) {
+            return Float.compare(by, ay);
+        }
+		return Float.compare(be,ae);
     }
 
 }
