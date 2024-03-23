@@ -8,7 +8,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.*;
-import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.DetectorComponent;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.save.CheckpointAction;
@@ -35,15 +34,18 @@ public class MapEntityFactory {
 
 
     public static Entity createElevation(World world, MapObject mapObject) {
-        final Entity slope = entityEngine.createEntity();
+        final Entity elevation = entityEngine.createEntity();
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
-        elvCmp.body = Box2DMapFactory.createCollisionBody(world, mapObject);
+        elvCmp.body = Box2DMapFactory.createSensorBody(world, mapObject);
+        elevation.add(elvCmp);
 
-        slope.add(elvCmp);
+        DetectorComponent dtctrCmp = entityEngine.createComponent(DetectorComponent.class);
+        dtctrCmp.detector = elvCmp.body.getFixtureList().first();
+        elevation.add(dtctrCmp);
 
 
-        return slope;
+        return elevation;
     }
 
     public static Entity createCheckpoint(CheckpointAction action, final Vector2 location) {
@@ -63,7 +65,7 @@ public class MapEntityFactory {
         Body body = Box2DFactory.createBody(entityEngine.getBox2dWorld().getWorld(), 1f, 1f, location, BodyDef.BodyType.StaticBody);
         body.setUserData(checkpoint);
         DetectorComponent dtctrCmp = entityEngine.createComponent(DetectorComponent.class);
-        dtctrCmp.detector = Box2DFactory.createSensor(body, FilteredContactListener.DETECTOR_RADIUS,
+        dtctrCmp.detector = Box2DFactory.createRadialSensor(body, FilteredContactListener.DETECTOR_RADIUS,
                 FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.PLAYER_CATEGORY);
         checkpoint.add(dtctrCmp);
         entityEngine.addEntity(checkpoint);
