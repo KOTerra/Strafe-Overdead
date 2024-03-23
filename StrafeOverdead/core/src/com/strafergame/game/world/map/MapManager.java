@@ -36,19 +36,21 @@ public class MapManager {
         Strafer.tiledMapRenderer.setMap(tiledMapTest);
 
 
-        loadTileLayer(tiledMapTest, "walls", (i, j) -> {
+        // map.getLayers().forEach();
+
+        loadTileLayer(tiledMapTest, "walls0", (i, j) -> {
             //  Box2DFactory.createWall(box2DWorld.getWorld(), 1, 1, new Vector3(i, j, 0));
         });
-        loadObjectLayer(tiledMapTest, "collisions", mapObject -> {
+        loadObjectLayer(tiledMapTest, "collisions0", mapObject -> {
             Box2DMapFactory.createCollisionBody(box2DWorld.getWorld(), mapObject);
             ///
         });
-        loadObjectLayer(tiledMapTest, "elevations", mapObject -> {
+        loadObjectLayer(tiledMapTest, "elevations0-1", mapObject -> {
             MapEntityFactory.createElevation(box2DWorld.getWorld(), mapObject);
             ///
         });
 
-        loadObjectLayer(tiledMapTest, "checkpoints", mapObject -> {
+        loadObjectLayer(tiledMapTest, "checkpoints0", mapObject -> {
             final float x = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("x") - .5f;
             final float y = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("y") - .5f;
             MapEntityFactory.createCheckpoint(() -> {
@@ -56,7 +58,7 @@ public class MapManager {
             }, new Vector2(x, y));
         });
 
-        loadTileLayer(tiledMapTest, "enemies", (i, j) -> EntityFactory.createEnemy(new Vector2(i, j), 1));
+        loadTileLayer(tiledMapTest, "enemies0", (i, j) -> EntityFactory.createEnemy(new Vector2(i, j), 1));
 
     }
 

@@ -18,7 +18,15 @@ public class ElevationComponent implements Component, Pool.Poolable {
 
     public EntityDirection direction;
 
-    public int height;
+    /**
+     * the height from which the slope begins
+     */
+    public int baseHeight;
+
+    /**
+     * the height to which it goes
+     */
+    public int topHeight;
 
     @Override
     public void reset() {
