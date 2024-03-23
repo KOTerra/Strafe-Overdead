@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.DetectorComponent;
+import com.strafergame.game.ecs.component.world.MapLayerComponent;
 
 public abstract class ComponentMappers {
 
@@ -70,6 +71,10 @@ public abstract class ComponentMappers {
 
     public static final ComponentMapper<CheckpointComponent> checkpoint() {
         return ComponentMapper.getFor(CheckpointComponent.class);
+    }
+
+    public static final ComponentMapper<MapLayerComponent> mapLayer() {
+        return ComponentMapper.getFor(MapLayerComponent.class);
     }
 
     @SuppressWarnings("rawtypes")

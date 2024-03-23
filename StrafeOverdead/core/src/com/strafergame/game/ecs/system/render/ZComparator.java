@@ -18,13 +18,24 @@ public class ZComparator implements Comparator<Entity> {
     public int compare(Entity a, Entity b) {
         float ay = posCmp.get(a).renderPos.y;
         float by = posCmp.get(b).renderPos.y;
-        float ae = posCmp.get(a).elevation;
-        float be = posCmp.get(b).elevation;
+        int ae = posCmp.get(a).elevation;
+        int be = posCmp.get(b).elevation;
 
-        if (Float.compare(be, ae) == 0) {
+        if (posCmp.get(b).isMapLayer && posCmp.get(a).isMapLayer) {
+            return 0;
+        }
+
+        if (be == ae) {
+            if (posCmp.get(b).isMapLayer) {
+                return 1;
+            }
+            if (posCmp.get(a).isMapLayer) {
+                return -1;
+            }
             return Float.compare(by, ay);
         }
-		return Float.compare(be,ae);
+
+        return  ae-be;
     }
 
 }

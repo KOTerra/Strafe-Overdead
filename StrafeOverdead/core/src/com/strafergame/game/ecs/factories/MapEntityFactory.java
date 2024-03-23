@@ -1,8 +1,10 @@
 package com.strafergame.game.ecs.factories;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -10,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.physics.DetectorComponent;
+import com.strafergame.game.ecs.component.world.MapLayerComponent;
 import com.strafergame.game.ecs.states.ElevationType;
 import com.strafergame.game.ecs.states.EntityDirection;
 import com.strafergame.game.ecs.states.EntityType;
@@ -20,6 +23,20 @@ import com.strafergame.game.world.collision.FilteredContactListener;
 
 public class MapEntityFactory {
     private static EntityEngine entityEngine = EntityEngine.getInstance();
+
+    public static void createLayerEntity(MapLayer layer) {
+        if (layer instanceof TiledMapTileLayer) {
+            PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
+            SpriteComponent sprCmp = entityEngine.createComponent(SpriteComponent.class);
+            MapLayerComponent layerCmp = entityEngine.createComponent(MapLayerComponent.class);
+            posCmp.isMapLayer = true;
+            posCmp.elevation = layer.getProperties().get("elevation", Integer.class);
+            sprCmp.sprite = null;
+            layerCmp.layer = (TiledMapTileLayer) layer;
+
+            entityEngine.addEntity(entityEngine.createEntity().add(posCmp).add(sprCmp).add(layerCmp));
+        }
+    }
 
     public static Entity createHitboxDummy(final Vector2 location, int width, int height, final Entity owner) {
         final Entity dummy = entityEngine.createEntity();
@@ -80,5 +97,6 @@ public class MapEntityFactory {
 
         return checkpoint;
     }
+
 
 }

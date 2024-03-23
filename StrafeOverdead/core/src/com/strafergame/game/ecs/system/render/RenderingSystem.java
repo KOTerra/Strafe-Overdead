@@ -12,6 +12,7 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.PositionComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
+import com.strafergame.game.ecs.component.world.MapLayerComponent;
 
 public class RenderingSystem extends SortedIteratingSystem {
 
@@ -55,6 +56,10 @@ public class RenderingSystem extends SortedIteratingSystem {
 		for (Entity entity : renderQueue) {
 			SpriteComponent spriteCmp = spriteMapper.get(entity);
 			PositionComponent posCmp = positionMapper.get(entity);
+			MapLayerComponent layerCmp =ComponentMappers.mapLayer().get(entity);
+			if(posCmp.isMapLayer){
+				Strafer.tiledMapRenderer.renderTileLayer(layerCmp.layer);
+			}
 			if (spriteCmp.sprite == null || posCmp.isHidden) {
 				continue;
 			}

@@ -10,7 +10,7 @@ public class PositionComponent implements Component, Poolable {
     public Vector2 prevPos = new Vector2(0f, 0f);
     public Vector2 renderPos = new Vector2(0f, 0f);
 
-    public int elevation=0;
+    public int elevation = 0;
 
     public float renderX = 0f;
     public float renderY = 0f;
@@ -18,6 +18,8 @@ public class PositionComponent implements Component, Poolable {
 
     public EntityDirection direction = EntityDirection.s;
     public boolean isHidden = false;
+
+    public boolean isMapLayer = false;
 
     @Override
     public void reset() {
@@ -27,5 +29,6 @@ public class PositionComponent implements Component, Poolable {
 
         this.direction = EntityDirection.s;
         this.isHidden = true;
+        this.isMapLayer = false;
     }
 }

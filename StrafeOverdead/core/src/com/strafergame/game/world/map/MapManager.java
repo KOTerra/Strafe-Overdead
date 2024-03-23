@@ -1,6 +1,7 @@
 package com.strafergame.game.world.map;
 
 import box2dLight.RayHandler;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -12,6 +13,8 @@ import com.strafergame.game.ecs.factories.MapEntityFactory;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DMapFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
+
+import java.util.function.Consumer;
 
 public class MapManager {
 
@@ -26,30 +29,31 @@ public class MapManager {
     }
 
     public void loadMap(TiledMap tiledMap) {
-        addTestAssets(tiledMap);
+        tiledMap.getLayers().forEach(MapEntityFactory::createLayerEntity);
+        loadMapObjects(tiledMap);
     }
 
-    private void addTestAssets(TiledMap tiledMapTest) {
+    private void loadMapObjects(TiledMap tiledMap) {
 
         Strafer.worldCamera.setFocusOn(GameWorld.player);
 
-        Strafer.tiledMapRenderer.setMap(tiledMapTest);
+        Strafer.tiledMapRenderer.setMap(tiledMap);
 
         // map.getLayers().forEach();
 
-        loadTileLayer(tiledMapTest, "walls0", (i, j) -> {
+        loadTileLayer(tiledMap, "walls0", (i, j) -> {
             //  Box2DFactory.createWall(box2DWorld.getWorld(), 1, 1, new Vector3(i, j, 0));
         });
-        loadObjectLayer(tiledMapTest, "collisions0", mapObject -> {
+        loadObjectLayer(tiledMap, "collisions0", mapObject -> {
             Box2DMapFactory.createCollisionBody(box2DWorld.getWorld(), mapObject);
             ///
         });
-        loadObjectLayer(tiledMapTest, "elevations0-1", mapObject -> {
+        loadObjectLayer(tiledMap, "elevations0-1", mapObject -> {
             MapEntityFactory.createElevation(box2DWorld.getWorld(), mapObject);
             ///
         });
 
-        loadObjectLayer(tiledMapTest, "checkpoints0", mapObject -> {
+        loadObjectLayer(tiledMap, "checkpoints0", mapObject -> {
             final float x = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("x") - .5f;
             final float y = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("y") - .5f;
             MapEntityFactory.createCheckpoint(() -> {
@@ -57,7 +61,7 @@ public class MapManager {
             }, new Vector2(x, y));
         });
 
-        loadTileLayer(tiledMapTest, "enemies0", (i, j) -> EntityFactory.createEnemy(new Vector2(i, j), 1));
+        loadTileLayer(tiledMap, "enemies0", (i, j) -> EntityFactory.createEnemy(new Vector2(i, j), 1));
 
     }
 
