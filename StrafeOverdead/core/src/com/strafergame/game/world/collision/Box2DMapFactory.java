@@ -65,6 +65,35 @@ public abstract class Box2DMapFactory {
         return body;
     }
 
+    public static Body createSensorBody(World world, MapObject mapObject) {
+        Body body = null;
+
+        float sf = Strafer.SCALE_FACTOR;
+
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.fixedRotation = true;
+
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+
+        if (mapObject instanceof RectangleMapObject) {
+            RectangleMapObject rectangleObject = (RectangleMapObject) mapObject;
+            Rectangle rectangle = rectangleObject.getRectangle();
+
+            bodyDef.position.set(rectangle.getX() * sf + rectangle.getWidth() * sf / 2f, rectangle.getY() * sf + rectangle.getHeight() * sf / 2f);
+            body = world.createBody(bodyDef);
+            Box2DFactory.createRectangleSensor(body, rectangle, (short) 5, (short) 6);
+
+        } else if (mapObject instanceof PolygonMapObject) {
+            PolygonMapObject polygonMapObject = (PolygonMapObject) mapObject;
+            Polygon polygon = polygonMapObject.getPolygon();
+
+            bodyDef.position.set(polygon.getX() * sf, polygon.getY() * sf);
+            body = world.createBody(bodyDef);
+            Box2DFactory.createPolygonSensor(body, polygon, (short) 5, (short) 6);
+        }
+        return body;
+    }
+
     private static BodyDef getBodyDef(float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;

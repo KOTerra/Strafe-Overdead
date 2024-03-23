@@ -1,12 +1,7 @@
 package com.strafergame.game.world.collision;
 
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
@@ -111,22 +106,47 @@ public abstract class Box2DFactory {
 
     }
 
-    public static Fixture createSensor(Body body, float radius, short fltrCategory, short fltrMask) {
+    public static Fixture createSensor(Body body, Shape shape, short fltrCategory, short fltrMask) {
         FixtureDef fixtureDef = new FixtureDef();
-        CircleShape circle = new CircleShape();
-        circle.setRadius(radius);
-        circle.setPosition(body.getLocalCenter());
 
-        fixtureDef.shape = circle;
+        fixtureDef.shape = shape;
         fixtureDef.isSensor = true;
         fixtureDef.filter.categoryBits = fltrCategory;
         fixtureDef.filter.maskBits = fltrMask;
+
         Fixture fixture = body.createFixture(fixtureDef);
-        circle.dispose();
+        shape.dispose();
 
         return fixture;
     }
 
+    public static Fixture createRadialSensor(Body body, float radius, short fltrCategory, short fltrMask) {
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(radius);
+        circleShape.setPosition(body.getLocalCenter());
+
+        return createSensor(body, circleShape, fltrCategory, fltrMask);
+    }
+
+    public static Fixture createPolygonSensor(Body body, Polygon polygon, short fltrCategory, short fltrMask) {
+        PolygonShape polygonShape = new PolygonShape();
+
+        float[] scaledVertices = new float[polygon.getVertices().length];
+        for (int i = 0; i < polygon.getVertices().length; i++) {
+            scaledVertices[i] = polygon.getVertices()[i] * Strafer.SCALE_FACTOR;
+        }
+
+        polygonShape.set(scaledVertices);
+
+        return createSensor(body, polygonShape, fltrCategory, fltrMask);
+    }
+
+    public static Fixture createRectangleSensor(Body body, Rectangle rectangle, short fltrCategory, short fltrMask) {
+        PolygonShape polygonShape = new PolygonShape();
+        polygonShape.setAsBox(rectangle.width * Strafer.SCALE_FACTOR / 2f, rectangle.height * Strafer.SCALE_FACTOR / 2f);
+
+        return createSensor(body, polygonShape, fltrCategory, fltrMask);
+    }
 
     private static BodyDef getBodyDef(float x, float y) {
         BodyDef bodyDef = new BodyDef();

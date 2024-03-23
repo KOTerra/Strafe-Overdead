@@ -64,7 +64,7 @@ public abstract class EntityFactory {
 
         entityEngine.addEntity(player);
         initPhysics(player);
-        plyrCmp.sensor = Box2DFactory.createSensor(b2dCmp.body, FilteredContactListener.DETECTOR_RADIUS,
+        plyrCmp.sensor = Box2DFactory.createRadialSensor(b2dCmp.body, FilteredContactListener.DETECTOR_RADIUS,
                 FilteredContactListener.PLAYER_CATEGORY, FilteredContactListener.PLAYER_DETECTOR_CATEGORY);
         plyrCmp.sensor.setUserData(player);
 
@@ -110,7 +110,7 @@ public abstract class EntityFactory {
         initPhysics(dummy);
         DetectorComponent dctrCmp = entityEngine.createComponent(DetectorComponent.class);
         b2dCmp.body.setUserData(dummy);
-        dctrCmp.detector = Box2DFactory.createSensor(b2dCmp.body, FilteredContactListener.DETECTOR_RADIUS,
+        dctrCmp.detector = Box2DFactory.createRadialSensor(b2dCmp.body, FilteredContactListener.DETECTOR_RADIUS,
                 FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.PLAYER_CATEGORY);
         dummy.add(dctrCmp);
 
