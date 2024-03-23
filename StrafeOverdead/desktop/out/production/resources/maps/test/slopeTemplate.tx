@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object>
+  <properties>
+   <property name="direction" value="d"/>
+   <property name="footprint" type="object" value="46"/>
+   <property name="type" value="SLOPE"/>
+  </properties>
+  <polygon points="1.56522,-7.52174 -318.447,312.5 -330.065,306.135 -329.964,221.77 -318.406,216.547 1.592,-103.487 14.6168,-98.5258 13.9035,-15.6488"/>
+ </object>
+</template>

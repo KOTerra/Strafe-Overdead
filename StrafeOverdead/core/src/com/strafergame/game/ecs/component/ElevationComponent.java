@@ -12,7 +12,8 @@ import com.strafergame.game.ecs.states.EntityDirection;
  */
 public class ElevationComponent implements Component, Pool.Poolable {
 
-    public Body body;
+    public Body footprint;
+    public Body sensorBody;
 
     public ElevationType type;
 

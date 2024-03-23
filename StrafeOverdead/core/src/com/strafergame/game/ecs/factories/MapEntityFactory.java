@@ -2,6 +2,7 @@ package com.strafergame.game.ecs.factories;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -9,6 +10,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.physics.DetectorComponent;
+import com.strafergame.game.ecs.states.ElevationType;
+import com.strafergame.game.ecs.states.EntityDirection;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.save.CheckpointAction;
 import com.strafergame.game.world.collision.Box2DFactory;
@@ -34,14 +37,19 @@ public class MapEntityFactory {
 
 
     public static Entity createElevation(World world, MapObject mapObject) {
+        MapProperties properties = mapObject.getProperties();
+
         final Entity elevation = entityEngine.createEntity();
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
-        elvCmp.body = Box2DMapFactory.createSensorBody(world, mapObject);
+        elvCmp.sensorBody = Box2DMapFactory.createSensorBody(world, mapObject);
+        elvCmp.footprint = Box2DMapFactory.createCollisionBody(world, properties.get("footprint", MapObject.class));
+        elvCmp.direction = EntityDirection.convert(properties.get("direction", String.class));
+        elvCmp.type = ElevationType.convert(properties.get("type", String.class));
         elevation.add(elvCmp);
 
         DetectorComponent dtctrCmp = entityEngine.createComponent(DetectorComponent.class);
-        dtctrCmp.detector = elvCmp.body.getFixtureList().first();
+        dtctrCmp.detector = elvCmp.sensorBody.getFixtureList().first();
         elevation.add(dtctrCmp);
 
 

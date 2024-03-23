@@ -34,7 +34,7 @@ public class ProximityContactPair {
 
 	public static boolean isPlayerInProximity(DetectorComponent dtctrCmp) {
 		ProximityContactPair pair = (ProximityContactPair) dtctrCmp.detector.getUserData();
-		
+
 		return pair != null;
 	}
 
