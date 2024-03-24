@@ -13,7 +13,7 @@ import com.strafergame.game.ecs.system.combat.ProximityContactPair;
 
 public class FilteredContactListener implements ContactListener {
 
-    public static final short HURTBOX_CATEGORY = 1;
+    public static final short HURTBOX_CATEGORY = 0x01;
     public static final short HITBOX_CATEGORY = 2;
     /**
      * collision filter for a player's own sensor of proximity

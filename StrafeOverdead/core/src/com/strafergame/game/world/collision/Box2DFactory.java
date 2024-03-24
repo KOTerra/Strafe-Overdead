@@ -18,24 +18,24 @@ public abstract class Box2DFactory {
         bodyDef.fixedRotation = true;
         bodyDef.type = type;
         body = world.createBody(bodyDef);
-
         FixtureDef fixtureDef = new FixtureDef();
-        // PolygonShape boxShape = new PolygonShape();
-        // boxShape.setAsBox(width / 2, height / 2);
-        CircleShape boxShape = new CircleShape();
-        boxShape.setRadius(width / 2);
-        fixtureDef.shape = boxShape;
+
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(width / 2);
+        fixtureDef.shape = circleShape;
         fixtureDef.restitution = 0;
 
-        Fixture fingerprint = body.createFixture(fixtureDef);
-        b2dCmp.fingerprint = fingerprint;
+        Fixture footprint = body.createFixture(fixtureDef);
+        b2dCmp.footprint = footprint;
+        b2dCmp.footprintSensor = createRadialSensor(body, width * .45f, FilteredContactListener.FOOTPRINT_CATEGORY, FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY);
+
         b2dCmp.body = body;
-        boxShape.dispose();
+        circleShape.dispose();
 
         return body;
     }
 
-    public static Body createBody(World world, float width, float height, Vector2 pos, BodyDef.BodyType type) {
+    public static Body createEmptyBody(World world, float width, float height, Vector2 pos, BodyDef.BodyType type) {
         Body body;
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set((pos.x + width / 2), (pos.y + height / 2));
@@ -43,15 +43,6 @@ public abstract class Box2DFactory {
         bodyDef.type = type;
         body = world.createBody(bodyDef);
 
-        FixtureDef fixtureDef = new FixtureDef();
-        PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(width / 2, height / 2);
-        fixtureDef.shape = boxShape;
-        fixtureDef.restitution = 0;
-
-        body.createFixture(fixtureDef);
-
-        boxShape.dispose();
 
         return body;
     }

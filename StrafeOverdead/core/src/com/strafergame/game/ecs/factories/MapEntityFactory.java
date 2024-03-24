@@ -7,8 +7,10 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.*;
+import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.DetectorComponent;
 import com.strafergame.game.ecs.component.world.MapLayerComponent;
 import com.strafergame.game.ecs.states.ElevationAgentType;
@@ -28,7 +30,7 @@ public class MapEntityFactory {
             SpriteComponent sprCmp = entityEngine.createComponent(SpriteComponent.class);
             MapLayerComponent layerCmp = entityEngine.createComponent(MapLayerComponent.class);
             posCmp.isMapLayer = true;
-            posCmp.elevation = layer.getProperties().get("elevation", Integer.class);
+            posCmp.elevation = layer.getProperties().get("elevation", 0, Integer.class);
             sprCmp.sprite = null;
             layerCmp.layer = (TiledMapTileLayer) layer;
 
@@ -36,6 +38,19 @@ public class MapEntityFactory {
         }
     }
 
+
+    public static Entity createCollisionEntity(World world, MapObject mapObject) {
+
+        final Entity collisionEntity = entityEngine.createEntity();
+        Body body = Box2DMapFactory.createCollisionBody(world, mapObject);
+        body.setUserData(collisionEntity);
+
+        ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
+        elvCmp.elevation = mapObject.getProperties().get("elevation", 0, Integer.class);
+        collisionEntity.add(elvCmp);
+
+        return collisionEntity;
+    }
 
     public static Entity createElevationAgent(World world, MapObject mapObject) {
         MapProperties properties = mapObject.getProperties();
@@ -51,8 +66,12 @@ public class MapEntityFactory {
         elvAgentCmp.topElevation = properties.get("topElevation", Integer.class);
         elevationAgent.add(elvAgentCmp);
 
+        elvAgentCmp.sensorBody.setUserData(elevationAgent);
+        elvAgentCmp.footprintBody.setUserData(elevationAgent);
+
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
         elvCmp.elevation = elvAgentCmp.baseElevation;
+        System.out.println((properties.get("type", String.class) + elvCmp.elevation));
         elevationAgent.add(elvCmp);
 
         DetectorComponent dtctrCmp = entityEngine.createComponent(DetectorComponent.class);
@@ -63,15 +82,22 @@ public class MapEntityFactory {
         return elevationAgent;
     }
 
-    public static Entity createCheckpoint(CheckpointAction action, final Vector2 location) {
+    public static Entity createCheckpoint(MapObject mapObject, CheckpointAction action) {
         final Entity checkpoint = entityEngine.createEntity();
         CheckpointComponent chkCmp = entityEngine.createComponent(CheckpointComponent.class);
         chkCmp.action = action;
         checkpoint.add(chkCmp);
 
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
+        final float x = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("x") - .5f;
+        final float y = Strafer.SCALE_FACTOR * (Float) mapObject.getProperties().get("y") - .5f;
+        Vector2 location = new Vector2(x, y);
         posCmp.renderPos = location;
+        posCmp.elevation = mapObject.getProperties().get("elevation", 0, Integer.class);
         checkpoint.add(posCmp);
+
+        ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
+        elvCmp.elevation = posCmp.elevation;
 
         CameraComponent camCmp = entityEngine.createComponent(CameraComponent.class);
         camCmp.type = EntityType.checkpoint;

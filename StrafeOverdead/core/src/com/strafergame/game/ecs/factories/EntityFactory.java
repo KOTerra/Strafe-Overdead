@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.steer.behaviors.Arrive;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.strafergame.Strafer;
 import com.strafergame.assets.AnimationProvider;
@@ -147,6 +148,9 @@ public abstract class EntityFactory {
                 posCmp.prevPos, BodyDef.BodyType.DynamicBody);
         Box2DFactory.addHurtboxToBody(entityEngine.getBox2dWorld().getWorld(), b2dCmp, spriteCmp.width, spriteCmp.height, 0,
                 spriteCmp.height / 2);
+
+        b2dCmp.body.setUserData(e);
+
         b2dCmp.initiatedPhysics = true;
     }
 

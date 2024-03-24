@@ -277,12 +277,36 @@
 </data>
  </layer>
  <objectgroup id="5" name="collisions0">
-  <object id="17" x="672" y="2848.33" width="991.667" height="31.6667"/>
-  <object id="18" x="1632.33" y="2624.33" width="31.3333" height="256"/>
-  <object id="19" x="1632.33" y="2624" width="287.333" height="32"/>
-  <object id="20" x="671.667" y="2848" width="32" height="417.333"/>
-  <object id="21" x="352.667" y="3232.67" width="318" height="31.3333"/>
-  <object id="24" x="833.938" y="2976.13" width="830" height="31.8125"/>
+  <object id="17" x="672" y="2848.33" width="991.667" height="31.6667">
+   <properties>
+    <property name="elevation" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="18" x="1632.33" y="2624.33" width="31.3333" height="256">
+   <properties>
+    <property name="elevation" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="19" x="1632.33" y="2624" width="287.333" height="32">
+   <properties>
+    <property name="elevation" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="20" x="671.667" y="2848" width="32" height="417.333">
+   <properties>
+    <property name="elevation" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="21" x="352.667" y="3232.67" width="318" height="31.3333">
+   <properties>
+    <property name="elevation" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="24" x="833.938" y="2976.13" width="830" height="31.8125">
+   <properties>
+    <property name="elevation" type="int" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer id="4" name="enemies0" width="128" height="128">
   <properties>
@@ -567,8 +591,16 @@
 </data>
  </layer>
  <objectgroup id="11" name="elevationFootprints0">
-  <object id="46" x="1408" y="3872" width="320" height="96"/>
-  <object id="47" x="1312" y="3520" width="96.6471" height="350.666"/>
+  <object id="46" x="1408" y="3872" width="320" height="96">
+   <properties>
+    <property name="elevation" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="47" x="1312" y="3520" width="96.6471" height="350.666">
+   <properties>
+    <property name="elevation" type="int" value="1"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="7" name="elevationAgents0-1">
   <properties>
@@ -587,10 +619,10 @@
   </object>
   <object id="32" x="1325.88" y="3500.81" width="68.5417" height="388.115">
    <properties>
-    <property name="baseElevation" type="int" value="0"/>
+    <property name="baseElevation" type="int" value="1"/>
     <property name="direction" value="w"/>
     <property name="footprint" type="object" value="47"/>
-    <property name="topElevation" type="int" value="1"/>
+    <property name="topElevation" type="int" value="2"/>
     <property name="type" value="SLOPE"/>
    </properties>
   </object>

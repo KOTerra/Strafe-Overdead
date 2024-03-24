@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.ecs.component.ComponentDataUtils;
 import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
@@ -110,10 +111,13 @@ public class GameWorld implements Disposable {
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_4)) {
                 HealthComponent hc = ComponentMappers.health().get(player);
                 hc.hitPoints -= 3;
+                ComponentMappers.elevation().get(player).elevation = 0;
+
             }
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
                 HealthComponent hc = ComponentMappers.health().get(player);
                 hc.hitPoints += 3;
+                ComponentMappers.elevation().get(player).elevation = 1;
 
             }
 
