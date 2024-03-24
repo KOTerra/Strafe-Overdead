@@ -35,8 +35,12 @@ public abstract class EntityFactory {
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
         posCmp.isHidden = false;
         posCmp.renderPos = playerSpawnLocation.cpy();
-        posCmp.elevation = 0;
         player.add(posCmp);
+
+        ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
+        elvCmp.elevation = 0;
+        posCmp.elevation = 0;
+        player.add(elvCmp);
 
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
         movCmp.maxLinearSpeed = plyrCmp.baseSpeed;
@@ -88,8 +92,12 @@ public abstract class EntityFactory {
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
         posCmp.isHidden = false;
         posCmp.renderPos = location;
-        posCmp.elevation = 0;
         dummy.add(posCmp);
+
+        ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
+        elvCmp.elevation = 0;
+        posCmp.elevation = 0;
+        dummy.add(elvCmp);
 
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
         dummy.add(movCmp);

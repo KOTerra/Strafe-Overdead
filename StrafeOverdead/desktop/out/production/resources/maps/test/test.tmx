@@ -570,7 +570,7 @@
   <object id="46" x="1408" y="3872" width="320" height="96"/>
   <object id="47" x="1312" y="3520" width="96.6471" height="350.666"/>
  </objectgroup>
- <objectgroup id="7" name="elevations0-1">
+ <objectgroup id="7" name="elevationAgents0-1">
   <properties>
    <property name="baseElevation" type="int" value="0"/>
    <property name="topElevation" type="int" value="1"/>
@@ -587,8 +587,10 @@
   </object>
   <object id="32" x="1325.88" y="3500.81" width="68.5417" height="388.115">
    <properties>
+    <property name="baseElevation" type="int" value="0"/>
     <property name="direction" value="w"/>
     <property name="footprint" type="object" value="47"/>
+    <property name="topElevation" type="int" value="1"/>
     <property name="type" value="SLOPE"/>
    </properties>
   </object>

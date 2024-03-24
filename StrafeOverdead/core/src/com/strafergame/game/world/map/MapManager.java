@@ -1,7 +1,6 @@
 package com.strafergame.game.world.map;
 
 import box2dLight.RayHandler;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -13,8 +12,6 @@ import com.strafergame.game.ecs.factories.MapEntityFactory;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DMapFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
-
-import java.util.function.Consumer;
 
 public class MapManager {
 
@@ -48,8 +45,8 @@ public class MapManager {
             Box2DMapFactory.createCollisionBody(box2DWorld.getWorld(), mapObject);
             ///
         });
-        loadObjectLayer(tiledMap, "elevations0-1", mapObject -> {
-            MapEntityFactory.createElevation(box2DWorld.getWorld(), mapObject);
+        loadObjectLayer(tiledMap, "elevationAgents0-1", mapObject -> {
+            MapEntityFactory.createElevationAgent(box2DWorld.getWorld(), mapObject);
             ///
         });
 
