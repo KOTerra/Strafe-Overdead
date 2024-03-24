@@ -65,7 +65,11 @@ public abstract class ComponentMappers {
         return ComponentMapper.getFor(AttachmentComponent.class);
     }
 
-    public static final ComponentMapper<ElevationComponent> elevate() {
+    public static final ComponentMapper<ElevationAgentComponent> elevationAgent() {
+        return ComponentMapper.getFor(ElevationAgentComponent.class);
+    }
+
+    public static final ComponentMapper<ElevationComponent> elevation() {
         return ComponentMapper.getFor(ElevationComponent.class);
     }
 

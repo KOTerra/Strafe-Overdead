@@ -10,8 +10,18 @@ import box2dLight.Light;
 public class Box2dComponent implements Component, Poolable {
     public boolean initiatedPhysics = false;
     public Body body;
-    public Fixture fingerprint;
+    /**
+     * the fixture situated at the base of an entity's body. it is the one who resolves collisions
+     */
+    public Fixture footprint;
+
+    /**
+     * a sensor attached to the footprint
+     */
+    public Fixture footprintSensor;
     public Fixture hurtbox;
+
+
     public Light light;
     public float lightDistance;
     public float lightFluctuationDistance;

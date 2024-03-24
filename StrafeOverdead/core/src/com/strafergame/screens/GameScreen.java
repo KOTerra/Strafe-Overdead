@@ -47,8 +47,6 @@ public class GameScreen implements Screen {
 
         update(delta);
 
-       // Strafer.tiledMapRenderer.render();
-
         gameWorld.update(delta);
 
         Strafer.uiManager.draw();

@@ -11,7 +11,6 @@ public class PositionComponent implements Component, Poolable {
     public Vector2 renderPos = new Vector2(0f, 0f);
 
     public int elevation = 0;
-
     public float renderX = 0f;
     public float renderY = 0f;
 

@@ -8,36 +8,37 @@ import com.badlogic.gdx.utils.Disposable;
 import com.strafergame.Strafer;
 
 public class Box2DWorld implements Disposable {
-	private final World world;
+    private final World world;
 
-	private final Box2DDebugRenderer debugRenderer;
+    private final Box2DDebugRenderer debugRenderer;
 
-	FPSLogger fps = new FPSLogger();
+    FPSLogger fps = new FPSLogger();
 
-	public Box2DWorld() {
-		world = new World(new Vector2(0f, 0f), false);
-		debugRenderer = new Box2DDebugRenderer();
-		world.setContactListener(new FilteredContactListener());
-	}
+    public Box2DWorld() {
+        world = new World(new Vector2(0f, 0f), false);
+        debugRenderer = new Box2DDebugRenderer();
+        world.setContactListener(new FilteredContactListener());
+        world.setContactFilter(new ElevationContactFilter());
+    }
 
-	public void step(float delta) {
-		world.step(delta, 6, 2);
-		world.clearForces();
-	}
+    public void step(float delta) {
+        world.step(delta, 6, 2);
+        world.clearForces();
+    }
 
-	public void render() {
-		if (Strafer.inDebug) {
-			debugRenderer.render(world, Strafer.worldCamera.combined);
-			fps.log();
-		}
-	}
+    public void render() {
+        if (Strafer.inDebug) {
+            debugRenderer.render(world, Strafer.worldCamera.combined);
+            fps.log();
+        }
+    }
 
-	@Override
-	public void dispose() {
-		debugRenderer.dispose();
-	}
+    @Override
+    public void dispose() {
+        debugRenderer.dispose();
+    }
 
-	public World getWorld() {
-		return world;
-	}
+    public World getWorld() {
+        return world;
+    }
 }

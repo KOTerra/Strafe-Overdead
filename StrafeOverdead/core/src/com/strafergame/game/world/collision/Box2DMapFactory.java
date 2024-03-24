@@ -65,7 +65,7 @@ public abstract class Box2DMapFactory {
         return body;
     }
 
-    public static Body createSensorBody(World world, MapObject mapObject) {
+    public static Body createSensorBody(World world, MapObject mapObject, short fltrCategory, short fltrMask) {
         Body body = null;
 
         float sf = Strafer.SCALE_FACTOR;
@@ -81,7 +81,7 @@ public abstract class Box2DMapFactory {
 
             bodyDef.position.set(rectangle.getX() * sf + rectangle.getWidth() * sf / 2f, rectangle.getY() * sf + rectangle.getHeight() * sf / 2f);
             body = world.createBody(bodyDef);
-            Box2DFactory.createRectangleSensor(body, rectangle, (short) 5, (short) 6);
+            Box2DFactory.createRectangleSensor(body, rectangle, fltrCategory, fltrMask);
 
         } else if (mapObject instanceof PolygonMapObject) {
             PolygonMapObject polygonMapObject = (PolygonMapObject) mapObject;
@@ -89,7 +89,7 @@ public abstract class Box2DMapFactory {
 
             bodyDef.position.set(polygon.getX() * sf, polygon.getY() * sf);
             body = world.createBody(bodyDef);
-            Box2DFactory.createPolygonSensor(body, polygon, (short) 5, (short) 6);
+            Box2DFactory.createPolygonSensor(body, polygon, fltrCategory, fltrMask);
         }
         return body;
     }

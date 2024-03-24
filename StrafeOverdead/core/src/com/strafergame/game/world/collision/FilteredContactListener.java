@@ -24,6 +24,16 @@ public class FilteredContactListener implements ContactListener {
      */
     public static final short PLAYER_DETECTOR_CATEGORY = 4;
 
+
+    /**
+     * filter for a sensor attached to the footprint
+     */
+    public static final short FOOTPRINT_CATEGORY = 5;
+    /**
+     * filter for an elevation sensor
+     */
+    public static final short FOOTPRINT_DETECTOR_CATEGORY = 6;
+
     public static final float DETECTOR_RADIUS = 9;
 
     @Override

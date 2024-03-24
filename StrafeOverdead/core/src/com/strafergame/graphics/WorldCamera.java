@@ -143,14 +143,14 @@ public class WorldCamera extends OrthographicCamera {
         float centerX = 0f;
         float centerY = 0f;
         float totalWeight = 0;
-        float weightedSumX = 0;
+        float weightedSumX =0;
         float weightedSumY = 0;
 
         for (Entity entity : focusEntities) {
             PositionComponent posCmp = ComponentMappers.position().get(entity);
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
             if (posCmp != null && b2dCmp != null) {
-                float weight = weighted ? b2dCmp.fingerprint.getShape().getRadius() : 1;
+                float weight = weighted ? b2dCmp.footprint.getShape().getRadius() : 1;
                 weightedSumX += posCmp.renderPos.x * weight;
                 weightedSumY += posCmp.renderPos.y * weight;
                 totalWeight += weight;
