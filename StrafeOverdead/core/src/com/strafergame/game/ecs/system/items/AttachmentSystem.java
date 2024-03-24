@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
+import com.strafergame.game.ecs.component.physics.PositionComponent;
 
 public class AttachmentSystem extends IteratingSystem {
     public AttachmentSystem() {

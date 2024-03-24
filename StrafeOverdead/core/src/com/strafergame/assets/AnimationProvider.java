@@ -4,11 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
-import com.strafergame.game.ecs.component.PositionComponent;
+import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.states.EntityType;
 
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 

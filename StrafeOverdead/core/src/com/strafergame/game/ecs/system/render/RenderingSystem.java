@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
-import com.strafergame.game.ecs.component.PositionComponent;
+import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
 import com.strafergame.game.ecs.component.world.MapLayerComponent;
 

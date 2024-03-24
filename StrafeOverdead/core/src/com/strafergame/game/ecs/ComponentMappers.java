@@ -2,8 +2,10 @@ package com.strafergame.game.ecs;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import com.strafergame.game.ecs.component.*;
-import com.strafergame.game.ecs.component.physics.Box2dComponent;
-import com.strafergame.game.ecs.component.physics.DetectorComponent;
+import com.strafergame.game.ecs.component.ai.SteeringComponent;
+import com.strafergame.game.ecs.component.physics.*;
+import com.strafergame.game.ecs.component.world.CheckpointComponent;
+import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
 import com.strafergame.game.ecs.component.world.MapLayerComponent;
 
 public abstract class ComponentMappers {

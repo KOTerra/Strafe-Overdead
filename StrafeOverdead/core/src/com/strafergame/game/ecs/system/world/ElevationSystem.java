@@ -3,7 +3,7 @@ package com.strafergame.game.ecs.system.world;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.strafergame.game.ecs.component.ElevationAgentComponent;
+import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
 import com.strafergame.game.world.collision.Box2DWorld;
 
 public class ElevationSystem extends IteratingSystem {

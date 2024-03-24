@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.ItemComponent;
-import com.strafergame.game.ecs.component.PositionComponent;
+import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.world.collision.Box2DFactory;
 
 public abstract class ItemEntityFactory {

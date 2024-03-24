@@ -1,4 +1,4 @@
-package com.strafergame.game.ecs.component;
+package com.strafergame.game.ecs.component.ai;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
@@ -9,6 +9,7 @@ import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
+import com.strafergame.game.ecs.component.physics.MovementComponent;
 
 public class SteeringComponent implements Steerable<Vector2>, Component {
 

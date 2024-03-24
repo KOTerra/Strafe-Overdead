@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
-import com.strafergame.game.ecs.component.PositionComponent;
+import com.strafergame.game.ecs.component.physics.PositionComponent;
 
 /**
  * an orthographic camera which follows an assigned entity, mainly the player

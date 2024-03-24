@@ -3,7 +3,7 @@ package com.strafergame.game.ecs.system.render;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.strafergame.game.ecs.ComponentMappers;
-import com.strafergame.game.ecs.component.PositionComponent;
+import com.strafergame.game.ecs.component.physics.PositionComponent;
 
 import java.util.Comparator;
 

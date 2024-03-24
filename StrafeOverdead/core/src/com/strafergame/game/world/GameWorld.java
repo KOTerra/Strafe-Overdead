@@ -112,12 +112,15 @@ public class GameWorld implements Disposable {
                 HealthComponent hc = ComponentMappers.health().get(player);
                 hc.hitPoints -= 3;
                 ComponentMappers.elevation().get(player).elevation = 0;
+                ComponentMappers.position().get(player).elevation = 0;
+                //a function somewhere to update both elevations and begin contacts of the body again
 
             }
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
                 HealthComponent hc = ComponentMappers.health().get(player);
                 hc.hitPoints += 3;
                 ComponentMappers.elevation().get(player).elevation = 1;
+                ComponentMappers.position().get(player).elevation = 1;
 
             }
 
