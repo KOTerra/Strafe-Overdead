@@ -1,33 +1,46 @@
 package com.strafergame.game.world.map;
 
 import box2dLight.RayHandler;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector2;
 import com.strafergame.Strafer;
-import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.factories.MapEntityFactory;
 import com.strafergame.game.world.GameWorld;
-import com.strafergame.game.world.collision.Box2DMapFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class MapManager {
 
-
     private Box2DWorld box2DWorld;
     private RayHandler rayHandler;
+    private TiledMap map;
+    private static int maxElevation = 0;
 
+    private static final HashMap<Integer, MapLayers> layersElevatedMap = new HashMap<>();
 
     public MapManager(Box2DWorld box2dworld, RayHandler rayHandler) {
         this.box2DWorld = box2dworld;
         this.rayHandler = rayHandler;
+
     }
 
     public void loadMap(TiledMap tiledMap) {
+        this.map = tiledMap;
+
+        layersElevatedMap.clear();
+        layersElevatedMap.put(0, new MapLayers());
+
         tiledMap.getLayers().forEach(MapEntityFactory::createLayerEntity);
         loadMapObjects(tiledMap);
+
+        System.out.println(layersElevatedMap.get(1).size());
+
     }
 
     private void loadMapObjects(TiledMap tiledMap) {
@@ -74,5 +87,28 @@ public class MapManager {
         for (MapObject mapObject : objects) {
             lla.execute(mapObject);
         }
+    }
+
+    /**
+     * returns all of the TiledMap's layers that have the given elevation
+     */
+    public static MapLayers getLayersElevatedMap(int elevation) {
+        return layersElevatedMap.get(elevation);
+    }
+
+    public static void addLayerToElevation(MapLayer layer, int elevation) {
+        if (elevation > MapManager.maxElevation) {
+            MapManager.maxElevation = elevation;
+            MapManager.getLayersElevatedMap().put(elevation, new MapLayers());
+        }
+        MapManager.getLayersElevatedMap().get(elevation).add(layer);
+    }
+
+    public static int getMaxElevation() {
+        return maxElevation;
+    }
+
+    public static Map<Integer, MapLayers> getLayersElevatedMap() {
+        return layersElevatedMap;
     }
 }

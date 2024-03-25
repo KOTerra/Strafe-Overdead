@@ -2,6 +2,7 @@ package com.strafergame.game.ecs.factories;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -22,6 +23,7 @@ import com.strafergame.game.ecs.system.save.CheckpointAction;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DMapFactory;
 import com.strafergame.game.world.collision.FilteredContactListener;
+import com.strafergame.game.world.map.MapManager;
 
 public class MapEntityFactory {
     private static EntityEngine entityEngine = EntityEngine.getInstance();
@@ -31,9 +33,14 @@ public class MapEntityFactory {
             PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
             SpriteComponent sprCmp = entityEngine.createComponent(SpriteComponent.class);
             MapLayerComponent layerCmp = entityEngine.createComponent(MapLayerComponent.class);
-            posCmp.isMapLayer = true;
-            posCmp.elevation = layer.getProperties().get("elevation", 0, Integer.class);
             sprCmp.sprite = null;
+            posCmp.isMapLayer = true;
+
+            posCmp.elevation = layer.getProperties().get("elevation", 0, Integer.class);
+
+            MapManager.addLayerToElevation(layer, posCmp.elevation);
+
+
             layerCmp.layer = (TiledMapTileLayer) layer;
 
             entityEngine.addEntity(entityEngine.createEntity().add(posCmp).add(sprCmp).add(layerCmp));
@@ -73,7 +80,7 @@ public class MapEntityFactory {
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
         elvCmp.elevation = elvAgentCmp.baseElevation;
-        System.out.println((properties.get("type", String.class) + elvCmp.elevation));
+      //  System.out.println((properties.get("type", String.class) + elvCmp.elevation));
         elevationAgent.add(elvCmp);
 
         DetectorComponent dtctrCmp = entityEngine.createComponent(DetectorComponent.class);

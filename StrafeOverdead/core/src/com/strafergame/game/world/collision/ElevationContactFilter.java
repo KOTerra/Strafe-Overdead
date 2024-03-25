@@ -1,7 +1,6 @@
 package com.strafergame.game.world.collision;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.ContactFilter;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -21,7 +20,7 @@ public class ElevationContactFilter implements ContactFilter {
         }
 
         boolean collide = (filterA.maskBits & filterB.categoryBits) != 0 && (filterA.categoryBits & filterB.maskBits) != 0;
-        System.out.println(filterA.categoryBits + " " + filterB.categoryBits + " " + collide);
+       // System.out.println(filterA.categoryBits + " " + filterB.categoryBits + " " + collide);
 
         if (collide) {
             Entity entityA = getEntityFrom(fixtureA);
