@@ -7,7 +7,9 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.strafergame.Strafer;
+import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.factories.MapEntityFactory;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DWorld;
@@ -67,7 +69,7 @@ public class MapManager {
             });
         });
 
-        //loadTileLayer(tiledMap, "enemies0", (i, j) -> EntityFactory.createEnemy(new Vector2(i, j), 1));
+        loadTileLayer(tiledMap, "enemies0", (i, j) -> EntityFactory.createEnemy(new Vector2(i, j), 1));
 
     }
 
@@ -96,6 +98,9 @@ public class MapManager {
         return layersElevatedMap.get(elevation);
     }
 
+    /**
+     * populates the hashmap
+     * */
     public static void addLayerToElevation(MapLayer layer, int elevation) {
         if (elevation > MapManager.maxElevation) {
             MapManager.maxElevation = elevation;

@@ -38,6 +38,7 @@ public abstract class EntityFactory {
         player.add(posCmp);
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
+        elvCmp.gravity = true;
         elvCmp.elevation = 0;
         posCmp.elevation = 0;
         player.add(elvCmp);
@@ -95,6 +96,7 @@ public abstract class EntityFactory {
         dummy.add(posCmp);
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
+        elvCmp.gravity = true;
         elvCmp.elevation = 0;
         posCmp.elevation = 0;
         dummy.add(elvCmp);

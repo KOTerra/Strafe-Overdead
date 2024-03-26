@@ -16,8 +16,7 @@ public abstract class Box2DMapFactory {
     public static Body createCollisionBody(World world, MapObject mapObject) {
         float sf = Strafer.SCALE_FACTOR;
         Body body = null;
-        if (mapObject instanceof RectangleMapObject) {
-            RectangleMapObject rectangleObject = (RectangleMapObject) mapObject;
+        if (mapObject instanceof RectangleMapObject rectangleObject) {
             Rectangle rectangle = rectangleObject.getRectangle();
 
             BodyDef bodyDef = getBodyDef(rectangle.getX() * sf + rectangle.getWidth() * sf / 2f, rectangle.getY() * sf + rectangle.getHeight() * sf / 2f);
@@ -29,8 +28,7 @@ public abstract class Box2DMapFactory {
             body.createFixture(polygonShape, 0.0f);
             polygonShape.dispose();
 
-        } else if (mapObject instanceof EllipseMapObject) {
-            EllipseMapObject circleMapObject = (EllipseMapObject) mapObject;
+        } else if (mapObject instanceof EllipseMapObject circleMapObject) {
             Ellipse ellipse = circleMapObject.getEllipse();
 
             BodyDef bodyDef = getBodyDef(ellipse.x * sf, ellipse.y * sf);
@@ -42,8 +40,7 @@ public abstract class Box2DMapFactory {
             circleShape.setRadius(ellipse.width * sf / 2f);
             body.createFixture(circleShape, 0.0f);
             circleShape.dispose();
-        } else if (mapObject instanceof PolygonMapObject) {
-            PolygonMapObject polygonMapObject = (PolygonMapObject) mapObject;
+        } else if (mapObject instanceof PolygonMapObject polygonMapObject) {
             Polygon polygon = polygonMapObject.getPolygon();
 
             float[] scaledVertices = new float[polygon.getVertices().length];
@@ -75,16 +72,14 @@ public abstract class Box2DMapFactory {
 
         bodyDef.type = BodyDef.BodyType.StaticBody;
 
-        if (mapObject instanceof RectangleMapObject) {
-            RectangleMapObject rectangleObject = (RectangleMapObject) mapObject;
+        if (mapObject instanceof RectangleMapObject rectangleObject) {
             Rectangle rectangle = rectangleObject.getRectangle();
 
             bodyDef.position.set(rectangle.getX() * sf + rectangle.getWidth() * sf / 2f, rectangle.getY() * sf + rectangle.getHeight() * sf / 2f);
             body = world.createBody(bodyDef);
             Box2DFactory.createRectangleSensor(body, rectangle, fltrCategory, fltrMask);
 
-        } else if (mapObject instanceof PolygonMapObject) {
-            PolygonMapObject polygonMapObject = (PolygonMapObject) mapObject;
+        } else if (mapObject instanceof PolygonMapObject polygonMapObject) {
             Polygon polygon = polygonMapObject.getPolygon();
 
             bodyDef.position.set(polygon.getX() * sf, polygon.getY() * sf);

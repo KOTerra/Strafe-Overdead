@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="128" height="128" tilewidth="32" tileheight="32" infinite="0" nextlayerid="13" nextobjectid="50">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="128" height="128" tilewidth="32" tileheight="32" infinite="0" nextlayerid="14" nextobjectid="57">
  <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32" tilecount="10" columns="10">
   <image source="tileset.png" width="320" height="32"/>
  </tileset>
@@ -609,21 +609,46 @@
   </properties>
   <object id="29" x="1726.44" y="3655.52">
    <properties>
+    <property name="baseActivator" type="object" value="50"/>
     <property name="baseElevation" type="int" value="0"/>
     <property name="direction" value="d"/>
     <property name="footprint" type="object" value="46"/>
+    <property name="topActivator" type="object" value="53"/>
     <property name="topElevation" type="int" value="1"/>
     <property name="type" value="SLOPE"/>
    </properties>
-   <polygon points="1.56522,-7.52174 -318.447,312.5 -330.065,306.135 -329.964,221.77 -318.406,216.547 1.592,-103.487 14.6168,-98.5258 13.9035,-15.6488"/>
+   <polygon points="1.56522,-7.52174 -318.447,312.5 -349.812,302.22 -350.052,232.857 -318.406,216.547 1.592,-103.487 33.0436,-93.3707 32.9119,-23.046"/>
   </object>
-  <object id="32" x="1325.88" y="3500.81" width="68.5417" height="388.115">
+  <object id="32" x="1325.88" y="3519.9" width="68.5417" height="351.933">
    <properties>
+    <property name="baseActivator" type="object" value="51"/>
     <property name="baseElevation" type="int" value="1"/>
     <property name="direction" value="w"/>
     <property name="footprint" type="object" value="47"/>
+    <property name="topActivator" type="object" value="52"/>
     <property name="topElevation" type="int" value="2"/>
     <property name="type" value="SLOPE"/>
+   </properties>
+   <polygon points="0,0 9.51042,-31.875 57.8959,-32 68.5417,0 68.5417,351.933 56.6563,383.933 7.77085,383.808 0,351.933"/>
+  </object>
+  <object id="50" x="1376.36" y="3872.36" width="30.7273" height="95.2727">
+   <properties>
+    <property name="type" value="ACTIVATOR"/>
+   </properties>
+  </object>
+  <object id="51" x="1312.18" y="3872.55" width="94.7273" height="31.0909">
+   <properties>
+    <property name="type" value="ACTIVATOR"/>
+   </properties>
+  </object>
+  <object id="52" x="1326" y="3488" width="68.1818" height="30.1818">
+   <properties>
+    <property name="type" value="ACTIVATOR"/>
+   </properties>
+  </object>
+  <object id="53" x="1729.09" y="3551.94" width="31.2727" height="96.0606">
+   <properties>
+    <property name="type" value="ACTIVATOR"/>
    </properties>
   </object>
  </objectgroup>

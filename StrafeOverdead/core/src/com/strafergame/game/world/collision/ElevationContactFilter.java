@@ -7,7 +7,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ElevationComponent;
 
-import static com.strafergame.game.ecs.component.ComponentDataUtils.getEntityFrom;
+import com.strafergame.game.ecs.component.ComponentDataUtils;
 
 public class ElevationContactFilter implements ContactFilter {
     @Override
@@ -20,18 +20,17 @@ public class ElevationContactFilter implements ContactFilter {
         }
 
         boolean collide = (filterA.maskBits & filterB.categoryBits) != 0 && (filterA.categoryBits & filterB.maskBits) != 0;
-       // System.out.println(filterA.categoryBits + " " + filterB.categoryBits + " " + collide);
+        // System.out.println(filterA.categoryBits + " " + filterB.categoryBits + " " + collide);
 
         if (collide) {
-            Entity entityA = getEntityFrom(fixtureA);
-            Entity entityB = getEntityFrom(fixtureB);
+            Entity entityA = ComponentDataUtils.getEntityFrom(fixtureA);
+            Entity entityB = ComponentDataUtils.getEntityFrom(fixtureB);
 
             if (entityA != null && entityB != null) {
                 ElevationComponent elvA = ComponentMappers.elevation().get(entityA);
                 ElevationComponent elvB = ComponentMappers.elevation().get(entityB);
 
                 if (elvB != null && elvA != null) {
-
                     return (elvA.elevation == elvB.elevation);
                 }
             }

@@ -2,7 +2,6 @@ package com.strafergame.game.ecs.factories;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -64,15 +63,22 @@ public class MapEntityFactory {
     public static Entity createElevationAgent(World world, MapObject mapObject) {
         MapProperties properties = mapObject.getProperties();
 
+        if (properties.get("type").equals("ACTIVATOR")) {
+            return null;
+        }
+
         final Entity elevationAgent = entityEngine.createEntity();
 
         ElevationAgentComponent elvAgentCmp = entityEngine.createComponent(ElevationAgentComponent.class);
-        elvAgentCmp.sensorBody = Box2DMapFactory.createSensorBody(world, mapObject, FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY, FilteredContactListener.FOOTPRINT_CATEGORY);
-        elvAgentCmp.footprintBody = Box2DMapFactory.createCollisionBody(world, properties.get("footprint", MapObject.class));
         elvAgentCmp.direction = EntityDirection.convert(properties.get("direction", String.class));
         elvAgentCmp.type = ElevationAgentType.convert(properties.get("type", String.class));
         elvAgentCmp.baseElevation = properties.get("baseElevation", Integer.class);
         elvAgentCmp.topElevation = properties.get("topElevation", Integer.class);
+        elvAgentCmp.sensorBody = Box2DMapFactory.createSensorBody(world, mapObject, FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY, FilteredContactListener.FOOTPRINT_CATEGORY);
+        elvAgentCmp.footprintBody = Box2DMapFactory.createCollisionBody(world, properties.get("footprint", MapObject.class));
+        elvAgentCmp.baseActivator = Box2DMapFactory.createSensorBody(world,properties.get("baseActivator", MapObject.class), FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.FOOTPRINT_CATEGORY);
+        elvAgentCmp.topActivator = Box2DMapFactory.createSensorBody(world,properties.get("topActivator", MapObject.class), FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.FOOTPRINT_CATEGORY);
+
         elevationAgent.add(elvAgentCmp);
 
         elvAgentCmp.sensorBody.setUserData(elevationAgent);
@@ -80,7 +86,7 @@ public class MapEntityFactory {
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
         elvCmp.elevation = elvAgentCmp.baseElevation;
-      //  System.out.println((properties.get("type", String.class) + elvCmp.elevation));
+        //  System.out.println((properties.get("type", String.class) + elvCmp.elevation));
         elevationAgent.add(elvCmp);
 
         DetectorComponent dtctrCmp = entityEngine.createComponent(DetectorComponent.class);
@@ -116,8 +122,7 @@ public class MapEntityFactory {
         body.setUserData(checkpoint);
 
         DetectorComponent dtctrCmp = entityEngine.createComponent(DetectorComponent.class);
-        dtctrCmp.detector = Box2DFactory.createRadialSensor(body, FilteredContactListener.DETECTOR_RADIUS,
-                FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.PLAYER_CATEGORY);
+        dtctrCmp.detector = Box2DFactory.createRadialSensor(body, FilteredContactListener.DETECTOR_RADIUS, FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.PLAYER_CATEGORY);
         checkpoint.add(dtctrCmp);
         entityEngine.addEntity(checkpoint);
 

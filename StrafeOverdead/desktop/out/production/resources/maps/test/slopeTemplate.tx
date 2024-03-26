@@ -2,10 +2,14 @@
 <template>
  <object>
   <properties>
+   <property name="baseActivator" type="object" value="50"/>
+   <property name="baseElevation" type="int" value="0"/>
    <property name="direction" value="d"/>
    <property name="footprint" type="object" value="46"/>
+   <property name="topActivator" type="object" value="53"/>
+   <property name="topElevation" type="int" value="1"/>
    <property name="type" value="SLOPE"/>
   </properties>
-  <polygon points="1.56522,-7.52174 -318.447,312.5 -330.065,306.135 -329.964,221.77 -318.406,216.547 1.592,-103.487 14.6168,-98.5258 13.9035,-15.6488"/>
+  <polygon points="1.56522,-7.52174 -318.447,312.5 -349.812,302.22 -350.052,232.857 -318.406,216.547 1.592,-103.487 33.0436,-93.3707 32.9119,-23.046"/>
  </object>
 </template>

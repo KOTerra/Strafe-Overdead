@@ -1,7 +1,12 @@
 package com.strafergame.game.world.collision;
 
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
@@ -97,6 +102,7 @@ public abstract class Box2DFactory {
 
     }
 
+
     public static Fixture createSensor(Body body, Shape shape, short fltrCategory, short fltrMask) {
         FixtureDef fixtureDef = new FixtureDef();
 
@@ -139,6 +145,16 @@ public abstract class Box2DFactory {
         return createSensor(body, polygonShape, fltrCategory, fltrMask);
     }
 
+    public static void joinBodies(Body bodyA, Body bodyB, float aX, float aY, float bX, float bY) {
+        World world = bodyA.getWorld();
+        WeldJointDef jointDef = new WeldJointDef();
+        jointDef.initialize(bodyA, bodyB, new Vector2(aX, aY));
+        jointDef.localAnchorA.set(aX, aY);
+        jointDef.localAnchorB.set(bX, bY);
+
+        world.createJoint(jointDef);
+    }
+
     private static BodyDef getBodyDef(float x, float y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -150,5 +166,6 @@ public abstract class Box2DFactory {
 
     private Box2DFactory() {
     }
+
 
 }

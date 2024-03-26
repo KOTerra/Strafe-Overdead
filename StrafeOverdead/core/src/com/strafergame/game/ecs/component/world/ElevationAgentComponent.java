@@ -2,6 +2,7 @@ package com.strafergame.game.ecs.component.world;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Pool;
 import com.strafergame.game.ecs.states.ElevationAgentType;
 import com.strafergame.game.ecs.states.EntityDirection;
@@ -11,9 +12,6 @@ import com.strafergame.game.ecs.states.EntityDirection;
  * ex. a slope slightly pushes an entity up or down as it moves alongside
  */
 public class ElevationAgentComponent implements Component, Pool.Poolable {
-
-    public Body footprintBody;
-    public Body sensorBody;
 
     public ElevationAgentType type;
 
@@ -28,6 +26,11 @@ public class ElevationAgentComponent implements Component, Pool.Poolable {
      * the height to which it goes
      */
     public int topElevation;
+    public Body footprintBody;
+    public Body sensorBody;
+    public Body baseActivator;
+    public Body topActivator;
+
 
     @Override
     public void reset() {
