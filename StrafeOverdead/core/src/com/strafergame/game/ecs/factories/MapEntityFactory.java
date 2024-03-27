@@ -6,10 +6,16 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
-import com.strafergame.game.ecs.component.*;
+import com.strafergame.game.ecs.component.AttackComponent;
+import com.strafergame.game.ecs.component.CameraComponent;
+import com.strafergame.game.ecs.component.ElevationComponent;
+import com.strafergame.game.ecs.component.SpriteComponent;
+import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.DetectorComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.CheckpointComponent;
@@ -76,8 +82,9 @@ public class MapEntityFactory {
         elvAgentCmp.topElevation = properties.get("topElevation", Integer.class);
         elvAgentCmp.sensorBody = Box2DMapFactory.createSensorBody(world, mapObject, FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY, FilteredContactListener.FOOTPRINT_CATEGORY);
         elvAgentCmp.footprintBody = Box2DMapFactory.createCollisionBody(world, properties.get("footprint", MapObject.class));
-        elvAgentCmp.baseActivator = Box2DMapFactory.createSensorBody(world,properties.get("baseActivator", MapObject.class), FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.FOOTPRINT_CATEGORY);
-        elvAgentCmp.topActivator = Box2DMapFactory.createSensorBody(world,properties.get("topActivator", MapObject.class), FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.FOOTPRINT_CATEGORY);
+
+        elvAgentCmp.baseActivator = createActivator(world, properties.get("baseActivator", MapObject.class));
+        elvAgentCmp.topActivator = createActivator(world, properties.get("topActivator", MapObject.class));
 
         elevationAgent.add(elvAgentCmp);
 
@@ -95,6 +102,15 @@ public class MapEntityFactory {
 
 
         return elevationAgent;
+    }
+
+    public static Entity createActivator(World world, MapObject mapObject) {
+        Entity activator = entityEngine.createEntity();
+        Body body = Box2DMapFactory.createSensorBody(world, mapObject, FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY, FilteredContactListener.FOOTPRINT_CATEGORY);
+        DetectorComponent dtctrCmp = entityEngine.createComponent(DetectorComponent.class);
+        dtctrCmp.detector = body.getFixtureList().first();
+        activator.add(dtctrCmp);
+        return activator;
     }
 
     public static Entity createCheckpoint(MapObject mapObject, CheckpointAction action) {
