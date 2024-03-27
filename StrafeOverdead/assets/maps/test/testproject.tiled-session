@@ -1,9 +1,24 @@
 {
-    "activeFile": "",
+    "activeFile": "test.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "test.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 8,
+            "viewCenter": {
+                "x": 1784.6666666666665,
+                "y": 3875.333333333333
+            }
+        },
+        "test.tmx#detoate": {
+            "scaleInDock": 1
+        },
+        "test.tmx#tileset": {
+            "scaleInDock": 1
+        }
     },
     "last.objectTemplatePath": "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test",
     "last.worldFilePath": "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test",
@@ -11,8 +26,10 @@
         "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test/test_world.world"
     ],
     "openFiles": [
+        "test.tmx"
     ],
     "project": "testproject.tiled-project",
     "recentFiles": [
+        "test.tmx"
     ]
 }

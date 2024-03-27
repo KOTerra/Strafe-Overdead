@@ -6,7 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.world.CheckpointComponent;
 import com.strafergame.game.ecs.component.physics.DetectorComponent;
-import com.strafergame.game.ecs.system.combat.ProximityContactPair;
+import com.strafergame.game.ecs.system.combat.ProximityContact;
 
 public class CheckpointSystem extends IteratingSystem {
 
@@ -18,7 +18,7 @@ public class CheckpointSystem extends IteratingSystem {
 	protected void processEntity(Entity entity, float deltaTime) {
 		CheckpointComponent chkCmp = ComponentMappers.checkpoint().get(entity);
 		DetectorComponent dtctrCmp = ComponentMappers.detector().get(entity);
-		if (ProximityContactPair.isPlayerInProximity(dtctrCmp)) {
+		if (ProximityContact.isPlayerInProximity(dtctrCmp)) {
 			chkCmp.action.execute();
 		}
 	}

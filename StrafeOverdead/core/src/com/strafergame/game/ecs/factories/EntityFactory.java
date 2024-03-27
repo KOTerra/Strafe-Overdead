@@ -71,7 +71,7 @@ public abstract class EntityFactory {
         initPhysics(player);
         plyrCmp.sensor = Box2DFactory.createRadialSensor(b2dCmp.body, FilteredContactListener.DETECTOR_RADIUS,
                 FilteredContactListener.PLAYER_CATEGORY, FilteredContactListener.PLAYER_DETECTOR_CATEGORY);
-        plyrCmp.sensor.setUserData(player);
+        b2dCmp.body.setUserData(player);
 
         b2dCmp.body.setTransform(playerSpawnLocation, 0);
 

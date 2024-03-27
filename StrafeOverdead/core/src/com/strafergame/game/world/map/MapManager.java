@@ -65,7 +65,7 @@ public class MapManager {
         loadObjectLayer(tiledMap, "checkpoints0", mapObject -> {
 
             MapEntityFactory.createCheckpoint(mapObject, () -> {
-                //System.out.println("checkpoint reached");
+                System.out.println("checkpoint reached");
             });
         });
 
@@ -100,7 +100,7 @@ public class MapManager {
 
     /**
      * populates the hashmap
-     * */
+     */
     public static void addLayerToElevation(MapLayer layer, int elevation) {
         if (elevation > MapManager.maxElevation) {
             MapManager.maxElevation = elevation;

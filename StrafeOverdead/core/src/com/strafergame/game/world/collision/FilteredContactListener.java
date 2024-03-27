@@ -7,9 +7,10 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.strafergame.game.ecs.ComponentMappers;
+import com.strafergame.game.ecs.component.ComponentDataUtils;
 import com.strafergame.game.ecs.component.PlayerComponent;
 import com.strafergame.game.ecs.system.combat.AttackContactPair;
-import com.strafergame.game.ecs.system.combat.ProximityContactPair;
+import com.strafergame.game.ecs.system.combat.ProximityContact;
 
 public class FilteredContactListener implements ContactListener {
 
@@ -48,6 +49,60 @@ public class FilteredContactListener implements ContactListener {
         endProximityContact(contact);
     }
 
+
+    private void beginProximityContact(Contact contact) {
+        Fixture fixtureA = contact.getFixtureA();
+        Fixture fixtureB = contact.getFixtureB();
+
+        boolean isFixtureAPlayer = fixtureA.getFilterData().categoryBits == PLAYER_CATEGORY;
+        boolean isFixtureADetector = fixtureA.getFilterData().categoryBits == PLAYER_DETECTOR_CATEGORY;
+        boolean isFixtureBPlayer = fixtureB.getFilterData().categoryBits == PLAYER_CATEGORY;
+        boolean isFixtureBDetector = fixtureB.getFilterData().categoryBits == PLAYER_DETECTOR_CATEGORY;
+        beginProximityPair(fixtureB, fixtureA, isFixtureAPlayer, isFixtureBDetector);
+        beginProximityPair(fixtureA, fixtureB, isFixtureADetector, isFixtureBPlayer);
+    }
+
+    private void beginProximityPair(Fixture fixtureA, Fixture fixtureB, boolean isFixtureADetector, boolean isFixtureBPlayer) {
+        if (isFixtureADetector && isFixtureBPlayer) {
+            fixtureA.setUserData(new ProximityContact(fixtureB, fixtureA));
+            Entity player = ComponentDataUtils.getEntityFrom(fixtureB);
+            if (player != null) {
+                PlayerComponent plyrCmp = ComponentMappers.player().get(player);
+                if (plyrCmp != null && !plyrCmp.nearDetectors.contains(fixtureA, true)) {
+                    plyrCmp.nearDetectors.add(fixtureA);
+                }
+            }
+        }
+    }
+
+    private void endProximityContact(Contact contact) {
+        Fixture fixtureA = contact.getFixtureA();
+        Fixture fixtureB = contact.getFixtureB();
+        endProximityPair(fixtureA, fixtureB);
+        endProximityPair(fixtureB, fixtureA);
+    }
+
+    private void endProximityPair(Fixture fixtureA, Fixture fixtureB) {
+        if (fixtureA.getFilterData().categoryBits == PLAYER_DETECTOR_CATEGORY) {
+            fixtureA.setUserData(null);
+            Entity player = ComponentDataUtils.getEntityFrom(fixtureB);
+            if (player != null) {
+                PlayerComponent plyrCmp = ComponentMappers.player().get(player);
+                if (plyrCmp != null) {
+                    plyrCmp.nearDetectors.removeValue(fixtureA, true);
+                }
+            }
+        }
+    }
+
+    private void beginFootprintContact(Contact contact) {
+
+    }
+
+    private void endFootprintContact(Contact contact) {
+
+    }
+
     private void beginAttackContact(Contact contact) {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
@@ -73,57 +128,6 @@ public class FilteredContactListener implements ContactListener {
         }
         if (fixtureB.getFilterData().categoryBits == HURTBOX_CATEGORY) {
             fixtureB.setUserData(null);
-        }
-    }
-
-    private void beginProximityContact(Contact contact) {
-        Fixture fixtureA = contact.getFixtureA();
-        Fixture fixtureB = contact.getFixtureB();
-
-        boolean isFixtureAPlayer = fixtureA.getFilterData().categoryBits == PLAYER_CATEGORY;
-        boolean isFixtureADetector = fixtureA.getFilterData().categoryBits == PLAYER_DETECTOR_CATEGORY;
-        boolean isFixtureBPlayer = fixtureB.getFilterData().categoryBits == PLAYER_CATEGORY;
-        boolean isFixtureBDetector = fixtureB.getFilterData().categoryBits == PLAYER_DETECTOR_CATEGORY;
-        if (isFixtureAPlayer && isFixtureBDetector) {
-            fixtureB.setUserData(new ProximityContactPair(fixtureA, fixtureB));
-            Entity player = (Entity) fixtureA.getUserData();
-            if (player != null) {
-                PlayerComponent plyrCmp = ComponentMappers.player().get(player);
-                if (!plyrCmp.nearDetectors.contains(fixtureB, true)) {
-                    plyrCmp.nearDetectors.add(fixtureB);
-                }
-            }
-        }
-        if (isFixtureADetector && isFixtureBPlayer) {
-            fixtureA.setUserData(new ProximityContactPair(fixtureB, fixtureA));
-            Entity player = (Entity) fixtureB.getUserData();
-            if (player != null) {
-                PlayerComponent plyrCmp = ComponentMappers.player().get(player);
-                if (!plyrCmp.nearDetectors.contains(fixtureA, true)) {
-                    plyrCmp.nearDetectors.add(fixtureA);
-                }
-            }
-        }
-    }
-
-    private void endProximityContact(Contact contact) {
-        Fixture fixtureA = contact.getFixtureA();
-        Fixture fixtureB = contact.getFixtureB();
-        if (fixtureA.getFilterData().categoryBits == PLAYER_DETECTOR_CATEGORY) {
-            fixtureA.setUserData(null);
-            Entity player = (Entity) fixtureB.getUserData();
-            if (player != null) {
-                PlayerComponent plyrCmp = ComponentMappers.player().get(player);
-                plyrCmp.nearDetectors.removeValue(fixtureA, true);
-            }
-        }
-        if (fixtureB.getFilterData().categoryBits == PLAYER_DETECTOR_CATEGORY) {
-            fixtureB.setUserData(null);
-            Entity player = (Entity) fixtureA.getUserData();
-            if (player != null) {
-                PlayerComponent plyrCmp = ComponentMappers.player().get(player);
-                plyrCmp.nearDetectors.removeValue(fixtureB, true);
-            }
         }
     }
 

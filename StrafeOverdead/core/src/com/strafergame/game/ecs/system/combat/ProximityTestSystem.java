@@ -16,12 +16,12 @@ public class ProximityTestSystem extends IteratingSystem {
 	@Override
 	protected void processEntity(Entity entity, float deltaTime) {
 		DetectorComponent dtctrCmp = ComponentMappers.detector().get(entity);
-		Entity player = ProximityContactPair.getPlayerInProximity(dtctrCmp);
+		Entity player = ProximityContact.getPlayerInProximity(dtctrCmp);
 		if (player != null) {
 			PlayerComponent plyrCmp = ComponentMappers.player().get(player);
 			// System.err.println(plyrCmp.baseSpeed);
 		}
-		if (ProximityContactPair.isPlayerInProximity(dtctrCmp)) {
+		if (ProximityContact.isPlayerInProximity(dtctrCmp)) {
 			// System.err.println(entity.hashCode());
 		}
 	}

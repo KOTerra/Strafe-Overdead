@@ -8,8 +8,7 @@ import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.CameraComponent;
 import com.strafergame.game.ecs.component.physics.DetectorComponent;
 import com.strafergame.game.ecs.component.PlayerComponent;
-import com.strafergame.game.ecs.states.EntityType;
-import com.strafergame.game.ecs.system.combat.ProximityContactPair;
+import com.strafergame.game.ecs.system.combat.ProximityContact;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.graphics.WorldCamera;
 
@@ -28,7 +27,7 @@ public class CameraSystem extends IteratingSystem {
         CameraComponent camCmp = ComponentMappers.camera().get(entity);
         PlayerComponent plyrCmp = ComponentMappers.player().get(GameWorld.player);
 
-        if (ProximityContactPair.isPlayerInProximity(dtctrCmp)) {
+        if (ProximityContact.isPlayerInProximity(dtctrCmp)) {
             switch (camCmp.type) {
                 case dummy: {
 

@@ -1,6 +1,7 @@
 package com.strafergame.game.ecs.component.world;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Pool;
@@ -28,8 +29,8 @@ public class ElevationAgentComponent implements Component, Pool.Poolable {
     public int topElevation;
     public Body footprintBody;
     public Body sensorBody;
-    public Body baseActivator;
-    public Body topActivator;
+    public Entity baseActivator;
+    public Entity topActivator;
 
 
     @Override
