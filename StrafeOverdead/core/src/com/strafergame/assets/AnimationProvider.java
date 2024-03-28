@@ -30,7 +30,7 @@ public class AnimationProvider {
         if (posCmp == null) {
             return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState.toString());
         }
-        System.out.println(typeCmp.entityType+" "+typeCmp.entityState+ " "+posCmp.direction);
+        //System.out.println(typeCmp.entityType+" "+typeCmp.entityState+ " "+posCmp.direction);
         return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState + "_" + posCmp.direction);
     }
 

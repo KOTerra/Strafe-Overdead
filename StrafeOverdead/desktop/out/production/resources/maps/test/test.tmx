@@ -631,7 +631,7 @@
    </properties>
    <polygon points="0,0 9.51042,-31.875 57.8959,-32 68.5417,0 68.5417,351.933 56.6563,383.933 7.77085,383.808 0,351.933"/>
   </object>
-  <object id="50" x="1376.36" y="3872.36" width="30.7273" height="95.2727">
+  <object id="50" x="1370.36" y="3872.36" width="36.727" height="95.2727">
    <properties>
     <property name="type" value="ACTIVATOR"/>
    </properties>

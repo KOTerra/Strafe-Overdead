@@ -15,14 +15,19 @@ public class ElevationContactFilter implements ContactFilter {
         Filter filterA = fixtureA.getFilterData();
         Filter filterB = fixtureB.getFilterData();
 
+        if(!fixtureA.getBody().isAwake()||!fixtureB.getBody().isAwake()){
+           return false;
+        }
+
         if (filterA.groupIndex == filterB.groupIndex && filterA.groupIndex != 0) {
             return filterA.groupIndex > 0;
         }
 
         boolean collide = (filterA.maskBits & filterB.categoryBits) != 0 && (filterA.categoryBits & filterB.maskBits) != 0;
-        // System.out.println(filterA.categoryBits + " " + filterB.categoryBits + " " + collide);
+         //System.out.println(filterA.categoryBits + " " + filterB.categoryBits + " " + collide);
 
         if (collide) {
+           // System.out.println(filterA.categoryBits + " " + filterB.categoryBits + " " + collide);
             Entity entityA = ComponentDataUtils.getEntityFrom(fixtureA);
             Entity entityB = ComponentDataUtils.getEntityFrom(fixtureB);
 

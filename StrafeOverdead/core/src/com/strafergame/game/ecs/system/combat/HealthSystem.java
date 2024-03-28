@@ -1,10 +1,12 @@
 package com.strafergame.game.ecs.system.combat;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.strafergame.Strafer;
+import com.badlogic.gdx.utils.Timer;
 import com.strafergame.game.ecs.ComponentMappers;
+import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
@@ -24,25 +26,33 @@ public class HealthSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
         HealthComponent hlthCmp = ComponentMappers.health().get(entity);
-        EntityTypeComponent ettCmp = ComponentMappers.entityType().get(entity);
-        AttackComponent attckCmp = AttackContactPair.getAttack(b2dCmp);
+        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
+        AttackComponent attckCmp = AttackContact.getAttack(b2dCmp);
 
         if (attckCmp instanceof AttackComponent) {
             if (attckCmp.owner != null && attckCmp.owner.equals(entity)) {
                 return;
             }
-            ettCmp.entityState = EntityState.hit;
+            typeCmp.entityState = EntityState.hit;
 
             hlthCmp.hitPoints -= attckCmp.damagePerSecond * deltaTime;
 
             if (hlthCmp.hitPoints <= 0) {
-                ettCmp.entityState = EntityState.death;
+                typeCmp.entityState = EntityState.death;
             }
 
         }
-        if (ettCmp.entityState.equals(EntityState.death)) {
-            if (!ettCmp.entityType.equals(EntityType.player)) {
-                this.getEngine().removeEntity(entity);
+        if (typeCmp.entityState.equals(EntityState.death)) {
+            if (!typeCmp.entityType.equals(EntityType.player)) {
+                b2dCmp.body.setLinearVelocity(0f, 0f);
+                Engine engine = this.getEngine();
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        engine.removeEntity(entity);
+                    }
+                }, 2f);
+
             } else {
                 GameScreen.getInstance().showGameOverMenu();
             }

@@ -1,7 +1,7 @@
 package com.strafergame.game.ecs.factories;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.ai.steer.behaviors.Arrive;
+import com.badlogic.gdx.ai.steer.behaviors.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -134,7 +134,7 @@ public abstract class EntityFactory {
         SteeringComponent steerCmp = entityEngine.createComponent(SteeringComponent.class);
         steerCmp.setOwner(enemy);
         SteeringComponent playerSteerCmp = ComponentMappers.steering().get(GameWorld.player);
-        steerCmp.behavior = new Arrive<>(steerCmp, playerSteerCmp);
+        steerCmp.behavior = new Seek<>(steerCmp, playerSteerCmp);
         enemy.add(steerCmp);
 
         return enemy;

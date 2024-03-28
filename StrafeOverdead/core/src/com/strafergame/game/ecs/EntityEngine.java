@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.strafergame.Strafer;
+import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.system.AnimationSystem;
 import com.strafergame.game.ecs.system.CheckpointSystem;
 import com.strafergame.game.ecs.system.MovementSystem;
@@ -17,6 +18,8 @@ import com.strafergame.game.ecs.system.player.HudSystem;
 import com.strafergame.game.ecs.system.player.PlayerControlSystem;
 import com.strafergame.game.ecs.system.render.RenderingSystem;
 import com.strafergame.game.ecs.system.save.AutoSaveSystem;
+import com.strafergame.game.ecs.system.world.ActivatorSystem;
+import com.strafergame.game.ecs.system.world.ElevationSystem;
 import com.strafergame.game.world.collision.Box2DWorld;
 
 public class EntityEngine extends PooledEngine implements Disposable {
@@ -32,9 +35,11 @@ public class EntityEngine extends PooledEngine implements Disposable {
     private MovementSystem movementSystem;
     private HealthSystem healthSystem;
     private PlayerControlSystem playerControlSystem;
+    private ElevationSystem elevationSystem;
 
     private final RenderingSystem renderingSystem = new RenderingSystem();
     private final CheckpointSystem checkpointSystem = new CheckpointSystem();
+    private final ActivatorSystem activatorSystem = new ActivatorSystem();
     private final AnimationSystem animationSystem = new AnimationSystem();
     private final AttachmentSystem attachmentSystem = new AttachmentSystem();
     private final CombatSystem combatSystem = new CombatSystem();
@@ -52,12 +57,14 @@ public class EntityEngine extends PooledEngine implements Disposable {
             this.rayHandler = rayHandler;
             autoSaveSystem = new AutoSaveSystem(300);
             movementSystem = new MovementSystem(this.box2dWorld);
-            healthSystem = new HealthSystem(box2dWorld);
+            healthSystem = new HealthSystem(this.box2dWorld);
             playerControlSystem = new PlayerControlSystem();
+            elevationSystem = new ElevationSystem(this.box2dWorld);
 
             // iterating systems
             addSystem(animationSystem);
             addSystem(movementSystem);
+            addSystem(elevationSystem);
             addSystem(playerControlSystem);
             addSystem(healthSystem);
             addSystem(attachmentSystem);
@@ -65,6 +72,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
             addSystem(cameraSystem);
             addSystem(hudSystem);
             addSystem(checkpointSystem);
+            addSystem(activatorSystem);
             addSystem(autoSaveSystem);
             addSystem(renderingSystem);
             initialised = true;
@@ -88,7 +96,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
         if (systems == null) {
             systems = new Array<>();
             systems.add(movementSystem, playerControlSystem, combatSystem, healthSystem);
-            systems.add(animationSystem);
+            systems.add(animationSystem, elevationSystem, activatorSystem);
         }
         for (EntitySystem sys : systems) {
             if (this.getSystems().contains(sys, true)) {

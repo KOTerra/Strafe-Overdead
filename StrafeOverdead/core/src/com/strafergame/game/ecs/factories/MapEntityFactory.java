@@ -15,7 +15,6 @@ import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.CameraComponent;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
-import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.DetectorComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.ActivatorComponent;
@@ -85,8 +84,8 @@ public class MapEntityFactory {
         elvAgentCmp.sensorBody = Box2DMapFactory.createSensorBody(world, mapObject, FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY, FilteredContactListener.FOOTPRINT_CATEGORY);
         elvAgentCmp.footprintBody = Box2DMapFactory.createCollisionBody(world, properties.get("footprint", MapObject.class));
 
-        elvAgentCmp.baseActivator = createActivator(world, properties.get("baseActivator", MapObject.class), elevationAgent,ActivatorType.ELEVATION_UP);
-        elvAgentCmp.topActivator = createActivator(world, properties.get("topActivator", MapObject.class), elevationAgent,ActivatorType.ELEVATION_DOWN);
+        elvAgentCmp.baseActivator = createActivator(world, properties.get("baseActivator", MapObject.class), elevationAgent, ActivatorType.ELEVATION_UP);
+        elvAgentCmp.topActivator = createActivator(world, properties.get("topActivator", MapObject.class), elevationAgent, ActivatorType.ELEVATION_DOWN);
 
         elevationAgent.add(elvAgentCmp);
 
@@ -113,11 +112,13 @@ public class MapEntityFactory {
         DetectorComponent dtctrCmp = entityEngine.createComponent(DetectorComponent.class);
         dtctrCmp.detector = body.getFixtureList().first();
         activator.add(dtctrCmp);
+        body.setUserData(activator);
 
         ActivatorComponent actvCmp = entityEngine.createComponent(ActivatorComponent.class);
         actvCmp.agent = agent;
-        actvCmp.type=type;
+        actvCmp.type = type;
         activator.add(actvCmp);
+
 
         return activator;
     }
@@ -161,7 +162,7 @@ public class MapEntityFactory {
         attckCmp.owner = owner;
         attckCmp.damagePerSecond = 10;
         attckCmp.doesKnockback = true;
-        attckCmp.knockbackMagnitude = 5;
+        attckCmp.knockbackMagnitude = 2;
         Box2DFactory.createBodyWithHitbox(attckCmp, entityEngine.getBox2dWorld().getWorld(), width, height, 0, 0, location);
         dummy.add(attckCmp);
         entityEngine.addEntity(dummy);

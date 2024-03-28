@@ -37,7 +37,7 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
             behavior.calculateSteering(steeringOutput);
             applySteering(steeringOutput);
             //change to not change direction if hit from the opposite direction
-            posCmp.changeDirection(b2dCmp.body.getLinearVelocity().clamp(-1,1));
+            posCmp.changeDirection(steeringOutput.linear.nor());
         }
     }
 

@@ -23,7 +23,7 @@ public class CombatSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
-        AttackComponent attckCmp = AttackContactPair.getAttack(b2dCmp);
+        AttackComponent attckCmp = AttackContact.getAttack(b2dCmp);
         switch (typeCmp.entityState) {
             case hit: {
                 //states flow to be moved in state machines or behaviour trees so timer stuff can be programed on state entry etc
@@ -33,7 +33,7 @@ public class CombatSystem extends IteratingSystem {
                     public void run() {
                         typeCmp.entityState = EntityState.recover;
                     }
-                }, .1f);
+                }, .5f);
                 break;
             }
             case recover: {
@@ -43,7 +43,7 @@ public class CombatSystem extends IteratingSystem {
                     public void run() {
                         typeCmp.entityState = EntityState.walk;
                     }
-                }, 1f);
+                }, 2f);
                 break;
             }
             default: {

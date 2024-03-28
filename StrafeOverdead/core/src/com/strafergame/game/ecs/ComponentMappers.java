@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.component.physics.*;
+import com.strafergame.game.ecs.component.world.ActivatorComponent;
 import com.strafergame.game.ecs.component.world.CheckpointComponent;
 import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
 import com.strafergame.game.ecs.component.world.MapLayerComponent;
@@ -69,6 +70,10 @@ public abstract class ComponentMappers {
 
     public static final ComponentMapper<ElevationAgentComponent> elevationAgent() {
         return ComponentMapper.getFor(ElevationAgentComponent.class);
+    }
+
+    public static final ComponentMapper<ActivatorComponent> activator() {
+        return ComponentMapper.getFor(ActivatorComponent.class);
     }
 
     public static final ComponentMapper<ElevationComponent> elevation() {

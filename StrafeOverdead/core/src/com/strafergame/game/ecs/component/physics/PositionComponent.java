@@ -11,8 +11,6 @@ public class PositionComponent implements Component, Poolable {
     public Vector2 renderPos = new Vector2(0f, 0f);
 
     public int elevation = 0;
-    public float renderX = 0f;
-    public float renderY = 0f;
 
 
     public EntityDirection direction = EntityDirection.s;
@@ -21,16 +19,16 @@ public class PositionComponent implements Component, Poolable {
     public boolean isMapLayer = false;
 
     public void changeDirection(Vector2 dir) {
-        if (dir.y > .5f) {
+        if (dir.y > .25f) {
             direction = EntityDirection.w;
         }
-        if (dir.y < -.5f) {
+        if (dir.y < -.25f) {
             direction = EntityDirection.s;
         }
-        if (dir.x < -.25f) {
+        if (dir.x < -.5f) {
             direction = EntityDirection.a;
         }
-        if (dir.x > .25f) {
+        if (dir.x > .5f) {
             direction = EntityDirection.d;
         }
     }

@@ -15,7 +15,7 @@ public abstract class ItemEntityFactory {
         Entity item = new Entity();
         ItemComponent itmCmp = entityEngine.createComponent(ItemComponent.class);
         itmCmp.owner = owner;
-      //  itmCmp.holdPosition = holdPos;
+        //  itmCmp.holdPosition = holdPos;
         item.add(itmCmp);
 
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
@@ -25,7 +25,7 @@ public abstract class ItemEntityFactory {
         attckCmp.owner = owner;
         attckCmp.damagePerSecond = 0;
         attckCmp.doesKnockback = true;
-        attckCmp.knockbackMagnitude = 1500;
+        attckCmp.knockbackMagnitude = 500;
         Box2DFactory.createBodyWithHitbox(attckCmp, entityEngine.getBox2dWorld().getWorld(), width, height, 0, 0, holdPos);
         item.add(attckCmp);
 
