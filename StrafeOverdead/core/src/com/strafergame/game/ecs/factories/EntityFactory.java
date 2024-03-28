@@ -80,60 +80,64 @@ public abstract class EntityFactory {
         return player;
     }
 
-    public static Entity createEnemy(final Vector2 location, float scale) {
-        final Entity dummy = entityEngine.createEntity();
+    public static Entity createEnemy(final Vector2 location, float scale, EntityType type) {
+        final Entity enemy = entityEngine.createEntity();
         EntityTypeComponent typeCmp = entityEngine.createComponent(EntityTypeComponent.class);
-        typeCmp.entityType = EntityType.dummy;
+        typeCmp.entityType = type;
         typeCmp.entityState = EntityState.idle;
-        dummy.add(typeCmp);
+        enemy.add(typeCmp);
         CameraComponent camCmp = entityEngine.createComponent(CameraComponent.class);
-        camCmp.type = EntityType.dummy;
-        dummy.add(camCmp);
+        camCmp.type = type;
+        enemy.add(camCmp);
 
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
         posCmp.isHidden = false;
         posCmp.renderPos = location;
-        dummy.add(posCmp);
+        enemy.add(posCmp);
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
         elvCmp.gravity = true;
         elvCmp.elevation = 0;
         posCmp.elevation = 0;
-        dummy.add(elvCmp);
+        enemy.add(elvCmp);
 
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
-        dummy.add(movCmp);
+        enemy.add(movCmp);
 
         HealthComponent hlthComponent = entityEngine.createComponent(HealthComponent.class);
         hlthComponent.hitPoints = 10;
-        dummy.add(hlthComponent);
+        enemy.add(hlthComponent);
 
         SpriteComponent spriteCmp = entityEngine.createComponent(SpriteComponent.class);
-        dummy.add(spriteCmp);
-        spriteCmp.sprite = new Sprite(Strafer.assetManager.get("images/dummy_static.png", Texture.class));
+        enemy.add(spriteCmp);
+        spriteCmp.sprite = new Sprite(Strafer.assetManager.get("images/goblin_static.png", Texture.class));
         spriteCmp.height = spriteCmp.sprite.getHeight() * scale * Strafer.SCALE_FACTOR;
         spriteCmp.width = spriteCmp.sprite.getWidth() * scale * Strafer.SCALE_FACTOR;
 
-        Box2dComponent b2dCmp = entityEngine.createComponent(Box2dComponent.class);
-        dummy.add(b2dCmp);
-        entityEngine.addEntity(dummy);
+        AnimationComponent aniCmp = entityEngine.createComponent(AnimationComponent.class);
+        aniCmp.animation = AnimationProvider.getAnimation(enemy);
+        enemy.add(aniCmp);
 
-        initPhysics(dummy);
+        Box2dComponent b2dCmp = entityEngine.createComponent(Box2dComponent.class);
+        enemy.add(b2dCmp);
+        entityEngine.addEntity(enemy);
+
+        initPhysics(enemy);
         DetectorComponent dctrCmp = entityEngine.createComponent(DetectorComponent.class);
-        b2dCmp.body.setUserData(dummy);
+        b2dCmp.body.setUserData(enemy);
         dctrCmp.detector = Box2DFactory.createRadialSensor(b2dCmp.body, FilteredContactListener.DETECTOR_RADIUS,
                 FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.PLAYER_CATEGORY);
-        dummy.add(dctrCmp);
+        enemy.add(dctrCmp);
 
         b2dCmp.body.setTransform(location, 0);
 
         SteeringComponent steerCmp = entityEngine.createComponent(SteeringComponent.class);
-        steerCmp.setOwner(dummy);
+        steerCmp.setOwner(enemy);
         SteeringComponent playerSteerCmp = ComponentMappers.steering().get(GameWorld.player);
         steerCmp.behavior = new Arrive<>(steerCmp, playerSteerCmp);
-        dummy.add(steerCmp);
+        enemy.add(steerCmp);
 
-        return dummy;
+        return enemy;
     }
 
 

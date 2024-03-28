@@ -1,11 +1,16 @@
 package com.strafergame.game.ecs.component.physics;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 import box2dLight.Light;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Stack;
 
 public class Box2dComponent implements Component, Poolable {
     public boolean initiatedPhysics = false;
@@ -19,6 +24,12 @@ public class Box2dComponent implements Component, Poolable {
      * a sensor attached to the footprint
      */
     public Fixture footprintSensor;
+
+    /**
+     * a stack containing previous entity contacts of the footprint sensor
+     * should be cleared when an event such as en elevation is resolved, where its elements would be previous activators
+     */
+    public Deque<Entity> footprintStack = new ArrayDeque<>();
     public Fixture hurtbox;
 
 

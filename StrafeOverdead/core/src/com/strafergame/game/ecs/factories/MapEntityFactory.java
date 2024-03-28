@@ -18,9 +18,11 @@ import com.strafergame.game.ecs.component.SpriteComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.DetectorComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
+import com.strafergame.game.ecs.component.world.ActivatorComponent;
 import com.strafergame.game.ecs.component.world.CheckpointComponent;
 import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
 import com.strafergame.game.ecs.component.world.MapLayerComponent;
+import com.strafergame.game.ecs.states.ActivatorType;
 import com.strafergame.game.ecs.states.ElevationAgentType;
 import com.strafergame.game.ecs.states.EntityDirection;
 import com.strafergame.game.ecs.states.EntityType;
@@ -83,8 +85,8 @@ public class MapEntityFactory {
         elvAgentCmp.sensorBody = Box2DMapFactory.createSensorBody(world, mapObject, FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY, FilteredContactListener.FOOTPRINT_CATEGORY);
         elvAgentCmp.footprintBody = Box2DMapFactory.createCollisionBody(world, properties.get("footprint", MapObject.class));
 
-        elvAgentCmp.baseActivator = createActivator(world, properties.get("baseActivator", MapObject.class));
-        elvAgentCmp.topActivator = createActivator(world, properties.get("topActivator", MapObject.class));
+        elvAgentCmp.baseActivator = createActivator(world, properties.get("baseActivator", MapObject.class), elevationAgent,ActivatorType.ELEVATION_UP);
+        elvAgentCmp.topActivator = createActivator(world, properties.get("topActivator", MapObject.class), elevationAgent,ActivatorType.ELEVATION_DOWN);
 
         elevationAgent.add(elvAgentCmp);
 
@@ -104,12 +106,19 @@ public class MapEntityFactory {
         return elevationAgent;
     }
 
-    public static Entity createActivator(World world, MapObject mapObject) {
+    public static Entity createActivator(World world, MapObject mapObject, Entity agent, ActivatorType type) {
         Entity activator = entityEngine.createEntity();
+
         Body body = Box2DMapFactory.createSensorBody(world, mapObject, FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY, FilteredContactListener.FOOTPRINT_CATEGORY);
         DetectorComponent dtctrCmp = entityEngine.createComponent(DetectorComponent.class);
         dtctrCmp.detector = body.getFixtureList().first();
         activator.add(dtctrCmp);
+
+        ActivatorComponent actvCmp = entityEngine.createComponent(ActivatorComponent.class);
+        actvCmp.agent = agent;
+        actvCmp.type=type;
+        activator.add(actvCmp);
+
         return activator;
     }
 

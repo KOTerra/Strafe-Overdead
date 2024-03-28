@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.factories.MapEntityFactory;
+import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DWorld;
 
@@ -65,11 +66,11 @@ public class MapManager {
         loadObjectLayer(tiledMap, "checkpoints0", mapObject -> {
 
             MapEntityFactory.createCheckpoint(mapObject, () -> {
-                System.out.println("checkpoint reached");
+                //System.out.println("checkpoint reached");
             });
         });
 
-        loadTileLayer(tiledMap, "enemies0", (i, j) -> EntityFactory.createEnemy(new Vector2(i, j), 1));
+        loadTileLayer(tiledMap, "enemies0", (i, j) -> EntityFactory.createEnemy(new Vector2(i, j), 1, EntityType.goblin));
 
     }
 

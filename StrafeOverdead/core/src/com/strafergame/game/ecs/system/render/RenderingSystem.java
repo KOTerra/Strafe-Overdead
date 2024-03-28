@@ -43,7 +43,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     }
 
     @Override
-    public void update(float deltaTime) {
+    public void update(float deltaTime) {   //for player xray, render its sprite again with low opacity last in the queue, over anything else
         super.update(deltaTime);
 
         renderQueue.sort(comparator);
@@ -56,9 +56,8 @@ public class RenderingSystem extends SortedIteratingSystem {
         for (Entity entity : renderQueue) {
             SpriteComponent spriteCmp = spriteMapper.get(entity);
             PositionComponent posCmp = positionMapper.get(entity);
-            MapLayerComponent layerCmp = ComponentMappers.mapLayer().get(entity);
             if (posCmp.isMapLayer) {
-                Strafer.tiledMapRenderer.renderTileLayer(layerCmp.layer);
+                Strafer.tiledMapRenderer.renderTileLayer(ComponentMappers.mapLayer().get(entity).layer);
             }
             if (spriteCmp.sprite == null || posCmp.isHidden) {
                 continue;

@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.MovementComponent;
+import com.strafergame.game.ecs.component.physics.PositionComponent;
 
 public class SteeringComponent implements Steerable<Vector2>, Component {
 
@@ -18,6 +19,8 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
     private Box2dComponent b2dCmp;
     private MovementComponent movCmp;
 
+    private PositionComponent posCmp;
+
     public SteeringBehavior<Vector2> behavior;
     public SteeringAcceleration<Vector2> steeringOutput = new SteeringAcceleration<>(new Vector2());
 
@@ -25,6 +28,7 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
         this.owner = owner;
         this.b2dCmp = ComponentMappers.box2d().get(owner);
         this.movCmp = ComponentMappers.movement().get(owner);
+        this.posCmp = ComponentMappers.position().get(owner);
         return this;
     }
 
@@ -32,6 +36,8 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
         if (behavior != null) {
             behavior.calculateSteering(steeringOutput);
             applySteering(steeringOutput);
+            //change to not change direction if hit from the opposite direction
+            posCmp.changeDirection(b2dCmp.body.getLinearVelocity().clamp(-1,1));
         }
     }
 
@@ -53,6 +59,7 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
             float currentSpeedSquare = velocity.len2();
             if (currentSpeedSquare > getMaxLinearSpeed() * getMaxLinearSpeed()) {
                 b2dCmp.body.setLinearVelocity(velocity.scl(getMaxLinearSpeed() / (float) Math.sqrt(currentSpeedSquare)));
+
                 //fastinvsqrt?
             }
             if (b2dCmp.body.getAngularVelocity() > getMaxAngularSpeed()) {

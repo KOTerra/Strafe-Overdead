@@ -5,15 +5,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
-public class AnimationComponent implements Component, Poolable {
+public class AnimationComponent implements Component {
 	public Animation<Sprite> animation;
 	public float timer = 0f;
 
-	@Override
-	public void reset() {
-		this.animation = null;
-		this.timer = 0f;
 
-	}
 
 }

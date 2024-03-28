@@ -29,7 +29,7 @@ public class CameraSystem extends IteratingSystem {
 
         if (ProximityContact.isPlayerInProximity(dtctrCmp)) {
             switch (camCmp.type) {
-                case dummy: {
+                case dummy, goblin: {
 
                     cam.addToFocus(entity);
                     cam.addToFocus(GameWorld.player);

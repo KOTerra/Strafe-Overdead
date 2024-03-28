@@ -72,7 +72,7 @@ public class PlayerControlSystem extends IteratingSystem {
 
     private void dash(Entity e) {
         final MovementComponent movCmp = ComponentMappers.movement().get(e);
-        final EntityTypeComponent ettCmp = ComponentMappers.entityType().get(e);
+        final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
         final PlayerComponent plyrCmp = ComponentMappers.player().get(e);
 
         final EntityEngine entityEngine = (EntityEngine) this.getEngine();
@@ -84,14 +84,14 @@ public class PlayerControlSystem extends IteratingSystem {
         if (!movCmp.isDashCooldown) {
             if (PlayerControl.DASH && movCmp.moving()) {
                 movCmp.isDashCooldown = true;
-                ettCmp.entityState = EntityState.dash;
+                typeCmp.entityState = EntityState.dash;
                 if (!entityEngine.getEntities().contains(item, true)) {
                     entityEngine.addEntity(item);
                 }
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        ettCmp.entityState = EntityState.idle;
+                        typeCmp.entityState = EntityState.idle;
                         if (entityEngine.getEntities().contains(item, true)) {
                             entityEngine.removeEntity(item);
                         }
@@ -106,7 +106,7 @@ public class PlayerControlSystem extends IteratingSystem {
 
             }
         } else {
-            ettCmp.entityState = EntityState.dash;
+            typeCmp.entityState = EntityState.dash;
         }
     }
 

@@ -20,6 +20,21 @@ public class PositionComponent implements Component, Poolable {
 
     public boolean isMapLayer = false;
 
+    public void changeDirection(Vector2 dir) {
+        if (dir.y > .5f) {
+            direction = EntityDirection.w;
+        }
+        if (dir.y < -.5f) {
+            direction = EntityDirection.s;
+        }
+        if (dir.x < -.25f) {
+            direction = EntityDirection.a;
+        }
+        if (dir.x > .25f) {
+            direction = EntityDirection.d;
+        }
+    }
+
     @Override
     public void reset() {
 

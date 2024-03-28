@@ -1,5 +1,6 @@
 package com.strafergame.assets;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.strafergame.game.ecs.ComponentMappers;
@@ -23,16 +24,17 @@ public class AnimationProvider {
      * @param entity
      * @return
      */
-    public static Animation<Sprite> getAnimation(com.badlogic.ashley.core.Entity entity) {
+    public static Animation<Sprite> getAnimation(Entity entity) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
         PositionComponent posCmp = ComponentMappers.position().get(entity);
         if (posCmp == null) {
             return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState.toString());
         }
+        System.out.println(typeCmp.entityType+" "+typeCmp.entityState+ " "+posCmp.direction);
         return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState + "_" + posCmp.direction);
     }
 
-    public static void prepareAnimations() {//for
+    public static void prepareAnimations() {//to change
         for (EntityType e : EntityType.values()) {
             TYPE_ANIMATIONS.put(e, new HashMap<>());
         }

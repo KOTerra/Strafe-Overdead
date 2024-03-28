@@ -1,5 +1,5 @@
 {
-    "animations":[
+    "animations": [
         {
             "name": "player_idle_w",
             "duration": 0.25,
@@ -88,17 +88,117 @@
         {
             "name": "player_death_a",
             "duration": 0.25,
-            "loop": true
+            "loop": false
         },
         {
             "name": "player_death_s",
             "duration": 0.25,
-            "loop": true
+            "loop": false
         },
         {
             "name": "player_death_d",
             "duration": 0.25,
+            "loop": false
+        },
+        {
+            "name": "goblin_idle_w",
+            "duration": 0.25,
             "loop": true
+        },
+        {
+            "name": "goblin_idle_a",
+            "duration": 0.25,
+            "loop": true
+        },
+        {
+            "name": "goblin_idle_s",
+            "duration": 0.25,
+            "loop": true
+        },
+        {
+            "name": "goblin_idle_d",
+            "duration": 0.25,
+            "loop": true
+        },
+        {
+            "name": "goblin_walk_w",
+            "duration": 0.1,
+            "loop": true
+        },
+        {
+            "name": "goblin_walk_a",
+            "duration": 0.1,
+            "loop": true
+        },
+        {
+            "name": "goblin_walk_s",
+            "duration": 0.1,
+            "loop": true
+        },
+        {
+            "name": "goblin_walk_d",
+            "duration": 0.1,
+            "loop": true
+        },
+        {
+            "name": "goblin_hit_w",
+            "duration": 0.1,
+            "loop": false
+        },
+        {
+            "name": "goblin_hit_a",
+            "duration": 0.1,
+            "loop": false
+        },
+        {
+            "name": "goblin_hit_s",
+            "duration": 0.1,
+            "loop": false
+        },
+        {
+            "name": "goblin_recover_w",
+            "duration": 0.25,
+            "loop": true
+        },
+        {
+            "name": "goblin_recover_a",
+            "duration": 0.25,
+            "loop": true
+        },
+        {
+            "name": "goblin_recover_s",
+            "duration": 0.25,
+            "loop": true
+        },
+        {
+            "name": "goblin_recover_d",
+            "duration": 0.25,
+            "loop": true
+        },
+        {
+            "name": "goblin_hit_d",
+            "duration": 0.1,
+            "loop": false
+        },
+        {
+            "name": "goblin_death_w",
+            "duration": 0.08,
+            "loop": false
+        },
+        {
+            "name": "goblin_death_a",
+            "duration": 0.08,
+            "loop": false
+        },
+        {
+            "name": "goblin_death_s",
+            "duration": 0.08,
+            "loop": false
+        },
+        {
+            "name": "goblin_death_d",
+            "duration": 0.08,
+            "loop": false
         }
     ]
 }
