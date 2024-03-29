@@ -137,12 +137,20 @@ public class FilteredContactListener implements ContactListener {
                     ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(actvCmp.agent);
                     if (elvAgentCmp != null) {
                         elvAgentCmp.sensorBody.setAwake(true);
+                        elvAgentCmp.leftRailing.setAwake(true);
+                        elvAgentCmp.rightRailing.setAwake(true);
+
+                        if (!elvAgentCmp.interactingEntitites.contains(footprintEntity)) {
+                            elvAgentCmp.interactingEntitites.add(footprintEntity);
+                        }
+                        //send the entity that activated it to the agent
                     }
                 }
 
                 ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(detectorEntity);
                 if (elvAgentCmp != null) {
-                    elvAgentCmp.footprintBody.setAwake(false);
+                    //recieve the entities sent by the activator check them in
+                    elvAgentCmp.footprintBody.setAwake(false); //or change with filtering out the set of entities that were sent by the activator
                     //balustrade true
 
                     //just the render elevation is changed, full elevation  is changed when both activators passed
@@ -181,6 +189,9 @@ public class FilteredContactListener implements ContactListener {
                 if (elvAgentCmp != null) {
                     elvAgentCmp.footprintBody.setAwake(true);
                     elvAgentCmp.sensorBody.setAwake(false);
+                    elvAgentCmp.leftRailing.setAwake(false);
+                    elvAgentCmp.rightRailing.setAwake(false);
+
                     PositionComponent posCmp = ComponentMappers.position().get(footprintEntity);
                     ElevationComponent elvCmp = ComponentMappers.elevation().get(footprintEntity);
                     //reset render elevation to real elevation
@@ -188,6 +199,8 @@ public class FilteredContactListener implements ContactListener {
                         posCmp.elevation = elvCmp.elevation;
                     }
 
+
+                    elvAgentCmp.interactingEntitites.remove(footprintEntity);
                 }
                 fixtureB.setUserData(null);
             }

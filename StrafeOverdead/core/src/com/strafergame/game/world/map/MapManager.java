@@ -58,6 +58,10 @@ public class MapManager {
             MapEntityFactory.createCollisionEntity(box2DWorld.getWorld(), mapObject);
             ///
         });
+        loadObjectLayer(tiledMap, "collisions1", mapObject -> {
+            MapEntityFactory.createCollisionEntity(box2DWorld.getWorld(), mapObject);
+            ///
+        });
         loadObjectLayer(tiledMap, "elevationAgents0-1", mapObject -> {
             MapEntityFactory.createElevationAgent(box2DWorld.getWorld(), mapObject);
             ///

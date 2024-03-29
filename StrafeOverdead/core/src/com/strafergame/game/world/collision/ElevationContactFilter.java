@@ -15,8 +15,8 @@ public class ElevationContactFilter implements ContactFilter {
         Filter filterA = fixtureA.getFilterData();
         Filter filterB = fixtureB.getFilterData();
 
-        if(!fixtureA.getBody().isAwake()||!fixtureB.getBody().isAwake()){
-           return false;
+        if(bypassCase(fixtureA,fixtureB)){
+            return false;
         }
 
         if (filterA.groupIndex == filterB.groupIndex && filterA.groupIndex != 0) {
@@ -36,10 +36,21 @@ public class ElevationContactFilter implements ContactFilter {
                 ElevationComponent elvB = ComponentMappers.elevation().get(entityB);
 
                 if (elvB != null && elvA != null) {
+
                     return (elvA.elevation == elvB.elevation);
                 }
             }
         }
         return collide;
+    }
+
+    private boolean bypassCase(Fixture fixtureA, Fixture fixtureB){
+        if(!fixtureA.getBody().isAwake()||!fixtureB.getBody().isAwake()){
+            return true;
+        }
+        Filter filterA = fixtureA.getFilterData();
+        Filter filterB = fixtureB.getFilterData();
+
+        return false;
     }
 }

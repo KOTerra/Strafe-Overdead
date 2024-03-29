@@ -15,6 +15,7 @@ import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.CameraComponent;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
+import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.DetectorComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.ActivatorComponent;
@@ -55,7 +56,9 @@ public class MapEntityFactory {
 
 
     public static Entity createCollisionEntity(World world, MapObject mapObject) {
-
+        if (mapObject.getProperties().get("type") != null && (mapObject.getProperties().get("type").equals("RAILING"))) {
+            return null;
+        }
         final Entity collisionEntity = entityEngine.createEntity();
         Body body = Box2DMapFactory.createCollisionBody(world, mapObject);
         body.setUserData(collisionEntity);
@@ -86,11 +89,17 @@ public class MapEntityFactory {
 
         elvAgentCmp.baseActivator = createActivator(world, properties.get("baseActivator", MapObject.class), elevationAgent, ActivatorType.ELEVATION_UP);
         elvAgentCmp.topActivator = createActivator(world, properties.get("topActivator", MapObject.class), elevationAgent, ActivatorType.ELEVATION_DOWN);
+        elvAgentCmp.leftRailing = Box2DMapFactory.createCollisionBody(world, properties.get("leftRailing", MapObject.class));
+        elvAgentCmp.leftRailing.setAwake(false);
+        elvAgentCmp.rightRailing = Box2DMapFactory.createCollisionBody(world, properties.get("rightRailing", MapObject.class));
+        elvAgentCmp.rightRailing.setAwake(false);
 
         elevationAgent.add(elvAgentCmp);
 
         elvAgentCmp.sensorBody.setUserData(elevationAgent);
         elvAgentCmp.footprintBody.setUserData(elevationAgent);
+        elvAgentCmp.leftRailing.setUserData(elevationAgent);
+        elvAgentCmp.rightRailing.setUserData(elevationAgent);
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
         elvCmp.elevation = elvAgentCmp.baseElevation;
@@ -122,6 +131,7 @@ public class MapEntityFactory {
 
         return activator;
     }
+
 
     public static Entity createCheckpoint(MapObject mapObject, CheckpointAction action) {
         final Entity checkpoint = entityEngine.createEntity();

@@ -613,6 +613,8 @@
     <property name="baseElevation" type="int" value="0"/>
     <property name="direction" value="d"/>
     <property name="footprint" type="object" value="46"/>
+    <property name="leftRailing" type="object" value="37"/>
+    <property name="rightRailing" type="object" value="41"/>
     <property name="topActivator" type="object" value="53"/>
     <property name="topElevation" type="int" value="1"/>
     <property name="type" value="SLOPE"/>
@@ -625,6 +627,8 @@
     <property name="baseElevation" type="int" value="1"/>
     <property name="direction" value="w"/>
     <property name="footprint" type="object" value="47"/>
+    <property name="leftRailing" type="object" value="42"/>
+    <property name="rightRailing" type="object" value="43"/>
     <property name="topActivator" type="object" value="52"/>
     <property name="topElevation" type="int" value="2"/>
     <property name="type" value="SLOPE"/>
@@ -657,12 +661,26 @@
    <property name="elevation" type="int" value="1"/>
   </properties>
   <object id="37" x="1728.87" y="3553.28">
+   <properties>
+    <property name="type" value="RAILING"/>
+   </properties>
    <polygon points="-0.6875,-1.08472 -320.854,318.707 -320.875,314.354 -0.666667,-5.33197"/>
   </object>
   <object id="41" x="1728.66" y="3649.23">
+   <properties>
+    <property name="type" value="RAILING"/>
+   </properties>
    <polygon points="-0.660156,-1.22534 -320.655,318.766 -316.487,318.767 -0.666667,2.66803"/>
   </object>
-  <object id="42" x="1311.88" y="3501.04" width="13.9556" height="370.956"/>
-  <object id="43" x="1393.87" y="3501.01" width="14.1056" height="370.995"/>
+  <object id="42" x="1311.88" y="3501.04" width="13.9556" height="370.956">
+   <properties>
+    <property name="type" value="RAILING"/>
+   </properties>
+  </object>
+  <object id="43" x="1393.87" y="3501.01" width="14.1056" height="370.995">
+   <properties>
+    <property name="type" value="RAILING"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
