@@ -73,7 +73,7 @@ public class MapEntityFactory {
     public static Entity createElevationAgent(World world, MapObject mapObject) {
         MapProperties properties = mapObject.getProperties();
 
-        if (properties.get("type").equals("ACTIVATOR")) {
+        if (properties.get("type").equals("ACTIVATOR") || properties.get("type").equals("RAILING")|| properties.get("type").equals("FOOTPRINT")) {
             return null;
         }
 
@@ -90,16 +90,20 @@ public class MapEntityFactory {
         elvAgentCmp.baseActivator = createActivator(world, properties.get("baseActivator", MapObject.class), elevationAgent, ActivatorType.ELEVATION_UP);
         elvAgentCmp.topActivator = createActivator(world, properties.get("topActivator", MapObject.class), elevationAgent, ActivatorType.ELEVATION_DOWN);
         elvAgentCmp.leftRailing = Box2DMapFactory.createCollisionBody(world, properties.get("leftRailing", MapObject.class));
-        elvAgentCmp.leftRailing.setAwake(false);
         elvAgentCmp.rightRailing = Box2DMapFactory.createCollisionBody(world, properties.get("rightRailing", MapObject.class));
-        elvAgentCmp.rightRailing.setAwake(false);
 
         elevationAgent.add(elvAgentCmp);
 
-        elvAgentCmp.sensorBody.setUserData(elevationAgent);
+
         elvAgentCmp.footprintBody.setUserData(elevationAgent);
+        elvAgentCmp.footprintBody.setAwake(true);
+        elvAgentCmp.sensorBody.setUserData(elevationAgent);
+        elvAgentCmp.sensorBody.setAwake(false);
         elvAgentCmp.leftRailing.setUserData(elevationAgent);
+        elvAgentCmp.leftRailing.setAwake(false);
         elvAgentCmp.rightRailing.setUserData(elevationAgent);
+        elvAgentCmp.rightRailing.setAwake(false);
+
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
         elvCmp.elevation = elvAgentCmp.baseElevation;

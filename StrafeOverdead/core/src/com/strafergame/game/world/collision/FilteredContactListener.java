@@ -20,26 +20,26 @@ import com.strafergame.game.ecs.system.combat.ProximityContact;
 
 public class FilteredContactListener implements ContactListener {
 
-    public static final short HURTBOX_CATEGORY = 0x0001;                  // 0000000000000001
-    public static final short HITBOX_CATEGORY = 0x0002;                   // 0000000000000010
+    public static final short HURTBOX_CATEGORY = 0x0001;                  // 0000000000000001  // 1
+    public static final short HITBOX_CATEGORY = 0x0002;                   // 0000000000000010  // 2
     /**
      * collision filter for a player's own sensor of proximity
      */
-    public static final short PLAYER_CATEGORY = 0x0004;                    // 0000000000000100
+    public static final short PLAYER_CATEGORY = 0x0004;                    // 0000000000000100 // 4
     /**
      * collision filter for a sensor that searches a player
      */
-    public static final short PLAYER_DETECTOR_CATEGORY = 0x0008;           // 0000000000001000
+    public static final short PLAYER_DETECTOR_CATEGORY = 0x0008;           // 0000000000001000 // 8
 
 
     /**
      * filter for a sensor attached to the footprint
      */
-    public static final short FOOTPRINT_CATEGORY = 0x0010;                 // 0000000000010000
+    public static final short FOOTPRINT_CATEGORY = 0x0010;                 // 0000000000010000 // 16
     /**
      * filter for an elevation sensor
      */
-    public static final short FOOTPRINT_DETECTOR_CATEGORY = 0x0020;        // 0000000000100000
+    public static final short FOOTPRINT_DETECTOR_CATEGORY = 0x0020;        // 0000000000100000 // 32
 
 
     public static final float DETECTOR_RADIUS = 9;
@@ -141,6 +141,7 @@ public class FilteredContactListener implements ContactListener {
                         elvAgentCmp.rightRailing.setAwake(true);
 
                         if (!elvAgentCmp.interactingEntitites.contains(footprintEntity)) {
+                            System.err.println("r");
                             elvAgentCmp.interactingEntitites.add(footprintEntity);
                         }
                         //send the entity that activated it to the agent

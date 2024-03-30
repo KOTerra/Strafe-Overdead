@@ -5,6 +5,7 @@ import com.badlogic.gdx.ai.steer.behaviors.*;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.strafergame.Strafer;
 import com.strafergame.assets.AnimationProvider;
@@ -80,7 +81,7 @@ public abstract class EntityFactory {
         return player;
     }
 
-    public static Entity createEnemy(final Vector2 location, float scale, EntityType type) {
+    public static Entity createEnemy(final Vector3 location, float scale, EntityType type) {
         final Entity enemy = entityEngine.createEntity();
         EntityTypeComponent typeCmp = entityEngine.createComponent(EntityTypeComponent.class);
         typeCmp.entityType = type;
@@ -92,13 +93,13 @@ public abstract class EntityFactory {
 
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
         posCmp.isHidden = false;
-        posCmp.renderPos = location;
+        posCmp.renderPos = new Vector2(location.x,location.y);
         enemy.add(posCmp);
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
         elvCmp.gravity = true;
-        elvCmp.elevation = 0;
-        posCmp.elevation = 0;
+        elvCmp.elevation = (int) location.z;
+        posCmp.elevation = (int) location.z;
         enemy.add(elvCmp);
 
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
@@ -129,7 +130,7 @@ public abstract class EntityFactory {
                 FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.PLAYER_CATEGORY);
         enemy.add(dctrCmp);
 
-        b2dCmp.body.setTransform(location, 0);
+        b2dCmp.body.setTransform(posCmp.renderPos, 0);
 
         SteeringComponent steerCmp = entityEngine.createComponent(SteeringComponent.class);
         steerCmp.setOwner(enemy);

@@ -7,10 +7,10 @@
     "fileStates": {
         "test.tmx": {
             "scale": 1,
-            "selectedLayer": 9,
+            "selectedLayer": 7,
             "viewCenter": {
-                "x": 1301,
-                "y": 3699
+                "x": 1782,
+                "y": 3791
             }
         },
         "test.tmx#detoate": {
@@ -29,7 +29,7 @@
         "test.tmx"
     ],
     "project": "testproject.tiled-project",
-    "property.type": "string",
+    "property.type": "int",
     "recentFiles": [
         "test.tmx"
     ]

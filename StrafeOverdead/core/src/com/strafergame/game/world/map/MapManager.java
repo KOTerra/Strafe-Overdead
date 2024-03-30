@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.factories.MapEntityFactory;
@@ -66,6 +67,10 @@ public class MapManager {
             MapEntityFactory.createElevationAgent(box2DWorld.getWorld(), mapObject);
             ///
         });
+        loadObjectLayer(tiledMap, "elevationAgents1-2", mapObject -> {
+            MapEntityFactory.createElevationAgent(box2DWorld.getWorld(), mapObject);
+            ///
+        });
 
         loadObjectLayer(tiledMap, "checkpoints0", mapObject -> {
 
@@ -74,7 +79,7 @@ public class MapManager {
             });
         });
 
-        loadTileLayer(tiledMap, "enemies0", (i, j) -> EntityFactory.createEnemy(new Vector2(i, j), 1, EntityType.goblin));
+        loadTileLayer(tiledMap, "enemies0", (i, j) -> EntityFactory.createEnemy(new Vector3(i, j,0), 1, EntityType.goblin));
 
     }
 
