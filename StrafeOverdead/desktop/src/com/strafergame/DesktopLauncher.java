@@ -1,5 +1,6 @@
 package com.strafergame;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.strafergame.game.GameStateManager;
@@ -17,6 +18,8 @@ public class DesktopLauncher {
 		config.setWindowedMode(1280, 720);
 		config.setTitle("Strafe Overdead");
 		// config.setDecorated(false);
+		config.setWindowIcon(Files.FileType.Internal, "icons/icon_128.png","icons/icon_64.png","icons/icon_32.png","icons/icon_16.png");
+
 		config.setResizable(true);
 
 		 //config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
