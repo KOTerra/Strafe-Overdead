@@ -32,7 +32,7 @@ public abstract class Box2DFactory {
 
         Fixture footprint = body.createFixture(fixtureDef);
         b2dCmp.footprint = footprint;
-        b2dCmp.footprintSensor = createRadialSensor(body, width * .45f, FilteredContactListener.FOOTPRINT_CATEGORY, FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY);
+        b2dCmp.footprintSensor = createRadialSensor(body, width * .55f, FilteredContactListener.FOOTPRINT_CATEGORY, FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY);
 
         b2dCmp.body = body;
         circleShape.dispose();

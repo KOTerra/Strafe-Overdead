@@ -524,11 +524,13 @@
    <properties>
     <property name="type" value="ACTIVATOR"/>
    </properties>
+   <polygon points="5.09091,40.9091 37.2725,-1.09091 37.9997,97.0909 4.90909,86.1818"/>
   </object>
   <object id="53" x="1728.18" y="3552.11" width="31.2727" height="96.0606">
    <properties>
     <property name="type" value="ACTIVATOR"/>
    </properties>
+   <polygon points="-0.181818,-2 33.2727,8.54545 33.0909,63.3333 0,98.2424"/>
   </object>
   <object id="37" x="1728.87" y="3553.28">
    <properties>

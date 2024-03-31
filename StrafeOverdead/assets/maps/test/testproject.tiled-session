@@ -6,11 +6,11 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "test.tmx": {
-            "scale": 1.5,
+            "scale": 5.5,
             "selectedLayer": 7,
             "viewCenter": {
-                "x": 1706,
-                "y": 3737.333333333333
+                "x": 1811.090909090909,
+                "y": 3584.181818181818
             }
         },
         "test.tmx#detoate": {

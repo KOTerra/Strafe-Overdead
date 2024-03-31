@@ -1,11 +1,7 @@
 package com.strafergame.game.world.collision;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.ContactImpulse;
-import com.badlogic.gdx.physics.box2d.ContactListener;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.*;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ComponentDataUtils;
 import com.strafergame.game.ecs.component.ElevationComponent;
@@ -137,11 +133,8 @@ public class FilteredContactListener implements ContactListener {
                     ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(actvCmp.agent);
                     if (elvAgentCmp != null) {
                         elvAgentCmp.sensorBody.setAwake(true);
-                        elvAgentCmp.leftRailing.setAwake(true);
-                        elvAgentCmp.rightRailing.setAwake(true);
 
                         if (!elvAgentCmp.interactingEntitites.contains(footprintEntity)) {
-                            System.err.println("r");
                             elvAgentCmp.interactingEntitites.add(footprintEntity);
                         }
                         //send the entity that activated it to the agent
@@ -152,7 +145,12 @@ public class FilteredContactListener implements ContactListener {
                 if (elvAgentCmp != null) {
                     //recieve the entities sent by the activator check them in
                     elvAgentCmp.footprintBody.setAwake(false); //or change with filtering out the set of entities that were sent by the activator
-                    //balustrade true
+                    // elvAgentCmp.footprintBody.getFixtureList().first().setSensor(true);
+
+                    elvAgentCmp.leftRailing.setAwake(true);
+                  //  elvAgentCmp.leftRailing.getFixtureList().first().setSensor(false);                              //maybe change the category of the interacting entity and them temporarily
+                    elvAgentCmp.rightRailing.setAwake(true);
+                  //  elvAgentCmp.rightRailing.getFixtureList().first().setSensor(false);
 
                     //just the render elevation is changed, full elevation  is changed when both activators passed
                     PositionComponent positionComponent = ComponentMappers.position().get(footprintEntity);
@@ -180,7 +178,7 @@ public class FilteredContactListener implements ContactListener {
 
     }
 
-    private void endFootprintSolveContact(Fixture fixtureA, Fixture fixtureB, boolean isFixtureAFootprint, boolean isFixtureBDetector) {
+    private void endFootprintSolveContact(Fixture fixtureA, Fixture fixtureB, boolean isFixtureAFootprint, boolean isFixtureBDetector) { //setEnaabled railing, elevationfootprint if they not awake? to evade the case when they are still colliding
         if (isFixtureAFootprint && isFixtureBDetector) {
             Entity detectorEntity = ComponentDataUtils.getEntityFrom(fixtureB);
             Entity footprintEntity = ComponentDataUtils.getEntityFrom(fixtureA);
@@ -189,9 +187,14 @@ public class FilteredContactListener implements ContactListener {
                 ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(detectorEntity);
                 if (elvAgentCmp != null) {
                     elvAgentCmp.footprintBody.setAwake(true);
+                    //elvAgentCmp.footprintBody.getFixtureList().first().setSensor(false);
+
+
                     elvAgentCmp.sensorBody.setAwake(false);
                     elvAgentCmp.leftRailing.setAwake(false);
+                   // elvAgentCmp.leftRailing.getFixtureList().first().setSensor(true);
                     elvAgentCmp.rightRailing.setAwake(false);
+                   // elvAgentCmp.rightRailing.getFixtureList().first().setSensor(true);
 
                     PositionComponent posCmp = ComponentMappers.position().get(footprintEntity);
                     ElevationComponent elvCmp = ComponentMappers.elevation().get(footprintEntity);
@@ -199,6 +202,7 @@ public class FilteredContactListener implements ContactListener {
                     if (posCmp != null && elvCmp != null) {
                         posCmp.elevation = elvCmp.elevation;
                     }
+                    System.err.println("ended");
 
 
                     elvAgentCmp.interactingEntitites.remove(footprintEntity);

@@ -10,6 +10,7 @@ import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.ComponentDataUtils;
 import com.strafergame.game.ecs.component.world.ActivatorComponent;
 import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
+import com.strafergame.game.ecs.states.ActivatorType;
 
 public class ElevationContactFilter implements ContactFilter {
     @Override
@@ -43,23 +44,36 @@ public class ElevationContactFilter implements ContactFilter {
                 //need to prevent activator collision if footprint is under it
                 ActivatorComponent actvA = ComponentMappers.activator().get(entityA);
                 ActivatorComponent actvB = ComponentMappers.activator().get(entityB);
-                if (elvA != null && actvB != null) {                                                //an entity with elevation and agent components
-                    ElevationAgentComponent agentCmp = ComponentMappers.elevationAgent().get(actvB.agent);
-                    if (elvA.elevation == agentCmp.baseElevation || elvA.elevation == agentCmp.topElevation) {
-                        System.err.println(fixtureB.getFilterData().categoryBits);
-                        return true;
-                    }
+                if (collideActivator(fixtureB, elvA, actvB)) {
+                    return true;
                 }
-                if (elvB != null && actvA != null) {
-                    ElevationAgentComponent agentCmp = ComponentMappers.elevationAgent().get(actvA.agent);
-                    if (elvB.elevation == agentCmp.baseElevation || elvB.elevation == agentCmp.topElevation) {
-                        System.err.println(fixtureA.getFilterData().categoryBits);
-                        return true;
-                    }
+                if (collideActivator(fixtureA, elvB, actvA)) {
+                    return true;
                 }
             }
         }
         return collide;
+    }
+
+    private boolean collideActivator(Fixture fixtureB, ElevationComponent elvA, ActivatorComponent actvB) {
+
+        if (elvA != null && actvB != null) {                                                //an entity with elevation and agent components  //nu merge inca
+            ElevationAgentComponent agentCmp = ComponentMappers.elevationAgent().get(actvB.agent);
+
+            if (actvB.type.equals(ActivatorType.ELEVATION_UP)) {
+                if (elvA.elevation == agentCmp.baseElevation || (elvA.elevation == agentCmp.topElevation && agentCmp.sensorBody.isAwake())) {
+                    return true;
+                }
+            }
+            if (actvB.type.equals(ActivatorType.ELEVATION_DOWN)) {
+                if ((elvA.elevation == agentCmp.baseElevation && agentCmp.sensorBody.isAwake()) || elvA.elevation == agentCmp.topElevation) {
+                    return true;
+                }
+            }
+
+
+        }
+        return false;
     }
 
     private boolean bypassCase(Fixture fixtureA, Fixture fixtureB) {
