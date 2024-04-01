@@ -35,7 +35,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
     private MovementSystem movementSystem;
     private HealthSystem healthSystem;
     private PlayerControlSystem playerControlSystem;
-    private ElevationSystem elevationSystem;
+    public ElevationSystem elevationSystem;
 
     private final RenderingSystem renderingSystem = new RenderingSystem();
     private final CheckpointSystem checkpointSystem = new CheckpointSystem();
@@ -63,12 +63,14 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
             // iterating systems
             addSystem(animationSystem);
-            addSystem(movementSystem);
             addSystem(elevationSystem);
+            addSystem(movementSystem);
             addSystem(playerControlSystem);
             addSystem(healthSystem);
             addSystem(attachmentSystem);
             addSystem(combatSystem);
+
+
             addSystem(cameraSystem);
             addSystem(hudSystem);
             addSystem(checkpointSystem);
@@ -82,7 +84,6 @@ public class EntityEngine extends PooledEngine implements Disposable {
     @Override
     public void update(float deltaTime) {
         super.update(deltaTime);
-
     }
 
 

@@ -67,13 +67,14 @@ public class MapEntityFactory {
         elvCmp.elevation = mapObject.getProperties().get("elevation", 0, Integer.class);
         collisionEntity.add(elvCmp);
 
+        entityEngine.addEntity(collisionEntity);
         return collisionEntity;
     }
 
     public static Entity createElevationAgent(World world, MapObject mapObject) {
         MapProperties properties = mapObject.getProperties();
 
-        if (properties.get("type").equals("ACTIVATOR") || properties.get("type").equals("RAILING")|| properties.get("type").equals("FOOTPRINT")) {
+        if (properties.get("type").equals("ACTIVATOR") || properties.get("type").equals("RAILING") || properties.get("type").equals("FOOTPRINT")) {
             return null;
         }
 
@@ -114,7 +115,7 @@ public class MapEntityFactory {
         dtctrCmp.detector = elvAgentCmp.sensorBody.getFixtureList().first();
         elevationAgent.add(dtctrCmp);
 
-
+        entityEngine.addEntity(elevationAgent);
         return elevationAgent;
     }
 
@@ -132,7 +133,7 @@ public class MapEntityFactory {
         actvCmp.type = type;
         activator.add(actvCmp);
 
-
+        entityEngine.addEntity(activator);
         return activator;
     }
 

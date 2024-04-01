@@ -33,6 +33,7 @@ public class PlayerControlSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         move(entity);
         dash(entity);
+
     }
 
     private void move(Entity e) {
@@ -60,7 +61,7 @@ public class PlayerControlSystem extends IteratingSystem {
             movCmp.dir.x = 1f;
             posCmp.direction = EntityDirection.d;
         }
-        if (movCmp.moving()) {
+        if (movCmp.isMoving()) {
             typeCmp.entityState = EntityState.walk;
         } else {
             if (!typeCmp.entityState.equals(EntityState.death)) {
@@ -82,7 +83,7 @@ public class PlayerControlSystem extends IteratingSystem {
         }
 
         if (!movCmp.isDashCooldown) {
-            if (PlayerControl.DASH && movCmp.moving()) {
+            if (PlayerControl.DASH && movCmp.isMoving()) {
                 movCmp.isDashCooldown = true;
                 typeCmp.entityState = EntityState.dash;
                 if (!entityEngine.getEntities().contains(item, true)) {

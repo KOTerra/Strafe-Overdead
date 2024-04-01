@@ -23,7 +23,7 @@ public class MovementComponent implements Component, Poolable {
         isDashCooldown = false;
     }
 
-    public boolean moving() {
+    public boolean isMoving() {
         return dir.x != 0f || dir.y != 0f;
     }
 }

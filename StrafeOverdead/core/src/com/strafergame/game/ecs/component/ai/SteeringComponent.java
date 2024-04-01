@@ -58,8 +58,8 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
             Vector2 velocity = b2dCmp.body.getLinearVelocity();
             float currentSpeedSquare = velocity.len2();
             if (currentSpeedSquare > getMaxLinearSpeed() * getMaxLinearSpeed()) {
-                b2dCmp.body.setLinearVelocity(velocity.scl(getMaxLinearSpeed() / (float) Math.sqrt(currentSpeedSquare)));
-
+                movCmp.dir.set(velocity.cpy()).clamp(-1,1);
+                b2dCmp.body.setLinearVelocity(movCmp.dir.cpy().scl(getMaxLinearSpeed() / (float) Math.sqrt(currentSpeedSquare)));
                 //fastinvsqrt?
             }
             if (b2dCmp.body.getAngularVelocity() > getMaxAngularSpeed()) {
