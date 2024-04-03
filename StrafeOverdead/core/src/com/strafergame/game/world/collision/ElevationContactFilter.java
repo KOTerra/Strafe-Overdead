@@ -37,19 +37,31 @@ public class ElevationContactFilter implements ContactFilter {
             if (entityA != null && entityB != null) {
                 ElevationComponent elvA = ComponentMappers.elevation().get(entityA);
                 ElevationComponent elvB = ComponentMappers.elevation().get(entityB);
-                if (elvB != null && elvA != null) {                                             //two entities on the same elevation level
-                    return (elvA.elevation == elvB.elevation);
-                }
 
-                
                 ActivatorComponent actvA = ComponentMappers.activator().get(entityA);
                 ActivatorComponent actvB = ComponentMappers.activator().get(entityB);
-                if (elvA != null && actvB != null) {
+
+                ElevationAgentComponent agA = ComponentMappers.elevationAgent().get(entityA);
+                ElevationAgentComponent agB = ComponentMappers.elevationAgent().get(entityB);
+
+                if (elvA != null && actvB != null) {                                              //one is activator
                     return collideActivator(elvA, actvB);
                 }
                 if (elvB != null && actvA != null) {
                     return collideActivator(elvB, actvA);
                 }
+
+                if (elvA != null && agB != null && fixtureB.getFilterData().categoryBits == FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY) {      //one is elevation agent
+                    return elvA.elevation == agB.baseElevation || elvA.elevation == agB.topElevation;
+                }
+                if (elvB != null && agA != null && fixtureA.getFilterData().categoryBits == FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY) {
+                    return elvB.elevation == agA.baseElevation || elvB.elevation == agA.topElevation;
+                }
+                
+                if (elvB != null && elvA != null) {                                             //two entities on the same elevation level
+                    return (elvA.elevation == elvB.elevation);
+                }
+
             }
         }
         return collide;
