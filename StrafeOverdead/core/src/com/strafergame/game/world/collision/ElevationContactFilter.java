@@ -41,38 +41,36 @@ public class ElevationContactFilter implements ContactFilter {
                     return (elvA.elevation == elvB.elevation);
                 }
 
-                //need to prevent activator collision if footprint is under it
+                
                 ActivatorComponent actvA = ComponentMappers.activator().get(entityA);
                 ActivatorComponent actvB = ComponentMappers.activator().get(entityB);
-                if (collideActivator(fixtureB, elvA, actvB)) {
-                    return true;
+                if (elvA != null && actvB != null) {
+                    return collideActivator(elvA, actvB);
                 }
-                if (collideActivator(fixtureA, elvB, actvA)) {
-                    return true;
+                if (elvB != null && actvA != null) {
+                    return collideActivator(elvB, actvA);
                 }
             }
         }
         return collide;
     }
 
-    private boolean collideActivator(Fixture fixtureB, ElevationComponent elvA, ActivatorComponent actvB) {
+    private boolean collideActivator(ElevationComponent elvA, ActivatorComponent actvB) {
 
-        if (elvA != null && actvB != null) {                                                //an entity with elevation and agent components  //nu merge inca
-            ElevationAgentComponent agentCmp = ComponentMappers.elevationAgent().get(actvB.agent);
+        //an entity with elevation and agent components  //nu merge inca
+        ElevationAgentComponent agentCmp = ComponentMappers.elevationAgent().get(actvB.agent);
 
-            if (actvB.type.equals(ActivatorType.ELEVATION_UP)) {
-                if (elvA.elevation == agentCmp.baseElevation || (elvA.elevation == agentCmp.topElevation && agentCmp.sensorBody.isAwake())) {
-                    return true;
-                }
+        if (actvB.type.equals(ActivatorType.ELEVATION_UP)) {
+            if (elvA.elevation == agentCmp.baseElevation || (elvA.elevation == agentCmp.topElevation && agentCmp.sensorBody.isAwake())) {
+                return true;
             }
-            if (actvB.type.equals(ActivatorType.ELEVATION_DOWN)) {
-                if ((elvA.elevation == agentCmp.baseElevation && agentCmp.sensorBody.isAwake()) || elvA.elevation == agentCmp.topElevation) {
-                    return true;
-                }
-            }
-
-
         }
+        if (actvB.type.equals(ActivatorType.ELEVATION_DOWN)) {
+            if ((elvA.elevation == agentCmp.baseElevation && agentCmp.sensorBody.isAwake()) || elvA.elevation == agentCmp.topElevation) {
+                return true;
+            }
+        }
+
         return false;
     }
 

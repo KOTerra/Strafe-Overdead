@@ -128,15 +128,11 @@ public class FilteredContactListener implements ContactListener {
                     fixtureA.setUserData(new ProximityContact(fixtureB, fixtureA));
                     Box2dComponent b2dCmp = ComponentMappers.box2d().get(footprintEntity);
                     b2dCmp.footprintStack.addFirst(detectorEntity);
-                    //      System.out.println(b2dCmp.footprintStack.size());
+                         System.out.println(b2dCmp.footprintStack.size());
 
                     ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(actvCmp.agent);
                     if (elvAgentCmp != null) {
                         elvAgentCmp.sensorBody.setAwake(true);
-
-                        if (!elvAgentCmp.interactingEntitites.contains(footprintEntity)) {
-                            elvAgentCmp.interactingEntitites.add(footprintEntity);
-                        }
                         //send the entity that activated it to the agent
                     }
                 }
@@ -157,6 +153,9 @@ public class FilteredContactListener implements ContactListener {
                     if (positionComponent != null) {
                         positionComponent.elevation = elvAgentCmp.topElevation;
                         //direction, speed illusion here
+                    }
+                    if (!elvAgentCmp.interactingEntitites.contains(footprintEntity)) {
+                        elvAgentCmp.interactingEntitites.add(footprintEntity);
                     }
                 }
             }

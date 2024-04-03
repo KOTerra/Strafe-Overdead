@@ -43,21 +43,22 @@ public class ElevationSystem extends IteratingSystem {
 
                 if (movCmp.isMoving()) {
                     if (posCmp.direction.equals(EntityDirection.d)) {
-                        if (agentCmp.direction.equals(EntityDirection.d)) {//        >^
+                        if (agentCmp.direction.equals(EntityDirection.d)) {//        >^/
                             movCmp.dir.add(0, 1);
                         }
-                        if (agentCmp.direction.equals(EntityDirection.a)) {//       <v
+                        if (agentCmp.direction.equals(EntityDirection.a)) {//       <v/
                             movCmp.dir.add(0, -1);
                         }
                     }
                     if (posCmp.direction.equals(EntityDirection.a)) {
-                        if (agentCmp.direction.equals(EntityDirection.a)) {//       >^
+                        if (agentCmp.direction.equals(EntityDirection.a)) {//       >^\
                             movCmp.dir.add(0, 1);
                         }
-                        if (agentCmp.direction.equals(EntityDirection.d)) {//       <v
+                        if (agentCmp.direction.equals(EntityDirection.d)) {//       <v\
                             movCmp.dir.add(0, -1);
                         }
                     }
+                    movCmp.dir.scl(.7f);
                 }
             }
 
