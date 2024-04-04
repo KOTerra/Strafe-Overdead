@@ -79,7 +79,7 @@ public class MapManager {
             });
         });
 
-        loadTileLayer(tiledMap, "enemies0", (i, j) -> EntityFactory.createEnemy(new Vector3(i, j,0), 1, EntityType.goblin));
+        loadTileLayer(tiledMap, "enemies0", (i, j) -> EntityFactory.createEnemy(new Vector3(i, j, 0), 1, EntityType.goblin));
 
     }
 
@@ -117,6 +117,26 @@ public class MapManager {
             MapManager.getLayersElevatedMap().put(elevation, new MapLayers());
         }
         MapManager.getLayersElevatedMap().get(elevation).add(layer);
+    }
+
+    public static MapLayers getLayersBelow(int elevation) {
+        MapLayers rez = new MapLayers();
+        for (; elevation >= 0; elevation--) {
+            for (MapLayer layer : getLayersElevatedMap(elevation)) {
+                rez.add(layer);
+            }
+        }
+        return rez;
+    }
+
+    public static MapLayers getLayersAbove(int elevation) {
+        MapLayers rez = new MapLayers();
+        for (; elevation <= maxElevation; elevation++) {
+            for (MapLayer layer : getLayersElevatedMap(elevation)) {
+                rez.add(layer);
+            }
+        }
+        return rez;
     }
 
     public static int getMaxElevation() {

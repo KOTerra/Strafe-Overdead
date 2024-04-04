@@ -57,7 +57,7 @@ public class ElevationContactFilter implements ContactFilter {
                 if (elvB != null && agA != null && fixtureA.getFilterData().categoryBits == FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY) {
                     return elvB.elevation == agA.baseElevation || elvB.elevation == agA.topElevation;
                 }
-                
+
                 if (elvB != null && elvA != null) {                                             //two entities on the same elevation level
                     return (elvA.elevation == elvB.elevation);
                 }
