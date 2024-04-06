@@ -50,6 +50,8 @@ public class MapEntityFactory {
 
             layerCmp.layer = (TiledMapTileLayer) layer;
 
+            Entity entity;
+
             entityEngine.addEntity(entityEngine.createEntity().add(posCmp).add(sprCmp).add(layerCmp));
         }
     }
