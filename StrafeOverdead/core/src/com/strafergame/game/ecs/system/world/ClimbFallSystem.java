@@ -26,13 +26,21 @@ public class ClimbFallSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        //raycast map layers down to check if falling then state=FALL,fall a number of tiles that match perspective offset then change elevation
 
         climb(entity);
+
+        if (shouldFall(entity) && !isClimbing(entity)) {   //change to not call if at the moment climbing
+            ComponentMappers.entityType().get(entity).entityState = EntityState.hit; //fall instead
+        }
+    }
+
+    public static boolean isClimbing(Entity entity) {
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+        return !b2dCmp.footprintStack.isEmpty();
     }
 
     /**
-     * takes the entities stack of previous activators and decides if and how to elevate it
+     * takes the entities stack of previous activators and decides if and how to elevate it upwards or downwards(climbing or descending)
      */
     private void climb(Entity entity) {
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
@@ -62,6 +70,18 @@ public class ClimbFallSystem extends IteratingSystem {
 
     }
 
+    public static boolean shouldFall(Entity entity) {
+        ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+        for (MapLayer layer : MapManager.getLayersElevatedMap(elvCmp.elevation)) {
+            if (layer instanceof TiledMapTileLayer tileLayer && tileLayer.getCell((int) b2dCmp.body.getPosition().x, (int) b2dCmp.body.getPosition().y) != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //raycast map layers down to check if falling then state=FALL,fall a number of tiles that match perspective offset then change elevation
     private void fall(Entity entity) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
         if (typeCmp.entityState.equals(EntityState.fall)) {
@@ -73,8 +93,9 @@ public class ClimbFallSystem extends IteratingSystem {
             for (int elevation = elvCmp.elevation; elevation >= 0; elevation--) {
                 for (MapLayer layer : MapManager.getLayersElevatedMap(elevation)) {
                     if (layer instanceof TiledMapTileLayer tileLayer) {
-                        if (tileLayer.getCell((int) b2dCmp.body.getPosition().x, (int) (b2dCmp.body.getPosition().y - (elvCmp.elevation-elevation))).getTile() != null) {
+                        if (tileLayer.getCell((int) b2dCmp.body.getPosition().x, (int) (b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation))).getTile() != null) {
                             //move entity with distance between layer elevation and it s elevation update state change elevation
+
                         }
                     }
                 }
