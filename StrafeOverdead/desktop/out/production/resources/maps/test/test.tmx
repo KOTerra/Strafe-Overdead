@@ -695,7 +695,7 @@
     <property name="elevation" type="int" value="1"/>
    </properties>
   </object>
-  <object id="67" x="2303.5" y="3525.17" width="15" height="154.833">
+  <object id="67" x="2303.5" y="3525.17" width="15" height="48.4997">
    <properties>
     <property name="elevation" type="int" value="1"/>
    </properties>

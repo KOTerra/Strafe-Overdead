@@ -1,18 +1,15 @@
 package com.strafergame.game.ecs.system.world;
 
-import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
-import com.strafergame.game.ecs.component.physics.MovementComponent;
-import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.ActivatorComponent;
 import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
 import com.strafergame.game.ecs.states.ActivatorType;
@@ -31,8 +28,11 @@ public class ClimbFallSystem extends IteratingSystem {
 
         if (shouldFall(entity) && !isClimbing(entity)) {   //change to not call if at the moment climbing
             ComponentMappers.entityType().get(entity).entityState = EntityState.hit; //fall instead
+            calculateFallTarget(entity);
         }
+        fall(entity);
     }
+
 
     public static boolean isClimbing(Entity entity) {
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
@@ -70,6 +70,9 @@ public class ClimbFallSystem extends IteratingSystem {
 
     }
 
+    /**
+     * checks if a tile layer is right underneath the entity's footprint on the same elevation i.e. touching ground
+     */
     public static boolean shouldFall(Entity entity) {
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
@@ -81,24 +84,47 @@ public class ClimbFallSystem extends IteratingSystem {
         return true;
     }
 
-    //raycast map layers down to check if falling then state=FALL,fall a number of tiles that match perspective offset then change elevation
-    private void fall(Entity entity) {
-        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
-        if (typeCmp.entityState.equals(EntityState.fall)) {
-            ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
-            PositionComponent posCmp = ComponentMappers.position().get(entity);
-            MovementComponent movCmp = ComponentMappers.movement().get(entity);
+    /**
+     * raycasts through the tile layers below the entity finding the first non-null tile, taking perspective offset on Y axis in consideration
+     */
+    private void calculateFallTarget(Entity entity) {
+        ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+        if (elvCmp.fallTargetCell == null) {
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
-
             for (int elevation = elvCmp.elevation; elevation >= 0; elevation--) {
                 for (MapLayer layer : MapManager.getLayersElevatedMap(elevation)) {
                     if (layer instanceof TiledMapTileLayer tileLayer) {
-                        if (tileLayer.getCell((int) b2dCmp.body.getPosition().x, (int) (b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation))).getTile() != null) {
-                            //move entity with distance between layer elevation and it s elevation update state change elevation
-
+                        int targetY = (int) (b2dCmp.body.getPosition().y - (elvCmp.elevation*10f - elevation)); //remove 10 one elevation=1 meter in height
+                        TiledMapTileLayer.Cell cell = tileLayer.getCell((int) b2dCmp.body.getPosition().x, targetY);
+                        if (cell != null) {
+                            elvCmp.fallTargetCell = cell;
+                            elvCmp.fallTargetElevation = elevation;
+                            elvCmp.fallTargetY = targetY;
+                            System.out.println("calculated");
+                            return;
                         }
                     }
                 }
+            }
+        }
+    }
+
+    //raycast map layers down to check if falling then state=FALL,fall a number of tiles that match perspective offset then change elevation
+    private void fall(Entity entity) {
+        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
+        if (typeCmp.entityState.equals(EntityState.hit)) {  //change to fall
+            ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+            if (elvCmp.fallTargetCell != null) {
+                //fall to it
+                // upon arrival state=idle or return to before falling if falling through map
+                //place shadow on the target height
+                Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+                System.err.println(elvCmp.fallTargetY);
+                if (b2dCmp.body.getPosition().y <= elvCmp.fallTargetY) {
+                    typeCmp.entityState = EntityState.idle;
+                    elvCmp.elevation = elvCmp.fallTargetElevation;
+                }
+                System.out.println("I am falling");
             }
         }
     }
