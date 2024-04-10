@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector2;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
@@ -94,13 +93,12 @@ public class ClimbFallSystem extends IteratingSystem {
             for (int elevation = elvCmp.elevation; elevation >= 0; elevation--) {
                 for (MapLayer layer : MapManager.getLayersElevatedMap(elevation)) {
                     if (layer instanceof TiledMapTileLayer tileLayer) {
-                        int targetY = (int) (b2dCmp.body.getPosition().y - (elvCmp.elevation*10f - elevation)); //remove 10 one elevation=1 meter in height
+                        int targetY = (int) (b2dCmp.body.getPosition().y - (elvCmp.elevation * 10f - elevation)); //remove 10 one elevation=1 meter in height
                         TiledMapTileLayer.Cell cell = tileLayer.getCell((int) b2dCmp.body.getPosition().x, targetY);
                         if (cell != null) {
                             elvCmp.fallTargetCell = cell;
-                            elvCmp.fallTargetElevation = elevation;
                             elvCmp.fallTargetY = targetY;
-                            System.out.println("calculated");
+                            elvCmp.fallTargetElevation = elevation;
                             return;
                         }
                     }
@@ -119,12 +117,12 @@ public class ClimbFallSystem extends IteratingSystem {
                 // upon arrival state=idle or return to before falling if falling through map
                 //place shadow on the target height
                 Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
-                System.err.println(elvCmp.fallTargetY);
                 if (b2dCmp.body.getPosition().y <= elvCmp.fallTargetY) {
                     typeCmp.entityState = EntityState.idle;
                     elvCmp.elevation = elvCmp.fallTargetElevation;
+                    ComponentMappers.position().get(entity).elevation = elvCmp.fallTargetElevation;
+                    elvCmp.fallTargetCell=null;
                 }
-                System.out.println("I am falling");
             }
         }
     }
