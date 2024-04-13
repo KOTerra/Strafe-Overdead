@@ -43,8 +43,6 @@ public class MapManager {
         tiledMap.getLayers().forEach(MapEntityFactory::createLayerEntity);
         loadMapObjects(tiledMap);
 
-        System.out.println(layersElevatedMap.get(1).size());
-
     }
 
     private void loadMapObjects(TiledMap tiledMap) {
@@ -53,34 +51,28 @@ public class MapManager {
 
         Strafer.tiledMapRenderer.setMap(tiledMap);
 
-        // map.getLayers().forEach();
-
-        loadObjectLayer(tiledMap, "collisions0", mapObject -> {
-            MapEntityFactory.createCollisionEntity(box2DWorld.getWorld(), mapObject);
-            ///
+        map.getLayers().forEach(layer -> {
+            String name = layer.getName();
+            if (name.startsWith("collisions")) {
+                loadObjectLayer(tiledMap, name, mapObject -> {
+                    MapEntityFactory.createCollisionEntity(box2DWorld.getWorld(), mapObject);
+                });
+            }
+            if (name.startsWith("elevationAgents")) {
+                loadObjectLayer(tiledMap, name, mapObject -> {
+                    MapEntityFactory.createElevationAgent(box2DWorld.getWorld(), mapObject);
+                });
+            }
+            if (name.startsWith("checkpoints")) {
+                loadObjectLayer(tiledMap, name, mapObject -> {
+                    MapEntityFactory.createCheckpoint(mapObject, () -> {
+                    });
+                });
+            }
+            if (name.startsWith("enemies")) {
+                loadTileLayer(tiledMap, name, (i, j) -> EntityFactory.createEnemy(new Vector3(i, j, 0), 1, EntityType.goblin));
+            }
         });
-        loadObjectLayer(tiledMap, "collisions1", mapObject -> {
-            MapEntityFactory.createCollisionEntity(box2DWorld.getWorld(), mapObject);
-            ///
-        });
-        loadObjectLayer(tiledMap, "elevationAgents0-1", mapObject -> {
-            MapEntityFactory.createElevationAgent(box2DWorld.getWorld(), mapObject);
-            ///
-        });
-        loadObjectLayer(tiledMap, "elevationAgents1-2", mapObject -> {
-            MapEntityFactory.createElevationAgent(box2DWorld.getWorld(), mapObject);
-            ///
-        });
-
-        loadObjectLayer(tiledMap, "checkpoints0", mapObject -> {
-
-            MapEntityFactory.createCheckpoint(mapObject, () -> {
-                //System.out.println("checkpoint reached");
-            });
-        });
-
-        loadTileLayer(tiledMap, "enemies0", (i, j) -> EntityFactory.createEnemy(new Vector3(i, j, 0), 1, EntityType.goblin));
-
     }
 
     private void loadTileLayer(TiledMap map, String layerName, TileLayerLoadAction lla) {
