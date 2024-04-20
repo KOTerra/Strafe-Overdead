@@ -90,6 +90,10 @@ public class MovementSystem extends IteratingSystem {
                         case hit: {
 
                         }
+                        case jump:{
+                            b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, movCmp.maxLinearSpeed*1.5f); //* mass
+                            break;
+                        }
                         case fall: {
                             b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, -movCmp.maxLinearSpeed*1.5f); //* mass
                             break;

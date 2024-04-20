@@ -29,7 +29,7 @@ public class ClimbFallSystem extends IteratingSystem {
             ComponentMappers.entityType().get(entity).entityState = EntityState.hit; //fall instead
             calculateFallTarget(entity);
         }
-        fall(entity);
+        fallArrive(entity);
     }
 
 
@@ -67,6 +67,19 @@ public class ClimbFallSystem extends IteratingSystem {
             b2dCmp.footprintStack.addFirst(first);//put
         }
 
+    }
+
+    private void jumpArrive(Entity entity) {
+        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
+        if (typeCmp.entityState == EntityState.jump) {
+            Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+            ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+            if (b2dCmp.body.getPosition().y >= elvCmp.jumpHeight) {
+                elvCmp.elevation = elvCmp.elevation+1;
+                ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
+                typeCmp.entityState = EntityState.fall;
+            }
+        }
     }
 
     /**
@@ -107,8 +120,11 @@ public class ClimbFallSystem extends IteratingSystem {
         }
     }
 
-    //raycast map layers down to check if falling then state=FALL,fall a number of tiles that match perspective offset then change elevation
-    private void fall(Entity entity) {
+
+    /**
+     * stops the entity from falling if it hits the fallTargets
+     */
+    private void fallArrive(Entity entity) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
         if (typeCmp.entityState.equals(EntityState.hit)) {  //change to fall
             ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
@@ -121,7 +137,7 @@ public class ClimbFallSystem extends IteratingSystem {
                     typeCmp.entityState = EntityState.idle;
                     elvCmp.elevation = elvCmp.fallTargetElevation;
                     ComponentMappers.position().get(entity).elevation = elvCmp.fallTargetElevation;
-                    elvCmp.fallTargetCell=null;
+                    elvCmp.fallTargetCell = null;
                 }
             }
         }

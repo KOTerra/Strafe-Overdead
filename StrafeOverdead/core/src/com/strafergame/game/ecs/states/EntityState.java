@@ -20,6 +20,10 @@ public enum EntityState {
 	 */
 	run,
 	/**
+	 * jumping state
+	 */
+	jump,
+	/**
 	 * falling
 	 */
 	fall,
