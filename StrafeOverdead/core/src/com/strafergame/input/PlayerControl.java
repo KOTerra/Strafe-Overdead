@@ -10,6 +10,8 @@ public abstract class PlayerControl {
 
     public static boolean MOVE_RIGHT = false;
 
+    public static boolean JUMP = false;
+
     public static boolean DASH = false;
 
 

@@ -15,7 +15,15 @@ public class ElevationComponent implements Component {
      */
     public boolean gravity = false;
 
+    /**
+     * where the jump stops
+     */
     public float jumpHeight = 0;
+
+    /**
+     * wether a jump is in effect at the time
+     */
+    public boolean jumpTaken;
 
     /**
      * if affected by gravity this is the cell to which the entity falls atm

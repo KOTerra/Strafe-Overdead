@@ -27,6 +27,9 @@ public class KeyboardInputProcessor implements InputProcessor {
         if (keycode == KeyboardMapping.MOVE_RIGHT_KEY) {
             PlayerControl.MOVE_RIGHT = true;
         }
+        if(keycode==KeyboardMapping.JUMP_KEY){
+            PlayerControl.JUMP = true;
+        }
         if (keycode == KeyboardMapping.DASH_KEY) {
             if (!dashKeyPressed) {
                 PlayerControl.DASH = true;
@@ -54,6 +57,9 @@ public class KeyboardInputProcessor implements InputProcessor {
         }
         if (keycode == KeyboardMapping.MOVE_RIGHT_KEY) {
             PlayerControl.MOVE_RIGHT = false;
+        }
+        if(keycode==KeyboardMapping.JUMP_KEY){
+            PlayerControl.JUMP = false;
         }
         if (keycode == KeyboardMapping.DASH_KEY) {
             PlayerControl.DASH = false;

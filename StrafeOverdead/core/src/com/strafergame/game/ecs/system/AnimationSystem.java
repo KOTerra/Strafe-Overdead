@@ -22,9 +22,10 @@ public class AnimationSystem extends IteratingSystem {
 		aniCmp.timer += deltaTime;
 
 		aniCmp.animation = AnimationProvider.getAnimation(entity);
-		spriteCmp.sprite = aniCmp.animation.getKeyFrame(aniCmp.timer, true);
-		spriteCmp.width = spriteCmp.sprite.getWidth() * Strafer.SCALE_FACTOR;
-		spriteCmp.height = spriteCmp.sprite.getHeight() * Strafer.SCALE_FACTOR;
-
+		if(aniCmp.animation!=null) {
+			spriteCmp.sprite = aniCmp.animation.getKeyFrame(aniCmp.timer, true);
+			spriteCmp.width = spriteCmp.sprite.getWidth() * Strafer.SCALE_FACTOR;
+			spriteCmp.height = spriteCmp.sprite.getHeight() * Strafer.SCALE_FACTOR;
+		}
 	}
 }

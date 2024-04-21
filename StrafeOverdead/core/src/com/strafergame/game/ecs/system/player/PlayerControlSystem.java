@@ -33,7 +33,7 @@ public class PlayerControlSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
         move(entity);
         dash(entity);
-
+        jump(entity);
     }
 
     private void move(Entity e) {
@@ -61,6 +61,9 @@ public class PlayerControlSystem extends IteratingSystem {
             movCmp.dir.x = 1f;
             posCmp.direction = EntityDirection.d;
         }
+        if (typeCmp.entityState.equals(EntityState.jump)) {
+            return;
+        }
         if (movCmp.isMoving()) {
             typeCmp.entityState = EntityState.walk;
         } else {
@@ -69,6 +72,19 @@ public class PlayerControlSystem extends IteratingSystem {
             }
         }
 
+
+    }
+
+    private void jump(Entity e) {
+        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
+        if (PlayerControl.JUMP) {
+            EntityState state = typeCmp.entityState;
+            typeCmp.entityState = switch (state) {
+                case walk, run -> EntityState.jump;
+                default -> state;
+            };
+
+        }
     }
 
     private void dash(Entity e) {
