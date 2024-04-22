@@ -107,9 +107,11 @@ public class ClimbFallSystem extends IteratingSystem {
     public static boolean shouldFall(Entity entity) {
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
-        for (MapLayer layer : MapManager.getLayersElevatedMap(elvCmp.elevation)) {
-            if (layer instanceof TiledMapTileLayer tileLayer && tileLayer.getCell((int) b2dCmp.body.getPosition().x, (int) b2dCmp.body.getPosition().y) != null) {
-                return false;
+        if (MapManager.getLayersElevatedMap(elvCmp.elevation) == null) {
+            for (MapLayer layer : MapManager.getLayersElevatedMap(elvCmp.elevation)) {
+                if (layer instanceof TiledMapTileLayer tileLayer && tileLayer.getCell((int) b2dCmp.body.getPosition().x, (int) b2dCmp.body.getPosition().y) != null) {
+                    return false;
+                }
             }
         }
         return true;
@@ -118,20 +120,22 @@ public class ClimbFallSystem extends IteratingSystem {
     /**
      * raycasts through the tile layers below the entity finding the first non-null tile, taking perspective offset on Y axis in consideration
      */
-    private void computeFallTarget(Entity entity) {
+    private void computeFallTarget(Entity entity) {         //solve fall after jumping in null layer, maybe add an empty layer on top of the map, handled automatically
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         if (elvCmp.fallTargetCell == null) {
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
             for (int elevation = elvCmp.elevation; elevation >= 0; elevation--) {
-                for (MapLayer layer : MapManager.getLayersElevatedMap(elevation)) {
-                    if (layer instanceof TiledMapTileLayer tileLayer) {
-                        int targetY = (int) (b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation));
-                        TiledMapTileLayer.Cell cell = tileLayer.getCell((int) b2dCmp.body.getPosition().x, targetY);
-                        if (cell != null) {
-                            elvCmp.fallTargetCell = cell;
-                            elvCmp.fallTargetY = targetY;
-                            elvCmp.fallTargetElevation = elevation;
-                            return;
+                if (MapManager.getLayersElevatedMap(elevation) != null) {
+                    for (MapLayer layer : MapManager.getLayersElevatedMap(elevation)) {
+                        if (layer instanceof TiledMapTileLayer tileLayer) {
+                            int targetY = (int) (b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation));
+                            TiledMapTileLayer.Cell cell = tileLayer.getCell((int) b2dCmp.body.getPosition().x, targetY);
+                            if (cell != null) {
+                                elvCmp.fallTargetCell = cell;
+                                elvCmp.fallTargetY = targetY;
+                                elvCmp.fallTargetElevation = elevation;
+                                return;
+                            }
                         }
                     }
                 }

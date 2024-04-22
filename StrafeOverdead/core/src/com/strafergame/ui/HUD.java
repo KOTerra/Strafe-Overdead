@@ -39,7 +39,7 @@ public class HUD extends Table {
     private VisLabel makeDebugLabel() {
         VisLabel label = new VisLabel();
         label.setText(debugInfoText);
-        label.setFontScale(.5f) ;
+        label.setFontScale(.5f);
         add(label).top().right();
         return label;
     }
