@@ -9,72 +9,85 @@ import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import com.kotcrab.vis.ui.VisUI;
+import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisProgressBar;
 import com.strafergame.Strafer;
 import com.strafergame.input.PlayerControl;
 
 public class HUD extends Table {
 
-	private VisProgressBar healthBar;
-	private Entity player;
+    private VisProgressBar healthBar;
 
-	public HUD() {
-		setFillParent(true);
-		pad(40);
+    public static VisLabel debugInfo;
+    public static String debugInfoText = "";
+    private Entity player;
 
-		align(Align.center);
-		Strafer.uiManager.addActor(this);
-		this.healthBar = makeHealthBar();
-		if (Gdx.app.getType().equals(ApplicationType.iOS) || Gdx.app.getType().equals(ApplicationType.Android)) {
-			mobileUI();
-		}
+    public HUD() {
+        setFillParent(true);
+        pad(40);
 
-	}
+        align(Align.center);
+        Strafer.uiManager.addActor(this);
+        this.healthBar = makeHealthBar();
+        if (Gdx.app.getType().equals(ApplicationType.iOS) || Gdx.app.getType().equals(ApplicationType.Android)) {
+            mobileUI();
+        }
 
-	private VisProgressBar makeHealthBar() {
-		VisProgressBar healthbar = new VisProgressBar(0, 200, 1, false);
+        debugInfo = makeDebugLabel();
+    }
 
-		add(healthbar).expandX().width(healthbar.getMaxValue()).top().left();
+    private VisLabel makeDebugLabel() {
+        VisLabel label = new VisLabel();
+        label.setText(debugInfoText);
+        label.setFontScale(.5f) ;
+        add(label).top().right();
+        return label;
+    }
 
-		row();
-		add(new Table()).fillY().expandY();
-		row();
-		return healthbar;
-	}
+    private VisProgressBar makeHealthBar() {
+        VisProgressBar healthbar = new VisProgressBar(0, 200, 1, false);
 
-	private void mobileUI() {
-		align(Align.bottomLeft);
+        add(healthbar).expandX().width(healthbar.getMaxValue()).top().left();
 
-		final float deadzone = 5f;
-		final Touchpad touchpad = new Touchpad(deadzone, VisUI.getSkin());
-		touchpad.setScale(20);
-		touchpad.setOrigin(Align.center);
-		touchpad.addListener(new ChangeListener() {
+        row();
+        add(new Table()).fillY().expandY();
+        row();
+        return healthbar;
+    }
 
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				PlayerControl.MOVE_UP = touchpad.getKnobY() > deadzone;
-				PlayerControl.MOVE_LEFT = touchpad.getKnobX() < -deadzone;
-				PlayerControl.MOVE_DOWN = touchpad.getKnobY() < -deadzone;
-				PlayerControl.MOVE_RIGHT = touchpad.getKnobX() > deadzone;
+    private void mobileUI() {
+        align(Align.bottomLeft);
 
-			}
-		});
-		add(touchpad).bottom().left().pad(60);
-		// row();
-	}
+        final float deadzone = 5f;
+        final Touchpad touchpad = new Touchpad(deadzone, VisUI.getSkin());
+        touchpad.setScale(20);
+        touchpad.setOrigin(Align.center);
+        touchpad.addListener(new ChangeListener() {
 
-	public void resize() {
-		setBounds(0, 0, Strafer.uiManager.getWidth(), Strafer.uiManager.getHeight());
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                PlayerControl.MOVE_UP = touchpad.getKnobY() > deadzone;
+                PlayerControl.MOVE_LEFT = touchpad.getKnobX() < -deadzone;
+                PlayerControl.MOVE_DOWN = touchpad.getKnobY() < -deadzone;
+                PlayerControl.MOVE_RIGHT = touchpad.getKnobX() > deadzone;
 
-	}
+            }
+        });
+        add(touchpad).bottom().left().pad(60);
+        // row();
+    }
 
-	public void hide() {
-		setVisible(!isVisible());
-	}
+    public void resize() {
+        setBounds(0, 0, Strafer.uiManager.getWidth(), Strafer.uiManager.getHeight());
 
-	public VisProgressBar getHealthBar() {
-		return healthBar;
-	}
+    }
+
+    public void hide() {
+        setVisible(!isVisible());
+    }
+
+    public VisProgressBar getHealthBar() {
+        return healthBar;
+    }
 
 }

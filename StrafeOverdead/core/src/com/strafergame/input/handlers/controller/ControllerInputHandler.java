@@ -14,6 +14,9 @@ public class ControllerInputHandler implements ControllerListener {
     @Override
     public boolean buttonDown(Controller controller, int buttonIndex) {
         if (buttonIndex == controller.getMapping().buttonB) {
+            PlayerControl.JUMP = true;
+        }
+        if (buttonIndex == controller.getMapping().buttonA) {
             PlayerControl.DASH = true;
         }
         return true;
@@ -22,6 +25,9 @@ public class ControllerInputHandler implements ControllerListener {
     @Override
     public boolean buttonUp(Controller controller, int buttonIndex) {
         if (buttonIndex == controller.getMapping().buttonB) {
+            PlayerControl.JUMP = false;
+        }
+        if (buttonIndex == controller.getMapping().buttonA) {
             PlayerControl.DASH = false;
         }
 

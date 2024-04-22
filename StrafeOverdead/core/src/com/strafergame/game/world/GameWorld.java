@@ -27,6 +27,7 @@ import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.MapManager;
 import com.strafergame.game.world.map.ObjectLayerLoadAction;
 import com.strafergame.game.world.map.TileLayerLoadAction;
+import com.strafergame.ui.HUD;
 
 import java.util.Locale;
 
@@ -89,6 +90,14 @@ public class GameWorld implements Disposable {
         b2dCmp.body.setTransform(playerSpawn, 0);
     }
 
+    void debugInfo() {
+        HUD.debugInfoText = "FPS: " + Gdx.graphics.getFramesPerSecond() + '\n'
+                +"Elevation: "+ ComponentMappers.elevation().get(player).elevation + '\n';
+        if (HUD.debugInfo != null) {
+            HUD.debugInfo.setText(HUD.debugInfoText);
+        }
+    }
+
     void debugControls() {
         if (Strafer.inDebug) {
 
@@ -141,6 +150,7 @@ public class GameWorld implements Disposable {
     void debugUpdate() {
 
         debugControls();
+        debugInfo();
     }
 
 

@@ -29,7 +29,8 @@ public class Box2DWorld implements Disposable {
     public void render() {
         if (Strafer.inDebug) {
             debugRenderer.render(world, Strafer.worldCamera.combined);
-            fps.log();
+            //fps.log();
+
         }
     }
 
