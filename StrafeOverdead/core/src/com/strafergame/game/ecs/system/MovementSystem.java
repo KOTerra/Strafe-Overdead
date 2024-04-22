@@ -87,7 +87,7 @@ public class MovementSystem extends IteratingSystem {
                                     movCmp.isDashCooldown, movCmp.dashForce);
                             break;
                         }
-                        case hit: {//to remove V
+                        case hit: {//to remove -V
                             b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, -movCmp.maxLinearSpeed*1.5f);
                             break;
                         }

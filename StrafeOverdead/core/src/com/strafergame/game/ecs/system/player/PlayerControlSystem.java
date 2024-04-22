@@ -71,8 +71,6 @@ public class PlayerControlSystem extends IteratingSystem {
                 typeCmp.entityState = EntityState.idle;
             }
         }
-
-
     }
 
     private void jump(Entity e) {
