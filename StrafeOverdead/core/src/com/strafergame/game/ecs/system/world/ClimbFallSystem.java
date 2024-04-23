@@ -107,7 +107,7 @@ public class ClimbFallSystem extends IteratingSystem {
     public static boolean shouldFall(Entity entity) {
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
-        if (MapManager.getLayersElevatedMap(elvCmp.elevation) == null) {
+        if (MapManager.getLayersElevatedMap(elvCmp.elevation) != null) {
             for (MapLayer layer : MapManager.getLayersElevatedMap(elvCmp.elevation)) {
                 if (layer instanceof TiledMapTileLayer tileLayer && tileLayer.getCell((int) b2dCmp.body.getPosition().x, (int) b2dCmp.body.getPosition().y) != null) {
                     return false;

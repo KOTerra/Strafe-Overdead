@@ -34,7 +34,7 @@ import java.util.Locale;
 public class GameWorld implements Disposable {
 
     private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/test.tmx", TiledMap.class);
-    private Vector2 playerSpawn = new Vector2(4, 2);
+    private Vector2 playerSpawn = new Vector2(4, 4);
     private int playerInitialHealth = 100;
 
     /**

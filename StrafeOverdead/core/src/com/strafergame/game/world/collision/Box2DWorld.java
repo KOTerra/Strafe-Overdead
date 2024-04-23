@@ -12,7 +12,6 @@ public class Box2DWorld implements Disposable {
 
     private final Box2DDebugRenderer debugRenderer;
 
-    FPSLogger fps = new FPSLogger();
 
     public Box2DWorld() {
         world = new World(new Vector2(0f, 0f), false);
@@ -29,8 +28,6 @@ public class Box2DWorld implements Disposable {
     public void render() {
         if (Strafer.inDebug) {
             debugRenderer.render(world, Strafer.worldCamera.combined);
-            //fps.log();
-
         }
     }
 
