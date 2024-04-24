@@ -42,6 +42,7 @@ public class MapManager {
 
         tiledMap.getLayers().forEach(MapEntityFactory::createLayerEntity);
         loadMapObjects(tiledMap);
+        layersElevatedMap.put(maxElevation + 1, new MapLayers());   //to allow jump at peak height
 
     }
 
