@@ -92,7 +92,8 @@ public class GameWorld implements Disposable {
 
     void debugInfo() {
         HUD.debugInfoText = "FPS: " + Gdx.graphics.getFramesPerSecond() + '\n'
-                +"Elevation: "+ ComponentMappers.elevation().get(player).elevation + '\n';
+                + "Player State: " + ComponentMappers.entityType().get(player).entityState + '\n'
+                + "Player Elevation: " + ComponentMappers.elevation().get(player).elevation + '\n';
         if (HUD.debugInfo != null) {
             HUD.debugInfo.setText(HUD.debugInfoText);
         }
