@@ -128,7 +128,7 @@ public class FilteredContactListener implements ContactListener {
                     fixtureA.setUserData(new ProximityContact(fixtureB, fixtureA));
                     Box2dComponent b2dCmp = ComponentMappers.box2d().get(footprintEntity);
                     b2dCmp.footprintStack.addFirst(detectorEntity);
-                         System.out.println(b2dCmp.footprintStack.size());
+                    System.out.println(b2dCmp.footprintStack.size());
 
                     ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(actvCmp.agent);
                     if (elvAgentCmp != null) {
@@ -144,9 +144,9 @@ public class FilteredContactListener implements ContactListener {
                     // elvAgentCmp.footprintBody.getFixtureList().first().setSensor(true);
 
                     elvAgentCmp.leftRailing.setAwake(true);
-                  //  elvAgentCmp.leftRailing.getFixtureList().first().setSensor(false);                              //maybe change the category of the interacting entity and them temporarily
+                    //  elvAgentCmp.leftRailing.getFixtureList().first().setSensor(false);                              //maybe change the category of the interacting entity and them temporarily
                     elvAgentCmp.rightRailing.setAwake(true);
-                  //  elvAgentCmp.rightRailing.getFixtureList().first().setSensor(false);
+                    //  elvAgentCmp.rightRailing.getFixtureList().first().setSensor(false);
 
                     //just the render elevation is changed, full elevation  is changed when both activators passed
                     PositionComponent positionComponent = ComponentMappers.position().get(footprintEntity);
@@ -156,6 +156,7 @@ public class FilteredContactListener implements ContactListener {
                     }
                     if (!elvAgentCmp.interactingEntitites.contains(footprintEntity)) {
                         elvAgentCmp.interactingEntitites.add(footprintEntity);
+                        ComponentMappers.elevation().get(footprintEntity).isClimbing = true;
                     }
                 }
             }
@@ -191,9 +192,9 @@ public class FilteredContactListener implements ContactListener {
 
                     elvAgentCmp.sensorBody.setAwake(false);
                     elvAgentCmp.leftRailing.setAwake(false);
-                   // elvAgentCmp.leftRailing.getFixtureList().first().setSensor(true);
+                    // elvAgentCmp.leftRailing.getFixtureList().first().setSensor(true);
                     elvAgentCmp.rightRailing.setAwake(false);
-                   // elvAgentCmp.rightRailing.getFixtureList().first().setSensor(true);
+                    // elvAgentCmp.rightRailing.getFixtureList().first().setSensor(true);
 
                     PositionComponent posCmp = ComponentMappers.position().get(footprintEntity);
                     ElevationComponent elvCmp = ComponentMappers.elevation().get(footprintEntity);
@@ -205,6 +206,8 @@ public class FilteredContactListener implements ContactListener {
 
 
                     elvAgentCmp.interactingEntitites.remove(footprintEntity);
+                    ComponentMappers.elevation().get(footprintEntity).isClimbing = false;
+
                 }
                 fixtureB.setUserData(null);
             }

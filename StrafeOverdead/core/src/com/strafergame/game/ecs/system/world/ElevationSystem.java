@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.strafergame.game.ecs.ComponentMappers;
+import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.MovementComponent;
@@ -34,13 +35,9 @@ public class ElevationSystem extends IteratingSystem {
         for (Entity e : agentCmp.interactingEntitites) {
 
             PositionComponent posCmp = ComponentMappers.position().get(e);
-            EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
             MovementComponent movCmp = ComponentMappers.movement().get(e);
-            Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
 
             if (agentCmp.type.equals(ElevationAgentType.SLOPE)) {
-
-
                 if (movCmp.isMoving()) {
                     if (posCmp.direction.equals(EntityDirection.d)) {
                         if (agentCmp.direction.equals(EntityDirection.d)) {//        >^/

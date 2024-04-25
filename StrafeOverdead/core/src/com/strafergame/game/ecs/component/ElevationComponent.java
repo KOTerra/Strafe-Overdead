@@ -11,6 +11,11 @@ public class ElevationComponent implements Component {
     public int elevation = 0;
 
     /**
+     * currently in the interactingEntities list of an elevation agent
+     */
+    public boolean isClimbing;
+
+    /**
      * wether the entity is affected by gravity
      */
     public boolean gravity = false;

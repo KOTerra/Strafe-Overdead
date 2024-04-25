@@ -40,8 +40,7 @@ public class ClimbFallSystem extends IteratingSystem {
 
 
     public static boolean isClimbing(Entity entity) {
-        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
-        return !b2dCmp.footprintStack.isEmpty();
+        return ComponentMappers.elevation().get(entity).isClimbing;
     }
 
     /**
