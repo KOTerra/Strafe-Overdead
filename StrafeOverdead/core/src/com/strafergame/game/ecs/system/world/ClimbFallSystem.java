@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ElevationComponent;
@@ -25,11 +26,12 @@ public class ClimbFallSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
 
         climb(entity);
-
-        computeJumpHeight(entity);
+        if (canJump(entity)) {
+            computeJumpHeight(entity);                   //maybe disable jump if climbing to prohibit jumping on slopes
+        }
         jumpArrive(entity);
 
-        if (shouldFall(entity) && !isClimbing(entity)) {
+        if (shouldFall(entity) && !isClimbing(entity)) {    //change is climbing to not be true if just passed activator but not went up on elevation agent 
             ComponentMappers.entityType().get(entity).entityState = EntityState.fall;
             computeFallTarget(entity);
         }
@@ -73,6 +75,30 @@ public class ClimbFallSystem extends IteratingSystem {
 
     }
 
+    private boolean canJump(Entity entity) {
+        //raycast above if one elevation is above don t
+        ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity); //mYBE CHnange elevation at the start of the jump maybe intermediate state tryjump to check if canjump then change elevation and then move upwards
+        if (!typeCmp.entityState.equals(EntityState.jump)) {
+            return false;
+        }
+        if (elvCmp.jumpTaken) {
+            return false;
+        }
+        MapLayers layers = MapManager.getLayersElevatedMap(elvCmp.elevation + 1);
+        if (layers != null && layers.size() != 0) {
+            for (MapLayer layer : layers) {
+                if (layer instanceof TiledMapTileLayer tileLayer && tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), Math.round(b2dCmp.body.getPosition().y + 1)) != null) {
+                    elvCmp.jumpHeight = 0f;
+                    typeCmp.entityState = EntityState.idle;
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     private void computeJumpHeight(Entity entity) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
@@ -80,7 +106,8 @@ public class ClimbFallSystem extends IteratingSystem {
             elvCmp.jumpTaken = true;
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
             SpriteComponent spriteCmp = ComponentMappers.sprite().get(entity);
-            elvCmp.jumpHeight = spriteCmp.height * 1.5f + b2dCmp.body.getPosition().y;
+            System.out.println("j " + b2dCmp.body.getPosition().y);
+            elvCmp.jumpHeight = b2dCmp.body.getPosition().y + 1;
         }
     }
 
@@ -90,16 +117,18 @@ public class ClimbFallSystem extends IteratingSystem {
 
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
             ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
-            System.out.println(b2dCmp.body.getPosition().y + " " + elvCmp.jumpHeight);
-            if (b2dCmp.body.getPosition().y > elvCmp.jumpHeight) {
+            if (b2dCmp.body.getPosition().y >= elvCmp.jumpHeight) {
                 elvCmp.elevation = elvCmp.elevation + 1;
                 ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
-                typeCmp.entityState = EntityState.fall;
+                typeCmp.entityState = EntityState.idle;
                 elvCmp.jumpHeight = 0f;
                 elvCmp.jumpTaken = false;
             }
         }
     }
+
+
+    //to adapt fall to jumping
 
     /**
      * checks if a tile layer is right underneath the entity's footprint on the same elevation i.e. touching ground
@@ -107,9 +136,10 @@ public class ClimbFallSystem extends IteratingSystem {
     public static boolean shouldFall(Entity entity) {
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
-        if (MapManager.getLayersElevatedMap(elvCmp.elevation) != null) {
-            for (MapLayer layer : MapManager.getLayersElevatedMap(elvCmp.elevation)) {
-                if (layer instanceof TiledMapTileLayer tileLayer && tileLayer.getCell((int) b2dCmp.body.getPosition().x, (int) b2dCmp.body.getPosition().y) != null) {
+        MapLayers layers = MapManager.getLayersElevatedMap(elvCmp.elevation);
+        if (layers != null && layers.size() != 0) {
+            for (MapLayer layer : layers) {
+                if (layer instanceof TiledMapTileLayer tileLayer && tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), Math.round(b2dCmp.body.getPosition().y)) != null) {
                     return false;
                 }
             }
@@ -125,12 +155,15 @@ public class ClimbFallSystem extends IteratingSystem {
         if (elvCmp.fallTargetCell == null) {
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
             for (int elevation = elvCmp.elevation; elevation >= 0; elevation--) {
-                if (MapManager.getLayersElevatedMap(elevation) != null) {
-                    for (MapLayer layer : MapManager.getLayersElevatedMap(elevation)) {
+                MapLayers layers = MapManager.getLayersElevatedMap(elevation);
+                if (layers != null) {
+                    for (MapLayer layer : layers) {
                         if (layer instanceof TiledMapTileLayer tileLayer) {
-                            int targetY = (int) (b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation));
-                            TiledMapTileLayer.Cell cell = tileLayer.getCell((int) b2dCmp.body.getPosition().x, targetY);
+                            float targetY = b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation);
+                            TiledMapTileLayer.Cell cell = tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), Math.round(targetY));
                             if (cell != null) {
+                                System.out.println("f " + targetY);
+
                                 elvCmp.fallTargetCell = cell;
                                 elvCmp.fallTargetY = targetY;
                                 elvCmp.fallTargetElevation = elevation;

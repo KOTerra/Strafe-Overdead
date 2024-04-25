@@ -78,7 +78,7 @@ public class PlayerControlSystem extends IteratingSystem {
         if (PlayerControl.JUMP) {
             EntityState state = typeCmp.entityState;
             typeCmp.entityState = switch (state) {
-                case walk, run -> EntityState.jump;
+                case walk, run, idle -> EntityState.jump;
                 default -> state;
             };
 

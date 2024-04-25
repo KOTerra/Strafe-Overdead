@@ -88,15 +88,15 @@ public class MovementSystem extends IteratingSystem {
                             break;
                         }
                         case hit: {//to remove -V
-                            b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, -movCmp.maxLinearSpeed*1.5f);
+                            b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, -movCmp.maxLinearSpeed * 1.5f);
                             break;
                         }
-                        case jump:{
-                            b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, movCmp.maxLinearSpeed*1.5f); //* mass
+                        case jump: {
+                            b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, movCmp.maxLinearSpeed * 1.5f); //* mass
                             break;
                         }
                         case fall: {
-                            b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, -movCmp.maxLinearSpeed*1.5f); //* mass
+                            b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, -movCmp.maxLinearSpeed * 1.5f); //* mass
                             break;
                         }
                         case death: {

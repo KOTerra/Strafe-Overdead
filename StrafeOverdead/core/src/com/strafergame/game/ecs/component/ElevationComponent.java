@@ -33,7 +33,7 @@ public class ElevationComponent implements Component {
     /**
      * Y value for perspective of the taretCell
      */
-    public int fallTargetY;
+    public float fallTargetY;
 
     /**
      * elevation at the target's layer
