@@ -4,6 +4,8 @@ import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -15,6 +17,7 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.ComponentDataUtils;
+import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
@@ -90,14 +93,39 @@ public class GameWorld implements Disposable {
         b2dCmp.body.setTransform(playerSpawn, 0);
     }
 
+
     void debugInfo() {
         HUD.debugInfoText = "FPS: " + Gdx.graphics.getFramesPerSecond() + '\n'
                 + "Player State: " + ComponentMappers.entityType().get(player).entityState + '\n'
                 + "Climbing: " + ComponentMappers.elevation().get(player).isClimbing + '\n'
-                + "Player Elevation: " + ComponentMappers.elevation().get(player).elevation + '\n';
+                + "Player Elevation: " + ComponentMappers.elevation().get(player).elevation + '\n'
+                + "on cell: " + cellBelow()
+        ;
         if (HUD.debugInfo != null) {
             HUD.debugInfo.setText(HUD.debugInfoText);
         }
+    }
+
+    boolean cellBelow() {
+
+        ElevationComponent elvCmp = ComponentMappers.elevation().get(player);
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(player);
+        for (int elevation = elvCmp.elevation; elevation >= 0; elevation--) {
+            MapLayers layers = MapManager.getLayersElevatedMap(elevation);
+            if (layers != null) {
+                for (MapLayer layer : layers) {
+                    if (layer instanceof TiledMapTileLayer tileLayer) {
+                        float targetY = b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation);
+                        TiledMapTileLayer.Cell cell = tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), Math.round(targetY));
+                        if (cell != null) {
+                            return true;
+
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     void debugControls() {
