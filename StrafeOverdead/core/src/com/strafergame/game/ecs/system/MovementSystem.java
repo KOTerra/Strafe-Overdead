@@ -87,8 +87,7 @@ public class MovementSystem extends IteratingSystem {
                                     movCmp.isDashCooldown, movCmp.dashForce);
                             break;
                         }
-                        case hit: {//to remove -V
-                            b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, -movCmp.maxLinearSpeed * 1.5f);
+                        case hit: {
                             break;
                         }
                         case jump: {
@@ -96,7 +95,14 @@ public class MovementSystem extends IteratingSystem {
                             break;
                         }
                         case fall: {
+
                             b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, -movCmp.maxLinearSpeed * 1.5f); //* mass
+                            float dif = ComponentMappers.elevation().get(e).prevIncrementalY - b2dCmp.body.getPosition().y;
+                            if (Math.abs(dif) >= 1) {
+                                ComponentMappers.elevation().get(e).prevIncrementalY = b2dCmp.body.getPosition().y;
+                                ComponentMappers.elevation().get(e).elevation -= 1;
+                                ComponentMappers.position().get(e).elevation -= 1;                  //decrease fro meter to meter
+                            }
                             break;
                         }
                         case death: {

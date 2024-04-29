@@ -44,4 +44,8 @@ public class ElevationComponent implements Component {
      * elevation at the target's layer
      */
     public int fallTargetElevation;
+    /**
+     * used to store y coordinates from meter to meter such that elevation can be changed while falling/jumping
+     */
+    public float prevIncrementalY;
 }

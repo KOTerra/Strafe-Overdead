@@ -700,7 +700,7 @@
     <property name="elevation" type="int" value="10"/>
    </properties>
   </object>
-  <object id="71" x="2112.03" y="3490.68" width="92.5886" height="25.3333">
+  <object id="71" x="2119.2" y="3423.38" width="188.596" height="25.3333">
    <properties>
     <property name="elevation" type="int" value="10"/>
    </properties>

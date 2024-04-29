@@ -132,10 +132,10 @@ public class GameWorld implements Disposable {
         if (Strafer.inDebug) {
 
 
-            if (Gdx.input.isKeyPressed(Keys.NUMPAD_SUBTRACT)) {
+            if (Gdx.input.isKeyPressed(Keys.F7)) {
                 Strafer.worldCamera.zoom += .02f;
             }
-            if (Gdx.input.isKeyPressed(Keys.NUMPAD_ADD)) {
+            if (Gdx.input.isKeyPressed(Keys.F9)) {
                 Strafer.worldCamera.zoom -= .02f;
             }
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_0)) {

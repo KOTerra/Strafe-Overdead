@@ -175,6 +175,7 @@ public class ClimbFallSystem extends IteratingSystem {
 
                                 elvCmp.elevation-=1;
                                 ComponentMappers.position().get(entity).elevation-=1; ///if falling in w direction starts with an elevation down already
+                                elvCmp.prevIncrementalY=b2dCmp.body.getPosition().y;
                                 elvCmp.fallTargetCell = cell;
                                 elvCmp.fallTargetY = targetY;
                                 elvCmp.fallTargetElevation = elevation;
