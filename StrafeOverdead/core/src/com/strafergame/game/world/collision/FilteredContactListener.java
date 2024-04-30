@@ -128,7 +128,6 @@ public class FilteredContactListener implements ContactListener {
                     fixtureA.setUserData(new ProximityContact(fixtureB, fixtureA));
                     Box2dComponent b2dCmp = ComponentMappers.box2d().get(footprintEntity);
                     b2dCmp.footprintStack.addFirst(detectorEntity);
-                    System.out.println(b2dCmp.footprintStack.size());
 
                     ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(actvCmp.agent);
                     if (elvAgentCmp != null) {
@@ -202,7 +201,6 @@ public class FilteredContactListener implements ContactListener {
                     if (posCmp != null && elvCmp != null) {
                         posCmp.elevation = elvCmp.elevation;
                     }
-                    System.err.println("ended");
 
 
                     elvAgentCmp.interactingEntitites.remove(footprintEntity);

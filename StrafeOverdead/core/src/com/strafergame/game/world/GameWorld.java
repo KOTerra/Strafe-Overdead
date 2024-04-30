@@ -99,34 +99,13 @@ public class GameWorld implements Disposable {
                 + "Player State: " + ComponentMappers.entityType().get(player).entityState + '\n'
                 + "Climbing: " + ComponentMappers.elevation().get(player).isClimbing + '\n'
                 + "Player Elevation: " + ComponentMappers.elevation().get(player).elevation + '\n'
-                + "on cell: " + cellBelow()
+                + "x: " + Math.round(ComponentMappers.position().get(player).renderPos.x) + " y: " + Math.round(ComponentMappers.position().get(player).renderPos.y) + '\n'
         ;
         if (HUD.debugInfo != null) {
             HUD.debugInfo.setText(HUD.debugInfoText);
         }
     }
 
-    boolean cellBelow() {
-
-        ElevationComponent elvCmp = ComponentMappers.elevation().get(player);
-        Box2dComponent b2dCmp = ComponentMappers.box2d().get(player);
-        for (int elevation = elvCmp.elevation; elevation >= 0; elevation--) {
-            MapLayers layers = MapManager.getLayersElevatedMap(elevation);
-            if (layers != null) {
-                for (MapLayer layer : layers) {
-                    if (layer instanceof TiledMapTileLayer tileLayer) {
-                        float targetY = b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation);
-                        TiledMapTileLayer.Cell cell = tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), Math.round(targetY));
-                        if (cell != null) {
-                            return true;
-
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
 
     void debugControls() {
         if (Strafer.inDebug) {

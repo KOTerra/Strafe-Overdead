@@ -3,6 +3,7 @@ package com.strafergame.game.ecs.component;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 
 public class ElevationComponent implements Component {
     /**
@@ -48,4 +49,7 @@ public class ElevationComponent implements Component {
      * used to store y coordinates from meter to meter such that elevation can be changed while falling/jumping
      */
     public float prevIncrementalY;
+
+    public Vector2 lastStablePosition;
+    public int lastStableElevation;
 }
