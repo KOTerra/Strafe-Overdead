@@ -135,6 +135,8 @@ project(":core") {
 
         api 'com.github.lyze237:gdx-AarthSkins:9d753e6c39'
 
-        implementation name: 'YarnGdx'
+        // implementation name: 'YarnGdx'
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     }
 }
