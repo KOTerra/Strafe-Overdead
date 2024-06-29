@@ -1,0 +1,165 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test/test.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/Strafe Overdead/IN DEVELOPMENT/assets/maps/map.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 449,
+                "y": 124
+            }
+        },
+        "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test/map.tmx": {
+            "scale": 0.1341875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 3204.4713553796,
+                "y": 3204.4713553795996
+            }
+        },
+        "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test/map.tmx#testtilesent": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test/test.tmx": {
+            "scale": 8,
+            "selectedLayer": 8,
+            "viewCenter": {
+                "x": 1384.625,
+                "y": 3913.125
+            }
+        },
+        "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test/test.tmx#detoate": {
+            "scaleInDock": 1.5
+        },
+        "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test/test.tmx#tileset": {
+            "scaleInDock": 1.5
+        },
+        "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/desktop/assets/maps/test/test.tmx": {
+            "scale": 0.20966796875,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 2050.8616674429436,
+                "y": 2050.8616674429436
+            }
+        },
+        "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/desktop/assets/maps/test/test.tmx#tileset": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx": {
+            "scale": 0.072943115234375,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 4071.665969374947,
+                "y": 4181.340473600537
+            }
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#Terrain": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#apa1": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#decor1": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#detoate1": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#detoate2": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#dungeon1": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#dungeon2": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#dungeon3": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#grass1": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#grass2": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#grass3": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#perete": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#pereteA": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#pereteD": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#pereteS": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#pereteW": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#snow1": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#zCat": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#zDolpatian": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#zDroid": {
+            "scaleInDock": 1
+        },
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx#zGoblin": {
+            "scaleInDock": 1
+        },
+        "test.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 4300,
+                "y": 3518
+            }
+        },
+        "test.tmx#detoate": {
+            "scaleInDock": 1
+        },
+        "test.tmx#tileset": {
+            "scaleInDock": 1
+        }
+    },
+    "last.imagePath": "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test",
+    "last.objectTemplatePath": "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test",
+    "map.fixedSize": true,
+    "map.height": 128,
+    "map.lastUsedFormat": "tmx",
+    "map.width": 128,
+    "openFiles": [
+        "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test/test.tmx"
+    ],
+    "project": "testproject.tiled-project",
+    "property.type": "object",
+    "recentFiles": [
+        "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test/test.tmx",
+        "test.tmx",
+        "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/desktop/assets/maps/test/test.tmx",
+        "D:/Games/CV9 projekt red/StraferLib/mapGenerator/TiledMaps/map23.tmx",
+        "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test/map.tmx",
+        "D:/Games/CV9 projekt red/Strafe Overdead/IN DEVELOPMENT/assets/maps/map.tmx"
+    ],
+    "tileset.embedInMap": true
+}

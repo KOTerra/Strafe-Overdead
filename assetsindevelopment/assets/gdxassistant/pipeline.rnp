@@ -1,0 +1,1 @@
+{"version":"0.5.0","type":"Render_Pipeline","nodes":[{"id":"end","type":"PipelineEnd","x":0.0,"y":0.0}],"connections":[],"groups":[],"properties":[{"name":"New Vector2","type":"Vector2","data":{"x":0.0,"y":0.0}}]}

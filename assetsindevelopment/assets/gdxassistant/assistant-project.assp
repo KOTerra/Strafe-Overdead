@@ -1,0 +1,11 @@
+{
+"name": "gdxassistant",
+"assetPath": "",
+"pluginsData": {
+	"gdx-graph": {
+		"graphs": [
+			{ "name": "p", "graphType": "Render_Pipeline", "path": "pipeline.rnp" }
+		]
+	}
+}
+}

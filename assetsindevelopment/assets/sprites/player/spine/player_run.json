@@ -1,0 +1,65 @@
+{ "skeleton": { "images": "D:/Games/CV9 projekt red/Strafe Overdead/IN DEVELOPMENT/assets/sprites/player/spine/images/" },
+"PhotoshopToSpine": { "scale": 1, "padding": 0, "trim": true },
+"bones": [
+	{ "name": "root" }
+],
+"slots": [
+	{ "name": "back_arm", "bone": "root", "attachment": "back_arm" },
+	{ "name": "back_hand", "bone": "root", "attachment": "back_hand" },
+	{ "name": "back_boot", "bone": "root", "attachment": "back_boot" },
+	{ "name": "back_thigh", "bone": "root", "attachment": "back_thigh" },
+	{ "name": "back_leg", "bone": "root", "attachment": "back_leg" },
+	{ "name": "body", "bone": "root", "attachment": "body" },
+	{ "name": "head", "bone": "root", "attachment": "head" },
+	{ "name": "backpack", "bone": "root", "attachment": "backpack" },
+	{ "name": "front_thigh", "bone": "root", "attachment": "front_thigh" },
+	{ "name": "front_boot", "bone": "root", "attachment": "front_boot" },
+	{ "name": "front_leg", "bone": "root", "attachment": "front_leg" },
+	{ "name": "front_hand", "bone": "root", "attachment": "front_hand" },
+	{ "name": "front_arm", "bone": "root", "attachment": "front_arm" }
+],
+"skins": {
+	"default": {
+		"back_arm": {
+			"back_arm": { "x": 260, "y": -244, "width": 48, "height": 96 }
+		},
+		"back_hand": {
+			"back_hand": { "x": 260, "y": -308, "width": 48, "height": 128 }
+		},
+		"back_boot": {
+			"back_boot": { "x": 284, "y": -482, "width": 80, "height": 60 }
+		},
+		"back_thigh": {
+			"back_thigh": { "x": 260, "y": -376, "width": 32, "height": 88 }
+		},
+		"back_leg": {
+			"back_leg": { "x": 268, "y": -438, "width": 48, "height": 68 }
+		},
+		"body": {
+			"body": { "x": 248, "y": -266, "width": 128, "height": 204 }
+		},
+		"head": {
+			"head": { "x": 232, "y": -106, "width": 192, "height": 180 }
+		},
+		"backpack": {
+			"backpack": { "x": 158, "y": -248, "width": 52, "height": 160 }
+		},
+		"front_thigh": {
+			"front_thigh": { "x": 228, "y": -376, "width": 32, "height": 88 }
+		},
+		"front_boot": {
+			"front_boot": { "x": 252, "y": -482, "width": 80, "height": 60 }
+		},
+		"front_leg": {
+			"front_leg": { "x": 236, "y": -438, "width": 48, "height": 68 }
+		},
+		"front_hand": {
+			"front_hand": { "x": 228, "y": -308, "width": 48, "height": 128 }
+		},
+		"front_arm": {
+			"front_arm": { "x": 228, "y": -244, "width": 48, "height": 96 }
+		}
+	}
+},
+"animations": { "animation": {} }
+}
