@@ -101,7 +101,7 @@ public class MovementSystem extends IteratingSystem {
                             if (Math.abs(dif) >= 1) {
                                 ComponentMappers.elevation().get(e).prevIncrementalY = b2dCmp.body.getPosition().y;
                                 ComponentMappers.elevation().get(e).elevation -= 1;
-                                ComponentMappers.position().get(e).elevation -= 1;                  //decrease fro meter to meter
+                                ComponentMappers.position().get(e).elevation -= 1;                  //decrease from meter to meter
                             }
                             break;
                         }

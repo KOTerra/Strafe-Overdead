@@ -4,32 +4,20 @@ import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapLayers;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
-import com.strafergame.game.ecs.component.ComponentDataUtils;
-import com.strafergame.game.ecs.component.ElevationComponent;
-import com.strafergame.game.ecs.factories.EntityFactory;
-import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
-import com.strafergame.game.ecs.factories.MapEntityFactory;
+import com.strafergame.game.ecs.component.physics.Box2dComponent;
+import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.states.EntityState;
-import com.strafergame.game.ecs.system.save.CheckpointAction;
-import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.MapManager;
-import com.strafergame.game.world.map.ObjectLayerLoadAction;
-import com.strafergame.game.world.map.TileLayerLoadAction;
 import com.strafergame.ui.HUD;
 
 import java.util.Locale;
@@ -94,7 +82,7 @@ public class GameWorld implements Disposable {
     }
 
 
-    void debugInfo() {
+    static void debugInfo() {
         HUD.debugInfoText = "FPS: " + Gdx.graphics.getFramesPerSecond() + '\n'
                 + "Player State: " + ComponentMappers.entityType().get(player).entityState + '\n'
                 + "Climbing: " + ComponentMappers.elevation().get(player).isClimbing + '\n'
