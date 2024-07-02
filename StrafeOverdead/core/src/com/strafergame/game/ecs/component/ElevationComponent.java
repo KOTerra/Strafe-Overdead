@@ -29,7 +29,12 @@ public class ElevationComponent implements Component {
     /**
      * wether a jump is in effect at the time
      */
-    public boolean jumpTaken;
+    public boolean jumpTaken = false;
+
+    /**
+     * whether it sits on ground
+     */
+    public boolean jumpFinished = true;
 
     /**
      * if affected by gravity this is the cell to which the entity falls atm
