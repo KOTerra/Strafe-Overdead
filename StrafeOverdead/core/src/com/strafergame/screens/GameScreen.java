@@ -3,10 +3,17 @@ package com.strafergame.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.crashinvaders.vfx.VfxManager;
+import com.crashinvaders.vfx.effects.BloomEffect;
+import com.crashinvaders.vfx.effects.ChromaticAberrationEffect;
+import com.crashinvaders.vfx.effects.ShaderVfxEffect;
 import com.strafergame.Strafer;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.ui.HUD;
+
+import java.util.ArrayList;
 
 public class GameScreen implements Screen {
 
@@ -20,10 +27,19 @@ public class GameScreen implements Screen {
 
     private HUD hud;
 
+    private VfxManager vfxManager;
+    private ChromaticAberrationEffect vfxEffect;
+    private ArrayList<ShaderVfxEffect> shaderEffects;
+
     public GameScreen() {
         gameWorld = new GameWorld();
         hud = new HUD();
         Strafer.uiManager.setHud(hud);
+
+        vfxManager = new VfxManager(Pixmap.Format.RGBA8888);
+        vfxEffect = new ChromaticAberrationEffect(4);
+        vfxEffect.setMaxDistortion(.25f);
+        vfxManager.addEffect(vfxEffect);
 
     }
 
@@ -45,6 +61,9 @@ public class GameScreen implements Screen {
         ScreenUtils.clear(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
+        vfxManager.cleanUpBuffers();
+        vfxManager.beginInputCapture();
+
         update(delta);
 
         gameWorld.update(delta);
@@ -52,6 +71,10 @@ public class GameScreen implements Screen {
         Strafer.uiManager.draw();
 
         gameWorld.getBox2DWorld().render();
+
+        vfxManager.endInputCapture();
+        vfxManager.applyEffects();
+        vfxManager.renderToScreen();
 
     }
 
@@ -65,12 +88,17 @@ public class GameScreen implements Screen {
         Strafer.extendViewport.update(width, height);
         Strafer.uiScreenViewport.update(width, height, true);
         hud.resize();
+
+        vfxManager.resize(width * 2, height * 2);
+
     }
 
     @Override
     public void dispose() {
         Strafer.uiManager.dispose();
         gameWorld.dispose();
+        vfxManager.dispose();
+        vfxEffect.dispose();
     }
 
     @Override
@@ -96,6 +124,10 @@ public class GameScreen implements Screen {
 
     public GameWorld getGameWorld() {
         return gameWorld;
+    }
+
+    public ArrayList<ShaderVfxEffect> getShaderEffects() {
+        return shaderEffects;
     }
 
     public static GameScreen getInstance() {

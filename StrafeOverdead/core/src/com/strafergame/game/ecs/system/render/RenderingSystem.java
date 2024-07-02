@@ -6,8 +6,11 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import com.crashinvaders.vfx.VfxManager;
+import com.crashinvaders.vfx.effects.BloomEffect;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
@@ -28,6 +31,8 @@ public class RenderingSystem extends SortedIteratingSystem {
     private ComponentMapper<SpriteComponent> spriteMapper;
     private ComponentMapper<PositionComponent> positionMapper;
 
+
+
     public RenderingSystem() {
         super(Family.all(SpriteComponent.class, PositionComponent.class).get(), new ZComparator());
 
@@ -40,6 +45,7 @@ public class RenderingSystem extends SortedIteratingSystem {
         positionMapper = ComponentMappers.position();
 
         renderQueue = new Array<>();
+
     }
 
     @Override
