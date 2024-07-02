@@ -24,6 +24,8 @@ public class PlayerControlSystem extends IteratingSystem {
 
     Entity item;
 
+    private boolean jumpTriggered = false;
+
     public PlayerControlSystem() {
         super(Family.all(PlayerComponent.class).get());
         this.game = Strafer.getInstance();
@@ -76,12 +78,16 @@ public class PlayerControlSystem extends IteratingSystem {
     private void jump(Entity e) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
         if (PlayerControl.JUMP) {
-            EntityState state = typeCmp.entityState;
-            typeCmp.entityState = switch (state) {
-                case walk, run, idle -> EntityState.jump;
-                default -> state;
-            };
-
+            if (!jumpTriggered) {
+                EntityState state = typeCmp.entityState;
+                typeCmp.entityState = switch (state) {
+                    case walk, run, idle -> EntityState.jump;
+                    default -> state;
+                };
+                jumpTriggered = true;
+            }
+        } else {
+            jumpTriggered = false;
         }
     }
 
