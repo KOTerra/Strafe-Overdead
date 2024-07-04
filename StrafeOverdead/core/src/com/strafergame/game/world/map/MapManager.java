@@ -105,7 +105,9 @@ public class MapManager {
             MapManager.maxElevation = elevation;
             MapManager.getLayersElevatedMap().put(elevation, new MapLayers());
         }
-        MapManager.getLayersElevatedMap().get(elevation).add(layer);
+        if (MapManager.getLayersElevatedMap().get(elevation) != null) {
+            MapManager.getLayersElevatedMap().get(elevation).add(layer);
+        }
     }
 
     public static MapLayers getLayersBelow(int elevation) {
