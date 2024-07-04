@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.crashinvaders.vfx.VfxManager;
-import com.crashinvaders.vfx.effects.BloomEffect;
-import com.crashinvaders.vfx.effects.ChromaticAberrationEffect;
-import com.crashinvaders.vfx.effects.ShaderVfxEffect;
+import com.crashinvaders.vfx.effects.*;
 import com.strafergame.Strafer;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.ui.HUD;
@@ -28,8 +26,10 @@ public class GameScreen implements Screen {
     private HUD hud;
 
     private VfxManager vfxManager;
-    private ChromaticAberrationEffect vfxEffect;
-    private ArrayList<ShaderVfxEffect> shaderEffects;
+    private ArrayList<VfxEffect> shaderEffects = new ArrayList<>();
+    ChromaticAberrationEffect chromaticAberrationEffect;
+    BloomEffect bloomEffect;
+    OldTvEffect tvEffect;
 
     public GameScreen() {
         gameWorld = new GameWorld();
@@ -37,10 +37,18 @@ public class GameScreen implements Screen {
         Strafer.uiManager.setHud(hud);
 
         vfxManager = new VfxManager(Pixmap.Format.RGBA8888);
-        vfxEffect = new ChromaticAberrationEffect(4);
-        vfxEffect.setMaxDistortion(.25f);
-        vfxManager.addEffect(vfxEffect);
 
+
+        chromaticAberrationEffect = new ChromaticAberrationEffect(4);
+        chromaticAberrationEffect.setMaxDistortion(.25f);
+        tvEffect = new OldTvEffect();
+        tvEffect.setTime(.15f);
+        bloomEffect = new BloomEffect();
+        bloomEffect.setBloomIntensity(1.2f);
+
+        //addShaderEffect(chromaticAberrationEffect);
+        addShaderEffect(bloomEffect);
+        addShaderEffect(tvEffect);
     }
 
     public void update(float delta) {
@@ -89,8 +97,11 @@ public class GameScreen implements Screen {
         Strafer.uiScreenViewport.update(width, height, true);
         hud.resize();
 
-        vfxManager.resize(width * 2, height * 2);
-
+        if (Gdx.graphics.isFullscreen()) {
+            vfxManager.resize(width, height);
+        } else {
+            vfxManager.resize(width * 2, height * 2);
+        }
     }
 
     @Override
@@ -98,7 +109,9 @@ public class GameScreen implements Screen {
         Strafer.uiManager.dispose();
         gameWorld.dispose();
         vfxManager.dispose();
-        vfxEffect.dispose();
+        for (VfxEffect e : shaderEffects) {
+            e.dispose();
+        }
     }
 
     @Override
@@ -126,8 +139,22 @@ public class GameScreen implements Screen {
         return gameWorld;
     }
 
-    public ArrayList<ShaderVfxEffect> getShaderEffects() {
+    public ArrayList<VfxEffect> getShaderEffects() {
         return shaderEffects;
+    }
+
+    public VfxManager getVfxManager() {
+        return vfxManager;
+    }
+
+    public void addShaderEffect(ChainVfxEffect effect) {
+        vfxManager.addEffect(effect);
+        shaderEffects.add(effect);
+    }
+
+    public void removeShaderEffect(ChainVfxEffect effect) {
+        vfxManager.removeEffect(effect);
+        shaderEffects.remove(effect);
     }
 
     public static GameScreen getInstance() {
