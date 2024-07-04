@@ -25,6 +25,7 @@ public class PlayerControlSystem extends IteratingSystem {
     Entity item;
 
     private boolean jumpTriggered = false;
+    private boolean dashTriggered = false;
 
     public PlayerControlSystem() {
         super(Family.all(PlayerComponent.class).get());

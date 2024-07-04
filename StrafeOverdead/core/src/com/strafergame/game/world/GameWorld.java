@@ -52,6 +52,8 @@ public class GameWorld implements Disposable {
         player = EntityFactory.createPlayer(playerInitialHealth, playerSpawn);
 
         mapManager.loadMap(tiledMapTest);
+
+
     }
 
     public void update(float delta) {
@@ -62,6 +64,7 @@ public class GameWorld implements Disposable {
     @Override
     public void dispose() {
         entityEngine.dispose();
+
     }
 
 

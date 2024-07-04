@@ -106,7 +106,7 @@ public class MovementSystem extends IteratingSystem {
                             break;
                         }
                         case death: {
-
+                            //.
                             break;
                         }
                         default:
