@@ -4,7 +4,7 @@ sourceCompatibility = '21'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 ext {
-	mainClassName = "com.game.straferdeliberator.IOSLauncher"
+	mainClassName = "com.strafergame.IOSLauncher"
 }
 
 launchIPhoneSimulator.dependsOn build
