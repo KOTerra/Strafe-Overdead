@@ -18,6 +18,7 @@ import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.MapManager;
+import com.strafergame.input.PlayerControl;
 import com.strafergame.ui.HUD;
 
 import java.util.Locale;
@@ -91,6 +92,7 @@ public class GameWorld implements Disposable {
                 + "Climbing: " + ComponentMappers.elevation().get(player).isClimbing + '\n'
                 + "Player Elevation: " + ComponentMappers.elevation().get(player).elevation + '\n'
                 + "x: " + Math.round(ComponentMappers.position().get(player).renderPos.x) + " y: " + Math.round(ComponentMappers.position().get(player).renderPos.y) + '\n'
+                + PlayerControl.actionSequence.toString();
         ;
         if (HUD.debugInfo != null) {
             HUD.debugInfo.setText(HUD.debugInfoText);

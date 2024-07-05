@@ -72,6 +72,8 @@ public class KeyboardInputProcessor implements InputProcessor {
             PlayerControl.DASH = false;
             handled = true;
         }
+        if (handled) {
+            PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
         }
 
         return handled;
