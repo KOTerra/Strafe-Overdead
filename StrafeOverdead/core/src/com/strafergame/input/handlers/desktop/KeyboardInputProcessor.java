@@ -40,7 +40,9 @@ public class KeyboardInputProcessor implements InputProcessor {
             PlayerControl.DASH = true;
             handled = true;
         }
-
+        if (handled) {
+            PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
+        }
 
         return handled;
     }
@@ -72,9 +74,7 @@ public class KeyboardInputProcessor implements InputProcessor {
             PlayerControl.DASH = false;
             handled = true;
         }
-        if (handled) {
-            PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
-        }
+
 
         return handled;
     }

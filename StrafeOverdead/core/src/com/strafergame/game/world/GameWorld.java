@@ -92,7 +92,9 @@ public class GameWorld implements Disposable {
                 + "Climbing: " + ComponentMappers.elevation().get(player).isClimbing + '\n'
                 + "Player Elevation: " + ComponentMappers.elevation().get(player).elevation + '\n'
                 + "x: " + Math.round(ComponentMappers.position().get(player).renderPos.x) + " y: " + Math.round(ComponentMappers.position().get(player).renderPos.y) + '\n'
-                + PlayerControl.actionSequence.toString();
+                + PlayerControl.actionSequence.toString() + '\n'
+                + PlayerControl.actionSequence.getSequenceKeycodes(3)
+                //+ PlayerControl.actionSequence.isInTimeframe(3,500);
         ;
         if (HUD.debugInfo != null) {
             HUD.debugInfo.setText(HUD.debugInfoText);
