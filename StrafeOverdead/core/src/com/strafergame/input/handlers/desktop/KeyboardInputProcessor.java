@@ -1,5 +1,6 @@
 package com.strafergame.input.handlers.desktop;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.strafergame.input.PlayerControl;
 import com.strafergame.settings.KeyboardMapping;
@@ -14,52 +15,66 @@ public class KeyboardInputProcessor implements InputProcessor {
      */
     @Override
     public boolean keyDown(int keycode) {
+        boolean handled = false;
         if (keycode == KeyboardMapping.MOVE_UP_KEY) {
             PlayerControl.MOVE_UP = true;
+            handled = true;
         }
         if (keycode == KeyboardMapping.MOVE_DOWN_KEY) {
             PlayerControl.MOVE_DOWN = true;
+            handled = true;
         }
         if (keycode == KeyboardMapping.MOVE_LEFT_KEY) {
             PlayerControl.MOVE_LEFT = true;
+            handled = true;
         }
         if (keycode == KeyboardMapping.MOVE_RIGHT_KEY) {
             PlayerControl.MOVE_RIGHT = true;
+            handled = true;
         }
         if (keycode == KeyboardMapping.JUMP_KEY) {
             PlayerControl.JUMP = true;
+            handled = true;
         }
         if (keycode == KeyboardMapping.DASH_KEY) {
             PlayerControl.DASH = true;
+            handled = true;
         }
 
 
-        return true;
+        return handled;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        boolean handled = false;
         if (keycode == KeyboardMapping.MOVE_UP_KEY) {
             PlayerControl.MOVE_UP = false;
+            handled = true;
         }
         if (keycode == KeyboardMapping.MOVE_DOWN_KEY) {
             PlayerControl.MOVE_DOWN = false;
+            handled = true;
         }
         if (keycode == KeyboardMapping.MOVE_LEFT_KEY) {
             PlayerControl.MOVE_LEFT = false;
+            handled = true;
         }
         if (keycode == KeyboardMapping.MOVE_RIGHT_KEY) {
             PlayerControl.MOVE_RIGHT = false;
+            handled = true;
         }
         if (keycode == KeyboardMapping.JUMP_KEY) {
             PlayerControl.JUMP = false;
+            handled = true;
         }
         if (keycode == KeyboardMapping.DASH_KEY) {
             PlayerControl.DASH = false;
+            handled = true;
+        }
         }
 
-
-        return true;
+        return handled;
     }
 
     @Override
@@ -71,12 +86,16 @@ public class KeyboardInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
-        return false;
+        boolean handled = false;
+
+        return handled;
     }
 
     @Override
     public boolean touchUp(int x, int y, int pointer, int button) {
-        return false;
+        boolean handled = false;
+
+        return handled;
     }
 
     @Override
@@ -106,4 +125,7 @@ public class KeyboardInputProcessor implements InputProcessor {
         return instance;
     }
 
+    private class inputSequenceElement {
+
+    }
 }
