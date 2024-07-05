@@ -105,27 +105,31 @@ public class PlayerControlSystem extends IteratingSystem {
 
         if (!movCmp.isDashCooldown) {
             if (PlayerControl.DASH && movCmp.isMoving()) {
-                movCmp.isDashCooldown = true;
-                typeCmp.entityState = EntityState.dash;
-                if (!entityEngine.getEntities().contains(item, true)) {
-                    entityEngine.addEntity(item);
-                }
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        typeCmp.entityState = EntityState.idle;
-                        if (entityEngine.getEntities().contains(item, true)) {
-                            entityEngine.removeEntity(item);
+                if (!dashTriggered) {
+                    movCmp.isDashCooldown = true;
+                    typeCmp.entityState = EntityState.dash;
+                    if (!entityEngine.getEntities().contains(item, true)) {
+                        entityEngine.addEntity(item);
+                    }
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            typeCmp.entityState = EntityState.idle;
+                            if (entityEngine.getEntities().contains(item, true)) {
+                                entityEngine.removeEntity(item);
+                            }
                         }
-                    }
-                }, movCmp.dashDuration);
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        movCmp.isDashCooldown = false;
-                    }
-                }, plyrCmp.dashCooldownDuration);
-
+                    }, movCmp.dashDuration);
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            movCmp.isDashCooldown = false;
+                        }
+                    }, plyrCmp.dashCooldownDuration);
+                    dashTriggered = true;
+                }
+            } else {
+                dashTriggered = false;
             }
         } else {
             typeCmp.entityState = EntityState.dash;
