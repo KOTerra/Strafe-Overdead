@@ -54,10 +54,6 @@ public class GameWorld implements Disposable {
         player = EntityFactory.createPlayer(playerInitialHealth, playerSpawn);
 
         mapManager.loadMap(tiledMapTest);
-
-        for (int i = 0; i < KeyboardMapping.KONAMI_CODE_SEQUENCE.length; i++) {
-            System.err.print(KeyboardMapping.KONAMI_CODE_SEQUENCE[i] + " ");
-        }
     }
 
     public void update(float delta) {
