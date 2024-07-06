@@ -24,8 +24,8 @@ public abstract class PlayerControl {
     public static boolean DASH = false;
 
 
-    public static final int SEQUENCE_TIMEFRAME=500;//ms
-    public static final int DEFAULT_SEQUENCE_CAPACITY=10;
+    public static final int SEQUENCE_TIMEFRAME = 500;//ms
+    public static final int DEFAULT_SEQUENCE_CAPACITY = 10;
     public static ActionSequence<ActionSequenceElement> actionSequence = new ActionSequence<>(DEFAULT_SEQUENCE_CAPACITY);
 
     public static class ActionSequence<ActionSequenceElement> extends ArrayDeque<ActionSequenceElement> {
@@ -46,6 +46,11 @@ public abstract class PlayerControl {
             Object[] arr = this.toArray();
             if (arr.length < length) {
                 return false;
+            }
+            if (arr[0] instanceof PlayerControl.ActionSequenceElement first) {
+                if (System.currentTimeMillis() - first.time > SEQUENCE_TIMEFRAME) {
+                    result = false;
+                }
             }
             for (int i = 0; i < length - 1; i++) {
                 if (arr[i] instanceof PlayerControl.ActionSequenceElement a && arr[i + 1] instanceof PlayerControl.ActionSequenceElement b) {
@@ -70,7 +75,7 @@ public abstract class PlayerControl {
                 return null;
             }
             for (int i = 0; i < length; i++) {
-                if (arr[length-i-1] instanceof PlayerControl.ActionSequenceElement a) {
+                if (arr[length - i - 1] instanceof PlayerControl.ActionSequenceElement a) {
                     keys.add(a.keycode);
                 }
             }
