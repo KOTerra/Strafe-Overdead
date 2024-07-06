@@ -16,7 +16,9 @@ import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.factories.ItemEntityFactory;
 import com.strafergame.game.ecs.states.EntityDirection;
 import com.strafergame.game.ecs.states.EntityState;
+import com.strafergame.game.ecs.system.interaction.EntityActionExecutor;
 import com.strafergame.input.PlayerControl;
+import com.strafergame.settings.KeyboardMapping;
 
 public class PlayerControlSystem extends IteratingSystem {
 
@@ -34,6 +36,10 @@ public class PlayerControlSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
+        executeActionSequence(entity, KeyboardMapping.KONAMI_CODE_SEQUENCE, entity1 -> {
+            System.out.println("EYOO");
+            return true;
+        });
         move(entity);
         dash(entity);
         jump(entity);
@@ -136,6 +142,17 @@ public class PlayerControlSystem extends IteratingSystem {
         }
     }
 
-//    private void
 
+    private void executeActionSequence(Entity entity, int[] sequence, EntityActionExecutor executor) {
+        boolean sequenceMatch = false;
+        if (PlayerControl.actionSequence.isInTimeframe(PlayerControl.DEFAULT_SEQUENCE_CAPACITY, PlayerControl.SEQUENCE_TIMEFRAME)) {
+            Object[] seq = PlayerControl.actionSequence.getSequenceKeycodes(sequence.length).toArray();
+            for (int i = 0; i < seq.length; i++) {
+                sequenceMatch = (Integer) seq[i] == sequence[i];
+            }
+        }
+        if (sequenceMatch) {
+            executor.execute(entity);
+        }
+    }
 }

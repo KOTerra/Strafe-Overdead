@@ -23,8 +23,10 @@ public abstract class PlayerControl {
 
     public static boolean DASH = false;
 
-    public static ActionSequence<ActionSequenceElement> actionSequence = new ActionSequence<>(5);
 
+    public static final int SEQUENCE_TIMEFRAME=500;//ms
+    public static final int DEFAULT_SEQUENCE_CAPACITY=10;
+    public static ActionSequence<ActionSequenceElement> actionSequence = new ActionSequence<>(DEFAULT_SEQUENCE_CAPACITY);
 
     public static class ActionSequence<ActionSequenceElement> extends ArrayDeque<ActionSequenceElement> {
         int capacity;
@@ -68,7 +70,7 @@ public abstract class PlayerControl {
                 return null;
             }
             for (int i = 0; i < length; i++) {
-                if (arr[i] instanceof PlayerControl.ActionSequenceElement a) {
+                if (arr[length-i-1] instanceof PlayerControl.ActionSequenceElement a) {
                     keys.add(a.keycode);
                 }
             }

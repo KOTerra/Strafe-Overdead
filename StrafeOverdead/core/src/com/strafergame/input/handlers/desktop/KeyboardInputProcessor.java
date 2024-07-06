@@ -1,6 +1,7 @@
 package com.strafergame.input.handlers.desktop;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.strafergame.input.PlayerControl;
 import com.strafergame.settings.KeyboardMapping;
@@ -40,9 +41,9 @@ public class KeyboardInputProcessor implements InputProcessor {
             PlayerControl.DASH = true;
             handled = true;
         }
-        if (handled) {
+        //if (handled) {
             PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
-        }
+       // }
 
         return handled;
     }
@@ -89,7 +90,12 @@ public class KeyboardInputProcessor implements InputProcessor {
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
         boolean handled = false;
-
+        if (button == Input.Buttons.LEFT) {
+            handled = true;
+        }
+        if (handled) {
+            PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(button, System.currentTimeMillis()));
+        }
         return handled;
     }
 
@@ -127,7 +133,4 @@ public class KeyboardInputProcessor implements InputProcessor {
         return instance;
     }
 
-    private class inputSequenceElement {
-
-    }
 }

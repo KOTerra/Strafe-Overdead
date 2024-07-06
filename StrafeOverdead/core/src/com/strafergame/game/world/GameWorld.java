@@ -19,6 +19,7 @@ import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.MapManager;
 import com.strafergame.input.PlayerControl;
+import com.strafergame.settings.KeyboardMapping;
 import com.strafergame.ui.HUD;
 
 import java.util.Locale;
@@ -54,7 +55,9 @@ public class GameWorld implements Disposable {
 
         mapManager.loadMap(tiledMapTest);
 
-
+        for (int i = 0; i < KeyboardMapping.KONAMI_CODE_SEQUENCE.length; i++) {
+            System.err.print(KeyboardMapping.KONAMI_CODE_SEQUENCE[i] + " ");
+        }
     }
 
     public void update(float delta) {
@@ -93,8 +96,8 @@ public class GameWorld implements Disposable {
                 + "Player Elevation: " + ComponentMappers.elevation().get(player).elevation + '\n'
                 + "x: " + Math.round(ComponentMappers.position().get(player).renderPos.x) + " y: " + Math.round(ComponentMappers.position().get(player).renderPos.y) + '\n'
                 + PlayerControl.actionSequence.toString() + '\n'
-                + PlayerControl.actionSequence.getSequenceKeycodes(3)
-                //+ PlayerControl.actionSequence.isInTimeframe(3,500);
+                + PlayerControl.actionSequence.getSequenceKeycodes(10) + '\n'
+        //+ PlayerControl.actionSequence.isInTimeframe(3,500);
         ;
         if (HUD.debugInfo != null) {
             HUD.debugInfo.setText(HUD.debugInfoText);

@@ -9,6 +9,7 @@ public abstract class Settings {
 	public final String LANGUAGE = preferences.getString("LANGUAGE", "ro");
 
 	public static Preferences getPreferences() {
+
 		return preferences;
 	}
 }
