@@ -6,7 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.world.CheckpointComponent;
 import com.strafergame.game.ecs.component.physics.DetectorComponent;
-import com.strafergame.game.ecs.system.combat.ProximityContact;
+import com.strafergame.game.ecs.system.interaction.ProximityContact;
 
 public class CheckpointSystem extends IteratingSystem {
 

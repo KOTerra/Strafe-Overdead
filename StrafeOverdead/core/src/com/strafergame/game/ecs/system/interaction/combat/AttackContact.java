@@ -1,4 +1,4 @@
-package com.strafergame.game.ecs.system.combat;
+package com.strafergame.game.ecs.system.interaction.combat;
 
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.strafergame.game.ecs.component.AttackComponent;

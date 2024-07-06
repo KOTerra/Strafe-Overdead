@@ -1,4 +1,4 @@
-package com.strafergame.game.ecs.system.combat;
+package com.strafergame.game.ecs.system.interaction;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -6,13 +6,13 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.utils.Timer;
 import com.strafergame.game.ecs.ComponentMappers;
-import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
+import com.strafergame.game.ecs.system.interaction.combat.AttackContact;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.screens.GameScreen;
 

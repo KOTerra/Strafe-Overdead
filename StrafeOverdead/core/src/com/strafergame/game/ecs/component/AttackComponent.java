@@ -5,8 +5,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.Pool.Poolable;
-import com.strafergame.game.ecs.system.combat.AttackRecoverType;
-import com.strafergame.game.ecs.system.combat.AttackType;
+import com.strafergame.game.ecs.system.interaction.combat.AttackRecoverType;
+import com.strafergame.game.ecs.system.interaction.combat.AttackType;
 
 public class AttackComponent implements Component, Poolable {
 

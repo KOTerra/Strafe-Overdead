@@ -10,9 +10,8 @@ import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.ActivatorComponent;
 import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
-import com.strafergame.game.ecs.states.EntityType;
-import com.strafergame.game.ecs.system.combat.AttackContact;
-import com.strafergame.game.ecs.system.combat.ProximityContact;
+import com.strafergame.game.ecs.system.interaction.combat.AttackContact;
+import com.strafergame.game.ecs.system.interaction.ProximityContact;
 
 public class FilteredContactListener implements ContactListener {
 

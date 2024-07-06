@@ -1,4 +1,4 @@
-package com.strafergame.game.ecs.system.combat;
+package com.strafergame.game.ecs.system.interaction;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;

@@ -8,7 +8,7 @@ import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.CameraComponent;
 import com.strafergame.game.ecs.component.physics.DetectorComponent;
 import com.strafergame.game.ecs.component.PlayerComponent;
-import com.strafergame.game.ecs.system.combat.ProximityContact;
+import com.strafergame.game.ecs.system.interaction.ProximityContact;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.graphics.WorldCamera;
 
