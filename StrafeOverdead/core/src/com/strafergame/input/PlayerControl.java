@@ -72,7 +72,7 @@ public abstract class PlayerControl {
             ArrayList<Integer> keys = new ArrayList<>();
             Object[] arr = this.toArray();
             if (arr.length < length) {
-                return null;
+                return new ArrayList<>();
             }
             for (int i = 0; i < length; i++) {
                 if (arr[length - i - 1] instanceof PlayerControl.ActionSequenceElement a) {

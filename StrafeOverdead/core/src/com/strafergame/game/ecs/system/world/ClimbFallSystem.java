@@ -9,7 +9,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
-import com.strafergame.game.ecs.component.SpriteComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.world.ActivatorComponent;
 import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
@@ -31,7 +30,7 @@ public class ClimbFallSystem extends IteratingSystem {
 
         climb(entity);
         if (canJump(entity) && !isClimbing(entity)) {
-            computeJumpHeight(entity);                   //maybe disable jump if climbing to prohibit jumping on slopes
+            beginJump(entity);                   //maybe disable jump if climbing to prohibit jumping on slopes
         }
         jumpArrive(entity);
 
@@ -103,7 +102,8 @@ public class ClimbFallSystem extends IteratingSystem {
         return true;
     }
 
-    private void computeJumpHeight(Entity entity) {
+
+    private void beginJump(Entity entity) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         if (typeCmp.entityState == EntityState.jump && !elvCmp.jumpTaken) {

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 
 public class KeyboardMapping {
-    
+
     public static int MOVE_UP_KEY = makeKeyMapping("KEYBOARD_MOVE_UP", "W");
     public static int MOVE_DOWN_KEY = makeKeyMapping("KEYBOARD_MOVE_DOWN", "S");
     public static int MOVE_LEFT_KEY = makeKeyMapping("KEYBOARD_MOVE_LEFT", "A");
