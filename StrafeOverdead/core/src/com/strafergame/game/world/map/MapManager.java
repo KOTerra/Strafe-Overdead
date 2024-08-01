@@ -7,8 +7,11 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector3;
 import com.strafergame.Strafer;
+import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.factories.MapEntityFactory;
+import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DWorld;
 
@@ -67,7 +70,7 @@ public class MapManager {
                 });
             }
             if (name.startsWith("enemies")) {
-                //loadTileLayer(tiledMap, name, (i, j) -> EntityFactory.createEnemy(new Vector3(i, j, 0), 1, EntityType.goblin));
+                loadTileLayer(tiledMap, name, (i, j) -> EntityFactory.createEnemy(new Vector3(i, j, 0), 1, EntityType.goblin));
             }
         });
     }

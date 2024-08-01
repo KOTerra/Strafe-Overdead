@@ -16,6 +16,8 @@ import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.component.physics.*;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
+import com.strafergame.game.ecs.system.save.GdxPreferencesSerializer;
+import com.strafergame.game.ecs.system.save.SaveAction;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.FilteredContactListener;
@@ -68,6 +70,12 @@ public abstract class EntityFactory {
         hlthComponent.hitPoints = hp;
         player.add(hlthComponent);
 
+        AutoSaveComponent asvCmp = entityEngine.createComponent(AutoSaveComponent.class);
+        asvCmp.saveAction = () -> {//make list of save entries add all with save actions type and key and where to apply them when loading?
+            GdxPreferencesSerializer.saveToPreferences("PLAYER_POSITION_COMPONENT", posCmp, PositionComponent.class);
+        };
+        player.add(asvCmp);
+
         entityEngine.addEntity(player);
         initPhysics(player);
         plyrCmp.sensor = Box2DFactory.createRadialSensor(b2dCmp.body, FilteredContactListener.DETECTOR_RADIUS,
@@ -77,6 +85,7 @@ public abstract class EntityFactory {
         b2dCmp.body.setTransform(playerSpawnLocation, 0);
 
         player.add(entityEngine.createComponent(SteeringComponent.class).setOwner(player));
+
 
         return player;
     }
@@ -93,7 +102,7 @@ public abstract class EntityFactory {
 
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
         posCmp.isHidden = false;
-        posCmp.renderPos = new Vector2(location.x,location.y);
+        posCmp.renderPos = new Vector2(location.x, location.y);
         enemy.add(posCmp);
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);

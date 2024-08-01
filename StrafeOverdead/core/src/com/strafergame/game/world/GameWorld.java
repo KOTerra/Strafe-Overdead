@@ -14,8 +14,10 @@ import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
+import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.states.EntityState;
+import com.strafergame.game.ecs.system.save.GdxPreferencesSerializer;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.MapManager;
 import com.strafergame.input.PlayerControl;
@@ -51,8 +53,12 @@ public class GameWorld implements Disposable {
         entityEngine = EntityEngine.getInstance();
         entityEngine.initSystems(box2DWorld, rayHandler);
         mapManager = new MapManager(box2DWorld, rayHandler);
-        player = EntityFactory.createPlayer(playerInitialHealth, playerSpawn);
 
+        PositionComponent posCmp = GdxPreferencesSerializer.loadFromPreferences(PositionComponent.class, "PLAYER_POSITION_COMPONENT");
+        if (posCmp != null) {
+            playerSpawn = posCmp.renderPos;
+        }
+        player = EntityFactory.createPlayer(playerInitialHealth, playerSpawn);
         mapManager.loadMap(tiledMapTest);
     }
 

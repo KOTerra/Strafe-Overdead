@@ -18,6 +18,7 @@ import com.strafergame.game.ecs.states.EntityDirection;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.interaction.EntityActionExecutor;
 import com.strafergame.input.PlayerControl;
+import com.strafergame.settings.ControllerMapping;
 import com.strafergame.settings.KeyboardMapping;
 
 public class PlayerControlSystem extends IteratingSystem {
@@ -40,6 +41,7 @@ public class PlayerControlSystem extends IteratingSystem {
             System.out.println("EYOO");
             return true;
         });
+
         move(entity);
         dash(entity);
         jump(entity);

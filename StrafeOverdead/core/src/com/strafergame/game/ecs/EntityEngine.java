@@ -56,7 +56,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
         if (!initialised) {
             this.box2dWorld = box2dWorld;
             this.rayHandler = rayHandler;
-            autoSaveSystem = new AutoSaveSystem(300);
+            autoSaveSystem = new AutoSaveSystem(10);
             movementSystem = new MovementSystem(this.box2dWorld);
             healthSystem = new HealthSystem(this.box2dWorld);
             playerControlSystem = new PlayerControlSystem();
