@@ -119,7 +119,7 @@ public class Strafer extends Game {
     public void create() {
 
         i18n = I18NBundle.createBundle(Gdx.files.internal("i18n/ui/bundle"),
-                new Locale(Settings.getPreferences().getString("LANGUAGE")), "utf-8");
+                new Locale(Settings.LANGUAGE, "utf-8"));//Settings.getPreferences().getString("LANGUAGE")), "utf-8");
 
         spriteBatch = new SpriteBatch();
 
