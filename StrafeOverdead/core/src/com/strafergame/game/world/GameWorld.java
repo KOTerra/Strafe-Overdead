@@ -54,7 +54,7 @@ public class GameWorld implements Disposable {
         entityEngine.initSystems(box2DWorld, rayHandler);
         mapManager = new MapManager(box2DWorld, rayHandler);
 
-        PositionComponent posCmp = GdxPreferencesSerializer.loadFromPreferences(PositionComponent.class, "PLAYER_POSITION_COMPONENT");
+        PositionComponent posCmp = new PositionComponent();//GdxPreferencesSerializer.loadFromPreferences(PositionComponent.class, "PLAYER_POSITION_COMPONENT");
         if (posCmp != null) {
             playerSpawn = posCmp.renderPos;
         }

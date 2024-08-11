@@ -18,9 +18,12 @@ import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.save.GdxPreferencesSerializer;
 import com.strafergame.game.ecs.system.save.SaveAction;
+import com.strafergame.game.ecs.system.save.SaveSystem;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.FilteredContactListener;
+
+import java.io.IOException;
 
 
 public abstract class EntityFactory {
@@ -72,7 +75,11 @@ public abstract class EntityFactory {
 
         AutoSaveComponent asvCmp = entityEngine.createComponent(AutoSaveComponent.class);
         asvCmp.saveAction = () -> {//make list of save entries add all with save actions type and key and where to apply them when loading?
-            GdxPreferencesSerializer.saveToPreferences("PLAYER_POSITION_COMPONENT", posCmp, PositionComponent.class);
+//            GdxPreferencesSerializer.saveToPreferences("PLAYER_POSITION_COMPONENT", posCmp, PositionComponent.class);
+            SaveSystem.getCurrentSave().register("PLAYER_POSITION_COMPONENT", posCmp, PositionComponent.class);
+            SaveSystem.getCurrentSave().register("PLAYER_ELEVATION_COMPONENT", elvCmp, ElevationComponent.class);
+            SaveSystem.getCurrentSave().serialize();
+
         };
         player.add(asvCmp);
 
