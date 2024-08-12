@@ -38,9 +38,15 @@ public abstract class EntityFactory {
         typeCmp.entityType = EntityType.player;
         player.add(typeCmp);
 
-        PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
+        // final PositionComponent posCmp = (PositionComponent) SaveSystem.getCurrentSave().getRecords().get("PLAYER_POSITION_COMPONENT").getObject();
+        PositionComponent posCmp;
+        //  if (posCmp == null) {
+        posCmp = entityEngine.createComponent(PositionComponent.class);
         posCmp.isHidden = false;
         posCmp.renderPos = playerSpawnLocation.cpy();
+//        } else {
+//            posCmp = null;
+//        }
         player.add(posCmp);
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);

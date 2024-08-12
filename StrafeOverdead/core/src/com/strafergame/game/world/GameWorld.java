@@ -18,12 +18,15 @@ import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.save.GdxPreferencesSerializer;
+import com.strafergame.game.ecs.system.save.Save;
+import com.strafergame.game.ecs.system.save.SaveSystem;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.MapManager;
 import com.strafergame.input.PlayerControl;
 import com.strafergame.settings.KeyboardMapping;
 import com.strafergame.ui.HUD;
 
+import java.util.HashMap;
 import java.util.Locale;
 
 public class GameWorld implements Disposable {
@@ -54,11 +57,16 @@ public class GameWorld implements Disposable {
         entityEngine.initSystems(box2DWorld, rayHandler);
         mapManager = new MapManager(box2DWorld, rayHandler);
 
-        PositionComponent posCmp = new PositionComponent();//GdxPreferencesSerializer.loadFromPreferences(PositionComponent.class, "PLAYER_POSITION_COMPONENT");
+        SaveSystem.getCurrentSave().deserialize();
+
+
+       // //PositionComponent posCmp = new PositionComponent();
+        // GdxPreferencesSerializer.loadFromPreferences(PositionComponent.class, "PLAYER_POSITION_COMPONENT");
+        PositionComponent posCmp=SaveSystem.retrieveFromRecords("PLAYER_POSITION_COMPONENT");
         if (posCmp != null) {
-            playerSpawn = posCmp.renderPos;
-        }
-        player = EntityFactory.createPlayer(playerInitialHealth, playerSpawn);
+           playerSpawn = posCmp.renderPos;
+       }
+        player = EntityFactory.createPlayer(playerInitialHealth, playerSpawn);//player load data instead of player spawn
         mapManager.loadMap(tiledMapTest);
     }
 
