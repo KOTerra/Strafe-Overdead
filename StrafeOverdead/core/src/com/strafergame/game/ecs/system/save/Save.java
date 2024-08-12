@@ -20,6 +20,7 @@ public class Save extends Entity {
     private String fileName;
     private FileHandle fileHandle;
     private File file;
+    private boolean justCreated = false;
     private Instant created;
     private Instant lastSaved;
     private static final Json json = new Json();
@@ -39,14 +40,13 @@ public class Save extends Entity {
         fileHandle = Gdx.files.external(fileName);
         file = fileHandle.file();
         try {
-            file.createNewFile();
+            justCreated = file.createNewFile();
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
         System.out.println(file.getAbsolutePath());
         Settings.getPreferences().putString("LAST_SAVE_INDEX_ON_SLOT_" + slotIndex, Integer.toString(saveIndex));
         Settings.getPreferences().putString("LAST_USED_SAVE_SLOT", Integer.toString(slotIndex)).flush();
-
     }
 
     public <T> void register(String key, T object, Class<T> objectType) {
@@ -56,13 +56,31 @@ public class Save extends Entity {
         records.put(key, new SaveRecord<>(key, object, objectType));
     }
 
+    private <T> void registerIfAbsent(String key, T object, Class<T> objectType) {
+        if (records == null) {
+            records = new HashMap<>();
+        }
+        records.putIfAbsent(key, new SaveRecord<>(key, object, objectType));
+
+    }
+
     public void serialize() {
         fileHandle.writeString("", false);
+
+        if (justCreated) {
+            created = Instant.now();
+        }
+        if (created != null) {
+            registerIfAbsent("FIRST_CREATED_SECONDS", created.getEpochSecond(), Long.class);
+        }
+
         lastSaved = Instant.now();
-        System.out.println("\nSaved at: " + Time.from(lastSaved));
         register("LAST_SAVED_SECONDS", lastSaved.getEpochSecond(), Long.class);
+        System.out.println("\nSaved at: " + Time.from(lastSaved));
+        
         fileHandle.writeString(json.toJson(records), false);
     }
+
 
     public <T> void deserialize() {
         records.clear();
@@ -71,8 +89,10 @@ public class Save extends Entity {
         if (!jsonString.equals("{}")) {
             records = json.fromJson(HashMap.class, jsonString);
             if (records != null) {
+                created = Instant.ofEpochSecond(SaveSystem.retrieveFromRecords("FIRST_CREATED_SECONDS"));
+
                 Instant savedAt = Instant.ofEpochSecond(SaveSystem.retrieveFromRecords("LAST_SAVED_SECONDS"));
-                System.err.println("\nLoaded save from: " + Time.from(savedAt)+"\n");
+                System.err.println("\nLoaded save from: " + Time.from(savedAt) + "\n");
                 records.forEach((key, value) -> {
                     SaveRecord record = records.get(key);
                     // System.out.println("deser "+record.object);
@@ -121,7 +141,7 @@ public class Save extends Entity {
         @Override
         public void read(Json json, JsonValue jsonData) {
             key = jsonData.name();
-            System.err.println("\naaaa  " + key );
+            System.err.println("\naaaa  " + key);
             try {
                 objectType = (Class<T>) Class.forName(jsonData.getString("class"));
                 System.err.println("bbbb " + objectType.getName());
