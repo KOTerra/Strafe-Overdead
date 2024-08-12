@@ -14,13 +14,12 @@ public abstract class Settings {
         Instant instant = Instant.now();
         ZoneId z = ZoneId.systemDefault();
         LocalDateTime ldt = LocalDateTime.ofInstant(instant, z);
-
+        //System.out.println(ldt);
 
 //		OffsetDateTime odt = ldt.atOffset( z.getRules().getOffset(ldt)) ;
 //		ZonedDateTime zdt = odt.atZoneSameInstant( z ) ;
 //        System.out.println(zdt);//with region mentioned
 
-        System.out.println(ldt);
         return preferences;
     }
 }
