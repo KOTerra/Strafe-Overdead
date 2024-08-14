@@ -23,8 +23,9 @@ public class ControllerInputHandler implements ControllerListener {
             PlayerControl.DASH = true;
             keycode = KeyboardMapping.DASH_KEY;
         }
-        PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
-
+        if (keycode != -1) {
+            PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
+        }
         return keycode != -1;
     }
 
@@ -81,7 +82,9 @@ public class ControllerInputHandler implements ControllerListener {
                 break;
             }
         }
-        PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
+        if (keycode != -1) {
+            PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
+        }
         return keycode != -1;
     }
 

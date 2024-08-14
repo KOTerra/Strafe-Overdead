@@ -47,8 +47,8 @@ public class GameScreen implements Screen {
         bloomEffect.setBloomIntensity(1.2f);
 
         //addShaderEffect(chromaticAberrationEffect);
-        addShaderEffect(bloomEffect);
-        addShaderEffect(tvEffect);
+        //addShaderEffect(bloomEffect);
+        //addShaderEffect(tvEffect);
     }
 
     public void update(float delta) {

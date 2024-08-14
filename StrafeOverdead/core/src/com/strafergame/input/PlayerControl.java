@@ -124,6 +124,9 @@ public abstract class PlayerControl {
         }
 
         public String toString() {
+            if(keycode<0){
+                return "negative "+time;
+            }
             return Input.Keys.toString(keycode) + ' ' + time;
         }
     }
