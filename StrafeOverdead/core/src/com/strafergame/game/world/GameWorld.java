@@ -53,20 +53,22 @@ public class GameWorld implements Disposable {
 
 
     public GameWorld() {
+        //create systems
         entityEngine = EntityEngine.getInstance();
         entityEngine.initSystems(box2DWorld, rayHandler);
-        mapManager = new MapManager(box2DWorld, rayHandler);
 
+        //load saved data
         SaveSystem.getCurrentSave().deserialize();
 
-
-       // //PositionComponent posCmp = new PositionComponent();
-        // GdxPreferencesSerializer.loadFromPreferences(PositionComponent.class, "PLAYER_POSITION_COMPONENT");
-        PositionComponent posCmp=SaveSystem.retrieveFromRecords("PLAYER_POSITION_COMPONENT");
+        //create player
+        PositionComponent posCmp=SaveSystem.retrieveFromRecords("PLAYER_POSITION_COMPONENT");//player load data instead of player spawn
         if (posCmp != null) {
            playerSpawn = posCmp.renderPos;
        }
-        player = EntityFactory.createPlayer(playerInitialHealth, playerSpawn);//player load data instead of player spawn
+        player = EntityFactory.createPlayer(playerInitialHealth, playerSpawn);
+
+        //load map
+        mapManager = new MapManager(box2DWorld, rayHandler);
         mapManager.loadMap(tiledMapTest);
     }
 
@@ -78,9 +80,7 @@ public class GameWorld implements Disposable {
     @Override
     public void dispose() {
         entityEngine.dispose();
-
     }
-
 
     public void reset() {
         for (Entity e : entityEngine.getEntities()) {

@@ -1,5 +1,6 @@
 package com.strafergame.input.handlers.controller;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.strafergame.input.PlayerControl;
@@ -15,14 +16,35 @@ public class ControllerInputHandler implements ControllerListener {
     @Override
     public boolean buttonDown(Controller controller, int buttonIndex) {
         int keycode = -1;
-        if (buttonIndex == controller.getMapping().buttonB) {
-            PlayerControl.JUMP = true;
-            keycode = KeyboardMapping.JUMP_KEY;
-        }
+
+        ///ABXY
         if (buttonIndex == controller.getMapping().buttonA) {
             PlayerControl.DASH = true;
             keycode = KeyboardMapping.DASH_KEY;
         }
+        if (buttonIndex == controller.getMapping().buttonB) {
+            PlayerControl.JUMP = true;
+            keycode = KeyboardMapping.JUMP_KEY;
+        }
+        if (buttonIndex == controller.getMapping().buttonX) {
+        }
+        if (buttonIndex == controller.getMapping().buttonY) {
+        }
+
+        //Dpad
+        if (buttonIndex == controller.getMapping().buttonDpadUp) {
+            keycode= Input.Keys.UP;
+        }
+        if (buttonIndex == controller.getMapping().buttonDpadDown) {
+            keycode=Input.Keys.DOWN;
+        }
+        if (buttonIndex == controller.getMapping().buttonDpadLeft) {
+            keycode=Input.Keys.LEFT;
+        }
+        if (buttonIndex == controller.getMapping().buttonDpadRight) {
+            keycode=Input.Keys.RIGHT;
+        }
+
         if (keycode != -1) {
             PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
         }
@@ -31,11 +53,26 @@ public class ControllerInputHandler implements ControllerListener {
 
     @Override
     public boolean buttonUp(Controller controller, int buttonIndex) {
+        ///ABXY
+        if (buttonIndex == controller.getMapping().buttonA) {
+            PlayerControl.DASH = false;
+        }
         if (buttonIndex == controller.getMapping().buttonB) {
             PlayerControl.JUMP = false;
         }
-        if (buttonIndex == controller.getMapping().buttonA) {
-            PlayerControl.DASH = false;
+        if (buttonIndex == controller.getMapping().buttonX) {
+        }
+        if (buttonIndex == controller.getMapping().buttonY) {
+        }
+
+        //Dpad
+        if (buttonIndex == controller.getMapping().buttonDpadUp) {
+        }
+        if (buttonIndex == controller.getMapping().buttonDpadDown) {
+        }
+        if (buttonIndex == controller.getMapping().buttonDpadLeft) {
+        }
+        if (buttonIndex == controller.getMapping().buttonDpadRight) {
         }
 
         return true;

@@ -16,7 +16,7 @@ public class KeyboardMapping {
     public static int MAP_TRIGGER_KEY = makeKeyMapping("KEYBOARD_MAP_TRIGGER", "Tab");
 
     public static int[] KONAMI_CODE_SEQUENCE = makeSequenceMapping("KONAMI_CODE",
-            "Up", "Up", "Down", "Down", "Left", "Right", "Left", "Right", "B", "A");
+            "Up", "Up", "Down", "Down", "Left", "Right", "Left", "Right", "Space", "L-Shift");
 
 
     private static int makeKeyMapping(String settingsKey, String defaultValue) {
