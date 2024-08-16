@@ -16,50 +16,39 @@ import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.component.physics.*;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
-import com.strafergame.game.ecs.system.save.GdxPreferencesSerializer;
-import com.strafergame.game.ecs.system.save.SaveAction;
+import com.strafergame.game.ecs.system.save.PlayerSaveData;
 import com.strafergame.game.ecs.system.save.SaveSystem;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.FilteredContactListener;
 
-import java.io.IOException;
-
 
 public abstract class EntityFactory {
     private static final EntityEngine entityEngine = EntityEngine.getInstance();
 
-    public static Entity createPlayer(int hp, final Vector2 playerSpawnLocation) {
+    public static Entity createPlayer(PlayerSaveData playerSaveData) {
         final Entity player = entityEngine.createEntity();
-        PlayerComponent plyrCmp = entityEngine.createComponent(PlayerComponent.class);
-        player.add(plyrCmp);
+        playerSaveData.setPlayer(player);
+        playerSaveData.retrieve();
+        playerSaveData.loadOwner();
 
         EntityTypeComponent typeCmp = entityEngine.createComponent(EntityTypeComponent.class);
         typeCmp.entityType = EntityType.player;
         player.add(typeCmp);
 
-        // final PositionComponent posCmp = (PositionComponent) SaveSystem.getCurrentSave().getRecords().get("PLAYER_POSITION_COMPONENT").getObject();
-        PositionComponent posCmp;
-        //  if (posCmp == null) {
-        posCmp = entityEngine.createComponent(PositionComponent.class);
-        posCmp.isHidden = false;
-        posCmp.renderPos = playerSpawnLocation.cpy();
-//        } else {
-//            posCmp = null;
-//        }
-        player.add(posCmp);
+        PlayerComponent plyrCmp = entityEngine.createComponent(PlayerComponent.class);
+        player.add(plyrCmp);
 
-        ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
-        elvCmp.gravity = true;
-        elvCmp.elevation = 0;
-        posCmp.elevation = 0;
-        player.add(elvCmp);
+        StatsComponent statsCmp = playerSaveData.getStatsCmp();
+
+        PositionComponent posCmp = playerSaveData.getPosCmp();
+
+        ElevationComponent elvCmp = playerSaveData.getElvCmp();
 
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
-        movCmp.maxLinearSpeed = plyrCmp.baseSpeed;
-        movCmp.dashDuration = 1f;
-        movCmp.dashForce = plyrCmp.dashForce;
-
+        movCmp.maxLinearSpeed = statsCmp.baseSpeed;
+        movCmp.dashDuration = statsCmp.dashDuration;
+        movCmp.dashForce = statsCmp.dashForce;
         player.add(movCmp);
 
         SpriteComponent spriteCmp = entityEngine.createComponent(SpriteComponent.class);
@@ -75,17 +64,12 @@ public abstract class EntityFactory {
         Box2dComponent b2dCmp = entityEngine.createComponent(Box2dComponent.class);
         player.add(b2dCmp);
 
-        HealthComponent hlthComponent = entityEngine.createComponent(HealthComponent.class);
-        hlthComponent.hitPoints = hp;
-        player.add(hlthComponent);
+        HealthComponent hlthCmp = playerSaveData.getHealthCmp();
 
         AutoSaveComponent asvCmp = entityEngine.createComponent(AutoSaveComponent.class);
-        asvCmp.saveAction = () -> {//make list of save entries add all with save actions type and key and where to apply them when loading?
-//            GdxPreferencesSerializer.saveToPreferences("PLAYER_POSITION_COMPONENT", posCmp, PositionComponent.class);
-            SaveSystem.getCurrentSave().register("PLAYER_POSITION_COMPONENT", posCmp, PositionComponent.class);
-            SaveSystem.getCurrentSave().register("PLAYER_ELEVATION_COMPONENT", elvCmp, ElevationComponent.class);
+        asvCmp.saveAction = () -> {
+            playerSaveData.register();
             SaveSystem.getCurrentSave().serialize();
-
         };
         player.add(asvCmp);
 
@@ -94,11 +78,9 @@ public abstract class EntityFactory {
         plyrCmp.sensor = Box2DFactory.createRadialSensor(b2dCmp.body, FilteredContactListener.DETECTOR_RADIUS,
                 FilteredContactListener.PLAYER_CATEGORY, FilteredContactListener.PLAYER_DETECTOR_CATEGORY);
         b2dCmp.body.setUserData(player);
+        b2dCmp.body.setTransform(posCmp.renderPos, 0);
 
-        b2dCmp.body.setTransform(playerSpawnLocation, 0);
-
-        player.add(entityEngine.createComponent(SteeringComponent.class).setOwner(player));
-
+        player.add(entityEngine.createComponent(SteeringComponent.class).setOwner(player));//the steering
 
         return player;
     }

@@ -19,7 +19,7 @@ public class ElevationComponent implements Component {
     /**
      * wether the entity is affected by gravity
      */
-    public boolean gravity = false;
+    public boolean gravity = true;
 
     /**
      * where the jump stops
