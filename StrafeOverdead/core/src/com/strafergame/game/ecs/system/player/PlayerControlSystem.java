@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.ecs.component.StatsComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.physics.MovementComponent;
@@ -103,7 +104,7 @@ public class PlayerControlSystem extends IteratingSystem {
     private void dash(Entity e) {
         final MovementComponent movCmp = ComponentMappers.movement().get(e);
         final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
-        final PlayerComponent plyrCmp = ComponentMappers.player().get(e);
+        final StatsComponent statsCmp = ComponentMappers.stats().get(e);
 
         final EntityEngine entityEngine = (EntityEngine) this.getEngine();
 
@@ -133,7 +134,7 @@ public class PlayerControlSystem extends IteratingSystem {
                         public void run() {
                             movCmp.isDashCooldown = false;
                         }
-                    }, plyrCmp.dashCooldownDuration);
+                    }, statsCmp.dashCooldownDuration);
                     dashTriggered = true;
                 }
             } else {

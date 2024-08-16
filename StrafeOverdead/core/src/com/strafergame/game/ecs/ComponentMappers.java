@@ -1,5 +1,6 @@
 package com.strafergame.game.ecs;
 
+import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
 import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.ai.SteeringComponent;
@@ -92,6 +93,11 @@ public abstract class ComponentMappers {
     public static final ComponentMapper<AutoSaveComponent> save() {
         return ComponentMapper.getFor(AutoSaveComponent.class);
     }
+
+    public static final ComponentMapper<StatsComponent> stats() {
+        return ComponentMapper.getFor(StatsComponent.class);
+    }
+
 
     private ComponentMappers() {
     }
