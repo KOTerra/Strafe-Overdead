@@ -18,6 +18,7 @@ import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.save.GdxPreferencesSerializer;
+import com.strafergame.game.ecs.system.save.PlayerSaveData;
 import com.strafergame.game.ecs.system.save.Save;
 import com.strafergame.game.ecs.system.save.SaveSystem;
 import com.strafergame.game.world.collision.Box2DWorld;
@@ -61,11 +62,7 @@ public class GameWorld implements Disposable {
         SaveSystem.getCurrentSave().deserialize();
 
         //create player
-        PositionComponent posCmp=SaveSystem.retrieveFromRecords("PLAYER_POSITION_COMPONENT");//player load data instead of player spawn
-        if (posCmp != null) {
-           playerSpawn = posCmp.renderPos;
-       }
-        player = EntityFactory.createPlayer(playerInitialHealth, playerSpawn);
+        player = EntityFactory.createPlayer(new PlayerSaveData());
 
         //load map
         mapManager = new MapManager(box2DWorld, rayHandler);
