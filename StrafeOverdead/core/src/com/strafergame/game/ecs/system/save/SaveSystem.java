@@ -1,5 +1,8 @@
 package com.strafergame.game.ecs.system.save;
 
+import com.strafergame.game.ecs.system.save.data.MetaSaveData;
+import com.strafergame.game.ecs.system.save.data.PlayerSaveData;
+import com.strafergame.game.ecs.system.save.data.WorldSaveData;
 import com.strafergame.settings.Settings;
 
 import java.util.HashMap;
@@ -7,6 +10,10 @@ import java.util.HashMap;
 public class SaveSystem {
     public static boolean suppressAutosave = false;
     private static Save currentSave;
+
+    private static MetaSaveData metaSaveData = new MetaSaveData();
+    private static PlayerSaveData playerSaveData = new PlayerSaveData();
+    private static WorldSaveData worldSaveData = new WorldSaveData();
 
 
     public static Save getCurrentSave() {
@@ -50,4 +57,7 @@ public class SaveSystem {
         return result;
     }
 
+    public static PlayerSaveData getPlayerSaveData() {
+        return playerSaveData;
+    }
 }

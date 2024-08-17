@@ -14,27 +14,19 @@ import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
-import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.states.EntityState;
-import com.strafergame.game.ecs.system.save.GdxPreferencesSerializer;
-import com.strafergame.game.ecs.system.save.PlayerSaveData;
-import com.strafergame.game.ecs.system.save.Save;
 import com.strafergame.game.ecs.system.save.SaveSystem;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.MapManager;
 import com.strafergame.input.PlayerControl;
-import com.strafergame.settings.KeyboardMapping;
 import com.strafergame.ui.HUD;
 
-import java.util.HashMap;
 import java.util.Locale;
 
 public class GameWorld implements Disposable {
 
     private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/test.tmx", TiledMap.class);
-    private Vector2 playerSpawn = new Vector2(4, 4);
-    private int playerInitialHealth = 100;
 
     /**
      * the physics engine updates 90 times each second no matter the framerate so it can use kg/m/s
@@ -62,7 +54,7 @@ public class GameWorld implements Disposable {
         SaveSystem.getCurrentSave().deserialize();
 
         //create player
-        player = EntityFactory.createPlayer(new PlayerSaveData());
+        player = EntityFactory.createPlayer();
 
         //load map
         mapManager = new MapManager(box2DWorld, rayHandler);
@@ -88,11 +80,11 @@ public class GameWorld implements Disposable {
         mapManager.loadMap(tiledMapTest);
 
         HealthComponent hlthCmp = ComponentMappers.health().get(player);
-        hlthCmp.hitPoints = playerInitialHealth;
+        //hlthCmp.hitPoints = playerInitialHealth;
         EntityTypeComponent ettCmp = ComponentMappers.entityType().get(player);
         ettCmp.entityState = EntityState.idle;
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(player);
-        b2dCmp.body.setTransform(playerSpawn, 0);
+        //b2dCmp.body.setTransform(playerSpawn, 0);
     }
 
 

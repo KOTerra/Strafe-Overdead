@@ -16,7 +16,7 @@ import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.component.physics.*;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
-import com.strafergame.game.ecs.system.save.PlayerSaveData;
+import com.strafergame.game.ecs.system.save.data.PlayerSaveData;
 import com.strafergame.game.ecs.system.save.SaveSystem;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DFactory;
@@ -26,8 +26,9 @@ import com.strafergame.game.world.collision.FilteredContactListener;
 public abstract class EntityFactory {
     private static final EntityEngine entityEngine = EntityEngine.getInstance();
 
-    public static Entity createPlayer(PlayerSaveData playerSaveData) {
+    public static Entity createPlayer() {
         final Entity player = entityEngine.createEntity();
+        PlayerSaveData playerSaveData = SaveSystem.getPlayerSaveData();
         playerSaveData.setPlayer(player);
         playerSaveData.retrieve();
         playerSaveData.loadOwner();

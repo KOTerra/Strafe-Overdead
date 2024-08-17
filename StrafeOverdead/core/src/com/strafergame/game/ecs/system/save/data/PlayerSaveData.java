@@ -1,4 +1,4 @@
-package com.strafergame.game.ecs.system.save;
+package com.strafergame.game.ecs.system.save.data;
 
 import com.badlogic.ashley.core.Entity;
 import com.strafergame.game.ecs.EntityEngine;
@@ -6,6 +6,7 @@ import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
 import com.strafergame.game.ecs.component.StatsComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
+import com.strafergame.game.ecs.system.save.SaveSystem;
 
 /**
  * implementation of the SaveData interface that links the player's save data to the player Entity

@@ -1,4 +1,4 @@
-package com.strafergame.game.ecs.system.save;
+package com.strafergame.game.ecs.system.save.data;
 
 /**
  * A pack of data that retrieves said data from a save file and loads it in its owner. The owner can be an object such as the player Entity and the data can be components
