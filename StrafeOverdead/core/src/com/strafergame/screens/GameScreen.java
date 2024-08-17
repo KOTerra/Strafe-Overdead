@@ -47,8 +47,8 @@ public class GameScreen implements Screen {
         bloomEffect.setBloomIntensity(1.2f);
 
         //addShaderEffect(chromaticAberrationEffect);
-        //addShaderEffect(bloomEffect);
-        //addShaderEffect(tvEffect);
+//        addShaderEffect(bloomEffect);
+//        addShaderEffect(tvEffect);
     }
 
     public void update(float delta) {
@@ -97,11 +97,7 @@ public class GameScreen implements Screen {
         Strafer.uiScreenViewport.update(width, height, true);
         hud.resize();
 
-        if (Gdx.graphics.isFullscreen()) {
-            vfxManager.resize(width, height);
-        } else {
-            vfxManager.resize(width * 2, height * 2);
-        }
+        vfxManager.resize(Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
     }
 
     @Override
