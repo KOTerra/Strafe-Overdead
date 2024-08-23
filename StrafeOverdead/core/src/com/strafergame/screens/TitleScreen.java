@@ -18,16 +18,19 @@ public class TitleScreen implements Screen {
     TitleMenu titleMenu;
     ShapeRenderer shapeRenderer = new ShapeRenderer();
     Cursor cursor;
+    float initialHeight;
+    float initialWidth;
 
     public TitleScreen() {
         titleMenu = new TitleMenu();
-
+        initialHeight = Gdx.graphics.getHeight();
+        initialWidth = Gdx.graphics.getWidth();
     }
 
     @Override
     public void resize(int width, int height) {
         Strafer.uiManager.getViewport().update(width, height, true);
-        renderBackground();
+
         titleMenu.resize();
 
     }
@@ -81,7 +84,7 @@ public class TitleScreen implements Screen {
         if (Gdx.app.getType().equals(ApplicationType.Desktop)) {
 
             Pixmap pixmap = new Pixmap(Gdx.files.internal("ui/cursor.png"));
-            // Set hotspot to the middle of it (0,0 would be the top-left corner)
+            // Set hotspot (0,0 would be the top-left corner)
             cursor = Gdx.graphics.newCursor(pixmap, 0, 0);
             pixmap.dispose();
             Gdx.graphics.setCursor(cursor);
@@ -91,11 +94,9 @@ public class TitleScreen implements Screen {
     }
 
     public void renderBackground() {
-
         shapeRenderer.begin(ShapeType.Filled);
         shapeRenderer.setColor(Color.valueOf("#4a496b"));
-        float height = (Strafer.uiManager.getHeight() / 1080f) * 360f;
-        shapeRenderer.rect(0, Strafer.uiManager.getHeight() / 2f - height / 2f, Strafer.uiManager.getWidth(), height);
+        shapeRenderer.rect(0, initialHeight / 3f, initialWidth, initialHeight / 3f);
         shapeRenderer.end();
     }
 
