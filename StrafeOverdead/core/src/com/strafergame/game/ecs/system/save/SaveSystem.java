@@ -18,9 +18,9 @@ public class SaveSystem {
 
     public static Save getCurrentSave() {
         if (currentSave == null) {
-            String slot = Settings.getPreferences().getString("LAST_USED_SAVE_SLOT", "1");
-            String index = Settings.getPreferences().getString("LAST_SAVE_INDEX_ON_SLOT_" + slot, "0");//index on the given slot
-            currentSave = new Save(Integer.parseInt(slot), Integer.parseInt(index));
+            int slot = Settings.getPreferences().getInteger("LAST_USED_SAVE_SLOT", 1);
+            int index = Settings.getPreferences().getInteger("LAST_SAVE_INDEX_ON_SLOT_" + slot, 0);//index on the given slot
+            currentSave = new Save(slot, index);
         }
         return currentSave;
     }

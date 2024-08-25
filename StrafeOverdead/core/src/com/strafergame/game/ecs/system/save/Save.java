@@ -1,23 +1,35 @@
 package com.strafergame.game.ecs.system.save;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.strafergame.screens.GameScreen;
 import com.strafergame.settings.Settings;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.zip.Deflater;
 
 public class Save extends Entity {
 
     private String fileName;
     private FileHandle fileHandle;
     private File file;
+
+    private int slotIndex;
+    private int saveIndex;
 
     private boolean justCreated = false;
     private Instant created;
@@ -28,6 +40,8 @@ public class Save extends Entity {
     private HashMap<String, SaveRecord> records = new HashMap<>();
 
     public Save(int slotIndex, int saveIndex) {
+        this.slotIndex = slotIndex;
+        this.saveIndex = saveIndex;
 
         Gdx.files.external(".strafedevs/saves/slot_" + slotIndex).mkdirs();
 
@@ -43,8 +57,11 @@ public class Save extends Entity {
             System.err.println(e.getMessage());
         }
         System.out.println(file.getAbsolutePath() + "\n");
-        Settings.getPreferences().putString("LAST_SAVE_INDEX_ON_SLOT_" + slotIndex, Integer.toString(saveIndex));
-        Settings.getPreferences().putString("LAST_USED_SAVE_SLOT", Integer.toString(slotIndex)).flush();
+        Settings.getPreferences().putInteger("HIGHEST_SAVE_INDEX_ON_SLOT_" + slotIndex, Math.max(Settings.getPreferences().getInteger("HIGHEST_SAVE_INDEX_ON_SLOT_" + slotIndex, 0), saveIndex));
+        Settings.getPreferences().putInteger("HIGHEST_SAVE_SLOT", Math.max(Settings.getPreferences().getInteger("HIGHEST_SAVE_SLOT", 0), slotIndex));
+        Settings.getPreferences().putInteger("LAST_SAVE_INDEX_ON_SLOT_" + slotIndex, saveIndex);
+        Settings.getPreferences().putInteger("LAST_USED_SAVE_SLOT", slotIndex);
+        Settings.getPreferences().flush();
     }
 
     public <T> void register(String key, T object, Class<T> objectType) {
@@ -77,6 +94,7 @@ public class Save extends Entity {
         System.out.println("\nSaved at: " + Date.from(lastSaved));
 
         fileHandle.writeString(json.toJson(records), false);
+        GameScreen.scheduleScreenshot(".strafedevs/saves/slot_" + slotIndex + "/save_" + saveIndex + ".png");
     }
 
 
@@ -99,6 +117,7 @@ public class Save extends Entity {
         }
 
     }
+
 
     public HashMap<String, SaveRecord> getRecords() {
         if (records == null) {

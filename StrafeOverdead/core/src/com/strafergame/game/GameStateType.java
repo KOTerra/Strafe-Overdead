@@ -37,6 +37,7 @@ public enum GameStateType implements State<GameStateManager> {
         public void enter(GameStateManager entity) {
             Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
             Strafer.getInstance().setScreen(SettingsScreen.getInstance());
+            //suggest to the settings menu to fallback to either the pause menu or title menu
         }
 
     },
