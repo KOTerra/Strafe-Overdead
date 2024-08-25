@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.crashinvaders.vfx.VfxManager;
 import com.crashinvaders.vfx.effects.*;
@@ -12,6 +13,7 @@ import com.strafergame.game.world.GameWorld;
 import com.strafergame.ui.HUD;
 
 import java.util.ArrayList;
+import java.util.zip.Deflater;
 
 public class GameScreen implements Screen {
 
@@ -30,6 +32,9 @@ public class GameScreen implements Screen {
     ChromaticAberrationEffect chromaticAberrationEffect;
     BloomEffect bloomEffect;
     OldTvEffect tvEffect;
+
+    private static boolean takeScreenshot = false;
+    private static String screenshotPath;
 
     public GameScreen() {
         gameWorld = new GameWorld();
@@ -50,6 +55,7 @@ public class GameScreen implements Screen {
 //        addShaderEffect(bloomEffect);
 //        addShaderEffect(tvEffect);
     }
+
 
     public void update(float delta) {
         Strafer.worldCamera.update();
@@ -83,6 +89,11 @@ public class GameScreen implements Screen {
         vfxManager.endInputCapture();
         vfxManager.applyEffects();
         vfxManager.renderToScreen();
+
+        if (takeScreenshot) {
+            PixmapIO.writePNG(Gdx.files.external(screenshotPath), Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight()), Deflater.DEFAULT_COMPRESSION, true);
+            takeScreenshot = false;
+        }
 
     }
 
@@ -151,6 +162,11 @@ public class GameScreen implements Screen {
     public void removeShaderEffect(ChainVfxEffect effect) {
         vfxManager.removeEffect(effect);
         shaderEffects.remove(effect);
+    }
+
+    public static void scheduleScreenshot(String path) {
+        screenshotPath = path;
+        takeScreenshot = true;
     }
 
     public static GameScreen getInstance() {
