@@ -91,7 +91,24 @@ public class GameScreen implements Screen {
         vfxManager.renderToScreen();
 
         if (takeScreenshot) {
-            PixmapIO.writePNG(Gdx.files.external(screenshotPath), Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight()), Deflater.DEFAULT_COMPRESSION, true);
+            Pixmap originalPixmap = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+
+            int newWidth = 240;
+            int newHeight = 135;
+            Pixmap resizedPixmap = new Pixmap(newWidth, newHeight, originalPixmap.getFormat());
+            resizedPixmap.drawPixmap(
+                    originalPixmap,  // The original Pixmap to be scaled
+                    0, 0,           // Source position (x, y) from the original pixmap
+                    originalPixmap.getWidth(), originalPixmap.getHeight(),  // Source width and height
+                    0, 0,           // Destination position (x, y) on the resized pixmap
+                    newWidth, newHeight  // Destination width and height (new size)
+            );
+
+            PixmapIO.writePNG(Gdx.files.external(screenshotPath), resizedPixmap, Deflater.NO_COMPRESSION,true);
+
+            originalPixmap.dispose();
+            resizedPixmap.dispose();
+//            PixmapIO.writePNG(Gdx.files.external(screenshotPath), Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight()), Deflater.DEFAULT_COMPRESSION, true);
             takeScreenshot = false;
         }
 
