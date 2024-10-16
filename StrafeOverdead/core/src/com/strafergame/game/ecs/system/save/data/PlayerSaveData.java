@@ -1,7 +1,6 @@
 package com.strafergame.game.ecs.system.save.data;
 
 import com.badlogic.ashley.core.Entity;
-import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
 import com.strafergame.game.ecs.component.StatsComponent;
@@ -15,17 +14,18 @@ public class PlayerSaveData implements SaveData {
 
     Entity player;
 
-    StatsComponent statsCmp;
-    PositionComponent posCmp;
-    ElevationComponent elvCmp;
-    HealthComponent healthCmp;
+    private StatsComponent statsCmp;
+    private PositionComponent posCmp;
+    private ElevationComponent elvCmp;
+    private HealthComponent healthCmp;
+
 
     @Override
     public void retrieve() {
-        statsCmp = SaveSystem.retrieveFromRecords("PLAYER_STATS_COMPONENT", EntityEngine.getInstance().createComponent(StatsComponent.class));
-        posCmp = SaveSystem.retrieveFromRecords("PLAYER_POSITION_COMPONENT", EntityEngine.getInstance().createComponent(PositionComponent.class));
-        elvCmp = SaveSystem.retrieveFromRecords("PLAYER_ELEVATION_COMPONENT", EntityEngine.getInstance().createComponent(ElevationComponent.class));
-        healthCmp = SaveSystem.retrieveFromRecords("PLAYER_HEALTH_COMPONENT", EntityEngine.getInstance().createComponent(HealthComponent.class));
+        statsCmp = SaveSystem.retrieveComponentFromRecords("PLAYER_STATS_COMPONENT", StatsComponent.class);
+        posCmp = SaveSystem.retrieveComponentFromRecords("PLAYER_POSITION_COMPONENT", PositionComponent.class);
+        elvCmp = SaveSystem.retrieveComponentFromRecords("PLAYER_ELEVATION_COMPONENT", ElevationComponent.class);
+        healthCmp = SaveSystem.retrieveComponentFromRecords("PLAYER_HEALTH_COMPONENT", HealthComponent.class);
     }
 
     @Override

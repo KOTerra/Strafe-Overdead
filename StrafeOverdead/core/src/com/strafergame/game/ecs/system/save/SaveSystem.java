@@ -1,5 +1,7 @@
 package com.strafergame.game.ecs.system.save;
 
+import com.badlogic.ashley.core.Component;
+import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.system.save.data.MetaSaveData;
 import com.strafergame.game.ecs.system.save.data.PlayerSaveData;
 import com.strafergame.game.ecs.system.save.data.WorldSaveData;
@@ -36,6 +38,22 @@ public class SaveSystem {
         return null;
     }
 
+    /**
+     * if not found, the entity engine creates a new one
+     *
+     * @param key
+     * @param defaultClass
+     * @param <T>          the type of the component MUST implement Component
+     * @return
+     */
+    public static <T extends Component> T retrieveComponentFromRecords(String key, Class<T> defaultClass) {
+        T result = retrieveFromRecords(key);
+        if (result == null) {
+            return EntityEngine.getInstance().createComponent(defaultClass);
+        }
+        return result;
+    }
+
     public static <T> T retrieveFromRecordsNN(String key, Class<T> clazz) {
         T result = retrieveFromRecords(key);
         if (result == null) {
@@ -53,11 +71,19 @@ public class SaveSystem {
         if (result == null) {
             return defaultValue;
         }
-        defaultValue = null;
         return result;
     }
 
+
     public static PlayerSaveData getPlayerSaveData() {
         return playerSaveData;
+    }
+
+    public static MetaSaveData getMetaSaveData() {
+        return metaSaveData;
+    }
+
+    public static WorldSaveData getWorldSaveData() {
+        return worldSaveData;
     }
 }

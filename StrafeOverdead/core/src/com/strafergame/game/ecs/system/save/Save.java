@@ -86,7 +86,7 @@ public class Save extends Entity {
             created = Instant.now();
         }
         if (created != null) {
-            registerIfAbsent("FIRST_CREATED_SECONDS", created.getEpochSecond(), Long.class);
+            registerIfAbsent("FIRST_CREATED_SECONDS", created.getEpochSecond(), Long.class); //register to metasavedataa
         }
 
         lastSaved = Instant.now();
