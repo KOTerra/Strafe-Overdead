@@ -54,7 +54,7 @@ public class SaveSystem {
         return result;
     }
 
-    public static <T> T retrieveFromRecordsNN(String key, Class<T> clazz) {
+    public static <T> T retrieveFromRecordsNN(String key, Class<T> clazz) {//not null
         T result = retrieveFromRecords(key);
         if (result == null) {
             try {

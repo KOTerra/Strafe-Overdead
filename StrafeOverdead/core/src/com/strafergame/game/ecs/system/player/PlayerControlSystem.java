@@ -8,18 +8,17 @@ import com.badlogic.gdx.utils.Timer;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.ecs.component.EntityTypeComponent;
+import com.strafergame.game.ecs.component.PlayerComponent;
 import com.strafergame.game.ecs.component.StatsComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
-import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.physics.MovementComponent;
-import com.strafergame.game.ecs.component.PlayerComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.factories.ItemEntityFactory;
 import com.strafergame.game.ecs.states.EntityDirection;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.interaction.EntityActionExecutor;
 import com.strafergame.input.PlayerControl;
-import com.strafergame.settings.ControllerMapping;
 import com.strafergame.settings.KeyboardMapping;
 
 public class PlayerControlSystem extends IteratingSystem {

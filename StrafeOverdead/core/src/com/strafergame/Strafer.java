@@ -15,7 +15,6 @@ import com.strafergame.game.GameStateType;
 import com.strafergame.graphics.OrthogonalTiledMapRendererBleeding;
 import com.strafergame.graphics.WorldCamera;
 import com.strafergame.input.InputManager;
-import com.strafergame.screens.LoadingScreen;
 import com.strafergame.settings.Settings;
 import com.strafergame.ui.UiManager;
 

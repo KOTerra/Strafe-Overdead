@@ -1,26 +1,18 @@
 package com.strafergame.game.ecs.system.save;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.PixmapIO;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.ScreenUtils;
 import com.strafergame.screens.GameScreen;
 import com.strafergame.settings.Settings;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.zip.Deflater;
 
 public class Save extends Entity {
 
@@ -94,7 +86,10 @@ public class Save extends Entity {
         System.out.println("\nSaved at: " + Date.from(lastSaved));
 
         fileHandle.writeString(json.toJson(records), false);
+
         GameScreen.scheduleScreenshot(".strafedevs/saves/slot_" + slotIndex + "/save_" + saveIndex + ".png");
+
+        lastSaved = Instant.now();
     }
 
 
@@ -126,7 +121,7 @@ public class Save extends Entity {
         return records;
     }
 
-    public Instant getLastSaved() {
+    public Instant getLastSavedInstant() {
         return lastSaved;
     }
 
