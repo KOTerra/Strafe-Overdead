@@ -20,6 +20,7 @@ import com.strafergame.game.ecs.system.save.AutoSaveSystem;
 import com.strafergame.game.ecs.system.world.ActivatorSystem;
 import com.strafergame.game.ecs.system.world.ClimbFallSystem;
 import com.strafergame.game.ecs.system.world.ElevationSystem;
+import com.strafergame.game.ecs.system.world.ShadowSystem;
 import com.strafergame.game.world.collision.Box2DWorld;
 
 public class EntityEngine extends PooledEngine implements Disposable {
@@ -36,6 +37,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
     private HealthSystem healthSystem;
     private PlayerControlSystem playerControlSystem;
     private ElevationSystem elevationSystem;
+    private ShadowSystem shadowSystem=new ShadowSystem();
     private final RenderingSystem renderingSystem = new RenderingSystem();
     private final CheckpointSystem checkpointSystem = new CheckpointSystem();
     private final ActivatorSystem activatorSystem = new ActivatorSystem();
@@ -69,6 +71,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
             addSystem(playerControlSystem);
             addSystem(healthSystem);
             addSystem(attachmentSystem);
+            addSystem(shadowSystem);
             addSystem(combatSystem);
 
 

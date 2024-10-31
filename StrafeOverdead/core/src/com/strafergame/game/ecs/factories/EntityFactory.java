@@ -14,6 +14,7 @@ import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.component.physics.*;
+import com.strafergame.game.ecs.component.world.ShadowComponent;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.save.data.PlayerSaveData;
@@ -62,6 +63,10 @@ public abstract class EntityFactory {
         aniCmp.animation = AnimationProvider.getAnimation(player);
         player.add(aniCmp);
 
+        ShadowComponent shdCmp = entityEngine.createComponent(ShadowComponent.class);
+        shdCmp.radius = aniCmp.animation.getKeyFrame(0).getWidth() * .4f;
+        player.add(shdCmp);
+
         Box2dComponent b2dCmp = entityEngine.createComponent(Box2dComponent.class);
         player.add(b2dCmp);
 
@@ -86,7 +91,7 @@ public abstract class EntityFactory {
         return player;
     }
 
-    public static Entity createEnemy(final Vector3 location, float scale, EntityType type) {
+    public static Entity createEnemy(final Vector3 location, float scale, EntityType type) {//use Object decorator pattern with this
         final Entity enemy = entityEngine.createEntity();
         EntityTypeComponent typeCmp = entityEngine.createComponent(EntityTypeComponent.class);
         typeCmp.entityType = type;
@@ -103,6 +108,7 @@ public abstract class EntityFactory {
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
         elvCmp.gravity = true;
+        elvCmp.fallTargetY = posCmp.renderPos.y;
         elvCmp.elevation = (int) location.z;
         posCmp.elevation = (int) location.z;
         enemy.add(elvCmp);
@@ -123,6 +129,10 @@ public abstract class EntityFactory {
         AnimationComponent aniCmp = entityEngine.createComponent(AnimationComponent.class);
         aniCmp.animation = AnimationProvider.getAnimation(enemy);
         enemy.add(aniCmp);
+
+        ShadowComponent shdCmp = entityEngine.createComponent(ShadowComponent.class);
+        shdCmp.radius = spriteCmp.width * 10f;
+        enemy.add(shdCmp);
 
         Box2dComponent b2dCmp = entityEngine.createComponent(Box2dComponent.class);
         enemy.add(b2dCmp);

@@ -18,8 +18,8 @@ import com.strafergame.game.world.map.MapManager;
 
 public class ClimbFallSystem extends IteratingSystem {
 
-    private int OFF_WORLD_FALL_DISTANCE = -10;
-    private final int TARGET_NOT_CALCULATED = -100;
+    private final int OFF_WORLD_FALL_DISTANCE = -10;
+    public static final int TARGET_NOT_CALCULATED = -100;
 
     public ClimbFallSystem() {
         super(Family.all(ElevationComponent.class, Box2dComponent.class).get());

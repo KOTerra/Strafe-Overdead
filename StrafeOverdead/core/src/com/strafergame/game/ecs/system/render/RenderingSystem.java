@@ -6,20 +6,24 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import com.crashinvaders.vfx.VfxManager;
-import com.crashinvaders.vfx.effects.BloomEffect;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
-import com.strafergame.game.ecs.component.world.MapLayerComponent;
+import com.strafergame.game.ecs.component.world.ShadowComponent;
+import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class RenderingSystem extends SortedIteratingSystem {
 
     private SpriteBatch batch; // a reference to our spritebatch
+    private ShapeDrawer shadowDrawer;
+    private TextureRegion onePixelTextureRegion;
     // String vertexShader;
     // String fragmentShader;
     // ShaderProgram shaderProgram;
@@ -32,11 +36,11 @@ public class RenderingSystem extends SortedIteratingSystem {
     private ComponentMapper<PositionComponent> positionMapper;
 
 
-
     public RenderingSystem() {
         super(Family.all(SpriteComponent.class, PositionComponent.class).get(), new ZComparator());
 
         this.batch = Strafer.spriteBatch;
+        initShadowDrawer();
         // vertexShader = Gdx.files.internal("shaders/default.vert").readString();
         // fragmentShader = Gdx.files.internal("shaders/default.frag").readString();
         // shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
@@ -46,6 +50,10 @@ public class RenderingSystem extends SortedIteratingSystem {
 
         renderQueue = new Array<>();
 
+    }
+
+    public Entity getNearest() {
+        return renderQueue.first();
     }
 
     @Override
@@ -69,6 +77,12 @@ public class RenderingSystem extends SortedIteratingSystem {
                 continue;
             }
 
+            ShadowComponent shdCmp = ComponentMappers.shadow().get(entity);
+
+            if (shdCmp != null) {
+                shadowDrawer.filledEllipse(shdCmp.position.x, shdCmp.position.y, shdCmp.radius*.05f, shdCmp.radius * .025f);
+            }
+
             batch.draw(spriteCmp.sprite, posCmp.renderPos.x - spriteCmp.width / 2, posCmp.renderPos.y, // -
                     // getHeight()
                     // / 2, //
@@ -84,9 +98,22 @@ public class RenderingSystem extends SortedIteratingSystem {
         renderQueue.clear();
     }
 
+
     @Override
     public void processEntity(Entity entity, float deltaTime) {
         renderQueue.add(entity);
+    }
+
+    void initShadowDrawer() {
+        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.drawPixel(0, 0);
+        Texture pixelTexture = new Texture(pixmap);
+        pixmap.dispose();
+        onePixelTextureRegion = new TextureRegion(pixelTexture, 0, 0, 1, 1);
+        shadowDrawer = new ShapeDrawer(batch, onePixelTextureRegion);
+        shadowDrawer.setColor(new Color(0, 0, 0, .25f));
+       // shadowDrawer.setColor(Color.CYAN);
     }
 
 }

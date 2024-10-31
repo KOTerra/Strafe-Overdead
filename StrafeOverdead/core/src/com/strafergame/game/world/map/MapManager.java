@@ -70,7 +70,7 @@ public class MapManager {
                 });
             }
             if (name.startsWith("enemies")) {
-                loadTileLayer(tiledMap, name, (i, j) -> EntityFactory.createEnemy(new Vector3(i, j, 0), 1, EntityType.goblin));
+                loadTileLayer(tiledMap, name, (i, j) -> EntityFactory.createEnemy(new Vector3(i, j, 1), 1, EntityType.goblin));//starts on one level of elevation higher to stabilise the shadow
             }
         });
     }
