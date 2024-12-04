@@ -13,12 +13,17 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Save extends Entity {
 
     private String fileName;
     private FileHandle fileHandle;
     private File file;
+
+    public static final FileHandle savesDirectory = Gdx.files.external(".strafedevs/saves");
+    public static final String fileRegex = ".*/slot_(\\d+)/save_(\\d+)\\.sav$";
 
     private int slotIndex;
     private int saveIndex;
@@ -100,7 +105,7 @@ public class Save extends Entity {
         if (!jsonString.equals("{}")) {
             records = json.fromJson(HashMap.class, jsonString);
             if (records != null) {
-                created = Instant.ofEpochSecond(SaveSystem.retrieveFromRecords("FIRST_CREATED_SECONDS"));
+                created = Instant.ofEpochSecond(SaveSystem.retrieveFromRecordsNN("FIRST_CREATED_SECONDS", long.class));
 
                 Instant savedAt = Instant.ofEpochSecond(SaveSystem.retrieveFromRecords("LAST_SAVED_SECONDS"));
                 System.err.println("\nLoaded save from: " + Date.from(savedAt) + "\n");
@@ -164,4 +169,24 @@ public class Save extends Entity {
 
         }
     }
+
+    public static int[] extractIndices(String fileName) {
+        Pattern regex = Pattern.compile(fileRegex);
+        Matcher matcher = regex.matcher(fileName);
+
+        if (matcher.matches()) {
+            try {
+                int slotIndex = Integer.parseInt(matcher.group(1));
+                int saveIndex = Integer.parseInt(matcher.group(2));
+                return new int[]{slotIndex, saveIndex};
+            } catch (NumberFormatException e) {
+                System.err.println("Error parsing numbers from filename: " + fileName);
+            }
+        } else {
+            System.err.println("Filename does not match expected pattern: " + fileName);
+        }
+
+        return null;
+    }
+
 }
