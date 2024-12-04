@@ -15,6 +15,7 @@ import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.strafergame.Strafer;
 import com.strafergame.game.GameStateManager;
 import com.strafergame.game.GameStateType;
+import com.strafergame.game.ecs.system.save.SaveSystem;
 
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
@@ -25,6 +26,7 @@ public class TitleMenu extends Table {
     VisImage banner;
 
     VisTextButton loadGameButton;
+    VisTextButton continueOrNewGameButton;
 
     public TitleMenu() {
         this.game = Strafer.getInstance();
@@ -44,12 +46,31 @@ public class TitleMenu extends Table {
         background.addActor(banner);
         banner.setAlign(Align.center);
         Strafer.uiManager.addActor(background);
-
     }
 
     private void makeButtons() {
-        loadGameButton = new VisTextButton(Strafer.i18n.get("playButton"));
 
+        if (SaveSystem.anySaveFiles()) {
+            continueOrNewGameButton = new VisTextButton(Strafer.i18n.get("continueButton"));
+        } else {
+            continueOrNewGameButton = new VisTextButton(Strafer.i18n.get("newGameButton"));
+        }
+        row();
+        add(continueOrNewGameButton);
+        Strafer.uiManager.addFocusableActor(continueOrNewGameButton);
+        Strafer.uiManager.setFocusedActor(continueOrNewGameButton);
+        Strafer.uiManager.setEscapeActor(continueOrNewGameButton);
+
+        continueOrNewGameButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                continueOrNewGameButton.setText(Strafer.i18n.get("continueButton"));
+                GameStateManager.changeState(GameStateType.PLAY);
+            }
+        });
+
+
+        loadGameButton = new VisTextButton(Strafer.i18n.get("loadGameButton"));
         row();
         add(loadGameButton);
         Strafer.uiManager.addFocusableActor(loadGameButton);
@@ -59,7 +80,7 @@ public class TitleMenu extends Table {
         loadGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                GameStateManager.changeState(GameStateType.PLAY);
+                GameStateManager.changeState(GameStateType.LOAD_SAVE_MENU);
             }
         });
 
