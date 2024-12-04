@@ -86,6 +86,7 @@ public class SaveSystem {
         return currentSave == null;
     }
 
+    //TODO: needs to also trigger deserialization
     public static void setCurrentSave(Save currentSave) {
         SaveSystem.currentSave = currentSave;
     }
@@ -112,11 +113,12 @@ public class SaveSystem {
             if (file.isDirectory()) {
                 populateSavesList(file);
             } else {
-                if (file.path().matches(Save.fileRegex)) {
+                if (file.path().matches(Save.fileRegex) && !savesFiles.contains(file)) {
                     savesFiles.add(file);
                 }
             }
         }
+
     }
 
     public static List<FileHandle> getSavesFiles() {
