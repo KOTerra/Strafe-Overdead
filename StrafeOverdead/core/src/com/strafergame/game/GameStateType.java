@@ -5,10 +5,7 @@ import com.badlogic.gdx.ai.fsm.State;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
-import com.strafergame.screens.GameScreen;
-import com.strafergame.screens.LoadingScreen;
-import com.strafergame.screens.SettingsScreen;
-import com.strafergame.screens.TitleScreen;
+import com.strafergame.screens.*;
 
 //pause and add ecs systems and listeners based on the gamestate
 public enum GameStateType implements State<GameStateManager> {
@@ -40,6 +37,12 @@ public enum GameStateType implements State<GameStateManager> {
             //suggest to the settings menu to fallback to either the pause menu or title menu
         }
 
+    },
+    LOAD_SAVE_MENU {
+        @Override
+        public void enter(GameStateManager entity) {
+            Strafer.getInstance().setScreen(LoadSaveScreen.getInstance());
+        }
     },
     PAUSE {
         @Override
