@@ -2,10 +2,13 @@ package com.strafergame.game.ecs.system.save;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.files.FileHandle;
+import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.system.save.data.MetaSaveData;
 import com.strafergame.game.ecs.system.save.data.PlayerSaveData;
 import com.strafergame.game.ecs.system.save.data.WorldSaveData;
+import com.strafergame.game.world.GameWorld;
+import com.strafergame.screens.GameScreen;
 import com.strafergame.settings.Settings;
 
 import java.util.ArrayList;
@@ -89,6 +92,7 @@ public class SaveSystem {
     //TODO: needs to also trigger deserialization
     public static void setCurrentSave(Save currentSave) {
         SaveSystem.currentSave = currentSave;
+        GameScreen.getInstance().getGameWorld().triggerLoad();
     }
 
 

@@ -1,1 +1,1 @@
-![newLogo.png](newLogo.png)
+![/StrafeOverdead/assets/ui/textures/banner.png](StrafeOverdead/assets/ui/textures/banner.png)

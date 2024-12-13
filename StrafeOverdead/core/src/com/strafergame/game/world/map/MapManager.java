@@ -34,10 +34,15 @@ public class MapManager {
     }
 
     public void loadMap(TiledMap tiledMap) {
-        this.map = tiledMap;
-
+        if (this.map != null) {
+            this.map.dispose();
+        }
         layersElevatedMap.clear();
         layersElevatedMap.put(0, new MapLayers());
+        maxElevation = 0;
+
+
+        this.map = tiledMap;
 
         tiledMap.getLayers().forEach(MapEntityFactory::createLayerEntity);
         loadMapObjects(tiledMap);
@@ -140,4 +145,6 @@ public class MapManager {
     public static Map<Integer, MapLayers> getLayersElevatedMap() {
         return layersElevatedMap;
     }
+
+
 }

@@ -551,7 +551,7 @@
    </properties>
   </object>
  </objectgroup>
- <layer id="9" name="gorund10" width="128" height="128">
+ <layer id="9" name="ground10" width="128" height="128">
   <properties>
    <property name="elevation" type="int" value="10"/>
   </properties>

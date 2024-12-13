@@ -47,6 +47,7 @@ public abstract class EntityFactory {
 
         ElevationComponent elvCmp = playerSaveData.getElvCmp();
 
+
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
         movCmp.maxLinearSpeed = statsCmp.baseSpeed;
         movCmp.dashDuration = statsCmp.dashDuration;
@@ -87,6 +88,7 @@ public abstract class EntityFactory {
         b2dCmp.body.setTransform(posCmp.renderPos, 0);
 
         player.add(entityEngine.createComponent(SteeringComponent.class).setOwner(player));//the steering
+
 
         return player;
     }

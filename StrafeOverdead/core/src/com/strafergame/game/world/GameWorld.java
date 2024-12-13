@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
@@ -26,7 +25,7 @@ import java.util.Locale;
 
 public class GameWorld implements Disposable {
 
-    private final TiledMap tiledMapTest = Strafer.assetManager.get("maps/test/test.tmx", TiledMap.class);
+    private TiledMap currentMap;
 
     /**
      * the physics engine updates 90 times each second no matter the framerate so it can use kg/m/s
@@ -50,15 +49,24 @@ public class GameWorld implements Disposable {
         entityEngine = EntityEngine.getInstance();
         entityEngine.initSystems(box2DWorld, rayHandler);
 
-        //load saved data
-        SaveSystem.getCurrentSave().deserialize();
+        mapManager = new MapManager(box2DWorld, rayHandler);
 
+        SaveSystem.getCurrentSave().deserialize();
         //create player
         player = EntityFactory.createPlayer();
 
         //load map
-        mapManager = new MapManager(box2DWorld, rayHandler);
-        mapManager.loadMap(tiledMapTest);
+        currentMap = Strafer.assetManager.get("maps/test/test.tmx", TiledMap.class);    //TODO replace with get(from save path)
+        mapManager.loadMap(currentMap);
+    }
+
+    public void triggerLoad() {
+        //TODO load things back in existing entities and map also take care of old instances such as maps that are replaced, those should be disposed of
+//load saved data
+        // SaveSystem.getCurrentSave().deserialize();
+
+        //EntityEngine.getInstance().removeAllEntities();
+
     }
 
     public void update(float delta) {
@@ -69,22 +77,6 @@ public class GameWorld implements Disposable {
     @Override
     public void dispose() {
         entityEngine.dispose();
-    }
-
-    public void reset() {
-        for (Entity e : entityEngine.getEntities()) {
-            if (e != player) {
-                entityEngine.removeEntity(e);
-            }
-        }
-        mapManager.loadMap(tiledMapTest);
-
-        HealthComponent hlthCmp = ComponentMappers.health().get(player);
-        //hlthCmp.hitPoints = playerInitialHealth;
-        EntityTypeComponent ettCmp = ComponentMappers.entityType().get(player);
-        ettCmp.entityState = EntityState.idle;
-        Box2dComponent b2dCmp = ComponentMappers.box2d().get(player);
-        //b2dCmp.body.setTransform(playerSpawn, 0);
     }
 
 
@@ -121,7 +113,6 @@ public class GameWorld implements Disposable {
                 Strafer.worldCamera.setFocusOn(player);
             }
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_2)) {
-                this.reset();
             }
 
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_4)) {
