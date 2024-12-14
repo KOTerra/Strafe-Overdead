@@ -18,4 +18,9 @@ public class StorySaveData implements SaveData {
     public void loadOwner() {
 
     }
+
+    @Override
+    public void invalidate() {
+
+    }
 }

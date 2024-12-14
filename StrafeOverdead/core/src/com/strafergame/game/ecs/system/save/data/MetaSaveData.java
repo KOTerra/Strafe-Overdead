@@ -17,4 +17,9 @@ public class MetaSaveData implements SaveData {
     public void loadOwner() {
 
     }
+
+    @Override
+    public void invalidate() {
+
+    }
 }

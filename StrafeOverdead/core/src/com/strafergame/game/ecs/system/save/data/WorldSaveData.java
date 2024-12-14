@@ -15,4 +15,9 @@ public class WorldSaveData implements SaveData {
     public void loadOwner() {
 
     }
+
+    @Override
+    public void invalidate() {
+
+    }
 }

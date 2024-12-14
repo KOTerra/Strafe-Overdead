@@ -18,4 +18,9 @@ public interface SaveData {
      * links the data to its owner
      */
      void loadOwner();
+
+    /**
+     * deletes the current data
+     */
+    void invalidate();
 }
