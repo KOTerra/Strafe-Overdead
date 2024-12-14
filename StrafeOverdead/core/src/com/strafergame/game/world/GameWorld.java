@@ -63,10 +63,12 @@ public class GameWorld implements Disposable {
     public void triggerLoad() {
         //TODO load things back in existing entities and map also take care of old instances such as maps that are replaced, those should be disposed of
 //load saved data
-        // SaveSystem.getCurrentSave().deserialize();
 
-        //EntityEngine.getInstance().removeAllEntities();
-
+        SaveSystem.getPlayerSaveData().invalidate();
+        SaveSystem.getCurrentSave().deserialize();
+        SaveSystem.getPlayerSaveData().retrieve();
+        SaveSystem.getPlayerSaveData().register();
+        SaveSystem.getPlayerSaveData().loadOwner();
     }
 
     public void update(float delta) {

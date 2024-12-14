@@ -29,10 +29,29 @@ public abstract class EntityFactory {
 
     public static Entity createPlayer() {
         final Entity player = entityEngine.createEntity();
+
+
         PlayerSaveData playerSaveData = SaveSystem.getPlayerSaveData();
+
+        AutoSaveComponent asvCmp = entityEngine.createComponent(AutoSaveComponent.class);
+        asvCmp.saveAction = () -> {
+            playerSaveData.register();
+            SaveSystem.getCurrentSave().serialize();
+        };
+        player.add(asvCmp);
+
         playerSaveData.setPlayer(player);
         playerSaveData.retrieve();
         playerSaveData.loadOwner();
+
+
+        //deserialized
+        StatsComponent statsCmp = playerSaveData.getStatsCmp();
+        PositionComponent posCmp = playerSaveData.getPosCmp();
+        ElevationComponent elvCmp = playerSaveData.getElvCmp();
+        HealthComponent hlthCmp = playerSaveData.getHealthCmp();
+        //deserialized
+
 
         EntityTypeComponent typeCmp = entityEngine.createComponent(EntityTypeComponent.class);
         typeCmp.entityType = EntityType.player;
@@ -40,19 +59,6 @@ public abstract class EntityFactory {
 
         PlayerComponent plyrCmp = entityEngine.createComponent(PlayerComponent.class);
         player.add(plyrCmp);
-
-        StatsComponent statsCmp = playerSaveData.getStatsCmp();
-
-        PositionComponent posCmp = playerSaveData.getPosCmp();
-
-        ElevationComponent elvCmp = playerSaveData.getElvCmp();
-
-
-        MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
-        movCmp.maxLinearSpeed = statsCmp.baseSpeed;
-        movCmp.dashDuration = statsCmp.dashDuration;
-        movCmp.dashForce = statsCmp.dashForce;
-        player.add(movCmp);
 
         SpriteComponent spriteCmp = entityEngine.createComponent(SpriteComponent.class);
         player.add(spriteCmp);
@@ -68,19 +74,17 @@ public abstract class EntityFactory {
         shdCmp.radius = aniCmp.animation.getKeyFrame(0).getWidth() * .4f;
         player.add(shdCmp);
 
+
+        //dependant on serialization
+        MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
+        movCmp.maxLinearSpeed = statsCmp.baseSpeed;
+        movCmp.dashDuration = statsCmp.dashDuration;
+        movCmp.dashForce = statsCmp.dashForce;
+        player.add(movCmp);
+
+
         Box2dComponent b2dCmp = entityEngine.createComponent(Box2dComponent.class);
         player.add(b2dCmp);
-
-        HealthComponent hlthCmp = playerSaveData.getHealthCmp();
-
-        AutoSaveComponent asvCmp = entityEngine.createComponent(AutoSaveComponent.class);
-        asvCmp.saveAction = () -> {
-            playerSaveData.register();
-            SaveSystem.getCurrentSave().serialize();
-        };
-        player.add(asvCmp);
-
-        entityEngine.addEntity(player);
         initPhysics(player);
         plyrCmp.sensor = Box2DFactory.createRadialSensor(b2dCmp.body, FilteredContactListener.DETECTOR_RADIUS,
                 FilteredContactListener.PLAYER_CATEGORY, FilteredContactListener.PLAYER_DETECTOR_CATEGORY);
@@ -89,7 +93,7 @@ public abstract class EntityFactory {
 
         player.add(entityEngine.createComponent(SteeringComponent.class).setOwner(player));//the steering
 
-
+        entityEngine.addEntity(player);
         return player;
     }
 
