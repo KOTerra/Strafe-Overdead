@@ -64,6 +64,15 @@ public class UIControllerInputHandler implements ControllerListener {
             handled = true;
         }
 
+        if (buttonIndex == controller.getMapping().buttonR2) {
+            UIControl.NEXT = true;
+            handled = true;
+        }
+        if (buttonIndex == controller.getMapping().buttonR1) {
+            UIControl.PREVIOUS = true;
+            handled = true;
+        }
+
         return handled;
     }
 
@@ -76,6 +85,43 @@ public class UIControllerInputHandler implements ControllerListener {
         }
         if (buttonIndex == controller.getMapping().buttonBack) {
             UIControl.MAP_TRIGGER = false;
+            handled = true;
+        }
+        if (!UiManager.canControlUI()) {    //HudStates
+            return false;
+        }
+        if (buttonIndex == controller.getMapping().buttonDpadDown) {
+            UIControl.DOWN_SELECT = false;
+            handled = true;
+        }
+        if (buttonIndex == controller.getMapping().buttonDpadUp) {
+            UIControl.UP_SELECT = false;
+            handled = true;
+        }
+        if (buttonIndex == controller.getMapping().buttonDpadRight) {
+            UIControl.RIGHT_SELECT = false;
+            handled = true;
+        }
+        if (buttonIndex == controller.getMapping().buttonDpadLeft) {
+            UIControl.LEFT_SELECT = false;
+            handled = true;
+        }
+        if (buttonIndex == controller.getMapping().buttonA) {
+            UIControl.SELECT = false;
+            handled = true;
+        }
+
+        if (buttonIndex == controller.getMapping().buttonB) {
+            UIControl.BACK = false;
+            handled = true;
+        }
+
+        if (buttonIndex == controller.getMapping().buttonR2) {
+            UIControl.NEXT = false;
+            handled = true;
+        }
+        if (buttonIndex == controller.getMapping().buttonR1) {
+            UIControl.PREVIOUS = false;
             handled = true;
         }
         return handled;

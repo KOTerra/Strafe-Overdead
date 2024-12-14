@@ -43,6 +43,12 @@ public enum GameStateType implements State<GameStateManager> {
         public void enter(GameStateManager entity) {
             Strafer.getInstance().setScreen(LoadSaveScreen.getInstance());
         }
+        @Override
+        public void exit(GameStateManager entity) {
+            EntityEngine.getInstance().pauseOnSystems(null, false);
+            Strafer.uiManager.emptyTrigger();
+
+        }
     },
     PAUSE {
         @Override
@@ -64,6 +70,7 @@ public enum GameStateType implements State<GameStateManager> {
         public void enter(GameStateManager entity) {
             Strafer.getInstance().setScreen(GameScreen.getInstance());
         }
+
     };
 
     @Override
