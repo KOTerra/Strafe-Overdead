@@ -69,6 +69,8 @@ public class GameWorld implements Disposable {
         SaveSystem.getPlayerSaveData().retrieve();
         SaveSystem.getPlayerSaveData().register();
         SaveSystem.getPlayerSaveData().loadOwner();
+
+        //world and meta
     }
 
     public void update(float delta) {

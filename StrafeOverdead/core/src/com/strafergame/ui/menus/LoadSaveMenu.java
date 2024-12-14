@@ -20,7 +20,8 @@ import de.golfgl.gdx.controllers.ControllerScrollPane;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LoadSaveMenu extends Table {           ///Slots horizontal, saveindexes vertical
+public class LoadSaveMenu extends Table {
+    /// Slots horizontal, saveindexes vertical
     Save lastSave;
 
     List<FileHandle> savesFiles = new ArrayList<>();
@@ -45,6 +46,8 @@ public class LoadSaveMenu extends Table {           ///Slots horizontal, saveind
             }
         });
         this.add(playButton);
+        Strafer.uiManager.addFocusableActor(playButton);
+        Strafer.uiManager.setFocusedActor(playButton);
         row();
 
         backButton.addListener(new ChangeListener() {
@@ -54,6 +57,7 @@ public class LoadSaveMenu extends Table {           ///Slots horizontal, saveind
             }
         });
         add(backButton);
+        Strafer.uiManager.addFocusableActor(backButton);
         row();
 
     }
@@ -73,10 +77,10 @@ public class LoadSaveMenu extends Table {           ///Slots horizontal, saveind
             VisLabel label = new VisLabel(file.path());
             int[] indeces = Save.extractIndices(file.path());
 
-            label.addListener(new ClickListener(){
+            label.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if(event.getTouchFocus()){
+                    if (event.getTouchFocus()) {
                         System.out.println("selected: " + label.getText());
                         SaveSystem.setCurrentSave(new Save(indeces[0], indeces[1]));
                     }
@@ -85,7 +89,7 @@ public class LoadSaveMenu extends Table {           ///Slots horizontal, saveind
 
             label.setUserObject(file);
             this.add(label).row();
-
+            Strafer.uiManager.addFocusableActor(label);
         }
     }
 

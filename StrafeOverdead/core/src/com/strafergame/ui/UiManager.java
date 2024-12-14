@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -98,6 +99,12 @@ public class UiManager extends ControllerMenuStage implements Disposable {
         if (UIControl.UP_SELECT) {
             moveFocusByDirection(MoveFocusDirection.north);
         }
+        if (UIControl.LEFT_SELECT) {
+            moveFocusByDirection(MoveFocusDirection.west);
+        }
+        if (UIControl.RIGHT_SELECT) {
+            moveFocusByDirection(MoveFocusDirection.east);
+        }
         if (UIControl.NEXT) {
             moveFocusByList(true);
         }
@@ -112,12 +119,14 @@ public class UiManager extends ControllerMenuStage implements Disposable {
 
 
     private void highlight() {
-        Color c = getFocusedActor().getColor();
-        if (c.a == 1f) {
-            c.a = .5f;
-        } else {
-            c.a = 1;
+        for (Actor a : getFocusableActors()) {
+            Color c = a.getColor();
+            c.a = .6f;
+            a.setColor(c);
         }
+
+        Color c = getFocusedActor().getColor();
+        c.a = 1f;
         getFocusedActor().setColor(c);
     }
 
