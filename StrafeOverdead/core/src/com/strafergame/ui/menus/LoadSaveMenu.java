@@ -80,10 +80,17 @@ public class LoadSaveMenu extends Table {
         void addSaveEntry(FileHandle file) {
             Table entry = new Table();
 
-            Texture texture = new Texture(Gdx.files.external(file.pathWithoutExtension() + ".png"));
+            FileHandle screenshot = Gdx.files.external(file.pathWithoutExtension() + ".png");
+            Texture screenshotTexture;
 
-            float originalWidth = texture.getWidth();
-            float originalHeight = texture.getHeight();
+            if (!screenshot.exists()) {
+                screenshotTexture = Strafer.assetManager.get("ui/textures/banner.png");
+            } else {
+                screenshotTexture = new Texture(screenshot);
+            }
+
+            float originalWidth = screenshotTexture.getWidth();
+            float originalHeight = screenshotTexture.getHeight();
             float aspectRatio = originalWidth / originalHeight;
 
             float maxWidth = 250;
@@ -99,7 +106,7 @@ public class LoadSaveMenu extends Table {
             }
 
             // Add image
-            VisImage saveImage = new VisImage(texture);
+            VisImage saveImage = new VisImage(screenshotTexture);
             entry.add(saveImage).size(displayWidth, displayHeight).pad(10); // Adjust size and padding
 
             // Add label
