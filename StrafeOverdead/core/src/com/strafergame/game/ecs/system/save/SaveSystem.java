@@ -40,6 +40,10 @@ public class SaveSystem {
 
     public static <T> T retrieveFromRecords(String key) {
         HashMap<String, Save.SaveRecord> records = SaveSystem.getCurrentSave().getRecords();
+        return retrieveFromRecords(key, records);
+    }
+
+    public static <T> T retrieveFromRecords(String key, HashMap<String, Save.SaveRecord> records) {
         if (records != null && records.containsKey(key)) {
             Save.SaveRecord<T> record = (Save.SaveRecord<T>) records.get(key);
             if (record != null) {

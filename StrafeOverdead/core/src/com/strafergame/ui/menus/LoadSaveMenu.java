@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Json;
 import com.kotcrab.vis.ui.widget.*;
 import com.strafergame.Strafer;
 import com.strafergame.game.GameStateManager;
@@ -32,6 +33,7 @@ public class LoadSaveMenu extends Table {
     private final ControllerScrollPane scrollPane;
     private final VisTextButton playButton = new VisTextButton(Strafer.i18n.get("playButton"));
     private final VisTextButton backButton = new VisTextButton(Strafer.i18n.get("backButton"));
+    Json json = new Json();
 
     public LoadSaveMenu() {
         setFillParent(true);
@@ -80,6 +82,9 @@ public class LoadSaveMenu extends Table {
         void addSaveEntry(FileHandle file) {
             Table entry = new Table();
 
+            String jsonString = file.readString();
+
+
             FileHandle screenshot = Gdx.files.external(file.pathWithoutExtension() + ".png");
             Texture screenshotTexture;
 
@@ -110,7 +115,7 @@ public class LoadSaveMenu extends Table {
             entry.add(saveImage).size(displayWidth, displayHeight).pad(10); // Adjust size and padding
 
             // Add label
-            VisLabel label = new VisLabel(file.path());
+            VisLabel label = new VisLabel(Save.getSaveFileInfo(file.path()).toString());
             entry.add(label).expandX().fillX(); // Expand label to fill remaining space
 
             // Handle click event

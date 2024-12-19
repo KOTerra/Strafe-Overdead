@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
+import com.strafergame.game.ecs.system.save.data.SaveFileInfo;
 import com.strafergame.screens.GameScreen;
 import com.strafergame.settings.Settings;
 
@@ -61,6 +62,12 @@ public class Save extends Entity {
         Settings.getPreferences().flush();
     }
 
+    public Save(String filename) {
+        this.fileName = filename;
+        fileHandle = Gdx.files.external(filename);
+        file = fileHandle.file();
+    }
+
     public <T> void register(String key, T object, Class<T> objectType) {
         if (records == null) {
             records = new HashMap<>();
@@ -94,7 +101,9 @@ public class Save extends Entity {
 
         GameScreen.scheduleScreenshot(".strafedevs/saves/slot_" + slotIndex + "/save_" + saveIndex + ".png");
 
+        //TODO increase timeplayed by subtracting deserialization time from now
         lastSaved = Instant.now();
+
     }
 
 
@@ -118,6 +127,23 @@ public class Save extends Entity {
 
     }
 
+    public void deserializeFileInfo() {
+        records.clear();
+        String jsonString = fileHandle.readString();
+        if (!jsonString.equals("{}")) {
+            records = json.fromJson(HashMap.class, jsonString);
+            if (records != null) {
+                Long c = SaveSystem.retrieveFromRecords("FIRST_CREATED_SECONDS", records);
+                Long s = SaveSystem.retrieveFromRecords("LAST_SAVED_SECONDS", records);
+                if (c != null) {
+                    created = Instant.ofEpochSecond(c);
+                }
+                if (s != null) {
+                    lastSaved = Instant.ofEpochSecond(s);
+                }
+            }
+        }
+    }
 
     public HashMap<String, SaveRecord> getRecords() {
         if (records == null) {
@@ -168,6 +194,21 @@ public class Save extends Entity {
             System.err.println("cccc " + object);
 
         }
+    }
+
+    public static SaveFileInfo getSaveFileInfo(String filename) {
+
+        SaveFileInfo info = null;
+
+        int[] indices = extractIndices(filename);
+        if (indices != null) {
+            Save save = new Save(indices[0], indices[1]);
+            save.deserializeFileInfo();
+
+            info = new SaveFileInfo(filename, save.lastSaved, save.created);
+        }
+
+        return info;
     }
 
     public static int[] extractIndices(String fileName) {
