@@ -1,7 +1,6 @@
 package com.strafergame.game.ecs.component;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 
@@ -57,4 +56,6 @@ public class ElevationComponent implements Component {
 
     public Vector2 lastStablePosition;
     public int lastStableElevation;
+
+
 }

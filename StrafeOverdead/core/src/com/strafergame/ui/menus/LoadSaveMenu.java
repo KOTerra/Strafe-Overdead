@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -29,17 +30,17 @@ import java.util.List;
 
 public class LoadSaveMenu extends Table {
     Save lastSave;
-
+    SavesListPane savesListPane;
     private final ControllerScrollPane scrollPane;
     private final VisTextButton playButton = new VisTextButton(Strafer.i18n.get("playButton"));
     private final VisTextButton backButton = new VisTextButton(Strafer.i18n.get("backButton"));
-    Json json = new Json();
+    List<SaveEntry> entries = new ArrayList<>();
 
     public LoadSaveMenu() {
         setFillParent(true);
         align(Align.top);
 
-        SavesListPane savesListPane = new SavesListPane();
+        savesListPane = new SavesListPane();
         scrollPane = new ControllerScrollPane(savesListPane);
         scrollPane.setScrollingDisabled(false, false);
         scrollPane.setFadeScrollBars(false);
@@ -66,6 +67,12 @@ public class LoadSaveMenu extends Table {
         }
     }
 
+    public void updateEntries() {
+        for (SaveEntry entry : entries) {
+            entry.update();
+        }
+    }
+
     private class SavesListPane extends Table {
         VisLabel first;
 
@@ -80,64 +87,65 @@ public class LoadSaveMenu extends Table {
         }
 
         void addSaveEntry(FileHandle file) {
-            Table entry = new Table();
-
-            String jsonString = file.readString();
+            SaveEntry entry = new SaveEntry(file);
 
 
-            FileHandle screenshot = Gdx.files.external(file.pathWithoutExtension() + ".png");
-            Texture screenshotTexture;
-
-            if (!screenshot.exists()) {
-                screenshotTexture = Strafer.assetManager.get("ui/textures/banner.png");
-            } else {
-                screenshotTexture = new Texture(screenshot);
-            }
-
-            float originalWidth = screenshotTexture.getWidth();
-            float originalHeight = screenshotTexture.getHeight();
-            float aspectRatio = originalWidth / originalHeight;
-
-            float maxWidth = 250;
-            float maxHeight = 150;
-            float displayWidth, displayHeight;
-
-            if (aspectRatio > 1) { // Wider than tall
-                displayWidth = maxWidth;
-                displayHeight = maxWidth / aspectRatio;
-            } else { // Taller than wide or square
-                displayHeight = maxHeight;
-                displayWidth = maxHeight * aspectRatio;
-            }
-
-            // Add image
-            VisImage saveImage = new VisImage(screenshotTexture);
-            entry.add(saveImage).size(displayWidth, displayHeight).pad(10); // Adjust size and padding
-
-            // Add label
-            VisLabel label = new VisLabel(Save.getSaveFileInfo(file.path()).toString());
-            entry.add(label).expandX().fillX(); // Expand label to fill remaining space
-
-            // Handle click event
             int[] indices = Save.extractIndices(file.path());
             entry.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if (event.getTouchFocus()) {
-                        System.out.println("Selected: " + label.getText());
+                        System.out.println("Selected: " + entry.label.getText());
                         SaveSystem.setCurrentSave(new Save(indices[0], indices[1]));
                         GameStateManager.changeState(GameStateType.PLAY);
                     }
                 }
             });
 
+            entries.add(entry);
             add(entry).expandX().fillX().row();
 
-            Strafer.uiManager.addFocusableActor(label);
+            Strafer.uiManager.addFocusableActor(entry.label);
             if (first == null) {
-                first = label;
+                first = entry.label;
             }
         }
 
+    }
+
+    private class SaveEntry extends Table {
+        FileHandle file;
+        VisLabel label;
+        Stack imageStack;
+        VisImage saveImage;
+
+        public SaveEntry(FileHandle file) {
+            this.file = file;
+
+
+            imageStack = new Stack();
+
+
+            //VisImage playerImage=new VisImage((Texture) Strafer.assetManager.get("images/player_static.png"));
+
+            add(imageStack).size(240, 135).pad(10); // Adjust size and padding
+
+            label = new VisLabel(Save.getSaveFileInfo(file.path()).toString());
+            add(label).expandX().fillX();
+        }
+
+        public void update() {
+            FileHandle screenshot = Gdx.files.external(file.pathWithoutExtension() + ".png");
+            Texture screenshotTexture;
+            if (!screenshot.exists()) {
+                screenshotTexture = Strafer.assetManager.get("ui/textures/banner.png");
+            } else {
+                screenshotTexture = new Texture(screenshot);
+            }
+
+            saveImage = new VisImage(screenshotTexture);
+            imageStack.add(saveImage);
+            label.setText(Save.getSaveFileInfo(file.path()).toString());
+        }
     }
 }

@@ -19,6 +19,7 @@ public class LoadSaveScreen implements Screen {
 
     @Override
     public void show() {
+        loadSaveMenu.updateEntries();
         loadSaveMenu.setVisible(true);
     }
 
