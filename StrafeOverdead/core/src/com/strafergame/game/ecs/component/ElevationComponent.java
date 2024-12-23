@@ -3,8 +3,9 @@ package com.strafergame.game.ecs.component;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.strafergame.game.ecs.system.save.data.SaveableData;
 
-public class ElevationComponent implements Component {
+public class ElevationComponent implements Component, SaveableData<ElevationComponent> {
     /**
      * used only to filter collisions on different elevations
      */
@@ -58,4 +59,12 @@ public class ElevationComponent implements Component {
     public int lastStableElevation;
 
 
+    @Override
+    public ElevationComponent copy() {
+        ElevationComponent clone = new ElevationComponent();
+        clone.elevation = elevation;
+        clone.lastStablePosition=lastStablePosition.cpy();
+        clone.lastStableElevation=lastStableElevation;
+        return clone;
+    }
 }

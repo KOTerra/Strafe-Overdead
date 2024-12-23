@@ -6,6 +6,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 import com.strafergame.game.ecs.system.save.data.SaveFileInfo;
+import com.strafergame.game.ecs.system.save.data.SaveableData;
 import com.strafergame.screens.GameScreen;
 import com.strafergame.settings.Settings;
 
@@ -72,6 +73,7 @@ public class Save extends Entity {
         if (records == null) {
             records = new HashMap<>();
         }
+
         records.put(key, new SaveRecord<>(key, object, objectType));
     }
 
@@ -167,7 +169,11 @@ public class Save extends Entity {
 
         public SaveRecord(String key, T object, Class<T> objectType) {
             this.key = key;
-            this.object = object;
+            if (object instanceof SaveableData<?>) {
+                this.object = (T) ((SaveableData<?>) object).copy();
+            } else {
+                this.object = object;
+            }
             this.objectType = objectType;
         }
 

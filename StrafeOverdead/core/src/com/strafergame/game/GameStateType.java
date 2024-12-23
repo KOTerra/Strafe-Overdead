@@ -12,7 +12,6 @@ public enum GameStateType implements State<GameStateManager> {
     /**
      * Called on Launcher? Maybe not ok to manage states before game creation
      * <p>
-     * Mandatory settings to be read from preferences that are required at app start such as fullscreen mode
      */
     PRE_LOADING {
 
