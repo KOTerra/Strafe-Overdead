@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.strafergame.game.ecs.system.save.data.SaveableData;
+import com.strafergame.game.ecs.system.world.ClimbFallSystem;
 
 public class ElevationComponent implements Component, SaveableData<ElevationComponent> {
     /**
@@ -44,7 +45,7 @@ public class ElevationComponent implements Component, SaveableData<ElevationComp
     /**
      * Y value for perspective of the taretCell
      */
-    public float fallTargetY;
+    public float fallTargetY = ClimbFallSystem.TARGET_NOT_CALCULATED;
 
     /**
      * elevation at the target's layer
@@ -63,8 +64,8 @@ public class ElevationComponent implements Component, SaveableData<ElevationComp
     public ElevationComponent copy() {
         ElevationComponent clone = new ElevationComponent();
         clone.elevation = elevation;
-        clone.lastStablePosition=lastStablePosition.cpy();
-        clone.lastStableElevation=lastStableElevation;
+        clone.lastStablePosition = lastStablePosition.cpy();
+        clone.lastStableElevation = lastStableElevation;
         return clone;
     }
 }

@@ -19,6 +19,7 @@ import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.save.data.PlayerSaveData;
 import com.strafergame.game.ecs.system.save.SaveSystem;
+import com.strafergame.game.ecs.system.world.ClimbFallSystem;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.FilteredContactListener;
@@ -114,7 +115,7 @@ public abstract class EntityFactory {
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);
         elvCmp.gravity = true;
-        elvCmp.fallTargetY = posCmp.renderPos.y;
+        elvCmp.fallTargetY = ClimbFallSystem.TARGET_NOT_CALCULATED;
         elvCmp.elevation = (int) location.z;
         posCmp.elevation = (int) location.z;
         enemy.add(elvCmp);
