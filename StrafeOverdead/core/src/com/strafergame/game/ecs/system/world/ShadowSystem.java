@@ -25,6 +25,9 @@ public class ShadowSystem extends IteratingSystem {
         if (elvCmp.fallTargetY != ClimbFallSystem.TARGET_NOT_CALCULATED) {
             shdCmp.position.set(posCmp.renderPos.x, elvCmp.fallTargetY);
         }
+        if(shdCmp.position.y>posCmp.renderPos.y) {
+            shdCmp.position.set(posCmp.renderPos.x, posCmp.renderPos.y);
+        }
 
     }
 
