@@ -115,6 +115,8 @@ public class ClimbFallSystem extends IteratingSystem {
             elvCmp.fallTargetY = b2dCmp.body.getPosition().y;
             elvCmp.fallTargetElevation = elvCmp.elevation;
             elvCmp.jumpHeight = b2dCmp.body.getPosition().y + 2.5f;
+            elvCmp.jumpHeight = b2dCmp.body.getPosition().y + 9.5f;
+            elvCmp.jumpElevationDifference = (int) Math.ceil(9.5f);
         }
     }
 
@@ -126,6 +128,7 @@ public class ClimbFallSystem extends IteratingSystem {
             ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
             if (b2dCmp.body.getPosition().y >= elvCmp.jumpHeight) {
                 elvCmp.elevation = elvCmp.elevation + 2;
+                elvCmp.elevation = elvCmp.elevation + elvCmp.jumpElevationDifference;
                 ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
 
                 typeCmp.entityState = EntityState.fall;
