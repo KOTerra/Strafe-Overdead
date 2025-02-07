@@ -45,10 +45,7 @@ public enum EntityState {
 
     public static boolean isGrounded(EntityState state) {
         return switch (state) {
-            case jump -> false;
-            case fall -> false;
-            case dash -> false;
-            case hit -> false;
+            case jump, fall, dash, hit -> false;
             default -> true;
         };
     }

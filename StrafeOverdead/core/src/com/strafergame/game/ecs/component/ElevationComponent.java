@@ -27,6 +27,8 @@ public class ElevationComponent implements Component, SaveableData<ElevationComp
      */
     public float jumpHeight = 0;
 
+
+    public int jumpElevationDifference=0;
     /**
      * wether a jump is in effect at the time
      */
