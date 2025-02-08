@@ -16,6 +16,7 @@ import com.strafergame.game.ecs.states.ActivatorType;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.world.map.MapManager;
 
+
 public class ClimbFallSystem extends IteratingSystem {
 
     private final int OFF_WORLD_FALL_DISTANCE = -10;
@@ -114,7 +115,6 @@ public class ClimbFallSystem extends IteratingSystem {
             elvCmp.prevIncrementalY = b2dCmp.body.getPosition().y;
             elvCmp.fallTargetY = b2dCmp.body.getPosition().y;
             elvCmp.fallTargetElevation = elvCmp.elevation;
-            elvCmp.jumpHeight = b2dCmp.body.getPosition().y + 2.5f;
             elvCmp.jumpHeight = b2dCmp.body.getPosition().y + 9.5f;
             elvCmp.jumpElevationDifference = (int) Math.ceil(9.5f);
         }
@@ -127,7 +127,6 @@ public class ClimbFallSystem extends IteratingSystem {
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
             ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
             if (b2dCmp.body.getPosition().y >= elvCmp.jumpHeight) {
-                elvCmp.elevation = elvCmp.elevation + 2;
                 elvCmp.elevation = elvCmp.elevation + elvCmp.jumpElevationDifference;
                 ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
 
@@ -171,10 +170,12 @@ public class ClimbFallSystem extends IteratingSystem {
         return true;
     }
 
+    //TODO check before and while falling if falltarget is the same as it was in the last iteration (maybe something comes under the player while jumping so we need to see if the target is conserved)
     /**
      * raycasts through the tile layers below the entity finding the first non-null tile, taking perspective offset on Y axis in consideration
      */
     private void computeFallTarget(Entity entity) {         //solve fall after jumping in null layer, maybe add an empty layer on top of the map, handled automatically
+
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         if (elvCmp.fallTargetCell == null && elvCmp.jumpFinished && elvCmp.fallTargetY == TARGET_NOT_CALCULATED) {
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
