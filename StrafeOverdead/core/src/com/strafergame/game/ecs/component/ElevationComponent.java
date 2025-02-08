@@ -7,6 +7,8 @@ import com.strafergame.game.ecs.system.save.data.SaveableData;
 import com.strafergame.game.ecs.system.world.ClimbFallSystem;
 
 public class ElevationComponent implements Component, SaveableData<ElevationComponent> {
+
+
     /**
      * used only to filter collisions on different elevations
      */
