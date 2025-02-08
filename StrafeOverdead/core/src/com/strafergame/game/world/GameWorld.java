@@ -16,6 +16,7 @@ import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.save.SaveSystem;
+import com.strafergame.game.ecs.system.world.ClimbFallSystem;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.MapManager;
 import com.strafergame.input.PlayerControl;
@@ -87,6 +88,8 @@ public class GameWorld implements Disposable {
     static void debugInfo() {
         HUD.debugInfoText = "FPS: " + Gdx.graphics.getFramesPerSecond() + '\n'
                 + "Player State: " + ComponentMappers.entityType().get(player).entityState + '\n'
+                + "Grounded: " + ClimbFallSystem.isGrounded(player) + '\n'
+
                 + "Climbing: " + ComponentMappers.elevation().get(player).isClimbing + '\n'
                 + "Player Elevation: " + ComponentMappers.elevation().get(player).elevation + '\n'
                 + "Target Y: " + ComponentMappers.elevation().get(player).fallTargetY + '\n'

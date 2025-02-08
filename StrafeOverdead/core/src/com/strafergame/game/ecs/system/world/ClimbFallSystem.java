@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector3;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
@@ -117,6 +118,7 @@ public class ClimbFallSystem extends IteratingSystem {
             elvCmp.prevIncrementalY = b2dCmp.body.getPosition().y;
             elvCmp.fallTargetY = b2dCmp.body.getPosition().y;
             elvCmp.fallTargetElevation = elvCmp.elevation;
+            elvCmp.fallTargetCell = getFirstCellUnderEntity(entity);
             elvCmp.jumpHeight = b2dCmp.body.getPosition().y + 9.5f;
             elvCmp.jumpElevationDifference = (int) Math.ceil(9.5f);
         }
@@ -183,26 +185,71 @@ public class ClimbFallSystem extends IteratingSystem {
         if (!elvCmp.jumpFinished) {
             return;
         }
-        if (elvCmp.fallTargetCell == null && elvCmp.fallTargetY == TARGET_NOT_CALCULATED) {
-            Pair<TiledMapTileLayer.Cell, Integer> raycastPair = raycastFirstCellDown(entity);
-            TiledMapTileLayer.Cell cell = raycastPair.a;
-            int elevation = raycastPair.b;
 
-            Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+        Pair<TiledMapTileLayer.Cell, Integer[]> raycastPair = raycastFirstCellDown(entity);
+        TiledMapTileLayer.Cell cell = raycastPair.a;
+        int elevation = raycastPair.b[2];
+
+        if (cell == null) {
+            return;
+        }
+        //
+        cell.setRotation(TiledMapTileLayer.Cell.ROTATE_90);
+        //
+
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+
+        if (elvCmp.fallTargetCell == null && elvCmp.fallTargetY == TARGET_NOT_CALCULATED) {
+
             float targetY = b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation);
 
-            if (cell != null) {
-                cell.setRotation(TiledMapTileLayer.Cell.ROTATE_90);
+            elvCmp.elevation -= 1;
+            ComponentMappers.position().get(entity).elevation -= 1; ///if falling in w direction starts with an elevation down already
+            elvCmp.prevIncrementalY = b2dCmp.body.getPosition().y;
+            elvCmp.fallTargetCell = cell;
+            elvCmp.fallTargetY = targetY;
+            elvCmp.fallTargetElevation = elevation;
 
-                elvCmp.elevation -= 1;
-                ComponentMappers.position().get(entity).elevation -= 1; ///if falling in w direction starts with an elevation down already
-                elvCmp.prevIncrementalY = b2dCmp.body.getPosition().y;
-                elvCmp.fallTargetCell = cell;
-                elvCmp.fallTargetY = targetY;
-                elvCmp.fallTargetElevation = elevation;
-                return;
-            }
+
+//            Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+//            for (int elevation = elvCmp.elevation - 1; elevation >= 0; elevation--) {
+//                MapLayers layers = MapManager.getLayersElevatedMap(elevation);
+//                if (layers == null) {
+//                    continue;
+//                }
+//                for (MapLayer layer : layers) {
+//                    if (layer instanceof TiledMapTileLayer tileLayer) {
+//
+//                        float targetY = b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation);
+//                        TiledMapTileLayer.Cell cell = tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), Math.round(targetY));
+//
+//                        if (cell != null) {
+//                            cell.setRotation(TiledMapTileLayer.Cell.ROTATE_90);
+//
+//                            elvCmp.elevation -= 1;
+//                            ComponentMappers.position().get(entity).elevation -= 1; ///if falling in w direction starts with an elevation down already
+//                            elvCmp.prevIncrementalY = b2dCmp.body.getPosition().y;
+//                            elvCmp.fallTargetCell = cell;
+//                            elvCmp.fallTargetY = targetY;
+//                            elvCmp.fallTargetElevation = elevation;
+//                            return;
+//                        }
+//                    }
+//                }
+//            }
         }
+//        else if (cell != elvCmp.fallTargetCell && elvCmp.fallTargetElevation < elevation) {
+//            System.err.println("B");
+//            float targetY = b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation);
+//
+//            elvCmp.elevation -= 1;
+//            ComponentMappers.position().get(entity).elevation -= 1; ///if falling in w direction starts with an elevation down already
+//            elvCmp.prevIncrementalY = b2dCmp.body.getPosition().y;
+//            elvCmp.fallTargetCell = cell;
+//            elvCmp.fallTargetY = targetY;
+//            elvCmp.fallTargetElevation = elevation;
+//
+//        }
     }
 
 
@@ -211,24 +258,35 @@ public class ClimbFallSystem extends IteratingSystem {
      */
     private void fallArrive(Entity entity) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
+        ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+
         if (typeCmp.entityState.equals(EntityState.fall)) {
-            ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
             if (elvCmp.fallTargetCell != null || elvCmp.fallTargetY != TARGET_NOT_CALCULATED) {
                 //fall to it
                 // upon arrival state=idle or return to before falling if falling through map
                 //place shadow on the target height
-                Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
                 if (b2dCmp.body.getPosition().y <= elvCmp.fallTargetY) {
                     typeCmp.entityState = EntityState.idle;
                     elvCmp.elevation = elvCmp.fallTargetElevation;
                     ComponentMappers.position().get(entity).elevation = elvCmp.fallTargetElevation;
                     b2dCmp.body.setTransform(b2dCmp.body.getPosition().x, elvCmp.fallTargetY, 0);
+
                     elvCmp.fallTargetY = TARGET_NOT_CALCULATED;
                     elvCmp.fallTargetCell = null;
+                    elvCmp.fallTargetElevation = -1;
                     elvCmp.jumpFinished = true;
+
                 }
             }
         }
+//        if (elvCmp.jumpTaken && isGrounded(entity)) {
+//
+//            elvCmp.fallTargetY = TARGET_NOT_CALCULATED;
+//            elvCmp.fallTargetCell = null;
+//            elvCmp.fallTargetElevation = -1;
+//            elvCmp.jumpFinished = true;
+//        }
     }
 
     /**
@@ -262,7 +320,7 @@ public class ClimbFallSystem extends IteratingSystem {
         }
     }
 
-    Pair<TiledMapTileLayer.Cell, Integer> raycastFirstCellDown(Entity entity) {
+    public static Pair<TiledMapTileLayer.Cell, Integer[]> raycastFirstCellDown(Entity entity) {
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
         for (int elevation = elvCmp.elevation - 1; elevation >= 0; elevation--) {
@@ -274,13 +332,54 @@ public class ClimbFallSystem extends IteratingSystem {
                 if (layer instanceof TiledMapTileLayer tileLayer) {
 
                     float targetY = b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation);
-                    TiledMapTileLayer.Cell cell = tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), Math.round(targetY));
+                    int x = Math.round(b2dCmp.body.getPosition().x);
+                    int y = Math.round(targetY);
+                    TiledMapTileLayer.Cell cell = tileLayer.getCell(x, y);
                     if (cell != null) {
-                        return new Pair<>(cell, elevation);
+                        return new Pair<>(cell, new Integer[]{x, y, elevation});
                     }
                 }
             }
         }
-        return new Pair<>(null, -1);
+        return new Pair<>(null, new Integer[]{-1, -1, -1});
+    }
+
+    private TiledMapTileLayer.Cell getFirstCellUnderEntity(Entity entity) {
+        ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+        MapLayers layers = MapManager.getLayersElevatedMap(elvCmp.elevation);
+
+        if (layers != null && layers.size() != 0) {
+            for (MapLayer layer : layers) {
+                if (layer instanceof TiledMapTileLayer tileLayer) {
+                    return tileLayer.getCell((int) (b2dCmp.body.getPosition().x), (int) (b2dCmp.body.getPosition().y));
+                }
+            }
+        }
+        return null;
+    }
+
+    public static boolean isGrounded(Entity entity) {
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+        ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+        int elevation = elvCmp.elevation;
+        MapLayers layers = MapManager.getLayersElevatedMap(elevation);
+
+        if (layers != null && layers.size() != 0) {
+            for (MapLayer layer : layers) {
+                if (layer instanceof TiledMapTileLayer tileLayer) {
+
+                    if (
+                            tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), Math.round(b2dCmp.body.getPosition().y)) != null ||
+                                    tileLayer.getCell((int) (b2dCmp.body.getPosition().x), Math.round(b2dCmp.body.getPosition().y)) != null ||
+                                    tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), (int) (b2dCmp.body.getPosition().y)) != null ||
+                                    tileLayer.getCell((int) (b2dCmp.body.getPosition().x), (int) (b2dCmp.body.getPosition().y)) != null
+                    ) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
