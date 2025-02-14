@@ -362,6 +362,10 @@ public class ClimbFallSystem extends IteratingSystem {
     public static boolean isGrounded(Entity entity) {
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+        if (elvCmp.jumpTaken &&
+                !elvCmp.jumpFinished) {
+            return false;
+        }
         int elevation = elvCmp.elevation;
         MapLayers layers = MapManager.getLayersElevatedMap(elevation);
 
