@@ -3,8 +3,6 @@ package com.strafergame.game.ecs.system.world;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -44,6 +42,7 @@ public class ClimbFallSystem extends IteratingSystem {
             ComponentMappers.entityType().get(entity).entityState = EntityState.fall;
             computeFallTarget(entity);
         }
+        updateFallTarget(entity);
 
         fallArrive(entity);
         fallOffWorld(entity);
@@ -156,6 +155,9 @@ public class ClimbFallSystem extends IteratingSystem {
         if (elvCmp.jumpTaken) {
             return false;
         }
+        if (!elvCmp.jumpFinished) {
+            return true;
+        }
 
         if (layers != null && layers.size() != 0) {
             for (MapLayer layer : layers) {
@@ -206,13 +208,41 @@ public class ClimbFallSystem extends IteratingSystem {
             elvCmp.fallTargetCell = cell;
             elvCmp.fallTargetY = targetY;
             elvCmp.fallTargetElevation = elevation;
-        } else {
-            //TODO or move as separate method always checking without shouldFall()
-            //TODO check if the shadow should fall, then set the current fall target to a new one, problem comes from
-            //TODO also check if a new target appeared between entity and the shadow i.e higher than the current target
-            //elvCmp.fallTargetCell=raycastFirstCellDown(b2dCmp.body.getPosition().x, b2dCmp.body.getPosition().y, elvCmp.fallTargetElevation).a;
         }
 
+    }
+
+    private void updateFallTarget(Entity entity) {
+        ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+
+
+        if (elvCmp.fallTargetCell != null) {
+            var v = raycastFirstCellDown(b2dCmp.body.getPosition().x, elvCmp.fallTargetY, elvCmp.fallTargetElevation);
+            if (v.b[2] != -1 && v.b[2] == elvCmp.fallTargetElevation) { //jumping at the same elevation
+                return;
+            }
+            if (v.b[2] == -1) {                     //over an offWorld hole   handling may change
+                elvCmp.fallTargetCell = null;
+                elvCmp.fallTargetY = -1;
+                elvCmp.fallTargetElevation = -1;
+
+                return;
+            }
+
+            v = raycastFirstCellDown(b2dCmp.body.getPosition().x, elvCmp.fallTargetY, elvCmp.fallTargetElevation - 1);  //under the current elevation
+
+            TiledMapTileLayer.Cell cell = v.a;
+            int targetElevation = v.b[2];
+
+            if (cell != null) {         //found a valid target lower than initial elevation
+                float targetY = b2dCmp.body.getPosition().y - (elvCmp.elevation - targetElevation);
+
+                elvCmp.fallTargetCell = cell;
+                elvCmp.fallTargetY = targetY;
+                elvCmp.fallTargetElevation = targetElevation;
+            }
+        }
     }
 
 
@@ -287,7 +317,7 @@ public class ClimbFallSystem extends IteratingSystem {
 
     public static Pair<TiledMapTileLayer.Cell, Integer[]> raycastFirstCellDown(float fx, float fy, int startElevation) {//TODO use for rechecking falltarget
 
-        for (int elevation = startElevation - 1; elevation >= 0; elevation--) {
+        for (int elevation = startElevation; elevation >= 0; elevation--) {
             MapLayers layers = MapManager.getLayersElevatedMap(elevation);
             if (layers == null) {
                 continue;
