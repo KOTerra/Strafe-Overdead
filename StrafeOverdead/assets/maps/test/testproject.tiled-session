@@ -9,8 +9,8 @@
             "scale": 0.5987,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 1428.929346918323,
-                "y": 3956.0714882244865
+                "x": 2021.8807416068146,
+                "y": 3827.459495573743
             }
         },
         "test.tmx#detoate": {
@@ -25,6 +25,7 @@
     "loadedWorlds": [
         "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test/test_world.world"
     ],
+    "map.lastUsedFormat": "tmx",
     "openFiles": [
         "test.tmx"
     ],
