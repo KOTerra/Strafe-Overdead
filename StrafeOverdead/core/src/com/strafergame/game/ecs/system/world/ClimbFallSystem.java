@@ -3,11 +3,11 @@ package com.strafergame.game.ecs.system.world;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Vector3;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
@@ -18,6 +18,8 @@ import com.strafergame.game.ecs.states.ActivatorType;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.world.map.MapManager;
 import org.antlr.v4.runtime.misc.Pair;
+
+import java.util.List;
 
 
 public class ClimbFallSystem extends IteratingSystem {
@@ -42,6 +44,7 @@ public class ClimbFallSystem extends IteratingSystem {
             ComponentMappers.entityType().get(entity).entityState = EntityState.fall;
             computeFallTarget(entity);
         }
+
         fallArrive(entity);
         fallOffWorld(entity);
     }
@@ -153,9 +156,7 @@ public class ClimbFallSystem extends IteratingSystem {
         if (elvCmp.jumpTaken) {
             return false;
         }
-        if (!elvCmp.jumpFinished) {
-            return true;
-        }
+
         if (layers != null && layers.size() != 0) {
             for (MapLayer layer : layers) {
                 if (layer instanceof TiledMapTileLayer tileLayer) {
@@ -182,15 +183,11 @@ public class ClimbFallSystem extends IteratingSystem {
     private void computeFallTarget(Entity entity) {         //solve fall after jumping in null layer, maybe add an empty layer on top of the map, handled automatically
 
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
-        if (!elvCmp.jumpFinished) {
-            return;
-        }
-
         Pair<TiledMapTileLayer.Cell, Integer[]> raycastPair = raycastFirstCellDown(entity);
         TiledMapTileLayer.Cell cell = raycastPair.a;
         int elevation = raycastPair.b[2];
 
-        if (cell == null) {
+        if (cell == null || elevation == elvCmp.elevation) {
             return;
         }
         //
@@ -209,47 +206,13 @@ public class ClimbFallSystem extends IteratingSystem {
             elvCmp.fallTargetCell = cell;
             elvCmp.fallTargetY = targetY;
             elvCmp.fallTargetElevation = elevation;
-
-
-//            Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
-//            for (int elevation = elvCmp.elevation - 1; elevation >= 0; elevation--) {
-//                MapLayers layers = MapManager.getLayersElevatedMap(elevation);
-//                if (layers == null) {
-//                    continue;
-//                }
-//                for (MapLayer layer : layers) {
-//                    if (layer instanceof TiledMapTileLayer tileLayer) {
-//
-//                        float targetY = b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation);
-//                        TiledMapTileLayer.Cell cell = tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), Math.round(targetY));
-//
-//                        if (cell != null) {
-//                            cell.setRotation(TiledMapTileLayer.Cell.ROTATE_90);
-//
-//                            elvCmp.elevation -= 1;
-//                            ComponentMappers.position().get(entity).elevation -= 1; ///if falling in w direction starts with an elevation down already
-//                            elvCmp.prevIncrementalY = b2dCmp.body.getPosition().y;
-//                            elvCmp.fallTargetCell = cell;
-//                            elvCmp.fallTargetY = targetY;
-//                            elvCmp.fallTargetElevation = elevation;
-//                            return;
-//                        }
-//                    }
-//                }
-//            }
+        } else {
+            //TODO or move as separate method always checking without shouldFall()
+            //TODO check if the shadow should fall, then set the current fall target to a new one, problem comes from
+            //TODO also check if a new target appeared between entity and the shadow i.e higher than the current target
+            //elvCmp.fallTargetCell=raycastFirstCellDown(b2dCmp.body.getPosition().x, b2dCmp.body.getPosition().y, elvCmp.fallTargetElevation).a;
         }
-//        else if (cell != elvCmp.fallTargetCell && elvCmp.fallTargetElevation < elevation) {
-//            System.err.println("B");
-//            float targetY = b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation);
-//
-//            elvCmp.elevation -= 1;
-//            ComponentMappers.position().get(entity).elevation -= 1; ///if falling in w direction starts with an elevation down already
-//            elvCmp.prevIncrementalY = b2dCmp.body.getPosition().y;
-//            elvCmp.fallTargetCell = cell;
-//            elvCmp.fallTargetY = targetY;
-//            elvCmp.fallTargetElevation = elevation;
-//
-//        }
+
     }
 
 
@@ -280,13 +243,6 @@ public class ClimbFallSystem extends IteratingSystem {
                 }
             }
         }
-//        if (elvCmp.jumpTaken && isGrounded(entity)) {
-//
-//            elvCmp.fallTargetY = TARGET_NOT_CALCULATED;
-//            elvCmp.fallTargetCell = null;
-//            elvCmp.fallTargetElevation = -1;
-//            elvCmp.jumpFinished = true;
-//        }
     }
 
     /**
@@ -320,10 +276,18 @@ public class ClimbFallSystem extends IteratingSystem {
         }
     }
 
+
+    //maybe move from here in an utility class
     public static Pair<TiledMapTileLayer.Cell, Integer[]> raycastFirstCellDown(Entity entity) {
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
-        for (int elevation = elvCmp.elevation - 1; elevation >= 0; elevation--) {
+
+        return raycastFirstCellDown(b2dCmp.body.getPosition().x, b2dCmp.body.getPosition().y, elvCmp.elevation);
+    }
+
+    public static Pair<TiledMapTileLayer.Cell, Integer[]> raycastFirstCellDown(float fx, float fy, int startElevation) {//TODO use for rechecking falltarget
+
+        for (int elevation = startElevation - 1; elevation >= 0; elevation--) {
             MapLayers layers = MapManager.getLayersElevatedMap(elevation);
             if (layers == null) {
                 continue;
@@ -331,8 +295,8 @@ public class ClimbFallSystem extends IteratingSystem {
             for (MapLayer layer : layers) {
                 if (layer instanceof TiledMapTileLayer tileLayer) {
 
-                    float targetY = b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation);
-                    int x = Math.round(b2dCmp.body.getPosition().x);
+                    float targetY = fy - (startElevation - elevation);
+                    int x = Math.round(fx);
                     int y = Math.round(targetY);
                     TiledMapTileLayer.Cell cell = tileLayer.getCell(x, y);
                     if (cell != null) {
@@ -358,6 +322,20 @@ public class ClimbFallSystem extends IteratingSystem {
         }
         return null;
     }
+
+    /**
+     * returns all cells raycast down that touch the rcast in the given radius ex radius=2, a list of cells in a circle of radius=2
+     */
+    public static List<Pair<TiledMapTileLayer.Cell, Integer[]>> raycastFirstCellsDownInRadius(Entity entity, int radius) {//TODO also do for up to check if hitting a ceiling
+        return null;
+    }
+
+    private Pair<TiledMapTileLayer.Cell, Integer[]> raycastFirstCellUp(Entity entity) { //TODO
+        ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+        return null;
+    }
+
 
     public static boolean isGrounded(Entity entity) {
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);

@@ -88,7 +88,8 @@ public class GameWorld implements Disposable {
     static void debugInfo() {
         HUD.debugInfoText = "FPS: " + Gdx.graphics.getFramesPerSecond() + '\n'
                 + "Player State: " + ComponentMappers.entityType().get(player).entityState + '\n'
-                + "Grounded: " + ClimbFallSystem.isGrounded(player) + '\n'
+                // + "Grounded: " + ClimbFallSystem.isGrounded(player) + '\n'
+                // +"Jump Finished: "+ComponentMappers.elevation().get(player).jumpFinished+'\n'
 
                 + "Climbing: " + ComponentMappers.elevation().get(player).isClimbing + '\n'
                 + "Player Elevation: " + ComponentMappers.elevation().get(player).elevation + '\n'
@@ -98,8 +99,8 @@ public class GameWorld implements Disposable {
 
 
                 + "x: " + Math.round(ComponentMappers.position().get(player).renderPos.x) + " y: " + Math.round(ComponentMappers.position().get(player).renderPos.y) + '\n'
-                + PlayerControl.actionSequence.toString() + '\n'
-                + PlayerControl.actionSequence.getSequenceKeycodes(10) + '\n'
+//                + PlayerControl.actionSequence.toString() + '\n'
+//                + PlayerControl.actionSequence.getSequenceKeycodes(10) + '\n'
         //+ PlayerControl.actionSequence.isInTimeframe(3,500);
         ;
         if (HUD.debugInfo != null) {
