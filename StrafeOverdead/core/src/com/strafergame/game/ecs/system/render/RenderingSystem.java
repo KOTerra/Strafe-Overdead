@@ -6,11 +6,13 @@ import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
@@ -24,9 +26,9 @@ public class RenderingSystem extends SortedIteratingSystem {
     private SpriteBatch batch; // a reference to our spritebatch
     private ShapeDrawer shadowDrawer;
     private TextureRegion onePixelTextureRegion;
-    // String vertexShader;
-    // String fragmentShader;
-    // ShaderProgram shaderProgram;
+     String vertexShader;
+     String fragmentShader;
+     ShaderProgram shaderProgram;
 
     private Array<Entity> renderQueue; // an array used to allow sorting of images allowing us to draw images on top of
     // each other
@@ -41,9 +43,9 @@ public class RenderingSystem extends SortedIteratingSystem {
 
         this.batch = Strafer.spriteBatch;
         initShadowDrawer();
-        // vertexShader = Gdx.files.internal("shaders/default.vert").readString();
-        // fragmentShader = Gdx.files.internal("shaders/default.frag").readString();
-        // shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
+         vertexShader = Gdx.files.internal("shaders/default.vert").readString();
+         fragmentShader = Gdx.files.internal("shaders/default.frag").readString();
+         shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
 
         spriteMapper = ComponentMappers.sprite();
         positionMapper = ComponentMappers.position();

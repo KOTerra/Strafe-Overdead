@@ -133,7 +133,7 @@ public class Save extends Entity {
         records.clear();
         String jsonString = fileHandle.readString();
         if (!jsonString.equals("{}")) {
-            records = json.fromJson(HashMap.class, jsonString);
+            records = json.fromJson(HashMap.class, jsonString);//TODO maybe move metainfo to another hashmap of the record in order no to deserialize everything just to tget the info
             if (records != null) {
                 Long c = SaveSystem.retrieveFromRecords("FIRST_CREATED_SECONDS", records);
                 Long s = SaveSystem.retrieveFromRecords("LAST_SAVED_SECONDS", records);
@@ -189,7 +189,6 @@ public class Save extends Entity {
         @Override
         public void read(Json json, JsonValue jsonData) {
             key = jsonData.name();
-            System.err.println("\naaaa  " + key);
             try {
                 objectType = (Class<T>) Class.forName(jsonData.getString("class"));
                 System.err.println("bbbb " + objectType.getName());
@@ -197,7 +196,6 @@ public class Save extends Entity {
                 System.err.println(e.getMessage());
             }
             object = json.readValue(key, objectType, jsonData);
-            System.err.println("cccc " + object);
 
         }
     }
