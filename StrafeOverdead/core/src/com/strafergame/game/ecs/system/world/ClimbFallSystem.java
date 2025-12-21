@@ -39,7 +39,9 @@ public class ClimbFallSystem extends IteratingSystem {
 
         climb(entity);
 
-        if (!isClimbing(entity)) {
+        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
+        // Only clamp elevation if we are stable (not falling/jumping) to avoid interfering with movement
+        if (!isClimbing(entity) && !typeCmp.entityState.equals(EntityState.fall) && !typeCmp.entityState.equals(EntityState.jump)) {
             lowElevationClamping(entity);
         }
 
@@ -98,33 +100,48 @@ public class ClimbFallSystem extends IteratingSystem {
     private void lowElevationClamping(Entity entity) {
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+
+        //  we are moving  check if the tile ahead at the current elevation is empty.
+        // if empty we are  walking off a ledge so no clamp up
+        Vector2 velocity = b2dCmp.body.getLinearVelocity();
+        if (velocity.len2() > 0.1f) {
+            float lookAheadDist = 0.5f;
+            float predictX = b2dCmp.body.getPosition().x + (velocity.x != 0 ? (velocity.x > 0 ? lookAheadDist : -lookAheadDist) : 0);
+            float predictY = b2dCmp.body.getPosition().y + (velocity.y != 0 ? (velocity.y > 0 ? lookAheadDist : -lookAheadDist) : 0);
+
+            if (!isTileAt(Math.round(predictX), Math.round(predictY), elvCmp.elevation)) {
+                return;
+            }
+        }
+
+        // If the gap check passed (or we are standing still), check if we are physically under a higher tile.
         int checkElevation = elvCmp.elevation + 1;
+        int xRound = Math.round(b2dCmp.body.getPosition().x);
+        int yRound = Math.round(b2dCmp.body.getPosition().y);
 
-        MapLayers layers = MapManager.getLayersElevatedMap(checkElevation);
+        if (isTileAt(xRound, yRound, checkElevation)) {
+            elvCmp.elevation = checkElevation;
+            ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
+
+            // Safety: Clear fall targets to prevent stale state from a previous frame
+            elvCmp.fallTargetCell = null;
+            elvCmp.fallTargetY = TARGET_NOT_CALCULATED;
+            elvCmp.fallTargetElevation = -1;
+        }
+    }
+
+    private boolean isTileAt(int x, int y, int elevation) {
+        MapLayers layers = MapManager.getLayersElevatedMap(elevation);
         if (layers != null) {
-            float bodyX = b2dCmp.body.getPosition().x;
-            float bodyY = b2dCmp.body.getPosition().y;
-
-            // Check all corners of the footprint
-            int xRound = Math.round(bodyX);
-            int yRound = Math.round(bodyY);
-            int xCast = (int) bodyX;
-            int yCast = (int) bodyY;
-
             for (MapLayer layer : layers) {
                 if (layer instanceof TiledMapTileLayer tileLayer) {
-                    if (tileLayer.getCell(xRound, yRound) != null ||
-                            tileLayer.getCell(xCast, yRound) != null ||
-                            tileLayer.getCell(xRound, yCast) != null ||
-                            tileLayer.getCell(xCast, yCast) != null) {
-
-                        elvCmp.elevation = checkElevation;
-                        ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
-                        return;
+                    if (tileLayer.getCell(x, y) != null) {
+                        return true;
                     }
                 }
             }
         }
+        return false;
     }
 
     private boolean canJump(Entity entity) {
@@ -190,6 +207,11 @@ public class ClimbFallSystem extends IteratingSystem {
         }, pos, rayTarget);
 
         if (isBlocked[0]) {
+            //  lets jumpArrive handle the snap later.
+            if (isTileAt(Math.round(pos.x), Math.round(pos.y), elvCmp.elevation + 1)) {
+                return true;
+            }
+
             resetToIdle(entity);
             return false;
         }
