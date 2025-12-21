@@ -6,6 +6,10 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.QueryCallback;
+import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
@@ -22,6 +26,7 @@ import java.util.List;
 
 public class ClimbFallSystem extends IteratingSystem {
 
+    private final float JUMP_HEIGHT_DIFFERENCE = 3f;
     private final int OFF_WORLD_FALL_DISTANCE = -10;
     public static final int TARGET_NOT_CALCULATED = -100;
 
@@ -31,14 +36,14 @@ public class ClimbFallSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-
         climb(entity);
+        // Only attempt to start a jump if we are in the jump state and not climbing
         if (canJump(entity) && !isClimbing(entity)) {
-            beginJump(entity);                   //maybe disable jump if climbing to prohibit jumping on slopes
+            beginJump(entity);
         }
         jumpArrive(entity);
 
-        if (shouldFall(entity) && !isClimbing(entity)) {    //change is climbing to not be true if just passed activator but not went up on elevation agent
+        if (shouldFall(entity) && !isClimbing(entity)) {
             ComponentMappers.entityType().get(entity).entityState = EntityState.fall;
             computeFallTarget(entity);
         }
@@ -85,29 +90,70 @@ public class ClimbFallSystem extends IteratingSystem {
     }
 
     private boolean canJump(Entity entity) {
-        //raycast above if one elevation is above don t
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
-        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity); //mYBE CHnange elevation at the start of the jump maybe intermediate state tryjump to check if canjump then change elevation and then move upwards
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+
         if (!typeCmp.entityState.equals(EntityState.jump)) {
             return false;
         }
         if (!elvCmp.jumpFinished) {
             return false;
         }
+
+        float targetX = b2dCmp.body.getPosition().x;
+        float targetY = b2dCmp.body.getPosition().y + JUMP_HEIGHT_DIFFERENCE;
+
         MapLayers layers = MapManager.getLayersElevatedMap(elvCmp.elevation + 2);
         if (layers != null && layers.size() != 0) {
             for (MapLayer layer : layers) {
-                if (layer instanceof TiledMapTileLayer tileLayer && tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), Math.round(b2dCmp.body.getPosition().y + 1.5f)) != null) {
-                    elvCmp.jumpHeight = 0f;
-                    typeCmp.entityState = EntityState.idle;
-                    return false;
+                if (layer instanceof TiledMapTileLayer tileLayer &&
+                        tileLayer.getCell(Math.round(targetX), Math.round(targetY)) != null) {
+
+                    final boolean[] isJumpableObject = {false};
+
+                    b2dCmp.body.getWorld().QueryAABB(fixture -> {
+                        if ("jumpable".equals(fixture.getUserData())) {
+                            isJumpableObject[0] = true;
+                            return false;
+                        }
+                        return true;
+                    }, targetX - 0.1f, targetY - 0.1f, targetX + 0.1f, targetY + 0.1f);
+
+                    if (!isJumpableObject[0]) {
+                        resetToIdle(entity);
+                        return false;
+                    }
                 }
             }
         }
+
+        final boolean[] isBlocked = {false};
+        Vector2 pos = b2dCmp.body.getPosition();
+        Vector2 rayTarget = new Vector2(pos.x, pos.y + JUMP_HEIGHT_DIFFERENCE + 1);
+
+        b2dCmp.body.getWorld().rayCast( (fixture, point, normal, fraction) -> {
+            if (!fixture.isSensor() && !"jumpable".equals(fixture.getUserData())) {
+                isBlocked[0] = true;
+                return 0;
+            }
+            return 1;
+        }, pos, rayTarget);
+
+        if (isBlocked[0]) {
+            resetToIdle(entity);
+            return false;
+        }
+
         return true;
     }
 
+    private void resetToIdle(Entity entity) {
+        ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
+        elvCmp.jumpHeight = 0f;
+        typeCmp.entityState = EntityState.idle;
+    }
 
     private void beginJump(Entity entity) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
@@ -121,8 +167,8 @@ public class ClimbFallSystem extends IteratingSystem {
             elvCmp.fallTargetY = b2dCmp.body.getPosition().y;
             elvCmp.fallTargetElevation = elvCmp.elevation;
             elvCmp.fallTargetCell = getFirstCellUnderEntity(entity);
-            elvCmp.jumpHeight = b2dCmp.body.getPosition().y + 3f;
-            elvCmp.jumpElevationDifference = (int) Math.ceil(3f);
+            elvCmp.jumpHeight = b2dCmp.body.getPosition().y + JUMP_HEIGHT_DIFFERENCE;
+            elvCmp.jumpElevationDifference = (int) Math.ceil(JUMP_HEIGHT_DIFFERENCE);
         }
     }
 
