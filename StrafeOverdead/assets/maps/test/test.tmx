@@ -358,11 +358,13 @@
   <object id="87" x="1089.44" y="3712.98" width="427.913" height="45.8482">
    <properties>
     <property name="elevatioon" type="int" value="0"/>
+    <property name="jumpable" type="bool" value="true"/>
    </properties>
   </object>
   <object id="89" x="1047.96" y="3584.89" width="39.2984" height="123.717">
    <properties>
     <property name="elevatioon" type="int" value="0"/>
+    <property name="jumpable" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>

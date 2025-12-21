@@ -5,11 +5,13 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ComponentDataUtils;
 import com.strafergame.game.ecs.component.ElevationComponent;
+import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.PlayerComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.ActivatorComponent;
 import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
+import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.interaction.combat.AttackContact;
 import com.strafergame.game.ecs.system.interaction.ProximityContact;
 
@@ -242,7 +244,25 @@ public class FilteredContactListener implements ContactListener {
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
+        Fixture fixtureA = contact.getFixtureA();
+        Fixture fixtureB = contact.getFixtureB();
 
+        // if one is a jumping entity and the other is a jumpable fixture disable contact
+        if (checkJumpBypass(fixtureA, fixtureB) || checkJumpBypass(fixtureB, fixtureA)) {
+            contact.setEnabled(false); //
+        }
+    }
+
+    private boolean checkJumpBypass(Fixture entityFixture, Fixture wallFixture) {
+        Entity entity = ComponentDataUtils.getEntityFrom(entityFixture);
+        if (entity == null) return false;
+
+        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
+        boolean isJumping = typeCmp != null && typeCmp.entityState == EntityState.jump;
+
+        boolean isJumpable = "jumpable".equals(wallFixture.getUserData());
+
+        return isJumping && isJumpable;
     }
 
     @Override

@@ -16,21 +16,30 @@ public abstract class Box2DMapFactory {
     public static Body createCollisionBody(World world, MapObject mapObject) {
         float sf = Strafer.SCALE_FACTOR;
         Body body = null;
+
+        boolean isJumpable = mapObject.getProperties().get("jumpable", false, Boolean.class);
+
         if (mapObject instanceof RectangleMapObject rectangleObject) {
             Rectangle rectangle = rectangleObject.getRectangle();
 
-            BodyDef bodyDef = getBodyDef(rectangle.getX() * sf + rectangle.getWidth() * sf / 2f, rectangle.getY() * sf + rectangle.getHeight() * sf / 2f);
+            BodyDef bodyDef = getBodyDef(rectangle.getX() * sf + rectangle.getWidth() * sf / 2f,
+                    rectangle.getY() * sf + rectangle.getHeight() * sf / 2f);
             bodyDef.fixedRotation = true;
             bodyDef.type = BodyDef.BodyType.StaticBody;
             body = world.createBody(bodyDef);
+
             PolygonShape polygonShape = new PolygonShape();
             polygonShape.setAsBox(rectangle.getWidth() * sf / 2f, rectangle.getHeight() * sf / 2f);
-            body.createFixture(polygonShape, 0.0f);
+
+            Fixture fixture = body.createFixture(polygonShape, 0.0f);
+            if (isJumpable) {
+                fixture.setUserData("jumpable");
+            }
+
             polygonShape.dispose();
 
         } else if (mapObject instanceof EllipseMapObject circleMapObject) {
             Ellipse ellipse = circleMapObject.getEllipse();
-
             BodyDef bodyDef = getBodyDef(ellipse.x * sf, ellipse.y * sf);
 
             if (ellipse.width != ellipse.height) throw new IllegalArgumentException("Only circles are allowed.");
@@ -38,8 +47,14 @@ public abstract class Box2DMapFactory {
             body = world.createBody(bodyDef);
             CircleShape circleShape = new CircleShape();
             circleShape.setRadius(ellipse.width * sf / 2f);
-            body.createFixture(circleShape, 0.0f);
+
+            Fixture fixture = body.createFixture(circleShape, 0.0f);
+            if (isJumpable) {
+                fixture.setUserData("jumpable");
+            }
+
             circleShape.dispose();
+
         } else if (mapObject instanceof PolygonMapObject polygonMapObject) {
             Polygon polygon = polygonMapObject.getPolygon();
 
@@ -52,10 +67,14 @@ public abstract class Box2DMapFactory {
             bodyDef.fixedRotation = true;
             bodyDef.type = BodyDef.BodyType.StaticBody;
             body = world.createBody(bodyDef);
+
             PolygonShape polygonShape = new PolygonShape();
             polygonShape.set(scaledVertices);
 
-            body.createFixture(polygonShape, 0.0f);
+            Fixture fixture = body.createFixture(polygonShape, 0.0f);
+            if (isJumpable) {
+                fixture.setUserData("jumpable");
+            }
 
             polygonShape.dispose();
         }

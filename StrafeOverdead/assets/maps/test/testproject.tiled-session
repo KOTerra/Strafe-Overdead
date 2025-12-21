@@ -30,7 +30,7 @@
         "test.tmx"
     ],
     "project": "testproject.tiled-project",
-    "property.type": "int",
+    "property.type": "bool",
     "recentFiles": [
         "test.tmx"
     ]
