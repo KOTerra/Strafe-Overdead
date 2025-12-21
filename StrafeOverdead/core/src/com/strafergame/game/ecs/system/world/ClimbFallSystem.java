@@ -38,6 +38,11 @@ public class ClimbFallSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
 
         climb(entity);
+
+        if (!isClimbing(entity)) {
+            lowElevationClamping(entity);
+        }
+
         // Only attempt to start a jump if we are in the jump state and not climbing
         if (canJump(entity) && !isClimbing(entity)) {
             beginJump(entity);                   //maybe disable jump if climbing to prohibit jumping on slopes
@@ -88,6 +93,38 @@ public class ClimbFallSystem extends IteratingSystem {
             b2dCmp.footprintStack.addFirst(first);//put back
         }
 
+    }
+
+    private void lowElevationClamping(Entity entity) {
+        ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+        int checkElevation = elvCmp.elevation + 1;
+
+        MapLayers layers = MapManager.getLayersElevatedMap(checkElevation);
+        if (layers != null) {
+            float bodyX = b2dCmp.body.getPosition().x;
+            float bodyY = b2dCmp.body.getPosition().y;
+
+            // Check all corners of the footprint
+            int xRound = Math.round(bodyX);
+            int yRound = Math.round(bodyY);
+            int xCast = (int) bodyX;
+            int yCast = (int) bodyY;
+
+            for (MapLayer layer : layers) {
+                if (layer instanceof TiledMapTileLayer tileLayer) {
+                    if (tileLayer.getCell(xRound, yRound) != null ||
+                            tileLayer.getCell(xCast, yRound) != null ||
+                            tileLayer.getCell(xRound, yCast) != null ||
+                            tileLayer.getCell(xCast, yCast) != null) {
+
+                        elvCmp.elevation = checkElevation;
+                        ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     private boolean canJump(Entity entity) {
