@@ -36,14 +36,15 @@ public class ClimbFallSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
+
         climb(entity);
         // Only attempt to start a jump if we are in the jump state and not climbing
         if (canJump(entity) && !isClimbing(entity)) {
-            beginJump(entity);
+            beginJump(entity);                   //maybe disable jump if climbing to prohibit jumping on slopes
         }
         jumpArrive(entity);
 
-        if (shouldFall(entity) && !isClimbing(entity)) {
+        if (shouldFall(entity) && !isClimbing(entity)) {    //change is climbing to not be true if just passed activator but not went up on elevation agent
             ComponentMappers.entityType().get(entity).entityState = EntityState.fall;
             computeFallTarget(entity);
         }
@@ -92,7 +93,7 @@ public class ClimbFallSystem extends IteratingSystem {
     private boolean canJump(Entity entity) {
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
-        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity); //mYBE CHnange elevation at the start of the jump maybe intermediate state tryjump to check if canjump then change elevation and then move upwards
 
         if (!typeCmp.entityState.equals(EntityState.jump)) {
             return false;
@@ -102,27 +103,35 @@ public class ClimbFallSystem extends IteratingSystem {
         }
 
         float targetX = b2dCmp.body.getPosition().x;
-        float targetY = b2dCmp.body.getPosition().y + JUMP_HEIGHT_DIFFERENCE;
+        float currentY = b2dCmp.body.getPosition().y;
 
-        MapLayers layers = MapManager.getLayersElevatedMap(elvCmp.elevation + 2);
-        if (layers != null && layers.size() != 0) {
-            for (MapLayer layer : layers) {
-                if (layer instanceof TiledMapTileLayer tileLayer &&
-                        tileLayer.getCell(Math.round(targetX), Math.round(targetY)) != null) {
+        for (int eDiff = 1; eDiff <= (int) Math.ceil(JUMP_HEIGHT_DIFFERENCE); eDiff++) {
+            int checkElevation = elvCmp.elevation + eDiff;
+            MapLayers layers = MapManager.getLayersElevatedMap(checkElevation);
 
-                    final boolean[] isJumpableObject = {false};
+            if (layers != null && layers.size() != 0) {
+                float checkY = currentY + eDiff;
+                for (MapLayer layer : layers) {
+                    if (layer instanceof TiledMapTileLayer tileLayer &&
+                            tileLayer.getCell(Math.round(targetX), Math.round(checkY)) != null) {
 
-                    b2dCmp.body.getWorld().QueryAABB(fixture -> {
-                        if ("jumpable".equals(fixture.getUserData())) {
-                            isJumpableObject[0] = true;
-                            return false;
+                        final boolean[] isJumpable = {false};
+                        b2dCmp.body.getWorld().QueryAABB(new QueryCallback() {
+                            @Override
+                            public boolean reportFixture(Fixture fixture) {
+                                if ("jumpable".equals(fixture.getUserData())) {
+                                    isJumpable[0] = true;
+                                    return false;
+                                }
+                                return true;
+                            }
+                        }, targetX - 0.1f, checkY - 0.1f, targetX + 0.1f, checkY + 0.1f);
+
+                        if (!isJumpable[0]) {
+                            elvCmp.jumpHeight = checkY;
+                            elvCmp.jumpElevationDifference = eDiff;
+                            return true;
                         }
-                        return true;
-                    }, targetX - 0.1f, targetY - 0.1f, targetX + 0.1f, targetY + 0.1f);
-
-                    if (!isJumpableObject[0]) {
-                        resetToIdle(entity);
-                        return false;
                     }
                 }
             }
@@ -132,12 +141,15 @@ public class ClimbFallSystem extends IteratingSystem {
         Vector2 pos = b2dCmp.body.getPosition();
         Vector2 rayTarget = new Vector2(pos.x, pos.y + JUMP_HEIGHT_DIFFERENCE + 1);
 
-        b2dCmp.body.getWorld().rayCast( (fixture, point, normal, fraction) -> {
-            if (!fixture.isSensor() && !"jumpable".equals(fixture.getUserData())) {
-                isBlocked[0] = true;
-                return 0;
+        b2dCmp.body.getWorld().rayCast(new RayCastCallback() {
+            @Override
+            public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+                if (!fixture.isSensor() && !"jumpable".equals(fixture.getUserData())) {
+                    isBlocked[0] = true;
+                    return 0;
+                }
+                return 1;
             }
-            return 1;
         }, pos, rayTarget);
 
         if (isBlocked[0]) {
@@ -145,6 +157,8 @@ public class ClimbFallSystem extends IteratingSystem {
             return false;
         }
 
+        elvCmp.jumpHeight = currentY + JUMP_HEIGHT_DIFFERENCE;
+        elvCmp.jumpElevationDifference = (int) Math.ceil(JUMP_HEIGHT_DIFFERENCE);
         return true;
     }
 
@@ -154,6 +168,7 @@ public class ClimbFallSystem extends IteratingSystem {
         elvCmp.jumpHeight = 0f;
         typeCmp.entityState = EntityState.idle;
     }
+
 
     private void beginJump(Entity entity) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
@@ -167,8 +182,6 @@ public class ClimbFallSystem extends IteratingSystem {
             elvCmp.fallTargetY = b2dCmp.body.getPosition().y;
             elvCmp.fallTargetElevation = elvCmp.elevation;
             elvCmp.fallTargetCell = getFirstCellUnderEntity(entity);
-            elvCmp.jumpHeight = b2dCmp.body.getPosition().y + JUMP_HEIGHT_DIFFERENCE;
-            elvCmp.jumpElevationDifference = (int) Math.ceil(JUMP_HEIGHT_DIFFERENCE);
         }
     }
 
@@ -209,9 +222,6 @@ public class ClimbFallSystem extends IteratingSystem {
             for (MapLayer layer : layers) {
                 if (layer instanceof TiledMapTileLayer tileLayer) {
                     if (
-                        //tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), Math.round(b2dCmp.body.getPosition().y)) != null ||
-                        //      tileLayer.getCell((int) (b2dCmp.body.getPosition().x), Math.round(b2dCmp.body.getPosition().y)) != null ||
-                        //    tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), (int) (b2dCmp.body.getPosition().y)) != null ||
                             tileLayer.getCell((int) (b2dCmp.body.getPosition().x), (int) (b2dCmp.body.getPosition().y)) != null
                     ) {
                         saveStablePosition(entity);
@@ -325,7 +335,7 @@ public class ClimbFallSystem extends IteratingSystem {
                 if (b2dCmp.body.getPosition().y <= elvCmp.fallTargetY) {
                     typeCmp.entityState = EntityState.idle;
                     elvCmp.elevation = elvCmp.fallTargetElevation;
-                    ComponentMappers.position().get(entity).elevation = elvCmp.fallTargetElevation;
+                    ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
                     b2dCmp.body.setTransform(b2dCmp.body.getPosition().x, elvCmp.fallTargetY, 0);
 
                     elvCmp.fallTargetY = TARGET_NOT_CALCULATED;

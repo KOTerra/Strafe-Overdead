@@ -610,9 +610,9 @@
    </properties>
   </object>
  </objectgroup>
- <layer id="18" name="ground2" width="128" height="128">
+ <layer id="18" name="ground1" width="128" height="128">
   <properties>
-   <property name="elevation" type="int" value="2"/>
+   <property name="elevation" type="int" value="1"/>
   </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
