@@ -247,7 +247,7 @@ public class FilteredContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        // if one is a jumping entity and the other is a jumpable fixture disable contact
+        // if one is a jumping/falling entity and the other is a jumpable fixture disable contact
         if (checkJumpBypass(fixtureA, fixtureB) || checkJumpBypass(fixtureB, fixtureA)) {
             contact.setEnabled(false); //
         }
@@ -258,11 +258,12 @@ public class FilteredContactListener implements ContactListener {
         if (entity == null) return false;
 
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
-        boolean isJumping = typeCmp != null && typeCmp.entityState == EntityState.jump;
+        boolean isBypassing = typeCmp != null &&
+                (typeCmp.entityState == EntityState.jump || typeCmp.entityState == EntityState.fall);
 
         boolean isJumpable = "jumpable".equals(wallFixture.getUserData());
 
-        return isJumping && isJumpable;
+        return isBypassing && isJumpable;
     }
 
     @Override

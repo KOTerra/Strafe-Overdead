@@ -355,7 +355,7 @@
     <property name="elevation" type="int" value="0"/>
    </properties>
   </object>
-  <object id="87" x="1089.44" y="3732.44" width="427.913" height="26.3892">
+  <object id="87" x="1089.44" y="3743.27" width="427.913" height="9.91237">
    <properties>
     <property name="elevatioon" type="int" value="0"/>
     <property name="jumpable" type="bool" value="true"/>
