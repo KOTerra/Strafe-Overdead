@@ -314,11 +314,17 @@ public class ClimbFallSystem extends IteratingSystem {
 
         if (elvCmp.fallTargetCell == null && elvCmp.fallTargetY == TARGET_NOT_CALCULATED) {
 
-            float targetY = b2dCmp.body.getPosition().y - (elvCmp.elevation - elevation);
+            float currentY = b2dCmp.body.getPosition().y;
+            float targetY = currentY - (elvCmp.elevation - elevation);
+
+            // Force at least -1.0f on the body if the calculated target is too close
+            if (currentY - targetY <= 1.0f) {
+                b2dCmp.body.setTransform(b2dCmp.body.getPosition().x, currentY - 1f, 0);
+            }
 
             elvCmp.elevation -= 1;
             ComponentMappers.position().get(entity).elevation -= 1; ///if falling in w direction starts with an elevation down already
-            elvCmp.prevIncrementalY = b2dCmp.body.getPosition().y;
+            elvCmp.prevIncrementalY = currentY;
             elvCmp.fallTargetCell = cell;
             elvCmp.fallTargetY = targetY;
             elvCmp.fallTargetElevation = elevation;
@@ -370,7 +376,6 @@ public class ClimbFallSystem extends IteratingSystem {
                 elvCmp.fallTargetCell = cell;
                 elvCmp.fallTargetY = targetY;
                 elvCmp.fallTargetElevation = targetElevation;
-                return;
             }
 
 
