@@ -91,8 +91,7 @@ public class GameWorld implements Disposable {
                 + "Player State: " + ComponentMappers.entityType().get(player).entityState + '\n'
                 // + "Grounded: " + ClimbFallSystem.isGrounded(player) + '\n'
                 // +"Jump Finished: "+ComponentMappers.elevation().get(player).jumpFinished+'\n'
-
-                + "Climbing: " + ComponentMappers.elevation().get(player).isClimbing + '\n'
+//                + "Climbing: " + ComponentMappers.elevation().get(player).isClimbing + '\n'
                 + "Player Elevation: " + ComponentMappers.elevation().get(player).elevation + '\n'
                 + "Target Y: " + ComponentMappers.elevation().get(player).fallTargetY + '\n'
                 + "Target Cell: " + ComponentMappers.elevation().get(player).fallTargetCell + '\n'

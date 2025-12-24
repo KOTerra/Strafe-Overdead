@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.utils.Array;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
@@ -26,9 +27,9 @@ public class RenderingSystem extends SortedIteratingSystem {
     private SpriteBatch batch; // a reference to our spritebatch
     private ShapeDrawer shadowDrawer;
     private TextureRegion onePixelTextureRegion;
-     String vertexShader;
-     String fragmentShader;
-     ShaderProgram shaderProgram;
+    String vertexShader;
+    String fragmentShader;
+    ShaderProgram shaderProgram;
 
     private Array<Entity> renderQueue; // an array used to allow sorting of images allowing us to draw images on top of
     // each other
@@ -43,9 +44,9 @@ public class RenderingSystem extends SortedIteratingSystem {
 
         this.batch = Strafer.spriteBatch;
         initShadowDrawer();
-         vertexShader = Gdx.files.internal("shaders/default.vert").readString();
-         fragmentShader = Gdx.files.internal("shaders/default.frag").readString();
-         shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
+        vertexShader = Gdx.files.internal("shaders/default.vert").readString();
+        fragmentShader = Gdx.files.internal("shaders/default.frag").readString();
+        shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
 
         spriteMapper = ComponentMappers.sprite();
         positionMapper = ComponentMappers.position();
@@ -73,7 +74,10 @@ public class RenderingSystem extends SortedIteratingSystem {
             SpriteComponent spriteCmp = spriteMapper.get(entity);
             PositionComponent posCmp = positionMapper.get(entity);
             if (posCmp.isMapLayer) {
-                Strafer.tiledMapRenderer.renderTileLayer(ComponentMappers.mapLayer().get(entity).layer);
+                TiledMapTileLayer layer = ComponentMappers.mapLayer().get(entity).layer;
+                if (layer.isVisible()) {
+                    Strafer.tiledMapRenderer.renderTileLayer(layer);
+                }
             }
             if (spriteCmp.sprite == null || posCmp.isHidden) {
                 continue;
@@ -82,7 +86,7 @@ public class RenderingSystem extends SortedIteratingSystem {
             ShadowComponent shdCmp = ComponentMappers.shadow().get(entity);
 
             if (shdCmp != null) {
-                shadowDrawer.filledEllipse(shdCmp.position.x, shdCmp.position.y, shdCmp.radius*.05f, shdCmp.radius * .025f);
+                shadowDrawer.filledEllipse(shdCmp.position.x, shdCmp.position.y, shdCmp.radius * .05f, shdCmp.radius * .025f);
             }
 
             batch.draw(spriteCmp.sprite, posCmp.renderPos.x - spriteCmp.width / 2, posCmp.renderPos.y, // -
@@ -115,7 +119,7 @@ public class RenderingSystem extends SortedIteratingSystem {
         onePixelTextureRegion = new TextureRegion(pixelTexture, 0, 0, 1, 1);
         shadowDrawer = new ShapeDrawer(batch, onePixelTextureRegion);
         shadowDrawer.setColor(new Color(0, 0, 0, .25f));
-       // shadowDrawer.setColor(Color.CYAN);
+        // shadowDrawer.setColor(Color.CYAN);
     }
 
 }
