@@ -16,26 +16,34 @@ public class ZComparator implements Comparator<Entity> {
 
     @Override
     public int compare(Entity a, Entity b) {
-        float ay = posCmp.get(a).renderPos.y;
-        float by = posCmp.get(b).renderPos.y;
-        int ae = posCmp.get(a).elevation;
-        int be = posCmp.get(b).elevation;
+        PositionComponent posA = posCmp.get(a);
+        PositionComponent posB = posCmp.get(b);
 
-        if (posCmp.get(b).isMapLayer && posCmp.get(a).isMapLayer) {
-            return 0;
+        float ay = posA.renderPos.y;
+        float by = posB.renderPos.y;
+        int ae = posA.elevation;
+        int be = posB.elevation;
+
+        // elevation Check Priority
+        if (ae != be) {
+            return Integer.compare(ae, be);
         }
 
-        if (be == ae) {
-            if (posCmp.get(b).isMapLayer) {
-                return 1;
-            }
-            if (posCmp.get(a).isMapLayer) {
-                return -1;
-            }
-            return Float.compare(by, ay);
+        // Map Layer Check (On same elevation, Map is always drawn before Entity)
+        boolean aIsMap = posA.isMapLayer;
+        boolean bIsMap = posB.isMapLayer;
+
+        if (aIsMap && bIsMap) {
+            return 0; // Both are map layers on the same elevation
+        }
+        if (aIsMap) {
+            return -1; // a is Map, b is Entity -> a first
+        }
+        if (bIsMap) {
+            return 1;  // b is Map, a is Entity -> b first 
         }
 
-        return  ae-be;
+        // Standard y sort for entities on same elevation
+        return Float.compare(by, ay);
     }
-
 }
