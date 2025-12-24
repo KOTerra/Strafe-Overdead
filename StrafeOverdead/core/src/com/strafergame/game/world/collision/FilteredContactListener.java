@@ -224,21 +224,32 @@ public class FilteredContactListener implements ContactListener {
         boolean isFixtureBHitbox = fixtureB.getFilterData().categoryBits == HITBOX_CATEGORY;
 
         if (isFixtureAHurtbox && isFixtureBHitbox) {
-            fixtureA.setUserData(new AttackContact(fixtureA, fixtureB));
+            // Don't overwrite if the wall is jumpable
+            if (!"jumpable".equals(fixtureA.getUserData())) {
+                fixtureA.setUserData(new AttackContact(fixtureA, fixtureB));
+            }
         }
         if (isFixtureAHitbox && isFixtureBHurtbox) {
-            fixtureB.setUserData(new AttackContact(fixtureB, fixtureA));
+            if (!"jumpable".equals(fixtureB.getUserData())) {
+                fixtureB.setUserData(new AttackContact(fixtureB, fixtureA));
+            }
         }
     }
 
     private void endAttackContact(Contact contact) {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
+
         if (fixtureA.getFilterData().categoryBits == HURTBOX_CATEGORY && fixtureB.getFilterData().categoryBits == HITBOX_CATEGORY) {
-            fixtureA.setUserData(null);
+            // Only set to null if we actually set it to AttackContact previously
+            if (fixtureA.getUserData() instanceof AttackContact) {
+                fixtureA.setUserData(null);
+            }
         }
         if (fixtureB.getFilterData().categoryBits == HURTBOX_CATEGORY && fixtureA.getFilterData().categoryBits == HITBOX_CATEGORY) {
-            fixtureB.setUserData(null);
+            if (fixtureB.getUserData() instanceof AttackContact) {
+                fixtureB.setUserData(null);
+            }
         }
     }
 
@@ -253,7 +264,7 @@ public class FilteredContactListener implements ContactListener {
         }
     }
 
-    private boolean checkJumpBypass(Contact contact, Fixture entityFixture, Fixture wallFixture) {//TODO also pass jumpable walls for dashing
+    private boolean checkJumpBypass(Contact contact, Fixture entityFixture, Fixture wallFixture) {
         Entity entity = ComponentDataUtils.getEntityFrom(entityFixture);
         if (entity == null) return false;
 
@@ -264,8 +275,9 @@ public class FilteredContactListener implements ContactListener {
         }
 
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
+
         boolean isBypassing = typeCmp != null &&
-                (typeCmp.entityState == EntityState.jump || typeCmp.entityState == EntityState.fall);
+                (typeCmp.entityState == EntityState.jump || typeCmp.entityState == EntityState.fall || typeCmp.entityState == EntityState.dash);
 
 
         return isBypassing && isJumpable;

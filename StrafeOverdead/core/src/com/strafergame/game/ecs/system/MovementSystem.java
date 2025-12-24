@@ -108,30 +108,36 @@ public class MovementSystem extends IteratingSystem {
                 } else { /// Player Logic
                     switch (typeCmp.entityState) {
                         case idle:
-                        case walk:
+                        case walk: {
                             b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, movCmp.dir.y * movCmp.maxLinearSpeed);
                             typeCmp.entityState = EntityState.idle;
                             break;
-                        case dash:
+                        }
+                        case dash: {
                             dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dir.x, movCmp.dir.y), movCmp, typeCmp,
                                     movCmp.isDashCooldown, movCmp.dashForce);
                             break;
-                        case hit:
+                        }
+                        case hit: {
                             break;
-                        case jump:
+                        }
+                        case jump: {
                             b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, movCmp.maxLinearSpeed * 1.5f);
                             break;
-                        case fall:
+                        }
+                        case fall: {
                             b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, -movCmp.maxLinearSpeed * 1.5f);
                             float dif = ComponentMappers.elevation().get(e).prevIncrementalY - b2dCmp.body.getPosition().y;
                             if (Math.abs(dif) >= 1) {
                                 ComponentMappers.elevation().get(e).prevIncrementalY = b2dCmp.body.getPosition().y;
                                 ComponentMappers.elevation().get(e).elevation -= 1;
-                                ComponentMappers.position().get(e).elevation -= 1;
+                                ComponentMappers.position().get(e).elevation -= 1;                //decrease from meter to meter
                             }
                             break;
-                        case death:
+                        }
+                        case death: {//..
                             break;
+                        }
                         default:
                             break;
                     }
