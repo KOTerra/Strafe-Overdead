@@ -3,6 +3,7 @@ package com.strafergame.input.handlers.desktop;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.strafergame.Strafer;
 import com.strafergame.input.PlayerControl;
 import com.strafergame.settings.KeyboardMapping;
 
@@ -44,6 +45,10 @@ public class KeyboardInputProcessor implements InputProcessor {
         //if (handled) {
             PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
        // }
+
+        if(keycode== Input.Keys.SHIFT_RIGHT){
+            Strafer.inDebug=!Strafer.inDebug;
+        }
 
         return handled;
     }

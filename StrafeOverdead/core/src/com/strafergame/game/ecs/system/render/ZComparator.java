@@ -40,7 +40,7 @@ public class ZComparator implements Comparator<Entity> {
             return -1; // a is Map, b is Entity -> a first
         }
         if (bIsMap) {
-            return 1;  // b is Map, a is Entity -> b first 
+            return 1;  // b is Map, a is Entity -> b first
         }
 
         // Standard y sort for entities on same elevation
