@@ -14,11 +14,11 @@ import com.strafergame.game.ecs.component.physics.PositionComponent;
 
 public class SteeringComponent implements Steerable<Vector2>, Component {
 
-
     private Entity owner;
+    public Entity target;
+
     private Box2dComponent b2dCmp;
     private MovementComponent movCmp;
-
     private PositionComponent posCmp;
 
     public SteeringBehavior<Vector2> behavior;
@@ -46,7 +46,6 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
 
         if (!steeringOutput.linear.isZero()) {
             Vector2 force = steeringOutput.linear;
-
             b2dCmp.body.applyForceToCenter(force, true);
             anyAccelerations = true;
         }
@@ -58,12 +57,10 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
             Vector2 velocity = b2dCmp.body.getLinearVelocity();
             float currentSpeedSquare = velocity.len2();
             if (currentSpeedSquare > getMaxLinearSpeed() * getMaxLinearSpeed()) {
-                movCmp.dir.set(velocity.cpy()).clamp(-1,1);
+                movCmp.dir.set(velocity.cpy()).clamp(-1, 1);
                 b2dCmp.body.setLinearVelocity(movCmp.dir.cpy().scl(getMaxLinearSpeed() / (float) Math.sqrt(currentSpeedSquare)));
-                //fastinvsqrt?
             }
             if (b2dCmp.body.getAngularVelocity() > getMaxAngularSpeed()) {
-
                 b2dCmp.body.setAngularVelocity(getMaxAngularSpeed());
             }
         }
@@ -98,7 +95,6 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
 
     @Override
     public void setTagged(boolean b) {
-
     }
 
     @Override
@@ -108,7 +104,6 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
 
     @Override
     public void setZeroLinearSpeedThreshold(float v) {
-
     }
 
     @Override
@@ -178,16 +173,12 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
         return vector2;
     }
 
-
     @Override
     public Location newLocation() {
         return null;
     }
 
-
     public Entity getOwner() {
         return owner;
     }
-
-
 }

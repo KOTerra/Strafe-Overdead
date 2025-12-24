@@ -47,7 +47,7 @@ public class ClimbFallSystem extends IteratingSystem {
 
         // Only attempt to start a jump if we are in the jump state and not climbing
         if (canJump(entity) && !isClimbing(entity)) {
-            beginJump(entity);                   //maybe disable jump if climbing to prohibit jumping on slopes
+            beginJump(entity);
         }
         jumpArrive(entity);
 
@@ -517,17 +517,15 @@ public class ClimbFallSystem extends IteratingSystem {
 
         if (layers != null && layers.size() != 0) {
             for (MapLayer layer : layers) {
-                if (layer instanceof TiledMapTileLayer tileLayer) {
-
-                    if (
-                            tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), Math.round(b2dCmp.body.getPosition().y)) != null ||
-                                    tileLayer.getCell((int) (b2dCmp.body.getPosition().x), Math.round(b2dCmp.body.getPosition().y)) != null ||
-                                    tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), (int) (b2dCmp.body.getPosition().y)) != null ||
-                                    tileLayer.getCell((int) (b2dCmp.body.getPosition().x), (int) (b2dCmp.body.getPosition().y)) != null
-                    ) {
-                        return true;
-                    }
+                if (layer instanceof TiledMapTileLayer tileLayer &&
+                        (tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), Math.round(b2dCmp.body.getPosition().y)) != null ||
+                                tileLayer.getCell((int) (b2dCmp.body.getPosition().x), Math.round(b2dCmp.body.getPosition().y)) != null ||
+                                tileLayer.getCell(Math.round(b2dCmp.body.getPosition().x), (int) (b2dCmp.body.getPosition().y)) != null ||
+                                tileLayer.getCell((int) (b2dCmp.body.getPosition().x), (int) (b2dCmp.body.getPosition().y)) != null)
+                ) {
+                    return true;
                 }
+
             }
         }
         return false;

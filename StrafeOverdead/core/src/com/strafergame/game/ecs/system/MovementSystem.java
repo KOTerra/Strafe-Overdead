@@ -10,11 +10,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
+import com.strafergame.game.ecs.component.physics.DetectorComponent;
 import com.strafergame.game.ecs.component.physics.MovementComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
+import com.strafergame.game.ecs.system.interaction.ProximityContact;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DWorld;
 
@@ -52,15 +54,51 @@ public class MovementSystem extends IteratingSystem {
                 MovementComponent movCmp = ComponentMappers.movement().get(e);
                 EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
-                if (!typeCmp.entityType.equals(EntityType.player)) {
+                if (!typeCmp.entityType.equals(EntityType.player)) {    //npc
+                    DetectorComponent dtctrCmp = ComponentMappers.detector().get(e); // Get detector
+                    ElevationComponent enemyElv = ComponentMappers.elevation().get(e);
                     switch (typeCmp.entityState) {
                         case idle: {
-                            //conditions to switch from idle to walk (ex. sees enemy)
-                            typeCmp.entityState = EntityState.walk;
+                            // check if player is in proximity to switch to walk
+                            if (dtctrCmp != null && ProximityContact.isPlayerInProximity(dtctrCmp)) {
+                                Entity target = ProximityContact.getPlayerInProximity(dtctrCmp);
+
+                                SteeringComponent steerCmp = ComponentMappers.steering().get(e);
+                                if (steerCmp != null) {
+                                    steerCmp.target = target;
+                                }
+
+                                typeCmp.entityState = EntityState.walk;
+                            }
                             break;
                         }
                         case walk: {
                             SteeringComponent steerCmp = ComponentMappers.steering().get(e);
+
+                            boolean differentElevation = false;
+
+                            if (steerCmp.target != null) {
+                                System.out.println("notnull target");
+                            }
+
+                            if (steerCmp != null && steerCmp.target != null) {
+                                ElevationComponent targetElv = ComponentMappers.elevation().get(steerCmp.target);
+
+                                if (enemyElv != null && targetElv != null && enemyElv.elevation != targetElv.elevation) {
+                                    differentElevation = true;
+                                }
+                            }
+
+                            if ((dtctrCmp != null && !ProximityContact.isPlayerInProximity(dtctrCmp)) || differentElevation) {
+                                typeCmp.entityState = EntityState.idle;
+                                if (steerCmp != null) {
+                                    steerCmp.target = null;
+                                }
+                                b2dCmp.body.setLinearVelocity(0, 0);
+                                b2dCmp.body.setAngularVelocity(0);
+                                break;
+                            }
+
                             if (steerCmp != null) {
                                 steerCmp.update();
                             }
@@ -71,10 +109,11 @@ public class MovementSystem extends IteratingSystem {
                             break;
                         }
                     }
-                } else {
+                } else {        ///player
                     //interface in posCmp care sa implementeze dupa tip de entity cum se misca, miscat de AI, sau ca aici etc
                     switch (typeCmp.entityState) {
-                        case idle:
+                        case idle: {
+                        }
                         case walk: {
                             b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, movCmp.dir.y * movCmp.maxLinearSpeed);
                             typeCmp.entityState = EntityState.idle;
@@ -88,6 +127,7 @@ public class MovementSystem extends IteratingSystem {
                             break;
                         }
                         case hit: {
+                            //..
                             break;
                         }
                         case jump: {
