@@ -105,7 +105,7 @@ public class Strafer extends Game {
     /**
      * whether game is in debug mode
      */
-    public static boolean inDebug = true;
+    public static boolean inDebug = false;
 
     public static Strafer getInstance() {
         if (instance == null) {

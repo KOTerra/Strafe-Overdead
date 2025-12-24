@@ -103,7 +103,7 @@ public class GameWorld implements Disposable {
 //                + PlayerControl.actionSequence.getSequenceKeycodes(10) + '\n'
         //+ PlayerControl.actionSequence.isInTimeframe(3,500);
         ;
-        if (HUD.debugInfo != null) {
+        if (HUD.debugInfo != null && Strafer.inDebug) {
             HUD.debugInfo.setText(HUD.debugInfoText);
         }
     }

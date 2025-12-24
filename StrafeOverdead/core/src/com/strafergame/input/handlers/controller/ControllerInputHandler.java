@@ -11,18 +11,18 @@ public class ControllerInputHandler implements ControllerListener {
 
     private static ControllerInputHandler instance;
 
-    private final float DEADZONE = .25f;
+    private final float DEADZONE = .4f;
 
     @Override
     public boolean buttonDown(Controller controller, int buttonIndex) {
         int keycode = -1;
 
         ///ABXY
-        if (buttonIndex == controller.getMapping().buttonA) {
+        if (buttonIndex == controller.getMapping().buttonB) {
             PlayerControl.DASH = true;
             keycode = KeyboardMapping.DASH_KEY;
         }
-        if (buttonIndex == controller.getMapping().buttonB) {
+        if (buttonIndex == controller.getMapping().buttonA) {
             PlayerControl.JUMP = true;
             keycode = KeyboardMapping.JUMP_KEY;
         }
@@ -54,10 +54,10 @@ public class ControllerInputHandler implements ControllerListener {
     @Override
     public boolean buttonUp(Controller controller, int buttonIndex) {
         ///ABXY
-        if (buttonIndex == controller.getMapping().buttonA) {
+        if (buttonIndex == controller.getMapping().buttonB) {
             PlayerControl.DASH = false;
         }
-        if (buttonIndex == controller.getMapping().buttonB) {
+        if (buttonIndex == controller.getMapping().buttonA) {
             PlayerControl.JUMP = false;
         }
         if (buttonIndex == controller.getMapping().buttonX) {
