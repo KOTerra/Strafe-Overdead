@@ -2,7 +2,9 @@ package com.strafergame.game.ecs;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Family;
 import com.strafergame.game.ecs.component.*;
+import com.strafergame.game.ecs.component.ai.BehaviorTreeComponent;
 import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.component.physics.*;
 import com.strafergame.game.ecs.component.world.*;
@@ -99,6 +101,10 @@ public abstract class ComponentMappers {
         return ComponentMapper.getFor(StatsComponent.class);
     }
 
+
+    public static final ComponentMapper<BehaviorTreeComponent> behaviorTree() {
+        return ComponentMapper.getFor(BehaviorTreeComponent.class);
+    }
 
     private ComponentMappers() {
     }

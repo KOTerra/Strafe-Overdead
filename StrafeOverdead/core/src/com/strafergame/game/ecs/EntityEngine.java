@@ -9,6 +9,7 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.system.AnimationSystem;
 import com.strafergame.game.ecs.system.CheckpointSystem;
 import com.strafergame.game.ecs.system.MovementSystem;
+import com.strafergame.game.ecs.system.ai.NpcSystem;
 import com.strafergame.game.ecs.system.camera.CameraSystem;
 import com.strafergame.game.ecs.system.interaction.combat.CombatSystem;
 import com.strafergame.game.ecs.system.interaction.HealthSystem;
@@ -37,7 +38,8 @@ public class EntityEngine extends PooledEngine implements Disposable {
     private HealthSystem healthSystem;
     private PlayerControlSystem playerControlSystem;
     private ElevationSystem elevationSystem;
-    private ShadowSystem shadowSystem=new ShadowSystem();
+    private NpcSystem npcSystem = new NpcSystem();
+    private ShadowSystem shadowSystem = new ShadowSystem();
     private final RenderingSystem renderingSystem = new RenderingSystem();
     private final CheckpointSystem checkpointSystem = new CheckpointSystem();
     private final ActivatorSystem activatorSystem = new ActivatorSystem();
@@ -67,6 +69,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
             // iterating systems
             addSystem(animationSystem);
             addSystem(elevationSystem);
+            addSystem(npcSystem);
             addSystem(movementSystem);
             addSystem(playerControlSystem);
             addSystem(healthSystem);

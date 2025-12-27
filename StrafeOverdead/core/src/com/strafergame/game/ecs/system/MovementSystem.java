@@ -10,13 +10,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
-import com.strafergame.game.ecs.component.physics.DetectorComponent;
 import com.strafergame.game.ecs.component.physics.MovementComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
-import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
-import com.strafergame.game.ecs.system.interaction.ProximityContact;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DWorld;
 
@@ -51,61 +48,7 @@ public class MovementSystem extends IteratingSystem {
                 MovementComponent movCmp = ComponentMappers.movement().get(e);
                 EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
-                if (!typeCmp.entityType.equals(EntityType.player)) { // NPC Logic
-                    DetectorComponent dtctrCmp = ComponentMappers.detector().get(e);
-                    ElevationComponent enemyElv = ComponentMappers.elevation().get(e);
-                    Entity target = GameWorld.player;
-
-                    switch (typeCmp.entityState) {
-                        case idle: {
-                            if (dtctrCmp != null && ProximityContact.isPlayerInProximity(dtctrCmp) && target != null) {
-                                ElevationComponent targetElv = ComponentMappers.elevation().get(target);
-                                if (enemyElv != null && targetElv != null && enemyElv.elevation == targetElv.elevation) {
-                                    SteeringComponent steerCmp = ComponentMappers.steering().get(e);
-                                    if (steerCmp != null) {
-                                        steerCmp.target = target;
-                                    }
-                                    typeCmp.entityState = EntityState.walk;
-                                }
-                            }
-
-                            break;
-                        }
-                        case walk: {
-                            SteeringComponent steerCmp = ComponentMappers.steering().get(e);
-                            boolean stopWalking = false;
-
-                            // check if lost proximity
-                            if (dtctrCmp != null && !ProximityContact.isPlayerInProximity(dtctrCmp)) {
-                                stopWalking = true;
-                            }
-
-                            // check if elevations still match
-                            if (!stopWalking && target != null) {
-                                ElevationComponent targetElv = ComponentMappers.elevation().get(target);
-                                if (enemyElv != null && targetElv != null && enemyElv.elevation != targetElv.elevation) {
-                                    stopWalking = true;
-                                }
-                            }
-
-                            if (stopWalking) {
-                                typeCmp.entityState = EntityState.idle;
-                                if (steerCmp != null) {
-                                    steerCmp.target = null;
-                                }
-                                b2dCmp.body.setLinearVelocity(0, 0); // Stop physics immediately
-                                b2dCmp.body.setAngularVelocity(0);
-                            } else {
-                                if (steerCmp != null) {
-                                    steerCmp.update();
-                                }
-                            }
-                            break;
-                        }
-                        default:
-                            break;
-                    }
-                } else { /// Player Logic
+                if (typeCmp.entityType.equals(EntityType.player)) { /// Player Logic
                     switch (typeCmp.entityState) {
                         case idle:
                         case walk: {
@@ -141,7 +84,7 @@ public class MovementSystem extends IteratingSystem {
                         default:
                             break;
                     }
-                }
+                } //
             }
         }
     }

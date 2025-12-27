@@ -12,6 +12,7 @@ import com.strafergame.assets.AnimationProvider;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.*;
+import com.strafergame.game.ecs.component.ai.BehaviorTreeComponent;
 import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.component.physics.*;
 import com.strafergame.game.ecs.component.world.ShadowComponent;
@@ -123,6 +124,7 @@ public abstract class EntityFactory {
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
         enemy.add(movCmp);
 
+
         HealthComponent hlthComponent = entityEngine.createComponent(HealthComponent.class);
         hlthComponent.hitPoints = 10;
         enemy.add(hlthComponent);
@@ -143,7 +145,6 @@ public abstract class EntityFactory {
 
         Box2dComponent b2dCmp = entityEngine.createComponent(Box2dComponent.class);
         enemy.add(b2dCmp);
-        entityEngine.addEntity(enemy);
 
         initPhysics(enemy);
         DetectorComponent dtctrCmp = entityEngine.createComponent(DetectorComponent.class);
@@ -156,10 +157,13 @@ public abstract class EntityFactory {
 
         SteeringComponent steerCmp = entityEngine.createComponent(SteeringComponent.class);
         steerCmp.setOwner(enemy);
-        SteeringComponent playerSteerCmp = ComponentMappers.steering().get(GameWorld.player);
-        steerCmp.behavior = new Seek<>(steerCmp, playerSteerCmp);
         enemy.add(steerCmp);
 
+        BehaviorTreeComponent btCmp = entityEngine.createComponent(BehaviorTreeComponent.class);
+        btCmp.tree = BehaviorTreeFactory.createBasicNpcTree(enemy);
+        enemy.add(btCmp);
+
+        entityEngine.addEntity(enemy);
         return enemy;
     }
 
