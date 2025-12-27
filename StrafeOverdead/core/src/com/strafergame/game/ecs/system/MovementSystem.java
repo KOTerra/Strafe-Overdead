@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.*;
+import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.MovementComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
@@ -29,26 +30,45 @@ public class MovementSystem extends IteratingSystem {
 
     @Override
     public void update(float delta) {
-        move();
+        playerMovement();
+
         float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
         accumulator += frameTime;
+
         while (accumulator >= GameWorld.FIXED_TIME_STEP) {
             savePositions();
+
+            // AI movement
+            applySteering();
+
             accumulator -= GameWorld.FIXED_TIME_STEP;
             box2dWorld.step(GameWorld.FIXED_TIME_STEP);
         }
+
         float alpha = accumulator / GameWorld.FIXED_TIME_STEP;
         interpolateRenderPositions(alpha);
     }
 
-    private void move() {
+    private void applySteering() {
+        for (Entity e : this.getEntities()) {
+            Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
+            if (b2dCmp != null && b2dCmp.initiatedPhysics) {
+                SteeringComponent steerCmp = ComponentMappers.steering().get(e);
+                if (steerCmp != null) {
+                    steerCmp.update();
+                }
+            }
+        }
+    }
+
+    private void playerMovement() {
         for (Entity e : this.getEntities()) {
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
             if (b2dCmp.initiatedPhysics) {
                 MovementComponent movCmp = ComponentMappers.movement().get(e);
                 EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
-                if (typeCmp.entityType.equals(EntityType.player)) { /// Player Logic
+                if (typeCmp.entityType.equals(EntityType.player)) {
                     switch (typeCmp.entityState) {
                         case idle:
                         case walk: {
@@ -84,7 +104,7 @@ public class MovementSystem extends IteratingSystem {
                         default:
                             break;
                     }
-                } //
+                }
             }
         }
     }

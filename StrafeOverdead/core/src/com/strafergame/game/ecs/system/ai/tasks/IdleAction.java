@@ -20,12 +20,13 @@ public class IdleAction extends LeafTask<Entity> {
 
         typeCmp.entityState = EntityState.idle;
 
-        // disable Steering
+        // Kill the Bbhavior
         if (steerCmp != null) {
-            steerCmp.behavior = null;
+            steerCmp.behavior = null;       // Tells MovementSystem to stop pushing
             steerCmp.steeringOutput.setZero();
         }
-        // stop physics immediately
+
+        // Kill velocity
         if (b2dCmp != null && b2dCmp.body != null) {
             b2dCmp.body.setLinearVelocity(0, 0);
             b2dCmp.body.setAngularVelocity(0);

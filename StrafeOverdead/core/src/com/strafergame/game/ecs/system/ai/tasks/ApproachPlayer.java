@@ -18,12 +18,11 @@ public class ApproachPlayer extends LeafTask<Entity> {
         SteeringComponent steerCmp = ComponentMappers.steering().get(e);
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
-        if (steerCmp == null) {
-            return Status.FAILED;
-        }
+        if (steerCmp == null) return Status.FAILED;
 
         typeCmp.entityState = EntityState.walk;
 
+        //  Set the Behavior intention(will update in MovementSystem)
         if (!(steerCmp.behavior instanceof Seek) && GameWorld.player != null) {
             SteeringComponent playerSteer = ComponentMappers.steering().get(GameWorld.player);
             if (playerSteer != null) {
@@ -31,9 +30,6 @@ public class ApproachPlayer extends LeafTask<Entity> {
             }
         }
 
-
-        // apply the steering
-        steerCmp.update();
 
         return Status.SUCCEEDED;
     }
