@@ -23,6 +23,9 @@ public abstract class PlayerControl {
 
     public static boolean DASH = false;
 
+    public static boolean ATTACK = false;
+
+
 
     public static final int SEQUENCE_TIMEFRAME = 500;//ms
     public static final int DEFAULT_SEQUENCE_CAPACITY = 10;

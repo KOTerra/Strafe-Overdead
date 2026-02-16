@@ -27,6 +27,8 @@ public class ControllerInputHandler implements ControllerListener {
             keycode = KeyboardMapping.JUMP_KEY;
         }
         if (buttonIndex == controller.getMapping().buttonX) {
+            PlayerControl.ATTACK = true;
+            keycode = KeyboardMapping.ATTACK_KEY;
         }
         if (buttonIndex == controller.getMapping().buttonY) {
         }
@@ -61,6 +63,7 @@ public class ControllerInputHandler implements ControllerListener {
             PlayerControl.JUMP = false;
         }
         if (buttonIndex == controller.getMapping().buttonX) {
+            PlayerControl.ATTACK = false;
         }
         if (buttonIndex == controller.getMapping().buttonY) {
         }

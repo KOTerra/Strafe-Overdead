@@ -42,9 +42,16 @@ public class PlayerControlSystem extends IteratingSystem {
             return true;
         });
 
+        executeActionSequence(entity,KeyboardMapping.TRIPLE_CLICK_SEQUENCE,entity1 -> {
+            System.out.println("333 333 333 ");
+            return true;
+        });
+
         move(entity);
         dash(entity);
         jump(entity);
+
+        attack(entity);
     }
 
     private void move(Entity e) {
@@ -144,10 +151,18 @@ public class PlayerControlSystem extends IteratingSystem {
         }
     }
 
+    private void attack(Entity e) {
+        final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
+        if(PlayerControl.ATTACK){
+            typeCmp.entityState = EntityState.hit;
+        }
+
+    }
+
 
     private void executeActionSequence(Entity entity, int[] sequence, EntityActionExecutor executor) {
         boolean sequenceMatch = false;
-        if (PlayerControl.actionSequence.isInTimeframe(PlayerControl.DEFAULT_SEQUENCE_CAPACITY, PlayerControl.SEQUENCE_TIMEFRAME)) {
+        if (PlayerControl.actionSequence.isInTimeframe(sequence.length, PlayerControl.SEQUENCE_TIMEFRAME)) {
             Object[] seq = PlayerControl.actionSequence.getSequenceKeycodes(sequence.length).toArray();
             for (int i = 0; i < seq.length; i++) {
                 sequenceMatch = (Integer) seq[i] == sequence[i];

@@ -99,9 +99,9 @@ public class GameWorld implements Disposable {
 
 
                 + "x: " + Math.round(ComponentMappers.position().get(player).renderPos.x) + " y: " + Math.round(ComponentMappers.position().get(player).renderPos.y) + '\n'
-//                + PlayerControl.actionSequence.toString() + '\n'
-//                + PlayerControl.actionSequence.getSequenceKeycodes(10) + '\n'
-        //+ PlayerControl.actionSequence.isInTimeframe(3,500);
+                + PlayerControl.actionSequence.toString() + '\n'
+                + PlayerControl.actionSequence.getSequenceKeycodes(10) + '\n'
+        + PlayerControl.actionSequence.isInTimeframe(3,500);
         ;
         if (HUD.debugInfo != null) {
             HUD.debugInfo.setText(Strafer.inDebug ? HUD.debugInfoText : "");

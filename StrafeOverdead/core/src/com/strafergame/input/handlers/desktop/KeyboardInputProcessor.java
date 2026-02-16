@@ -42,6 +42,7 @@ public class KeyboardInputProcessor implements InputProcessor {
             PlayerControl.DASH = true;
             handled = true;
         }
+
         //if (handled) {
             PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
        // }
@@ -96,6 +97,7 @@ public class KeyboardInputProcessor implements InputProcessor {
     public boolean touchDown(int x, int y, int pointer, int button) {
         boolean handled = false;
         if (button == Input.Buttons.LEFT) {
+            PlayerControl.ATTACK = true;
             handled = true;
         }
         if (handled) {
@@ -107,6 +109,10 @@ public class KeyboardInputProcessor implements InputProcessor {
     @Override
     public boolean touchUp(int x, int y, int pointer, int button) {
         boolean handled = false;
+        if (button == Input.Buttons.LEFT) {
+            PlayerControl.ATTACK = false;
+            handled = true;
+        }
 
         return handled;
     }
