@@ -1,7 +1,10 @@
 package com.strafergame.game.ecs.factories;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.steer.behaviors.*;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
@@ -15,23 +18,21 @@ import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.ai.BehaviorTreeComponent;
 import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.component.physics.*;
+import com.strafergame.game.ecs.component.world.LightComponent;
 import com.strafergame.game.ecs.component.world.ShadowComponent;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.save.data.PlayerSaveData;
 import com.strafergame.game.ecs.system.save.SaveSystem;
 import com.strafergame.game.ecs.system.world.ClimbFallSystem;
-import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.FilteredContactListener;
-
 
 public abstract class EntityFactory {
     private static final EntityEngine entityEngine = EntityEngine.getInstance();
 
     public static Entity createPlayer() {
         final Entity player = entityEngine.createEntity();
-
 
         PlayerSaveData playerSaveData = SaveSystem.getPlayerSaveData();
 
@@ -46,14 +47,12 @@ public abstract class EntityFactory {
         playerSaveData.retrieve();
         playerSaveData.loadOwner();
 
-
         //deserialized
         StatsComponent statsCmp = playerSaveData.getStatsCmp();
         PositionComponent posCmp = playerSaveData.getPosCmp();
         ElevationComponent elvCmp = playerSaveData.getElvCmp();
         HealthComponent hlthCmp = playerSaveData.getHealthCmp();
         //deserialized
-
 
         EntityTypeComponent typeCmp = entityEngine.createComponent(EntityTypeComponent.class);
         typeCmp.entityType = EntityType.player;
@@ -76,14 +75,12 @@ public abstract class EntityFactory {
         shdCmp.radius = aniCmp.animation.getKeyFrame(0).getWidth() * .4f;
         player.add(shdCmp);
 
-
         //dependant on serialization
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
         movCmp.maxLinearSpeed = statsCmp.baseSpeed;
         movCmp.dashDuration = statsCmp.dashDuration;
         movCmp.dashForce = statsCmp.dashForce;
         player.add(movCmp);
-
 
         Box2dComponent b2dCmp = entityEngine.createComponent(Box2dComponent.class);
         player.add(b2dCmp);
@@ -93,13 +90,16 @@ public abstract class EntityFactory {
         b2dCmp.body.setUserData(player);
         b2dCmp.body.setTransform(posCmp.renderPos, 0);
 
-        player.add(entityEngine.createComponent(SteeringComponent.class).setOwner(player));//the steering
+
+        attachLight(player, 5f, new Color(1.0f, 0.8f, 0.6f, 1.0f), 128);
+
+        player.add(entityEngine.createComponent(SteeringComponent.class).setOwner(player));
 
         entityEngine.addEntity(player);
         return player;
     }
 
-    public static Entity createEnemy(final Vector3 location, float scale, EntityType type) {//use Object decorator pattern with this
+    public static Entity createEnemy(final Vector3 location, float scale, EntityType type) {
         final Entity enemy = entityEngine.createEntity();
         EntityTypeComponent typeCmp = entityEngine.createComponent(EntityTypeComponent.class);
         typeCmp.entityType = type;
@@ -123,7 +123,6 @@ public abstract class EntityFactory {
 
         MovementComponent movCmp = entityEngine.createComponent(MovementComponent.class);
         enemy.add(movCmp);
-
 
         HealthComponent hlthComponent = entityEngine.createComponent(HealthComponent.class);
         hlthComponent.hitPoints = 10;
@@ -163,10 +162,12 @@ public abstract class EntityFactory {
         btCmp.tree = BehaviorTreeFactory.createBasicNpcTree(enemy);
         enemy.add(btCmp);
 
+
+        attachLight(enemy, 5f, Color.RED, 32);
+
         entityEngine.addEntity(enemy);
         return enemy;
     }
-
 
     public static void initPhysics(Entity e) {
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
@@ -186,4 +187,17 @@ public abstract class EntityFactory {
         b2dCmp.initiatedPhysics = true;
     }
 
+    /**
+     * Helper to attach a light to an entity
+     */
+    private static void attachLight(Entity entity, float distance, Color color, int rays) {
+        RayHandler rayHandler = entityEngine.getRayHandler();
+        if (rayHandler != null) {
+            LightComponent lightCmp = entityEngine.createComponent(LightComponent.class);
+            lightCmp.light = new PointLight(rayHandler, rays, color, distance, 0, 0);
+            lightCmp.light.setSoftnessLength(2f);
+
+            entity.add(lightCmp);
+        }
+    }
 }

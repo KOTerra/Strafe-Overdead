@@ -80,8 +80,12 @@ public abstract class ComponentMappers {
         return ComponentMapper.getFor(ElevationComponent.class);
     }
 
-    public static ComponentMapper<ShadowComponent> shadow() {
+    public static final ComponentMapper<ShadowComponent> shadow() {
         return ComponentMapper.getFor(ShadowComponent.class);
+    }
+
+    public static final ComponentMapper<LightComponent> light(){
+        return ComponentMapper.getFor(LightComponent.class);
     }
 
     public static final ComponentMapper<CheckpointComponent> checkpoint() {
@@ -106,8 +110,11 @@ public abstract class ComponentMappers {
         return ComponentMapper.getFor(BehaviorTreeComponent.class);
     }
 
+
+
     private ComponentMappers() {
     }
+
 
 
 }

@@ -18,10 +18,7 @@ import com.strafergame.game.ecs.system.player.HudSystem;
 import com.strafergame.game.ecs.system.player.PlayerControlSystem;
 import com.strafergame.game.ecs.system.render.RenderingSystem;
 import com.strafergame.game.ecs.system.save.AutoSaveSystem;
-import com.strafergame.game.ecs.system.world.ActivatorSystem;
-import com.strafergame.game.ecs.system.world.ClimbFallSystem;
-import com.strafergame.game.ecs.system.world.ElevationSystem;
-import com.strafergame.game.ecs.system.world.ShadowSystem;
+import com.strafergame.game.ecs.system.world.*;
 import com.strafergame.game.world.collision.Box2DWorld;
 
 public class EntityEngine extends PooledEngine implements Disposable {
@@ -40,6 +37,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
     private ElevationSystem elevationSystem;
     private NpcSystem npcSystem = new NpcSystem();
     private ShadowSystem shadowSystem = new ShadowSystem();
+    private LightSystem lightSystem;
     private final RenderingSystem renderingSystem = new RenderingSystem();
     private final CheckpointSystem checkpointSystem = new CheckpointSystem();
     private final ActivatorSystem activatorSystem = new ActivatorSystem();
@@ -57,9 +55,14 @@ public class EntityEngine extends PooledEngine implements Disposable {
     }
 
     public void initSystems(Box2DWorld box2dWorld, RayHandler rayHandler) {
-        if (!initialised) {
+        // Force re-init if world changed (fixes dead RayHandler on restart)
+        if (!initialised || this.box2dWorld != box2dWorld) {
             this.box2dWorld = box2dWorld;
             this.rayHandler = rayHandler;
+
+            removeAllSystems();
+
+            lightSystem = new LightSystem(rayHandler);
             autoSaveSystem = new AutoSaveSystem(10);
             movementSystem = new MovementSystem(this.box2dWorld);
             healthSystem = new HealthSystem(this.box2dWorld);
@@ -85,6 +88,8 @@ public class EntityEngine extends PooledEngine implements Disposable {
             addSystem(climbFallSystem);
             addSystem(autoSaveSystem);
             addSystem(renderingSystem);
+            addSystem(lightSystem);
+
             initialised = true;
         }
     }
@@ -116,8 +121,12 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
     @Override
     public void dispose() {
-        box2dWorld.dispose();
-        rayHandler.dispose();
+        if(box2dWorld != null) box2dWorld.dispose();
+        if(rayHandler != null) rayHandler.dispose();
+
+        // Reset singleton state
+        initialised = false;
+        instance = null;
     }
 
     public Box2DWorld getBox2dWorld() {
@@ -133,5 +142,9 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
     public boolean isInitialised() {
         return initialised;
+    }
+
+    public RayHandler getRayHandler() {
+        return rayHandler;
     }
 }

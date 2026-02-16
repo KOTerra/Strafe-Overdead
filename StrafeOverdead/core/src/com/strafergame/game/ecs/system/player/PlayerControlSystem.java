@@ -169,7 +169,7 @@ public class PlayerControlSystem extends IteratingSystem {
             }
         }
         if (sequenceMatch) {
-            executor.execute(entity);
+            executor.execute(entity);   //maybe use bool returned to cancel next handles
         }
     }
 }
