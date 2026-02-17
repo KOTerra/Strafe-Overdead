@@ -27,10 +27,8 @@ public class ElevationContactFilter implements ContactFilter {
         }
 
         boolean collide = (filterA.maskBits & filterB.categoryBits) != 0 && (filterA.categoryBits & filterB.maskBits) != 0;
-        //System.out.println(filterA.categoryBits + " " + filterB.categoryBits + " " + collide);
 
         if (collide) {
-            // System.out.println(filterA.categoryBits + " " + filterB.categoryBits + " " + collide);
             Entity entityA = ComponentDataUtils.getEntityFrom(fixtureA);
             Entity entityB = ComponentDataUtils.getEntityFrom(fixtureB);
 
@@ -51,10 +49,11 @@ public class ElevationContactFilter implements ContactFilter {
                     return collideActivator(elvB, actvA);
                 }
 
-                if (elvA != null && agB != null && fixtureB.getFilterData().categoryBits == FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY) {      //one is elevation agent
+                // bitwise & check for agent detector
+                if (elvA != null && agB != null && (fixtureB.getFilterData().categoryBits & FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY) != 0) {      //one is elevation agent
                     return elvA.elevation == agB.baseElevation || elvA.elevation == agB.topElevation;
                 }
-                if (elvB != null && agA != null && fixtureA.getFilterData().categoryBits == FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY) {
+                if (elvB != null && agA != null && (fixtureA.getFilterData().categoryBits & FilteredContactListener.FOOTPRINT_DETECTOR_CATEGORY) != 0) {
                     return elvB.elevation == agA.baseElevation || elvB.elevation == agA.topElevation;
                 }
 

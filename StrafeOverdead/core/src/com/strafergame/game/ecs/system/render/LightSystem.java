@@ -12,6 +12,7 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.LightComponent;
+import com.strafergame.game.world.collision.FilteredContactListener;
 
 import java.nio.IntBuffer;
 
@@ -24,7 +25,6 @@ public class LightSystem extends IteratingSystem {
     public LightSystem(RayHandler rayHandler) {
         super(Family.all(LightComponent.class, PositionComponent.class).get());
         this.rayHandler = rayHandler;
-
         if (this.rayHandler != null) {
             this.rayHandler.setCulling(false);
         }
@@ -39,15 +39,16 @@ public class LightSystem extends IteratingSystem {
             lightEntities.add(entity);
         }
 
-        // Sync the component elevation with the entity elevation
         lightCmp.elevation = posCmp.elevation;
 
         for (LightComponent.LightSource source : lightCmp.lights) {
             if (source.light != null) {
-                source.light.setPosition(
-                        posCmp.renderPos.x + source.offset.x,
-                        posCmp.renderPos.y + source.offset.y
-                );
+                source.light.setPosition(posCmp.renderPos.x + source.offset.x, posCmp.renderPos.y + source.offset.y);
+
+                //  which wall elevation bit this light hits
+                short mask = FilteredContactListener.getWallCategory(lightCmp.elevation);
+                // Set light category to -1 so it is never ignored by object maskBits
+                source.light.setContactFilter((short) -1, (short) 0, mask);
             }
         }
     }
@@ -57,14 +58,10 @@ public class LightSystem extends IteratingSystem {
 
         for (Entity entity : lightEntities) {
             LightComponent lightCmp = ComponentMappers.light().get(entity);
-
-            // Check if this entity belongs to the elevation currently being rendered
-            boolean active = (lightCmp.elevation == elevation);
-
-            // Set activity for ALL lights on this entity
+            boolean isActive = (lightCmp.elevation == elevation);
             for (LightComponent.LightSource source : lightCmp.lights) {
                 if (source.light != null) {
-                    source.light.setActive(active);
+                    source.light.setActive(isActive);
                 }
             }
         }
@@ -72,15 +69,9 @@ public class LightSystem extends IteratingSystem {
         bufferHandle.clear();
         Gdx.gl.glGetIntegerv(GL20.GL_FRAMEBUFFER_BINDING, bufferHandle);
         int currentFbo = bufferHandle.get(0);
-
-        rayHandler.useCustomViewport(0, 0,
-                Gdx.graphics.getBackBufferWidth(),
-                Gdx.graphics.getBackBufferHeight());
-
+        rayHandler.useCustomViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
         rayHandler.setCombinedMatrix(Strafer.worldCamera);
-
         rayHandler.updateAndRender();
-
         Gdx.gl.glBindFramebuffer(GL20.GL_FRAMEBUFFER, currentFbo);
     }
 }

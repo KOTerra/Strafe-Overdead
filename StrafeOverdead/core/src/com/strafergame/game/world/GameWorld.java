@@ -53,7 +53,7 @@ public class GameWorld implements Disposable {
 
         //rayHandler.setAmbientLight(0.4f);
 
-        rayHandler.setAmbientLight(ColorPallete.AMBIENT_DAY_LIGHT_COLOR);
+        rayHandler.setAmbientLight(ColorPallete.AMBIENT_NIGHT_LIGHT_COLOR);
 
         rayHandler.setBlur(true);
         rayHandler.setBlurNum(3);

@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.strafergame.Strafer;
 import com.strafergame.assets.AnimationProvider;
 import com.strafergame.game.ecs.ComponentMappers;
@@ -183,6 +185,20 @@ public abstract class EntityFactory {
                 spriteCmp.height / 2);
 
         b2dCmp.body.setUserData(e);
+
+        // Add shadow casting bit for this elevation without overwriting HURTBOX bits.
+        short shadowBit = FilteredContactListener.getWallCategory(posCmp.elevation);
+        for (Fixture fixture : b2dCmp.body.getFixtureList()) {
+            if (!fixture.isSensor()) {
+                Filter filter = fixture.getFilterData();
+                filter.categoryBits |= shadowBit;
+                fixture.setFilterData(filter);
+            }
+        }
+
+
+        // Apply elevation shadow bit to the player's solid body fixtures
+        FilteredContactListener.setShadowFilter(b2dCmp.body, posCmp.elevation);
 
         b2dCmp.initiatedPhysics = true;
     }

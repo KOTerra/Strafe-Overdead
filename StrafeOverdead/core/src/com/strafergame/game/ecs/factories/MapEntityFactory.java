@@ -9,6 +9,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
@@ -71,6 +73,16 @@ public class MapEntityFactory {
         elvCmp.elevation = mapObject.getProperties().get("elevation", 0, Integer.class);
         collisionEntity.add(elvCmp);
 
+        FilteredContactListener.setShadowFilter(body, elvCmp.elevation);
+
+        // Add shadow casting bit for this elevation. We use |= to preserve existing bits.
+        short shadowBit = FilteredContactListener.getWallCategory(elvCmp.elevation);
+        for (Fixture f : body.getFixtureList()) {
+            Filter filter = f.getFilterData();
+            filter.categoryBits |= shadowBit;
+            f.setFilterData(filter);
+        }
+
         entityEngine.addEntity(collisionEntity);
         return collisionEntity;
     }
@@ -108,6 +120,19 @@ public class MapEntityFactory {
         elvAgentCmp.leftRailing.setAwake(false);
         elvAgentCmp.rightRailing.setUserData(elevationAgent);
         elvAgentCmp.rightRailing.setAwake(false);
+
+        // Railings should cast shadows on the base elevation
+        short shadowBit = FilteredContactListener.getWallCategory(elvAgentCmp.baseElevation);
+        for (Fixture f : elvAgentCmp.leftRailing.getFixtureList()) {
+            Filter filter = f.getFilterData();
+            filter.categoryBits |= shadowBit;
+            f.setFilterData(filter);
+        }
+        for (Fixture f : elvAgentCmp.rightRailing.getFixtureList()) {
+            Filter filter = f.getFilterData();
+            filter.categoryBits |= shadowBit;
+            f.setFilterData(filter);
+        }
 
 
         ElevationComponent elvCmp = entityEngine.createComponent(ElevationComponent.class);

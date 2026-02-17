@@ -17,26 +17,53 @@ import com.strafergame.game.ecs.system.interaction.ProximityContact;
 
 public class FilteredContactListener implements ContactListener {
 
-    public static final short HURTBOX_CATEGORY = 0x0001;                  // 0000000000000001  // 1
-    public static final short HITBOX_CATEGORY = 0x0002;                   // 0000000000000010  // 2
+    public static final short HURTBOX_CATEGORY = 0x0001;                  // 1
+    public static final short HITBOX_CATEGORY = 0x0002;                   // 2
     /**
      * collision filter for a player's own sensor of proximity
      */
-    public static final short PLAYER_CATEGORY = 0x0004;                    // 0000000000000100 // 4
+    public static final short PLAYER_CATEGORY = 0x0004;                    // 4
     /**
      * collision filter for a sensor that searches a player
      */
-    public static final short PLAYER_DETECTOR_CATEGORY = 0x0008;           // 0000000000001000 // 8
+    public static final short PLAYER_DETECTOR_CATEGORY = 0x0008;           // 8
 
 
     /**
      * filter for a sensor attached to the footprint
      */
-    public static final short FOOTPRINT_CATEGORY = 0x0010;                 // 0000000000010000 // 16
+    public static final short FOOTPRINT_CATEGORY = 0x0010;                 // 16
     /**
      * filter for an elevation sensor
      */
-    public static final short FOOTPRINT_DETECTOR_CATEGORY = 0x0020;        // 0000000000100000 // 32
+    public static final short FOOTPRINT_DETECTOR_CATEGORY = 0x0020;        // 32
+
+    // --- LIGHTING BITS (Reserved Bits 8-15) ---
+    public static final short LIGHT_BIT_OFFSET = 8;
+    public static final short ALL_LIGHT_BITS = (short) 0xFF00;
+
+    public static short getWallCategory(int elevation) {
+        int bitShift = (elevation % 8) + LIGHT_BIT_OFFSET;
+        return (short) (1 << bitShift);
+    }
+
+    /**
+     * Updates fixture filters to cast shadows on a specific elevation
+     * without losing existing gameplay categories (Player, Footprint, etc).
+     */
+    public static void setShadowFilter(Body body, int elevation) {
+        if (body == null) return;
+        short shadowBit = getWallCategory(elevation);
+        for (Fixture fixture : body.getFixtureList()) {
+            // Only solid objects (non-sensors) cast shadows
+            if (!fixture.isSensor()) {
+                Filter filter = fixture.getFilterData();
+                filter.categoryBits &= ~ALL_LIGHT_BITS; // Clear old elevation bits
+                filter.categoryBits |= shadowBit;       // Add current elevation bit
+                fixture.setFilterData(filter);
+            }
+        }
+    }
 
 
     public static final float DETECTOR_RADIUS = 9;
@@ -60,10 +87,11 @@ public class FilteredContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        boolean isFixtureAPlayer = fixtureA.getFilterData().categoryBits == PLAYER_CATEGORY;
-        boolean isFixtureADetector = fixtureA.getFilterData().categoryBits == PLAYER_DETECTOR_CATEGORY;
-        boolean isFixtureBPlayer = fixtureB.getFilterData().categoryBits == PLAYER_CATEGORY;
-        boolean isFixtureBDetector = fixtureB.getFilterData().categoryBits == PLAYER_DETECTOR_CATEGORY;
+        // Use bitwise & instead of == to support combined bits
+        boolean isFixtureAPlayer = (fixtureA.getFilterData().categoryBits & PLAYER_CATEGORY) != 0;
+        boolean isFixtureADetector = (fixtureA.getFilterData().categoryBits & PLAYER_DETECTOR_CATEGORY) != 0;
+        boolean isFixtureBPlayer = (fixtureB.getFilterData().categoryBits & PLAYER_CATEGORY) != 0;
+        boolean isFixtureBDetector = (fixtureB.getFilterData().categoryBits & PLAYER_DETECTOR_CATEGORY) != 0;
         solveProximity(fixtureB, fixtureA, isFixtureAPlayer, isFixtureBDetector);
         solveProximity(fixtureA, fixtureB, isFixtureADetector, isFixtureBPlayer);
     }
@@ -89,7 +117,7 @@ public class FilteredContactListener implements ContactListener {
     }
 
     private void removeProximity(Fixture fixtureA, Fixture fixtureB) {
-        if (fixtureA.getFilterData().categoryBits == PLAYER_DETECTOR_CATEGORY && fixtureB.getFilterData().categoryBits == PLAYER_CATEGORY) {
+        if ((fixtureA.getFilterData().categoryBits & PLAYER_DETECTOR_CATEGORY) != 0 && (fixtureB.getFilterData().categoryBits & PLAYER_CATEGORY) != 0) {
             fixtureA.setUserData(null);
             Entity player = ComponentDataUtils.getEntityFrom(fixtureB);
             if (player != null) {
@@ -105,10 +133,10 @@ public class FilteredContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        boolean isFixtureAFootprint = fixtureA.getFilterData().categoryBits == FOOTPRINT_CATEGORY;
-        boolean isFixtureADetector = fixtureA.getFilterData().categoryBits == FOOTPRINT_DETECTOR_CATEGORY;
-        boolean isFixtureBFootprint = fixtureB.getFilterData().categoryBits == FOOTPRINT_CATEGORY;
-        boolean isFixtureBDetector = fixtureB.getFilterData().categoryBits == FOOTPRINT_DETECTOR_CATEGORY;
+        boolean isFixtureAFootprint = (fixtureA.getFilterData().categoryBits & FOOTPRINT_CATEGORY) != 0;
+        boolean isFixtureADetector = (fixtureA.getFilterData().categoryBits & FOOTPRINT_DETECTOR_CATEGORY) != 0;
+        boolean isFixtureBFootprint = (fixtureB.getFilterData().categoryBits & FOOTPRINT_CATEGORY) != 0;
+        boolean isFixtureBDetector = (fixtureB.getFilterData().categoryBits & FOOTPRINT_DETECTOR_CATEGORY) != 0;
 
         //make proximity pair on the detector fixture.
         solveFootprint(fixtureA, fixtureB, isFixtureADetector, isFixtureBFootprint);
@@ -152,7 +180,8 @@ public class FilteredContactListener implements ContactListener {
                     PositionComponent positionComponent = ComponentMappers.position().get(footprintEntity);
                     if (positionComponent != null) {
                         positionComponent.elevation = elvAgentCmp.topElevation;
-                        //direction, speed illusion here
+                        // Update player shadow bit to cast shadows on the upper layer
+                        setShadowFilter(ComponentMappers.box2d().get(footprintEntity).body, positionComponent.elevation);
                     }
                     if (!elvAgentCmp.interactingEntitites.contains(footprintEntity)) {
                         elvAgentCmp.interactingEntitites.add(footprintEntity);
@@ -168,10 +197,10 @@ public class FilteredContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        boolean isFixtureAFootprint = fixtureA.getFilterData().categoryBits == FOOTPRINT_CATEGORY;
-        boolean isFixtureADetector = fixtureA.getFilterData().categoryBits == FOOTPRINT_DETECTOR_CATEGORY;
-        boolean isFixtureBFootprint = fixtureB.getFilterData().categoryBits == FOOTPRINT_CATEGORY;
-        boolean isFixtureBDetector = fixtureB.getFilterData().categoryBits == FOOTPRINT_DETECTOR_CATEGORY;
+        boolean isFixtureAFootprint = (fixtureA.getFilterData().categoryBits & FOOTPRINT_CATEGORY) != 0;
+        boolean isFixtureADetector = (fixtureA.getFilterData().categoryBits & FOOTPRINT_DETECTOR_CATEGORY) != 0;
+        boolean isFixtureBFootprint = (fixtureB.getFilterData().categoryBits & FOOTPRINT_CATEGORY) != 0;
+        boolean isFixtureBDetector = (fixtureB.getFilterData().categoryBits & FOOTPRINT_DETECTOR_CATEGORY) != 0;
 
         endFootprintSolveContact(fixtureB, fixtureA, isFixtureBFootprint, isFixtureADetector);
         endFootprintSolveContact(fixtureA, fixtureB, isFixtureAFootprint, isFixtureBDetector);
@@ -201,6 +230,8 @@ public class FilteredContactListener implements ContactListener {
                     //reset render elevation to real elevation
                     if (posCmp != null && elvCmp != null) {
                         posCmp.elevation = elvCmp.elevation;
+                        // Restore player shadow bit to original layer
+                        setShadowFilter(ComponentMappers.box2d().get(footprintEntity).body, posCmp.elevation);
                     }
 
 
@@ -218,10 +249,10 @@ public class FilteredContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        boolean isFixtureAHurtbox = fixtureA.getFilterData().categoryBits == HURTBOX_CATEGORY;
-        boolean isFixtureAHitbox = fixtureA.getFilterData().categoryBits == HITBOX_CATEGORY;
-        boolean isFixtureBHurtbox = fixtureB.getFilterData().categoryBits == HURTBOX_CATEGORY;
-        boolean isFixtureBHitbox = fixtureB.getFilterData().categoryBits == HITBOX_CATEGORY;
+        boolean isFixtureAHurtbox = (fixtureA.getFilterData().categoryBits & HURTBOX_CATEGORY) != 0;
+        boolean isFixtureAHitbox = (fixtureA.getFilterData().categoryBits & HITBOX_CATEGORY) != 0;
+        boolean isFixtureBHurtbox = (fixtureB.getFilterData().categoryBits & HURTBOX_CATEGORY) != 0;
+        boolean isFixtureBHitbox = (fixtureB.getFilterData().categoryBits & HITBOX_CATEGORY) != 0;
 
         if (isFixtureAHurtbox && isFixtureBHitbox) {
             // Don't overwrite if the wall is jumpable
@@ -240,13 +271,13 @@ public class FilteredContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        if (fixtureA.getFilterData().categoryBits == HURTBOX_CATEGORY && fixtureB.getFilterData().categoryBits == HITBOX_CATEGORY) {
+        if ((fixtureA.getFilterData().categoryBits & HURTBOX_CATEGORY) != 0 && (fixtureB.getFilterData().categoryBits & HITBOX_CATEGORY) != 0) {
             // Only set to null if we actually set it to AttackContact previously
             if (fixtureA.getUserData() instanceof AttackContact) {
                 fixtureA.setUserData(null);
             }
         }
-        if (fixtureB.getFilterData().categoryBits == HURTBOX_CATEGORY && fixtureA.getFilterData().categoryBits == HITBOX_CATEGORY) {
+        if ((fixtureB.getFilterData().categoryBits & HURTBOX_CATEGORY) != 0 && (fixtureA.getFilterData().categoryBits & HITBOX_CATEGORY) != 0) {
             if (fixtureB.getUserData() instanceof AttackContact) {
                 fixtureB.setUserData(null);
             }
