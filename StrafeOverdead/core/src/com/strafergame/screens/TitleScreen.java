@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.strafergame.Strafer;
+import com.strafergame.graphics.ColorPallete;
 import com.strafergame.ui.menus.TitleMenu;
 
 public class TitleScreen implements Screen {
@@ -95,7 +96,7 @@ public class TitleScreen implements Screen {
 
     public void renderBackground() {
         shapeRenderer.begin(ShapeType.Filled);
-        shapeRenderer.setColor(Color.valueOf("#4a496b"));
+        shapeRenderer.setColor(ColorPallete.TITLE_COLOR);
         shapeRenderer.rect(0, initialHeight / 3f, initialWidth, initialHeight / 3f);
         shapeRenderer.end();
     }

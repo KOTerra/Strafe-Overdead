@@ -1,4 +1,4 @@
-package com.strafergame.game.ecs.system.world;
+package com.strafergame.game.ecs.system.render;
 
 import box2dLight.RayHandler;
 import com.badlogic.ashley.core.Entity;

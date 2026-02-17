@@ -32,6 +32,7 @@ import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.Box2DMapFactory;
 import com.strafergame.game.world.collision.FilteredContactListener;
 import com.strafergame.game.world.map.MapManager;
+import com.strafergame.graphics.ColorPallete;
 
 public class MapEntityFactory {
     private static EntityEngine entityEngine = EntityEngine.getInstance();
@@ -169,9 +170,9 @@ public class MapEntityFactory {
         dtctrCmp.detector = Box2DFactory.createRadialSensor(body, FilteredContactListener.DETECTOR_RADIUS, FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.PLAYER_CATEGORY);
         checkpoint.add(dtctrCmp);
 
-        EntityFactory.attachLight(checkpoint, new Vector2(5, 5), 15f, new Color(1.0f, 0.0f, 0.6f, .7f), 128);
+        EntityFactory.attachLight(checkpoint, new Vector2(2.5f, 2.5f), 15f, ColorPallete.MAGENTA_LIGHT_COLOR, 128);
 
-        EntityFactory.attachLight(checkpoint, new Vector2(-5, -5), 15f, new Color(.0f, 0.7f, 0.8f, .7f), 128);
+        EntityFactory.attachLight(checkpoint, new Vector2(-2.5f, -2.5f), 15f, ColorPallete.CYAN_LIGHT_COLOR, 128);
 
         entityEngine.addEntity(checkpoint);
 

@@ -11,7 +11,7 @@ import com.crashinvaders.vfx.effects.*;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.system.render.RenderingSystem;
-import com.strafergame.game.ecs.system.world.LightSystem;
+import com.strafergame.game.ecs.system.render.LightSystem;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.ui.HUD;
 

@@ -16,6 +16,7 @@ import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.system.save.SaveSystem;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.MapManager;
+import com.strafergame.graphics.ColorPallete;
 import com.strafergame.input.PlayerControl;
 import com.strafergame.ui.HUD;
 
@@ -28,8 +29,7 @@ public class GameWorld implements Disposable {
 
     private final Box2DWorld box2DWorld = new Box2DWorld();
     private final RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
-    private final Color ambientLightColor = new Color(1f, 1f, 1f, 1f);
-    private final Color ambientLightNightColor = new Color(0.1f, 0.1f, 0.4f, 0.6f);
+
 
     private final MapManager mapManager;
     private final EntityEngine entityEngine;
@@ -53,7 +53,7 @@ public class GameWorld implements Disposable {
 
         //rayHandler.setAmbientLight(0.4f);
 
-        rayHandler.setAmbientLight(ambientLightNightColor);
+        rayHandler.setAmbientLight(ColorPallete.AMBIENT_DAY_LIGHT_COLOR);
 
         rayHandler.setBlur(true);
         rayHandler.setBlurNum(3);

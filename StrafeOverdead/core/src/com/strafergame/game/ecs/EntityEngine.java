@@ -16,6 +16,7 @@ import com.strafergame.game.ecs.system.interaction.HealthSystem;
 import com.strafergame.game.ecs.system.items.AttachmentSystem;
 import com.strafergame.game.ecs.system.player.HudSystem;
 import com.strafergame.game.ecs.system.player.PlayerControlSystem;
+import com.strafergame.game.ecs.system.render.LightSystem;
 import com.strafergame.game.ecs.system.render.RenderingSystem;
 import com.strafergame.game.ecs.system.save.AutoSaveSystem;
 import com.strafergame.game.ecs.system.world.*;
