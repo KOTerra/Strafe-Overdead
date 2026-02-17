@@ -18,6 +18,7 @@ import com.strafergame.game.ecs.component.world.ActivatorComponent;
 import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
 import com.strafergame.game.ecs.states.ActivatorType;
 import com.strafergame.game.ecs.states.EntityState;
+import com.strafergame.game.world.collision.FilteredContactListener;
 import com.strafergame.game.world.map.MapManager;
 import org.antlr.v4.runtime.misc.Pair;
 
@@ -83,11 +84,13 @@ public class ClimbFallSystem extends IteratingSystem {
             if (actvA.agent.equals(actvB.agent)) {                                              //activators of the same agent
                 if (actvA.type.equals(ActivatorType.ELEVATION_UP) && actvB.type.equals(ActivatorType.ELEVATION_DOWN)) { //goes down
                     elvCmp.elevation = agentCmp.baseElevation;
+                    FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation); // Sync shadow filter
                     b2dCmp.footprintStack.clear();      //solved clear
                     return;
                 }
                 if (actvA.type.equals(ActivatorType.ELEVATION_DOWN) && actvB.type.equals(ActivatorType.ELEVATION_UP)) { //goes up
                     elvCmp.elevation = agentCmp.topElevation;
+                    FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation);
                     b2dCmp.footprintStack.clear();
                     return;
                 }
@@ -122,6 +125,7 @@ public class ClimbFallSystem extends IteratingSystem {
         if (isTileAt(xRound, yRound, checkElevation)) {
             elvCmp.elevation = checkElevation;
             ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
+            FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation);
 
             // Safety: Clear fall targets to prevent stale state from a previous frame
             elvCmp.fallTargetCell = null;
@@ -253,6 +257,7 @@ public class ClimbFallSystem extends IteratingSystem {
             if (b2dCmp.body.getPosition().y >= elvCmp.jumpHeight) {
                 elvCmp.elevation = elvCmp.elevation + elvCmp.jumpElevationDifference;
                 ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
+                FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation);
 
                 typeCmp.entityState = EntityState.fall;
                 elvCmp.jumpHeight = 0f;
@@ -324,6 +329,8 @@ public class ClimbFallSystem extends IteratingSystem {
 
             elvCmp.elevation -= 1;
             ComponentMappers.position().get(entity).elevation -= 1; ///if falling in w direction starts with an elevation down already
+            FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation);
+
             elvCmp.prevIncrementalY = currentY;
             elvCmp.fallTargetCell = cell;
             elvCmp.fallTargetY = targetY;
@@ -354,7 +361,7 @@ public class ClimbFallSystem extends IteratingSystem {
                 return;
             }
 
-            v = raycastFirstCellDown(b2dCmp.body.getPosition().x, elvCmp.fallTargetY, elvCmp.fallTargetElevation, 0);
+            v = raycastFirstCellDown(b2dCmp.body.getPosition().x, b2dCmp.body.getPosition().y, elvCmp.fallTargetElevation, 0);
             if (v.b[2] != -1 && v.b[2] == elvCmp.fallTargetElevation) { //jumping at the same elevation
                 return;
             }
@@ -367,7 +374,7 @@ public class ClimbFallSystem extends IteratingSystem {
             }
 
 
-            v = raycastFirstCellDown(b2dCmp.body.getPosition().x, elvCmp.fallTargetY, elvCmp.fallTargetElevation - 1, 0);  //under the current elevation
+            v = raycastFirstCellDown(b2dCmp.body.getPosition().x, b2dCmp.body.getPosition().y, elvCmp.fallTargetElevation - 1, 0);  //under the current elevation
             cell = v.a;
             targetElevation = v.b[2];
             if (cell != null) {         //found a valid target lower than initial elevation
@@ -400,6 +407,8 @@ public class ClimbFallSystem extends IteratingSystem {
                     typeCmp.entityState = EntityState.idle;
                     elvCmp.elevation = elvCmp.fallTargetElevation;
                     ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
+                    FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation);
+
                     b2dCmp.body.setTransform(b2dCmp.body.getPosition().x, elvCmp.fallTargetY, 0);
 
                     elvCmp.fallTargetY = TARGET_NOT_CALCULATED;
@@ -437,6 +446,8 @@ public class ClimbFallSystem extends IteratingSystem {
             b2dCmp.body.setTransform(elvCmp.lastStablePosition, 0);
             elvCmp.elevation = elvCmp.lastStableElevation;
             ComponentMappers.position().get(entity).elevation = elvCmp.lastStableElevation;
+            FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation);
+
             elvCmp.fallTargetCell = null;
             elvCmp.fallTargetElevation = 0;
             typeCmp.entityState = EntityState.idle;
