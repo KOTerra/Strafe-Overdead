@@ -39,26 +39,36 @@ public class LightSystem extends IteratingSystem {
             lightEntities.add(entity);
         }
 
-        if (lightCmp.light != null) {
-            lightCmp.light.setPosition(posCmp.renderPos.x + lightCmp.offset.x, posCmp.renderPos.y + lightCmp.offset.y);
-            lightCmp.elevation = posCmp.elevation;
+        // Sync the component elevation with the entity elevation
+        lightCmp.elevation = posCmp.elevation;
+
+        for (LightComponent.LightSource source : lightCmp.lights) {
+            if (source.light != null) {
+                source.light.setPosition(
+                        posCmp.renderPos.x + source.offset.x,
+                        posCmp.renderPos.y + source.offset.y
+                );
+            }
         }
     }
 
     public void renderLightsForElevation(int elevation) {
         if (rayHandler == null) return;
 
-        // Activate only lights on this elevation
         for (Entity entity : lightEntities) {
             LightComponent lightCmp = ComponentMappers.light().get(entity);
-            if (lightCmp.light != null) {
-                // If you want lights to affect ALL layers below them, change logic here.
-                // Currently: strict equality (Light Layer 1 only affects Sprite Layer 1)
-                lightCmp.light.setActive(lightCmp.elevation == elevation);
+
+            // Check if this entity belongs to the elevation currently being rendered
+            boolean active = (lightCmp.elevation == elevation);
+
+            // Set activity for ALL lights on this entity
+            for (LightComponent.LightSource source : lightCmp.lights) {
+                if (source.light != null) {
+                    source.light.setActive(active);
+                }
             }
         }
 
-        // Standard Box2DLights setup
         bufferHandle.clear();
         Gdx.gl.glGetIntegerv(GL20.GL_FRAMEBUFFER_BINDING, bufferHandle);
         int currentFbo = bufferHandle.get(0);
@@ -69,8 +79,6 @@ public class LightSystem extends IteratingSystem {
 
         rayHandler.setCombinedMatrix(Strafer.worldCamera);
 
-        // Render light + ambient.
-        // Because of Stencil, this will ONLY draw on the pixels of the current elevation.
         rayHandler.updateAndRender();
 
         Gdx.gl.glBindFramebuffer(GL20.GL_FRAMEBUFFER, currentFbo);

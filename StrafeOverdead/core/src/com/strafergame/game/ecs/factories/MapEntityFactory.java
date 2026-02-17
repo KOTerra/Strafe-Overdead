@@ -1,6 +1,7 @@
 package com.strafergame.game.ecs.factories;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
@@ -167,6 +168,11 @@ public class MapEntityFactory {
         DetectorComponent dtctrCmp = entityEngine.createComponent(DetectorComponent.class);
         dtctrCmp.detector = Box2DFactory.createRadialSensor(body, FilteredContactListener.DETECTOR_RADIUS, FilteredContactListener.PLAYER_DETECTOR_CATEGORY, FilteredContactListener.PLAYER_CATEGORY);
         checkpoint.add(dtctrCmp);
+
+        EntityFactory.attachLight(checkpoint, new Vector2(5, 5), 15f, new Color(1.0f, 0.0f, 0.6f, .7f), 128);
+
+        EntityFactory.attachLight(checkpoint, new Vector2(-5, -5), 15f, new Color(.0f, 0.7f, 0.8f, .7f), 128);
+
         entityEngine.addEntity(checkpoint);
 
         return checkpoint;
