@@ -34,7 +34,7 @@ public class LightSystem extends IteratingSystem {
         PositionComponent posCmp = ComponentMappers.position().get(entity);
 
         if (lightCmp.light != null) {
-            lightCmp.light.setPosition(posCmp.renderPos.x, posCmp.renderPos.y);
+            lightCmp.light.setPosition(posCmp.renderPos.x + lightCmp.offset.x, posCmp.renderPos.y + lightCmp.offset.y);
         }
     }
 
@@ -44,22 +44,17 @@ public class LightSystem extends IteratingSystem {
 
         if (rayHandler == null) return;
 
-        // 1. Capture the current FrameBuffer
         bufferHandle.clear();
         Gdx.gl.glGetIntegerv(GL20.GL_FRAMEBUFFER_BINDING, bufferHandle);
         int currentFbo = bufferHandle.get(0);
 
-        // 2. FORCE Viewport Update (PHYSICAL PIXELS)
-        // Keeps the light map fullscreen on High-DPI screens
+
         rayHandler.useCustomViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
 
-        // 3. Update Camera Matrix
         rayHandler.setCombinedMatrix(Strafer.worldCamera);
 
-        // 4. Render
         rayHandler.updateAndRender();
 
-        // 5. Restore the FrameBuffer
         Gdx.gl.glBindFramebuffer(GL20.GL_FRAMEBUFFER, currentFbo);
     }
 }

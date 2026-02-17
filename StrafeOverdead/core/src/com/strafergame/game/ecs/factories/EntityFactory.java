@@ -91,7 +91,7 @@ public abstract class EntityFactory {
         b2dCmp.body.setTransform(posCmp.renderPos, 0);
 
 
-        attachLight(player, 5f, new Color(1.0f, 0.8f, 0.6f, 1.0f), 128);
+        attachLight(player, new Vector2(2, 2), 5f, new Color(1.0f, 0.8f, 0.6f, 1.0f), 128);
 
         player.add(entityEngine.createComponent(SteeringComponent.class).setOwner(player));
 
@@ -163,7 +163,7 @@ public abstract class EntityFactory {
         enemy.add(btCmp);
 
 
-        attachLight(enemy, 5f, Color.RED, 32);
+        attachLight(enemy, new Vector2(2, 2), 5f, Color.RED, 32);
 
         entityEngine.addEntity(enemy);
         return enemy;
@@ -190,12 +190,13 @@ public abstract class EntityFactory {
     /**
      * Helper to attach a light to an entity
      */
-    private static void attachLight(Entity entity, float distance, Color color, int rays) {
+    private static void attachLight(Entity entity, Vector2 offset, float distance, Color color, int rays) {
         RayHandler rayHandler = entityEngine.getRayHandler();
         if (rayHandler != null) {
             LightComponent lightCmp = entityEngine.createComponent(LightComponent.class);
             lightCmp.light = new PointLight(rayHandler, rays, color, distance, 0, 0);
             lightCmp.light.setSoftnessLength(2f);
+            lightCmp.offset = offset;
 
             entity.add(lightCmp);
         }
