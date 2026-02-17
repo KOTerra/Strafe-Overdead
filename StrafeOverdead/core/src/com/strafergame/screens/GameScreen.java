@@ -9,6 +9,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.crashinvaders.vfx.VfxManager;
 import com.crashinvaders.vfx.effects.*;
 import com.strafergame.Strafer;
+import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.ecs.system.render.RenderingSystem;
+import com.strafergame.game.ecs.system.world.LightSystem;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.ui.HUD;
 
@@ -67,6 +70,20 @@ public class GameScreen implements Screen {
 
         update(delta);
         gameWorld.update(delta);
+
+
+        RenderingSystem rs = EntityEngine.getInstance().getSystem(RenderingSystem.class);
+        LightSystem ls = EntityEngine.getInstance().getSystem(LightSystem.class);
+        for (int elev : rs.renderedElevations) {// render elevation slices in correct order
+
+            rs.renderElevation(elev);
+
+            ls.renderLightsForElevation(elev);
+        }
+
+        rs.clearQueue();
+
+
         Strafer.uiManager.draw();
         gameWorld.getBox2DWorld().render();
 
@@ -75,25 +92,29 @@ public class GameScreen implements Screen {
         // vfxManager.renderToScreen();
 
         if (takeScreenshot) {
-            Pixmap originalPixmap = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-
-            int newWidth = 240;
-            int newHeight = 135;
-            Pixmap resizedPixmap = new Pixmap(newWidth, newHeight, originalPixmap.getFormat());
-            resizedPixmap.drawPixmap(
-                    originalPixmap,  // The original Pixmap to be scaled
-                    0, 0,           // Source position (x, y) from the original pixmap
-                    originalPixmap.getWidth(), originalPixmap.getHeight(),  // Source width and height
-                    0, 0,           // Destination position (x, y) on the resized pixmap
-                    newWidth, newHeight  // Destination width and height (new size)
-            );
-
-            PixmapIO.writePNG(Gdx.files.external(screenshotPath), resizedPixmap, Deflater.NO_COMPRESSION, true);
-
-            originalPixmap.dispose();
-            resizedPixmap.dispose();
-            takeScreenshot = false;
+            performScreenshot();
         }
+    }
+
+    private void performScreenshot() {
+        Pixmap originalPixmap = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+
+        int newWidth = 240;
+        int newHeight = 135;
+        Pixmap resizedPixmap = new Pixmap(newWidth, newHeight, originalPixmap.getFormat());
+        resizedPixmap.drawPixmap(
+                originalPixmap,  // The original Pixmap to be scaled
+                0, 0,           // Source position (x, y) from the original pixmap
+                originalPixmap.getWidth(), originalPixmap.getHeight(),  // Source width and height
+                0, 0,           // Destination position (x, y) on the resized pixmap
+                newWidth, newHeight  // Destination width and height (new size)
+        );
+
+        PixmapIO.writePNG(Gdx.files.external(screenshotPath), resizedPixmap, Deflater.NO_COMPRESSION, true);
+
+        originalPixmap.dispose();
+        resizedPixmap.dispose();
+        takeScreenshot = false;
     }
 
 

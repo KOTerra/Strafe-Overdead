@@ -38,6 +38,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     private ComponentMapper<SpriteComponent> spriteMapper;
     private ComponentMapper<PositionComponent> positionMapper;
 
+    public final Array<Integer> renderedElevations = new Array<>();
 
     public RenderingSystem() {
         super(Family.all(SpriteComponent.class, PositionComponent.class).get(), new ZComparator());
@@ -65,20 +66,41 @@ public class RenderingSystem extends SortedIteratingSystem {
 
         renderQueue.sort(comparator);
 
+        renderedElevations.clear();
+
+        int lastElevation = Integer.MIN_VALUE;
+
+        for (Entity entity : renderQueue) {
+            PositionComponent posCmp = positionMapper.get(entity);
+
+            if (posCmp.elevation != lastElevation) {
+                renderedElevations.add(posCmp.elevation);
+                lastElevation = posCmp.elevation;
+            }
+        }
+    }
+
+    public void renderElevation(int elevation) {
+
         batch.enableBlending();
         batch.begin();
-        // batch.setShader(shaderProgram);
 
-        // loop through each entity in our render queue
         for (Entity entity : renderQueue) {
+
             SpriteComponent spriteCmp = spriteMapper.get(entity);
             PositionComponent posCmp = positionMapper.get(entity);
+
+            if (posCmp.elevation != elevation) {
+                continue;
+            }
+
             if (posCmp.isMapLayer) {
                 TiledMapTileLayer layer = ComponentMappers.mapLayer().get(entity).layer;
                 if (layer.isVisible()) {
                     Strafer.tiledMapRenderer.renderTileLayer(layer);
                 }
             }
+
             if (spriteCmp.sprite == null || posCmp.isHidden) {
                 continue;
             }
@@ -86,24 +108,29 @@ public class RenderingSystem extends SortedIteratingSystem {
             ShadowComponent shdCmp = ComponentMappers.shadow().get(entity);
 
             if (shdCmp != null) {
-                shadowDrawer.filledEllipse(shdCmp.position.x, shdCmp.position.y, shdCmp.radius * .05f, shdCmp.radius * .025f);
+                shadowDrawer.filledEllipse(shdCmp.position.x, shdCmp.position.y,
+                        shdCmp.radius * .05f,
+                        shdCmp.radius * .025f);
             }
 
-            batch.draw(spriteCmp.sprite, posCmp.renderPos.x - spriteCmp.width / 2, posCmp.renderPos.y, // -
-                    // getHeight()
-                    // / 2, //
-                    // coordonatele
-                    spriteCmp.width / 2, 0, // pct in care e rotit,centru
-                    spriteCmp.width, spriteCmp.height, // width/height
-                    1, 1, // scale
-                    spriteCmp.sprite.getRotation()); // rotation
-
+            batch.draw(spriteCmp.sprite,
+                    posCmp.renderPos.x - spriteCmp.width / 2,
+                    posCmp.renderPos.y,
+                    spriteCmp.width / 2,
+                    0,
+                    spriteCmp.width,
+                    spriteCmp.height,
+                    1,
+                    1,
+                    spriteCmp.sprite.getRotation());
         }
 
         batch.end();
-        renderQueue.clear();
     }
 
+    public void clearQueue() {
+        renderQueue.clear();
+    }
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
@@ -121,5 +148,4 @@ public class RenderingSystem extends SortedIteratingSystem {
         shadowDrawer.setColor(new Color(0, 0, 0, .25f));
         // shadowDrawer.setColor(Color.CYAN);
     }
-
 }

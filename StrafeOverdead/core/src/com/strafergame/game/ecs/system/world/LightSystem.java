@@ -6,12 +6,12 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.BufferUtils;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.LightComponent;
-import com.strafergame.game.world.collision.FilteredContactListener;
 
 import java.nio.IntBuffer;
 
@@ -19,6 +19,8 @@ public class LightSystem extends IteratingSystem {
 
     private final RayHandler rayHandler;
     private final IntBuffer bufferHandle = BufferUtils.newIntBuffer(1);
+
+    private final Array<Entity> lightEntities = new Array<>();
 
     public LightSystem(RayHandler rayHandler) {
         super(Family.all(LightComponent.class, PositionComponent.class).get());
@@ -34,25 +36,35 @@ public class LightSystem extends IteratingSystem {
         LightComponent lightCmp = ComponentMappers.light().get(entity);
         PositionComponent posCmp = ComponentMappers.position().get(entity);
 
+        if (!lightEntities.contains(entity, true)) {
+            lightEntities.add(entity);
+        }
+
         if (lightCmp.light != null) {
             lightCmp.light.setPosition(posCmp.renderPos.x + lightCmp.offset.x, posCmp.renderPos.y + lightCmp.offset.y);
             lightCmp.elevation = posCmp.elevation;
-
         }
     }
 
-    @Override
-    public void update(float deltaTime) {
-        super.update(deltaTime);
+    public void renderLightsForElevation(int elevation) {
 
         if (rayHandler == null) return;
+
+        for (Entity entity : lightEntities) {
+            LightComponent lightCmp = ComponentMappers.light().get(entity);
+
+            if (lightCmp.light != null) {
+                lightCmp.light.setActive(lightCmp.elevation == elevation);
+            }
+        }
 
         bufferHandle.clear();
         Gdx.gl.glGetIntegerv(GL20.GL_FRAMEBUFFER_BINDING, bufferHandle);
         int currentFbo = bufferHandle.get(0);
 
-
-        rayHandler.useCustomViewport(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
+        rayHandler.useCustomViewport(0, 0,
+                Gdx.graphics.getBackBufferWidth(),
+                Gdx.graphics.getBackBufferHeight());
 
         rayHandler.setCombinedMatrix(Strafer.worldCamera);
 
