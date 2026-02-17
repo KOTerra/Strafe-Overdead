@@ -61,6 +61,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
             this.rayHandler = rayHandler;
 
             removeAllSystems();
+//            renderingSystem.setRayHandler(rayHandler);
 
             lightSystem = new LightSystem(rayHandler);
             autoSaveSystem = new AutoSaveSystem(10);
@@ -87,8 +88,11 @@ public class EntityEngine extends PooledEngine implements Disposable {
             addSystem(activatorSystem);
             addSystem(climbFallSystem);
             addSystem(autoSaveSystem);
+
             addSystem(renderingSystem);
+
             addSystem(lightSystem);
+
 
             initialised = true;
         }
@@ -121,8 +125,8 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
     @Override
     public void dispose() {
-        if(box2dWorld != null) box2dWorld.dispose();
-        if(rayHandler != null) rayHandler.dispose();
+        if (box2dWorld != null) box2dWorld.dispose();
+        if (rayHandler != null) rayHandler.dispose();
 
         // Reset singleton state
         initialised = false;

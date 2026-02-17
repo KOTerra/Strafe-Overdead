@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Pool.Poolable;
 
 public class LightComponent implements Component, Poolable {
     public Light light;
+    public int elevation =0;
     public Vector2 offset = new Vector2();
 
     @Override

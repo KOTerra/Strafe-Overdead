@@ -28,6 +28,8 @@ public class GameWorld implements Disposable {
 
     private final Box2DWorld box2DWorld = new Box2DWorld();
     private final RayHandler rayHandler = new RayHandler(box2DWorld.getWorld());
+    private final Color ambientLightColor = new Color(1f, 1f, 1f, 1f);
+    private final Color ambientLightNightColor = new Color(0.1f, 0.1f, 0.4f, 0.6f);
 
     private final MapManager mapManager;
     private final EntityEngine entityEngine;
@@ -38,24 +40,24 @@ public class GameWorld implements Disposable {
         entityEngine = EntityEngine.getInstance();
         entityEngine.initSystems(box2DWorld, rayHandler);
 
-        // --- AMBIENT LIGHT SETTING ---
-        // Option A: Simple gray darkness (0.4 brightness)
-        //rayHandler.setAmbientLight(0.4f);
-
-        // Option B: Colored atmosphere (e.g., Dark Blue Night)
-        rayHandler.setAmbientLight(0.1f, 0.1f, 0.4f, 0.6f);
-
-        // Re-enable blur for smoother light edges
-        rayHandler.setBlur(true);
-        rayHandler.setBlurNum(3);
-
-        // -----------------------------
+        initLight();
 
         mapManager = new MapManager(box2DWorld, rayHandler);
         SaveSystem.getCurrentSave().deserialize();
         player = EntityFactory.createPlayer();
         currentMap = Strafer.assetManager.get("maps/test/test.tmx", TiledMap.class);
         mapManager.loadMap(currentMap);
+    }
+
+    private void initLight() {
+
+        //rayHandler.setAmbientLight(0.4f);
+
+        rayHandler.setAmbientLight(ambientLightNightColor);
+
+        rayHandler.setBlur(true);
+        rayHandler.setBlurNum(3);
+
     }
 
     public void triggerLoad() {

@@ -11,6 +11,7 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.LightComponent;
+import com.strafergame.game.world.collision.FilteredContactListener;
 
 import java.nio.IntBuffer;
 
@@ -35,6 +36,8 @@ public class LightSystem extends IteratingSystem {
 
         if (lightCmp.light != null) {
             lightCmp.light.setPosition(posCmp.renderPos.x + lightCmp.offset.x, posCmp.renderPos.y + lightCmp.offset.y);
+            lightCmp.elevation = posCmp.elevation;
+
         }
     }
 
