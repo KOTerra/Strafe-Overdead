@@ -19,7 +19,6 @@ public class LightSystem extends IteratingSystem {
 
     private final RayHandler rayHandler;
     private final IntBuffer bufferHandle = BufferUtils.newIntBuffer(1);
-
     private final Array<Entity> lightEntities = new Array<>();
 
     public LightSystem(RayHandler rayHandler) {
@@ -47,17 +46,19 @@ public class LightSystem extends IteratingSystem {
     }
 
     public void renderLightsForElevation(int elevation) {
-
         if (rayHandler == null) return;
 
+        // Activate only lights on this elevation
         for (Entity entity : lightEntities) {
             LightComponent lightCmp = ComponentMappers.light().get(entity);
-
             if (lightCmp.light != null) {
+                // If you want lights to affect ALL layers below them, change logic here.
+                // Currently: strict equality (Light Layer 1 only affects Sprite Layer 1)
                 lightCmp.light.setActive(lightCmp.elevation == elevation);
             }
         }
 
+        // Standard Box2DLights setup
         bufferHandle.clear();
         Gdx.gl.glGetIntegerv(GL20.GL_FRAMEBUFFER_BINDING, bufferHandle);
         int currentFbo = bufferHandle.get(0);
@@ -68,6 +69,8 @@ public class LightSystem extends IteratingSystem {
 
         rayHandler.setCombinedMatrix(Strafer.worldCamera);
 
+        // Render light + ambient.
+        // Because of Stencil, this will ONLY draw on the pixels of the current elevation.
         rayHandler.updateAndRender();
 
         Gdx.gl.glBindFramebuffer(GL20.GL_FRAMEBUFFER, currentFbo);

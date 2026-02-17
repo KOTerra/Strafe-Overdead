@@ -48,12 +48,14 @@ public class RenderingSystem extends SortedIteratingSystem {
         vertexShader = Gdx.files.internal("shaders/default.vert").readString();
         fragmentShader = Gdx.files.internal("shaders/default.frag").readString();
         shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
+        if (!shaderProgram.isCompiled()) {
+            Gdx.app.error("Shader", "Compilation failed:\n" + shaderProgram.getLog());
+        }
 
         spriteMapper = ComponentMappers.sprite();
         positionMapper = ComponentMappers.position();
 
         renderQueue = new Array<>();
-
     }
 
     public Entity getNearest() {
@@ -82,6 +84,8 @@ public class RenderingSystem extends SortedIteratingSystem {
 
     public void renderElevation(int elevation) {
 
+        //  transparency is discarded (for Stencil) and colors are multiplied (for Shadows).
+        batch.setShader(shaderProgram);
         batch.enableBlending();
         batch.begin();
 
@@ -113,6 +117,9 @@ public class RenderingSystem extends SortedIteratingSystem {
                         shdCmp.radius * .025f);
             }
 
+            //  Reset batch color to White before drawing the sprite to not tint the sprites
+            batch.setColor(Color.WHITE);
+
             batch.draw(spriteCmp.sprite,
                     posCmp.renderPos.x - spriteCmp.width / 2,
                     posCmp.renderPos.y,
@@ -126,6 +133,7 @@ public class RenderingSystem extends SortedIteratingSystem {
         }
 
         batch.end();
+        batch.setShader(null); // Return to default shader for UI or other rendering
     }
 
     public void clearQueue() {
@@ -145,6 +153,7 @@ public class RenderingSystem extends SortedIteratingSystem {
         pixmap.dispose();
         onePixelTextureRegion = new TextureRegion(pixelTexture, 0, 0, 1, 1);
         shadowDrawer = new ShapeDrawer(batch, onePixelTextureRegion);
+
         shadowDrawer.setColor(new Color(0, 0, 0, .25f));
         // shadowDrawer.setColor(Color.CYAN);
     }

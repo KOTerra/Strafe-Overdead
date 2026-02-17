@@ -11,7 +11,9 @@ public class AndroidLauncher extends AndroidApplication {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		
+
+		config.setBackBufferConfig(8, 8, 8, 8, 16, 8, 0);
+
 		initialize(new Strafer(), config);
 	}
 }

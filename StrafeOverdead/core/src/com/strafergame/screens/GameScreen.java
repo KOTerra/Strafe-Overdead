@@ -36,9 +36,7 @@ public class GameScreen implements Screen {
         gameWorld = new GameWorld();
         hud = new HUD();
         Strafer.uiManager.setHud(hud);
-
         vfxManager = new VfxManager(Pixmap.Format.RGBA8888);
-
         chromaticAberrationEffect = new ChromaticAberrationEffect(4);
         chromaticAberrationEffect.setMaxDistortion(.25f);
         tvEffect = new OldTvEffect();
@@ -63,7 +61,8 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | GL20.GL_STENCIL_BUFFER_BIT);
+        Gdx.gl.glEnable(GL20.GL_STENCIL_TEST);
 
         // vfxManager.cleanUpBuffers();
         // vfxManager.beginInputCapture();
@@ -71,18 +70,37 @@ public class GameScreen implements Screen {
         update(delta);
         gameWorld.update(delta);
 
-
         RenderingSystem rs = EntityEngine.getInstance().getSystem(RenderingSystem.class);
         LightSystem ls = EntityEngine.getInstance().getSystem(LightSystem.class);
-        for (int elev : rs.renderedElevations) {// render elevation slices in correct order
+
+        // Render Layer by Layer
+        int stencilValue = 1;
+        for (int elev : rs.renderedElevations) {
+
+            // --- PASS 1: Draw Sprites & Write to Stencil ---
+            // "Always pass, and replace the stencil buffer value with 'stencilValue' where we draw"
+            Gdx.gl.glStencilFunc(GL20.GL_ALWAYS, stencilValue, 0xFF);
+            Gdx.gl.glStencilOp(GL20.GL_KEEP, GL20.GL_KEEP, GL20.GL_REPLACE);
+            Gdx.gl.glStencilMask(0xFF); // Enable writing to stencil
 
             rs.renderElevation(elev);
 
+            // --- PASS 2: Draw Lights & Read from Stencil ---
+            // "Only draw where stencil value equals 'stencilValue'"
+            Gdx.gl.glStencilFunc(GL20.GL_EQUAL, stencilValue, 0xFF);
+            Gdx.gl.glStencilMask(0x00); // Disable writing to stencil (read-only)
+
             ls.renderLightsForElevation(elev);
+
+            // Increment ID for the next layer so it gets its own "lighting isolation"
+            stencilValue++;
+            if (stencilValue > 255) stencilValue = 1;
         }
 
-        rs.clearQueue();
+        // Disable Stencil for UI/Debug
+        Gdx.gl.glDisable(GL20.GL_STENCIL_TEST);
 
+        rs.clearQueue();
 
         Strafer.uiManager.draw();
         gameWorld.getBox2DWorld().render();
@@ -98,25 +116,20 @@ public class GameScreen implements Screen {
 
     private void performScreenshot() {
         Pixmap originalPixmap = Pixmap.createFromFrameBuffer(0, 0, Gdx.graphics.getBackBufferWidth(), Gdx.graphics.getBackBufferHeight());
-
         int newWidth = 240;
         int newHeight = 135;
         Pixmap resizedPixmap = new Pixmap(newWidth, newHeight, originalPixmap.getFormat());
-        resizedPixmap.drawPixmap(
-                originalPixmap,  // The original Pixmap to be scaled
+        resizedPixmap.drawPixmap(originalPixmap,  // The original Pixmap to be scaled
                 0, 0,           // Source position (x, y) from the original pixmap
                 originalPixmap.getWidth(), originalPixmap.getHeight(),  // Source width and height
                 0, 0,           // Destination position (x, y) on the resized pixmap
                 newWidth, newHeight  // Destination width and height (new size)
         );
-
         PixmapIO.writePNG(Gdx.files.external(screenshotPath), resizedPixmap, Deflater.NO_COMPRESSION, true);
-
         originalPixmap.dispose();
         resizedPixmap.dispose();
         takeScreenshot = false;
     }
-
 
     public void showGameOverMenu() {
         Strafer.getInstance().setScreen(GameOverScreen.getInstance());

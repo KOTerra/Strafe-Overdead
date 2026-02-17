@@ -23,6 +23,8 @@ public class DesktopLauncher {
         config.setResizable(true);
 
         //config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+
+        config.setBackBufferConfig(8, 8, 8, 8, 16, 8, 0);
         new Lwjgl3Application(Strafer.getInstance(), config);
 
     }
