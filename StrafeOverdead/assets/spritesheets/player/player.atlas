@@ -1,566 +1,1095 @@
-
 player.png
-size: 1024, 1024
-format: RGBA8888
-filter: Nearest, Nearest
-repeat: none
+size:2048,1024
+repeat:none
 player_dash_a
-  rotate: false
-  xy: 2, 918
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 0
+index:8
+bounds:2,20,68,38
 player_dash_a
-  rotate: false
-  xy: 132, 918
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 2
+index:5
+bounds:72,13,68,38
 player_dash_a
-  rotate: false
-  xy: 132, 852
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 1
+index:14
+bounds:341,358,68,38
 player_dash_a
-  rotate: false
-  xy: 132, 786
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 3
+index:2
+bounds:418,396,68,38
+player_dash_a
+index:11
+bounds:488,397,68,38
+player_dash_a
+index:7
+bounds:326,232,68,38
+player_dash_a
+index:16
+bounds:329,192,68,38
+player_dash_a
+index:4
+bounds:851,770,68,38
+player_dash_a
+index:13
+bounds:921,770,68,38
+player_dash_a
+index:9
+bounds:991,770,68,38
+player_dash_a
+index:1
+bounds:1061,770,68,38
+player_dash_a
+index:10
+bounds:1131,770,68,38
+player_dash_a
+index:6
+bounds:1201,770,68,38
+player_dash_a
+index:15
+bounds:1271,770,68,38
+player_dash_a
+index:3
+bounds:1341,770,68,38
+player_dash_a
+index:12
+bounds:1411,770,68,38
 player_dash_d
-  rotate: false
-  xy: 2, 852
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 2
+index:16
+bounds:414,773,68,37
 player_dash_d
-  rotate: false
-  xy: 2, 786
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 1
+index:2
+bounds:484,773,68,37
 player_dash_d
-  rotate: false
-  xy: 262, 918
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 3
+index:13
+bounds:348,398,68,37
 player_dash_d
-  rotate: false
-  xy: 2, 720
-  size: 128, 64
-  orig: 128, 64
-  offset: 0, 0
-  index: 0
+index:7
+bounds:290,319,68,37
+player_dash_d
+index:10
+bounds:290,280,68,37
+player_dash_d
+index:4
+bounds:1765,774,68,37
+player_dash_d
+index:15
+bounds:1835,774,68,37
+player_dash_d
+index:9
+bounds:1481,771,68,37
+player_dash_d
+index:1
+bounds:1551,771,68,37
+player_dash_d
+index:12
+bounds:1621,771,68,37
+player_dash_d
+index:6
+bounds:1691,771,68,37
+player_dash_d
+index:3
+bounds:851,731,68,37
+player_dash_d
+index:14
+bounds:921,731,68,37
+player_dash_d
+index:8
+bounds:991,731,68,37
+player_dash_d
+index:11
+bounds:1061,731,68,37
+player_dash_d
+index:5
+bounds:1131,731,68,37
 player_dash_s
-  rotate: false
-  xy: 262, 788
-  size: 44, 128
-  orig: 44, 128
-  offset: 0, 0
-  index: 2
+index:2
+bounds:360,318,57,38
 player_dash_s
-  rotate: false
-  xy: 2, 460
-  size: 44, 128
-  orig: 44, 128
-  offset: 0, 0
-  index: 1
+index:10
+bounds:419,297,57,38
 player_dash_s
-  rotate: false
-  xy: 2, 330
-  size: 44, 128
-  orig: 44, 128
-  offset: 0, 0
-  index: 3
+index:7
+bounds:270,178,57,38
 player_dash_s
-  rotate: false
-  xy: 2, 200
-  size: 44, 128
-  orig: 44, 128
-  offset: 0, 0
-  index: 0
+index:15
+bounds:419,257,57,38
+player_dash_s
+index:4
+bounds:613,702,57,38
+player_dash_s
+index:12
+bounds:849,691,57,38
+player_dash_s
+index:9
+bounds:908,691,57,38
+player_dash_s
+index:1
+bounds:967,691,57,38
+player_dash_s
+index:6
+bounds:1026,691,57,38
+player_dash_s
+index:14
+bounds:1085,691,57,38
+player_dash_s
+index:3
+bounds:1181,684,57,38
+player_dash_s
+index:11
+bounds:1240,684,57,38
+player_dash_s
+index:8
+bounds:1299,684,57,38
+player_dash_s
+index:16
+bounds:1358,684,57,38
+player_dash_s
+index:5
+bounds:1417,684,57,38
+player_dash_s
+index:13
+bounds:1181,644,57,38
 player_dash_w
-  rotate: false
-  xy: 2, 590
-  size: 44, 128
-  orig: 44, 128
-  offset: 0, 0
-  index: 1
+index:4
+bounds:289,426,57,44
 player_dash_w
-  rotate: false
-  xy: 308, 788
-  size: 44, 128
-  orig: 44, 128
-  offset: 0, 0
-  index: 3
+index:11
+bounds:360,272,57,44
 player_dash_w
-  rotate: false
-  xy: 48, 590
-  size: 44, 128
-  orig: 44, 128
-  offset: 0, 0
-  index: 0
+index:9
+bounds:211,176,57,44
 player_dash_w
-  rotate: false
-  xy: 48, 460
-  size: 44, 128
-  orig: 44, 128
-  offset: 0, 0
-  index: 2
+index:1
+bounds:278,11,57,44
+player_dash_w
+index:16
+bounds:1201,724,57,44
+player_dash_w
+index:6
+bounds:1260,724,57,44
+player_dash_w
+index:13
+bounds:1319,724,57,44
+player_dash_w
+index:3
+bounds:1378,724,57,44
+player_dash_w
+index:10
+bounds:1437,724,57,44
+player_dash_w
+index:8
+bounds:1496,725,57,44
+player_dash_w
+index:15
+bounds:1555,725,57,44
+player_dash_w
+index:5
+bounds:1614,725,57,44
+player_dash_w
+index:12
+bounds:1673,725,57,44
+player_dash_w
+index:2
+bounds:672,697,57,44
+player_dash_w
+index:7
+bounds:731,697,57,44
+player_dash_w
+index:14
+bounds:790,697,57,44
 player_death_a
-  rotate: false
-  xy: 392, 918
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 0
-player_death_s
-  rotate: false
-  xy: 392, 918
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 0
-player_death_d
-  rotate: false
-  xy: 458, 918
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 2
-player_death_w
-  rotate: false
-  xy: 458, 918
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 2
-player_death_s
-  rotate: false
-  xy: 132, 720
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 2
+index:22
+bounds:258,743,78,67
 player_death_a
-  rotate: false
-  xy: 132, 720
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 2
-player_death_s
-  rotate: false
-  xy: 94, 522
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 1
+index:8
+bounds:66,319,78,67
 player_death_a
-  rotate: false
-  xy: 94, 522
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 1
-player_death_s
-  rotate: false
-  xy: 618, 852
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 3
+index:14
+bounds:184,415,78,67
 player_death_a
-  rotate: false
-  xy: 618, 852
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 3
-player_death_w
-  rotate: false
-  xy: 420, 852
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 1
+index:19
+bounds:417,881,78,67
+player_death_a
+index:5
+bounds:497,881,78,67
+player_death_a
+index:11
+bounds:577,881,78,67
+player_death_a
+index:24
+bounds:657,881,78,67
+player_death_a
+index:16
+bounds:737,881,78,67
+player_death_a
+index:2
+bounds:817,881,78,67
+player_death_a
+index:21
+bounds:897,881,78,67
+player_death_a
+index:7
+bounds:977,881,78,67
+player_death_a
+index:13
+bounds:1057,881,78,67
+player_death_a
+index:18
+bounds:1137,881,78,67
+player_death_a
+index:4
+bounds:1217,881,78,67
+player_death_a
+index:10
+bounds:1297,881,78,67
+player_death_a
+index:23
+bounds:1377,881,78,67
+player_death_a
+index:9
+bounds:1457,881,78,67
+player_death_a
+index:15
+bounds:1537,881,78,67
+player_death_a
+index:1
+bounds:1617,881,78,67
+player_death_a
+index:20
+bounds:1697,881,78,67
+player_death_a
+index:6
+bounds:1777,881,78,67
+player_death_a
+index:12
+bounds:1857,881,78,67
+player_death_a
+index:17
+bounds:417,812,78,67
+player_death_a
+index:3
+bounds:497,812,78,67
 player_death_d
-  rotate: false
-  xy: 420, 852
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 1
-player_death_w
-  rotate: false
-  xy: 486, 852
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 3
+index:13
+bounds:386,950,93,72
 player_death_d
-  rotate: false
-  xy: 486, 852
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 3
-player_death_w
-  rotate: false
-  xy: 656, 918
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 0
+index:18
+bounds:481,950,93,72
 player_death_d
-  rotate: false
-  xy: 656, 918
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 0
+index:2
+bounds:576,950,93,72
+player_death_d
+index:10
+bounds:671,950,93,72
+player_death_d
+index:23
+bounds:766,950,93,72
+player_death_d
+index:7
+bounds:861,950,93,72
+player_death_d
+index:15
+bounds:956,950,93,72
+player_death_d
+index:20
+bounds:1051,950,93,72
+player_death_d
+index:4
+bounds:1146,950,93,72
+player_death_d
+index:12
+bounds:1241,950,93,72
+player_death_d
+index:9
+bounds:1336,950,93,72
+player_death_d
+index:17
+bounds:1431,950,93,72
+player_death_d
+index:1
+bounds:1526,950,93,72
+player_death_d
+index:22
+bounds:1621,950,93,72
+player_death_d
+index:6
+bounds:1716,950,93,72
+player_death_d
+index:14
+bounds:1811,950,93,72
+player_death_d
+index:19
+bounds:1906,950,93,72
+player_death_d
+index:3
+bounds:194,632,93,72
+player_death_d
+index:11
+bounds:194,558,93,72
+player_death_d
+index:24
+bounds:194,484,93,72
+player_death_d
+index:8
+bounds:322,844,93,72
+player_death_d
+index:16
+bounds:2,208,93,72
+player_death_d
+index:21
+bounds:2,134,93,72
+player_death_d
+index:5
+bounds:2,60,93,72
+player_death_s
+index:15
+bounds:130,423,52,69
+player_death_s
+index:2
+bounds:1937,879,52,69
+player_death_s
+index:20
+bounds:577,810,52,69
+player_death_s
+index:12
+bounds:631,810,52,69
+player_death_s
+index:7
+bounds:685,810,52,69
+player_death_s
+index:17
+bounds:739,810,52,69
+player_death_s
+index:4
+bounds:793,810,52,69
+player_death_s
+index:22
+bounds:847,810,52,69
+player_death_s
+index:14
+bounds:901,810,52,69
+player_death_s
+index:9
+bounds:955,810,52,69
+player_death_s
+index:1
+bounds:1009,810,52,69
+player_death_s
+index:19
+bounds:1063,810,52,69
+player_death_s
+index:11
+bounds:1117,810,52,69
+player_death_s
+index:6
+bounds:1171,810,52,69
+player_death_s
+index:24
+bounds:1225,810,52,69
+player_death_s
+index:16
+bounds:1279,810,52,69
+player_death_s
+index:3
+bounds:1333,810,52,69
+player_death_s
+index:21
+bounds:1387,810,52,69
+player_death_s
+index:13
+bounds:1441,810,52,69
+player_death_s
+index:8
+bounds:1495,810,52,69
+player_death_s
+index:18
+bounds:1549,810,52,69
+player_death_s
+index:10
+bounds:1603,810,52,69
+player_death_s
+index:5
+bounds:1657,810,52,69
+player_death_s
+index:23
+bounds:1711,810,52,69
+player_death_w
+index:16
+bounds:2,918,62,104
+player_death_w
+index:4
+bounds:2,812,62,104
+player_death_w
+index:21
+bounds:66,918,62,104
+player_death_w
+index:9
+bounds:2,706,62,104
+player_death_w
+index:13
+bounds:66,812,62,104
+player_death_w
+index:1
+bounds:130,918,62,104
+player_death_w
+index:18
+bounds:2,600,62,104
+player_death_w
+index:6
+bounds:66,706,62,104
+player_death_w
+index:10
+bounds:130,812,62,104
+player_death_w
+index:23
+bounds:194,918,62,104
+player_death_w
+index:15
+bounds:2,494,62,104
+player_death_w
+index:3
+bounds:66,600,62,104
+player_death_w
+index:20
+bounds:130,706,62,104
+player_death_w
+index:8
+bounds:194,812,62,104
+player_death_w
+index:12
+bounds:258,918,62,104
+player_death_w
+index:17
+bounds:2,388,62,104
+player_death_w
+index:5
+bounds:66,494,62,104
+player_death_w
+index:22
+bounds:130,600,62,104
+player_death_w
+index:14
+bounds:194,706,62,104
+player_death_w
+index:2
+bounds:258,812,62,104
+player_death_w
+index:19
+bounds:322,918,62,104
+player_death_w
+index:7
+bounds:2,282,62,104
+player_death_w
+index:11
+bounds:66,388,62,104
+player_death_w
+index:24
+bounds:130,494,62,104
+player_fall_a
+index:2
+bounds:1977,814,27,63
+player_fall_a
+index:7
+bounds:1189,463,27,63
+player_fall_a
+index:4
+bounds:585,334,27,63
+player_fall_a
+index:1
+bounds:625,269,27,63
+player_fall_a
+index:6
+bounds:674,334,27,63
+player_fall_a
+index:3
+bounds:714,269,27,63
+player_fall_a
+index:8
+bounds:743,269,27,63
+player_fall_a
+index:5
+bounds:802,269,27,63
+player_fall_d
+index:4
+bounds:147,117,35,50
+player_fall_d
+index:1
+bounds:184,117,35,50
+player_fall_d
+index:6
+bounds:574,584,35,50
+player_fall_d
+index:3
+bounds:1176,592,35,50
+player_fall_d
+index:8
+bounds:1238,566,35,50
+player_fall_d
+index:5
+bounds:395,140,35,50
+player_fall_d
+index:2
+bounds:1033,347,35,50
+player_fall_d
+index:7
+bounds:1041,295,35,50
+player_fall_s
+index:4
+bounds:1918,820,57,57
+player_fall_s
+index:1
+bounds:470,714,57,57
+player_fall_s
+index:6
+bounds:184,356,57,57
+player_fall_s
+index:3
+bounds:419,337,57,57
+player_fall_s
+index:8
+bounds:211,222,57,57
+player_fall_s
+index:5
+bounds:221,117,57,57
+player_fall_s
+index:2
+bounds:278,57,57,57
+player_fall_s
+index:7
+bounds:336,133,57,57
+player_fall_w
+index:3
+bounds:414,711,54,60
+player_fall_w
+index:8
+bounds:97,53,54,60
+player_fall_w
+index:5
+bounds:387,573,54,60
+player_fall_w
+index:2
+bounds:222,55,54,60
+player_fall_w
+index:7
+bounds:270,218,54,60
+player_fall_w
+index:4
+bounds:280,116,54,60
+player_fall_w
+index:1
+bounds:337,71,54,60
+player_fall_w
+index:6
+bounds:393,71,54,60
 player_hit_a
-  rotate: false
-  xy: 48, 394
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 2
+index:2
+bounds:529,707,35,64
 player_hit_a
-  rotate: false
-  xy: 94, 390
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 1
+index:10
+bounds:478,255,35,64
 player_hit_a
-  rotate: false
-  xy: 140, 456
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 3
+index:7
+bounds:1144,665,35,64
 player_hit_a
-  rotate: false
-  xy: 880, 918
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 0
-player_hit_s
-  rotate: false
-  xy: 94, 456
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 1
+index:15
+bounds:1139,599,35,64
+player_hit_a
+index:4
+bounds:1240,618,35,64
+player_hit_a
+index:12
+bounds:1277,618,35,64
+player_hit_a
+index:9
+bounds:1314,618,35,64
+player_hit_a
+index:1
+bounds:1351,618,35,64
+player_hit_a
+index:6
+bounds:1388,618,35,64
+player_hit_a
+index:14
+bounds:1425,618,35,64
+player_hit_a
+index:3
+bounds:1275,552,35,64
+player_hit_a
+index:11
+bounds:1312,552,35,64
+player_hit_a
+index:8
+bounds:1349,552,35,64
+player_hit_a
+index:5
+bounds:1386,552,35,64
+player_hit_a
+index:13
+bounds:1129,533,35,64
 player_hit_d
-  rotate: false
-  xy: 94, 456
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 1
-player_hit_s
-  rotate: false
-  xy: 160, 588
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 3
+index:4
+bounds:2001,957,45,65
 player_hit_d
-  rotate: false
-  xy: 160, 588
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 3
-player_hit_s
-  rotate: false
-  xy: 2, 2
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 0
+index:14
+bounds:2001,890,45,65
 player_hit_d
-  rotate: false
-  xy: 2, 2
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 0
-player_hit_s
-  rotate: false
-  xy: 94, 324
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 2
+index:9
+bounds:243,348,45,65
 player_hit_d
-  rotate: false
-  xy: 94, 324
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 2
+index:1
+bounds:289,676,45,65
+player_hit_d
+index:11
+bounds:527,640,45,65
+player_hit_d
+index:6
+bounds:340,573,45,65
+player_hit_d
+index:3
+bounds:480,579,45,65
+player_hit_d
+index:13
+bounds:527,573,45,65
+player_hit_d
+index:8
+bounds:441,505,45,65
+player_hit_d
+index:10
+bounds:243,281,45,65
+player_hit_d
+index:5
+bounds:566,707,45,65
+player_hit_d
+index:15
+bounds:663,743,45,65
+player_hit_d
+index:2
+bounds:710,743,45,65
+player_hit_d
+index:12
+bounds:757,743,45,65
+player_hit_d
+index:7
+bounds:804,743,45,65
+player_hit_s
+index:11
+bounds:389,635,35,69
+player_hit_s
+index:9
+bounds:443,572,35,69
+player_hit_s
+index:1
+bounds:488,508,35,69
+player_hit_s
+index:6
+bounds:488,437,35,69
+player_hit_s
+index:13
+bounds:185,46,35,69
+player_hit_s
+index:3
+bounds:2006,819,35,69
+player_hit_s
+index:10
+bounds:574,636,35,69
+player_hit_s
+index:8
+bounds:575,513,35,69
+player_hit_s
+index:15
+bounds:575,442,35,69
+player_hit_s
+index:5
+bounds:611,631,35,69
+player_hit_s
+index:12
+bounds:1028,620,35,69
+player_hit_s
+index:2
+bounds:1065,620,35,69
+player_hit_s
+index:7
+bounds:1102,620,35,69
+player_hit_s
+index:14
+bounds:1423,547,35,69
+player_hit_s
+index:4
+bounds:1762,703,35,69
 player_hit_w
-  rotate: false
-  xy: 2, 134
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 3
+index:12
+bounds:146,354,36,67
 player_hit_w
-  rotate: false
-  xy: 48, 328
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 0
+index:3
+bounds:450,436,36,67
 player_hit_w
-  rotate: false
-  xy: 796, 852
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 2
+index:8
+bounds:337,2,36,67
 player_hit_w
-  rotate: false
-  xy: 842, 852
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 1
+index:14
+bounds:375,2,36,67
+player_hit_w
+index:5
+bounds:413,2,36,67
+player_hit_w
+index:11
+bounds:648,628,36,67
+player_hit_w
+index:2
+bounds:686,628,36,67
+player_hit_w
+index:7
+bounds:724,628,36,67
+player_hit_w
+index:13
+bounds:762,628,36,67
+player_hit_w
+index:4
+bounds:800,628,36,67
+player_hit_w
+index:9
+bounds:838,622,36,67
+player_hit_w
+index:10
+bounds:876,622,36,67
+player_hit_w
+index:1
+bounds:914,622,36,67
+player_hit_w
+index:15
+bounds:952,622,36,67
+player_hit_w
+index:6
+bounds:990,622,36,67
 player_idle_a
-  rotate: false
-  xy: 206, 654
-  size: 32, 64
-  orig: 32, 64
-  offset: 0, 0
-  index: 0
+index:12
+bounds:264,415,23,67
 player_idle_a
-  rotate: false
-  xy: 140, 390
-  size: 32, 64
-  orig: 32, 64
-  offset: 0, 0
-  index: 2
+index:8
+bounds:1462,615,23,67
 player_idle_a
-  rotate: false
-  xy: 888, 852
-  size: 32, 64
-  orig: 32, 64
-  offset: 0, 0
-  index: 1
+index:5
+bounds:804,437,23,67
 player_idle_a
-  rotate: false
-  xy: 140, 324
-  size: 32, 64
-  orig: 32, 64
-  offset: 0, 0
-  index: 3
+index:14
+bounds:829,506,23,67
+player_idle_a
+index:2
+bounds:854,437,23,67
+player_idle_a
+index:11
+bounds:879,506,23,67
+player_idle_a
+index:7
+bounds:904,437,23,67
+player_idle_a
+index:16
+bounds:929,506,23,67
+player_idle_a
+index:4
+bounds:979,506,23,67
+player_idle_a
+index:13
+bounds:979,437,23,67
+player_idle_a
+index:9
+bounds:1004,437,23,67
+player_idle_a
+index:1
+bounds:1029,506,23,67
+player_idle_a
+index:10
+bounds:1029,437,23,67
+player_idle_a
+index:6
+bounds:1079,506,23,67
+player_idle_a
+index:15
+bounds:1079,437,23,67
+player_idle_a
+index:3
+bounds:560,330,23,67
 player_idle_d
-  rotate: false
-  xy: 48, 196
-  size: 32, 64
-  orig: 32, 64
-  offset: 0, 0
-  index: 2
+index:5
+bounds:389,775,23,67
 player_idle_d
-  rotate: false
-  xy: 926, 918
-  size: 32, 64
-  orig: 32, 64
-  offset: 0, 0
-  index: 1
+index:16
+bounds:389,706,23,67
 player_idle_d
-  rotate: false
-  xy: 206, 588
-  size: 32, 64
-  orig: 32, 64
-  offset: 0, 0
-  index: 3
+index:2
+bounds:1213,575,23,67
 player_idle_d
-  rotate: false
-  xy: 48, 130
-  size: 32, 64
-  orig: 32, 64
-  offset: 0, 0
-  index: 0
+index:13
+bounds:804,506,23,67
+player_idle_d
+index:7
+bounds:829,437,23,67
+player_idle_d
+index:10
+bounds:854,506,23,67
+player_idle_d
+index:4
+bounds:879,437,23,67
+player_idle_d
+index:15
+bounds:904,506,23,67
+player_idle_d
+index:9
+bounds:929,437,23,67
+player_idle_d
+index:1
+bounds:954,506,23,67
+player_idle_d
+index:12
+bounds:954,437,23,67
+player_idle_d
+index:6
+bounds:1004,506,23,67
+player_idle_d
+index:3
+bounds:1054,506,23,67
+player_idle_d
+index:14
+bounds:1054,437,23,67
+player_idle_d
+index:8
+bounds:1104,506,23,67
+player_idle_d
+index:11
+bounds:1104,437,23,67
 player_idle_s
-  rotate: false
-  xy: 160, 654
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 2
-player_walk_s
-  rotate: false
-  xy: 160, 654
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 2
+index:10
+bounds:1732,706,28,63
 player_idle_s
-  rotate: false
-  xy: 48, 262
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 1
-player_walk_s
-  rotate: false
-  xy: 48, 262
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 1
-player_idle_w
-  rotate: false
-  xy: 750, 852
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 1
-player_walk_w
-  rotate: false
-  xy: 750, 852
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 1
-player_idle_w
-  rotate: false
-  xy: 834, 918
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 3
-player_walk_w
-  rotate: false
-  xy: 834, 918
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 3
-player_idle_w
-  rotate: false
-  xy: 160, 522
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 0
-player_walk_w
-  rotate: false
-  xy: 160, 522
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 0
-player_walk_a
-  rotate: false
-  xy: 354, 852
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 1
-player_walk_a
-  rotate: false
-  xy: 524, 918
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 3
-player_walk_a
-  rotate: false
-  xy: 590, 918
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 0
-player_walk_a
-  rotate: false
-  xy: 722, 918
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 2
-player_walk_d
-  rotate: false
-  xy: 94, 654
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 3
-player_walk_d
-  rotate: false
-  xy: 94, 588
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 0
-player_walk_d
-  rotate: false
-  xy: 552, 852
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 2
-player_walk_d
-  rotate: false
-  xy: 684, 852
-  size: 64, 64
-  orig: 64, 64
-  offset: 0, 0
-  index: 1
-player_walk_s
-  rotate: false
-  xy: 198, 720
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 3
+index:2
+bounds:1129,468,28,63
 player_idle_s
-  rotate: false
-  xy: 198, 720
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 3
-player_walk_s
-  rotate: false
-  xy: 2, 68
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 0
+index:15
+bounds:1129,403,28,63
 player_idle_s
-  rotate: false
-  xy: 2, 68
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 0
-player_walk_w
-  rotate: false
-  xy: 788, 918
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 2
+index:7
+bounds:565,265,28,63
+player_idle_s
+index:12
+bounds:595,269,28,63
+player_idle_s
+index:4
+bounds:614,334,28,63
+player_idle_s
+index:9
+bounds:644,334,28,63
+player_idle_s
+index:1
+bounds:654,269,28,63
+player_idle_s
+index:14
+bounds:684,269,28,63
+player_idle_s
+index:6
+bounds:703,334,28,63
+player_idle_s
+index:11
+bounds:733,334,28,63
+player_idle_s
+index:3
+bounds:763,334,28,63
+player_idle_s
+index:16
+bounds:772,269,28,63
+player_idle_s
+index:8
+bounds:793,334,28,63
+player_idle_s
+index:13
+bounds:823,334,28,63
+player_idle_s
+index:5
+bounds:831,269,28,63
 player_idle_w
-  rotate: false
-  xy: 788, 918
-  size: 44, 64
-  orig: 44, 64
-  offset: 0, 0
-  index: 2
+index:4
+bounds:1166,528,28,62
+player_idle_w
+index:11
+bounds:1159,464,28,62
+player_idle_w
+index:9
+bounds:1159,400,28,62
+player_idle_w
+index:16
+bounds:1189,399,28,62
+player_idle_w
+index:1
+bounds:853,335,28,62
+player_idle_w
+index:6
+bounds:861,271,28,62
+player_idle_w
+index:13
+bounds:883,335,28,62
+player_idle_w
+index:3
+bounds:891,271,28,62
+player_idle_w
+index:10
+bounds:913,335,28,62
+player_idle_w
+index:8
+bounds:921,271,28,62
+player_idle_w
+index:15
+bounds:943,335,28,62
+player_idle_w
+index:5
+bounds:951,271,28,62
+player_idle_w
+index:12
+bounds:973,335,28,62
+player_idle_w
+index:2
+bounds:981,271,28,62
+player_idle_w
+index:7
+bounds:1003,335,28,62
+player_idle_w
+index:14
+bounds:1011,271,28,62
+player_walk_a
+index:9
+bounds:1765,813,49,66
+player_walk_a
+index:10
+bounds:1816,813,49,66
+player_walk_a
+index:1
+bounds:1867,813,49,66
+player_walk_a
+index:6
+bounds:338,776,49,66
+player_walk_a
+index:12
+bounds:338,708,49,66
+player_walk_a
+index:3
+bounds:289,540,49,66
+player_walk_a
+index:8
+bounds:289,472,49,66
+player_walk_a
+index:5
+bounds:290,358,49,66
+player_walk_a
+index:11
+bounds:476,646,49,66
+player_walk_a
+index:2
+bounds:390,505,49,66
+player_walk_a
+index:7
+bounds:348,437,49,66
+player_walk_a
+index:4
+bounds:399,437,49,66
+player_walk_d
+index:6
+bounds:97,251,48,66
+player_walk_d
+index:3
+bounds:97,183,48,66
+player_walk_d
+index:8
+bounds:97,115,48,66
+player_walk_d
+index:11
+bounds:289,608,48,66
+player_walk_d
+index:5
+bounds:339,640,48,66
+player_walk_d
+index:2
+bounds:426,643,48,66
+player_walk_d
+index:7
+bounds:340,505,48,66
+player_walk_d
+index:10
+bounds:525,505,48,66
+player_walk_d
+index:4
+bounds:525,437,48,66
+player_walk_d
+index:9
+bounds:510,329,48,66
+player_walk_d
+index:12
+bounds:515,261,48,66
+player_walk_d
+index:1
+bounds:613,742,48,66
+player_walk_s
+index:11
+bounds:153,44,30,71
+player_walk_s
+index:3
+bounds:1460,542,30,71
+player_walk_s
+index:8
+bounds:1799,701,30,71
+player_walk_s
+index:5
+bounds:1831,701,30,71
+player_walk_s
+index:10
+bounds:1863,701,30,71
+player_walk_s
+index:2
+bounds:1895,701,30,71
+player_walk_s
+index:7
+bounds:612,427,30,71
+player_walk_s
+index:12
+bounds:644,427,30,71
+player_walk_s
+index:4
+bounds:676,427,30,71
+player_walk_s
+index:9
+bounds:708,427,30,71
+player_walk_s
+index:1
+bounds:740,427,30,71
+player_walk_s
+index:6
+bounds:772,427,30,71
+player_walk_w
+index:5
+bounds:478,321,30,73
+player_walk_w
+index:12
+bounds:147,244,30,73
+player_walk_w
+index:2
+bounds:147,169,30,73
+player_walk_w
+index:7
+bounds:179,244,30,73
+player_walk_w
+index:11
+bounds:179,169,30,73
+player_walk_w
+index:4
+bounds:211,281,30,73
+player_walk_w
+index:9
+bounds:612,500,30,73
+player_walk_w
+index:1
+bounds:644,500,30,73
+player_walk_w
+index:6
+bounds:676,500,30,73
+player_walk_w
+index:3
+bounds:708,500,30,73
+player_walk_w
+index:10
+bounds:740,500,30,73
+player_walk_w
+index:8
+bounds:772,500,30,73
