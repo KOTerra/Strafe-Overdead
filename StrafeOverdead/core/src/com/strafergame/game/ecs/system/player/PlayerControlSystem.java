@@ -42,7 +42,7 @@ public class PlayerControlSystem extends IteratingSystem {
             return true;
         });
 
-        executeActionSequence(entity,KeyboardMapping.TRIPLE_CLICK_SEQUENCE,entity1 -> {
+        executeActionSequence(entity, KeyboardMapping.TRIPLE_CLICK_SEQUENCE, entity1 -> {
             System.out.println("333 333 333 ");
             return true;
         });
@@ -153,8 +153,10 @@ public class PlayerControlSystem extends IteratingSystem {
 
     private void attack(Entity e) {
         final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
-        if(PlayerControl.ATTACK){
-            typeCmp.entityState = EntityState.hit;
+        if (PlayerControl.ATTACK) {
+            typeCmp.entityState = EntityState.attack;
+            typeCmp.entitySubState = EntityState.AttackSubstate.melee;
+            typeCmp.entityState = EntityState.death;
         }
 
     }

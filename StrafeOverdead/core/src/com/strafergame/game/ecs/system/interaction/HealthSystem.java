@@ -18,9 +18,12 @@ import com.strafergame.screens.GameScreen;
 
 public class HealthSystem extends IteratingSystem {
 
+    private boolean gameOverScheduled = false;
+
     public HealthSystem(Box2DWorld box2dWorld) {
         super(Family.all(HealthComponent.class, Box2dComponent.class).get());
     }
+
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
@@ -54,9 +57,17 @@ public class HealthSystem extends IteratingSystem {
                 }, 2f);
 
             } else {
-                GameScreen.getInstance().showGameOverMenu();
+                if (!gameOverScheduled) {
+                    gameOverScheduled = true;
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            GameScreen.getInstance().showGameOverMenu();
+                            gameOverScheduled = false;
+                        }
+                    }, 2f);
+                }
             }
-
         }
 
     }

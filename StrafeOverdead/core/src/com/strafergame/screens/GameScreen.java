@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.crashinvaders.vfx.VfxManager;
 import com.crashinvaders.vfx.effects.*;
 import com.strafergame.Strafer;
+import com.strafergame.game.GameStateManager;
+import com.strafergame.game.GameStateType;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.system.render.RenderingSystem;
 import com.strafergame.game.ecs.system.render.LightSystem;
@@ -132,7 +134,7 @@ public class GameScreen implements Screen {
     }
 
     public void showGameOverMenu() {
-        Strafer.getInstance().setScreen(GameOverScreen.getInstance());
+        GameStateManager.changeState(GameStateType.GAME_OVER);
     }
 
     @Override

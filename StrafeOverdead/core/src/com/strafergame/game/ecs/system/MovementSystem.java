@@ -98,7 +98,8 @@ public class MovementSystem extends IteratingSystem {
                             }
                             break;
                         }
-                        case death: {//..
+                        case death: {
+                            b2dCmp.body.setLinearVelocity(0f, 0f);
                             break;
                         }
                         default:

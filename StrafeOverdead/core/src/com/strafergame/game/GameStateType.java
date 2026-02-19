@@ -6,6 +6,7 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.screens.*;
+import com.strafergame.ui.menus.GameOverMenu;
 
 //pause and add ecs systems and listeners based on the gamestate
 public enum GameStateType implements State<GameStateManager> {
@@ -42,6 +43,7 @@ public enum GameStateType implements State<GameStateManager> {
         public void enter(GameStateManager entity) {
             Strafer.getInstance().setScreen(LoadSaveScreen.getInstance());
         }
+
         @Override
         public void exit(GameStateManager entity) {
             EntityEngine.getInstance().pauseOnSystems(null, false);
@@ -70,6 +72,19 @@ public enum GameStateType implements State<GameStateManager> {
             Strafer.getInstance().setScreen(GameScreen.getInstance());
         }
 
+    },
+    GAME_OVER {
+        @Override
+        public void enter(GameStateManager entity) {
+            EntityEngine.getInstance().pauseOnSystems(null, true);
+            Strafer.uiManager.gameOverTrigger();
+        }
+
+        @Override
+        public void exit(GameStateManager entity) {
+            EntityEngine.getInstance().pauseOnSystems(null, false);
+            Strafer.uiManager.emptyTrigger();
+        }
     };
 
     @Override

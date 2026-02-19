@@ -13,6 +13,7 @@ import com.kotcrab.vis.ui.VisUI.SkinScale;
 import com.strafergame.game.GameStateManager;
 import com.strafergame.game.GameStateType;
 import com.strafergame.input.UIControl;
+import com.strafergame.ui.menus.GameOverMenu;
 import com.strafergame.ui.menus.PauseMenu;
 import de.golfgl.gdx.controllers.ControllerMenuStage;
 
@@ -79,8 +80,24 @@ public class UiManager extends ControllerMenuStage implements Disposable {
 
     public void emptyTrigger() {
         PauseMenu.getInstance().setVisible(false);
+        GameOverMenu.getInstance().setVisible(false); // Add this line
+
         if (hud != null) {
             hud.setVisible(false);
+        }
+    }
+
+    public void gameOverTrigger() {
+
+        // Add this line
+        if (GameOverMenu.getInstance().getStage() == null) {
+            this.addActor(GameOverMenu.getInstance());
+        }
+
+        GameOverMenu.getInstance().setVisible(true);
+
+        if (getHud() != null) {
+            getHud().setVisible(false);
         }
     }
 
@@ -126,6 +143,12 @@ public class UiManager extends ControllerMenuStage implements Disposable {
 
 
     private void highlight() {
+
+        // Add this line
+        if (getFocusedActor() == null) {
+            return;
+        }
+
         for (Actor a : getFocusableActors()) {
             Color c = a.getColor();
             c.a = .6f;
