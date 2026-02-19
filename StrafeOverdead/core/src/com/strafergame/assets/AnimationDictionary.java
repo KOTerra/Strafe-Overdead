@@ -29,11 +29,19 @@ public abstract class AnimationDictionary {
     }
 
     public static float getDuration(String key) {
-        return all.get(key).duration;
+        Object a = all.get(key);
+        if (a instanceof AnimationDictionaryEntry ade) {
+            return ade.duration;
+        }
+        return 0;
     }
 
     public static boolean isLooping(String key) {
-        return all.get(key).loop;
+        Object a = all.get(key);
+        if (a instanceof AnimationDictionaryEntry ade) {
+            return ade.loop;
+        }
+        return false;
     }
 
     private static class AnimationDictionaryEntry {
