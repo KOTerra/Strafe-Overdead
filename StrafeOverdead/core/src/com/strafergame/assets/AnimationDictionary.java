@@ -17,6 +17,8 @@ public abstract class AnimationDictionary {
 
     static HashMap<String, AnimationDictionaryEntry> all = new HashMap<>();//.gettype.getanimation => duration looping etc
 
+    private static final float DEFAULT_DURATION = 0.05f;
+
     public static void loadEntries() {
         JsonReader jsonReader = new JsonReader();
         JsonValue root = jsonReader.parse(Gdx.files.internal("spritesheets/animation_dictionary.json"));
@@ -33,7 +35,7 @@ public abstract class AnimationDictionary {
         if (a instanceof AnimationDictionaryEntry ade) {
             return ade.duration;
         }
-        return 0;
+        return DEFAULT_DURATION;
     }
 
     public static boolean isLooping(String key) {

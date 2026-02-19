@@ -7,9 +7,11 @@ import com.strafergame.game.ecs.states.EntityType;
 public class EntityTypeComponent implements Component {
 	public EntityType entityType;
 	public EntityState entityState = EntityState.idle;
+	public EntityState.EntitySubState entitySubState= EntityState.NoneSubstate.none;
 
 	public void reset() {
 		this.entityType = null;
 		this.entityState = EntityState.idle;
 	}
+
 }

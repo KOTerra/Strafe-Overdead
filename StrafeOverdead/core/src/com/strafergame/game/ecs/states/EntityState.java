@@ -34,6 +34,9 @@ public enum EntityState {
      * the HIT state
      */
     hit,
+
+    attack(true),
+
     /**
      * the RECOVER state after a hit
      */
@@ -43,11 +46,34 @@ public enum EntityState {
      */
     death;
 
-    public static boolean isGrounded(EntityState state) {
-        return switch (state) {
-            case jump, fall, dash, hit -> false;
-            default -> true;
-        };
+    private boolean withSubstates = false;
+
+
+    EntityState() {
+        withSubstates = false;
     }
 
+    EntityState(boolean withSubstates) {
+        this.withSubstates = withSubstates;
+    }
+
+    public boolean isWithSubstates() {
+        return withSubstates;
+    }
+
+    public interface EntitySubState {
+        public default boolean isSubstate() {
+            return !(this instanceof NoneSubstate);
+        }
+    }
+
+    public enum NoneSubstate implements EntitySubState {
+        none
+    }
+
+    public enum AttackSubstate implements EntitySubState {
+        melee,
+        shoot
+    }
 }
+

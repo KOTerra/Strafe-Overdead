@@ -30,7 +30,13 @@ public class AnimationProvider {
         if (posCmp == null) {
             return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState.toString());
         }
-        //System.out.println(typeCmp.entityType+" "+typeCmp.entityState+ " "+posCmp.direction);
+//        System.out.println(typeCmp.entityType + "_" + typeCmp.entityState + "_" + typeCmp.entitySubState + "_" + posCmp.direction);
+
+        if (typeCmp.entityState.isWithSubstates()) {
+            return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState + "_" + typeCmp.entitySubState + "_" + posCmp.direction);
+        }
+
+
         return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState + "_" + posCmp.direction);
     }
 
@@ -44,5 +50,7 @@ public class AnimationProvider {
     private AnimationProvider() {
     }
 
-
+//cache the full key inside the EntityTypeComponent whenever the state changes.
+//
+//That way, getAnimation just does a single Map.get(typeCmp.cachedAnimationKey) instead of building strings every frame
 }

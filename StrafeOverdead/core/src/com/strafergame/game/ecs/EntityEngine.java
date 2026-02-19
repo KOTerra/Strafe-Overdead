@@ -9,6 +9,7 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.system.AnimationSystem;
 import com.strafergame.game.ecs.system.CheckpointSystem;
 import com.strafergame.game.ecs.system.MovementSystem;
+import com.strafergame.game.ecs.system.SubstateUpdateSystem;
 import com.strafergame.game.ecs.system.ai.NpcSystem;
 import com.strafergame.game.ecs.system.camera.CameraSystem;
 import com.strafergame.game.ecs.system.interaction.combat.CombatSystem;
@@ -44,6 +45,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
     private final ActivatorSystem activatorSystem = new ActivatorSystem();
     private final ClimbFallSystem climbFallSystem = new ClimbFallSystem();
     private final AnimationSystem animationSystem = new AnimationSystem();
+    private final SubstateUpdateSystem substateUpdateSystem = new SubstateUpdateSystem();
     private final AttachmentSystem attachmentSystem = new AttachmentSystem();
     private final CombatSystem combatSystem = new CombatSystem();
     private final CameraSystem cameraSystem = new CameraSystem();
@@ -72,6 +74,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
             elevationSystem = new ElevationSystem(this.box2dWorld);
 
             // iterating systems
+            addSystem(substateUpdateSystem);
             addSystem(animationSystem);
             addSystem(elevationSystem);
             addSystem(npcSystem);
