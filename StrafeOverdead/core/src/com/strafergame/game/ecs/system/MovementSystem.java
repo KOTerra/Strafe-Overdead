@@ -73,7 +73,16 @@ public class MovementSystem extends IteratingSystem {
                         case idle:
                         case walk: {
                             b2dCmp.body.setLinearVelocity(movCmp.dir.x * movCmp.maxLinearSpeed, movCmp.dir.y * movCmp.maxLinearSpeed);
-                            typeCmp.entityState = EntityState.idle;
+                            if (movCmp.isMoving()) {
+                                typeCmp.entityState = EntityState.walk;
+                            } else {
+                                typeCmp.entityState = EntityState.idle;
+                            }
+                            break;
+                        }
+                        case attack: {
+                            // Stop movement or allow a small slide during attack
+                            b2dCmp.body.setLinearVelocity(0, 0);
                             break;
                         }
                         case dash: {

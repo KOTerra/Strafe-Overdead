@@ -7,7 +7,8 @@ import com.badlogic.ashley.core.Component;
  */
 public class StatsComponent implements Component {
     public float baseSpeed = 12f;
-    public float dashForce = 20f;
-    public float dashDuration = 1f;
+    public float dashForce = 10f;
+    public float dashDuration = .5f;
     public float dashCooldownDuration = .25f;
+    public float meleeAttackDuration = .8f; //16frames*0.05
 }

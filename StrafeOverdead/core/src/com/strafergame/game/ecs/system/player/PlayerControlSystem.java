@@ -24,11 +24,11 @@ import com.strafergame.settings.KeyboardMapping;
 public class PlayerControlSystem extends IteratingSystem {
 
     Strafer game;
-
     Entity item;
 
     private boolean jumpTriggered = false;
     private boolean dashTriggered = false;
+    private boolean attackTriggered = false;
 
     public PlayerControlSystem() {
         super(Family.all(PlayerComponent.class).get());
@@ -50,15 +50,12 @@ public class PlayerControlSystem extends IteratingSystem {
         move(entity);
         dash(entity);
         jump(entity);
-
         attack(entity);
     }
 
     private void move(Entity e) {
         PositionComponent posCmp = ComponentMappers.position().get(e);
         final MovementComponent movCmp = ComponentMappers.movement().get(e);
-        PlayerComponent plyrCmp = ComponentMappers.player().get(e);
-        Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
         final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
         movCmp.dir.set(0f, 0f);
@@ -79,15 +76,19 @@ public class PlayerControlSystem extends IteratingSystem {
             movCmp.dir.x = 1f;
             posCmp.direction = EntityDirection.d;
         }
-        if (typeCmp.entityState.equals(EntityState.jump)) {
+
+        if (typeCmp.entityState.equals(EntityState.jump) ||
+                typeCmp.entityState.equals(EntityState.attack) ||
+                typeCmp.entityState.equals(EntityState.dash) ||
+                typeCmp.entityState.equals(EntityState.hit) ||
+                typeCmp.entityState.equals(EntityState.death)) {
             return;
         }
+
         if (movCmp.isMoving()) {
             typeCmp.entityState = EntityState.walk;
         } else {
-            if (!typeCmp.entityState.equals(EntityState.death)) {
-                typeCmp.entityState = EntityState.idle;
-            }
+            typeCmp.entityState = EntityState.idle;
         }
     }
 
@@ -111,56 +112,81 @@ public class PlayerControlSystem extends IteratingSystem {
         final MovementComponent movCmp = ComponentMappers.movement().get(e);
         final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
         final StatsComponent statsCmp = ComponentMappers.stats().get(e);
-
         final EntityEngine entityEngine = (EntityEngine) this.getEngine();
 
         if (item == null) {
             item = ItemEntityFactory.createItem(e, new Vector2(0, 0), 3, 3);
         }
 
-        if (!movCmp.isDashCooldown) {
-            if (PlayerControl.DASH && movCmp.isMoving()) {
-                if (!dashTriggered) {
-                    movCmp.isDashCooldown = true;
-                    typeCmp.entityState = EntityState.dash;
-                    if (!entityEngine.getEntities().contains(item, true)) {
-                        entityEngine.addEntity(item);
-                    }
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            typeCmp.entityState = EntityState.idle;
-                            if (entityEngine.getEntities().contains(item, true)) {
-                                entityEngine.removeEntity(item);
-                            }
-                        }
-                    }, movCmp.dashDuration);
-                    Timer.schedule(new Timer.Task() {
-                        @Override
-                        public void run() {
-                            movCmp.isDashCooldown = false;
-                        }
-                    }, statsCmp.dashCooldownDuration);
-                    dashTriggered = true;
-                }
-            } else {
-                dashTriggered = false;
-            }
-        } else {
+        if (PlayerControl.DASH && movCmp.isMoving() && !movCmp.isDashCooldown && !dashTriggered) {
+            dashTriggered = true;
+            movCmp.isDashCooldown = true;
             typeCmp.entityState = EntityState.dash;
+
+            if (!entityEngine.getEntities().contains(item, true)) {
+                entityEngine.addEntity(item);
+            }
+
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    typeCmp.entityState = EntityState.idle;
+                    if (entityEngine.getEntities().contains(item, true)) {
+                        entityEngine.removeEntity(item);
+                    }
+                }
+            }, movCmp.dashDuration);
+
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    movCmp.isDashCooldown = false;
+                }
+            }, statsCmp.dashCooldownDuration);
+        }
+
+        if (!PlayerControl.DASH) {
+            dashTriggered = false;
         }
     }
+
+    private Entity meleeItem;
 
     private void attack(Entity e) {
         final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
-        if (PlayerControl.ATTACK) {
-            typeCmp.entityState = EntityState.attack;
-            typeCmp.entitySubState = EntityState.AttackSubstate.melee;
-            typeCmp.entityState = EntityState.death;
+        final EntityEngine entityEngine = (EntityEngine) this.getEngine();
+        final StatsComponent statsCmp = ComponentMappers.stats().get(e);
+
+        if (meleeItem == null) {
+            meleeItem = ItemEntityFactory.createItem(e, new Vector2(0, 0), 2, 2);
         }
 
-    }
+        if (PlayerControl.ATTACK && !attackTriggered) {
+            attackTriggered = true;
+            typeCmp.entityState = EntityState.attack;
+            typeCmp.entitySubState = EntityState.AttackSubstate.melee;
 
+            if (!entityEngine.getEntities().contains(meleeItem, true)) {
+                entityEngine.addEntity(meleeItem);
+            }
+
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    typeCmp.entityState = EntityState.idle;
+                    typeCmp.entitySubState = EntityState.NoneSubstate.none;
+
+                    if (entityEngine.getEntities().contains(meleeItem, true)) {
+                        entityEngine.removeEntity(meleeItem);
+                    }
+                }
+            }, statsCmp.meleeAttackDuration);
+        }
+
+        if (!PlayerControl.ATTACK) {
+            attackTriggered = false;
+        }
+    }
 
     private void executeActionSequence(Entity entity, int[] sequence, EntityActionExecutor executor) {
         boolean sequenceMatch = false;
@@ -171,7 +197,7 @@ public class PlayerControlSystem extends IteratingSystem {
             }
         }
         if (sequenceMatch) {
-            executor.execute(entity);   //maybe use bool returned to cancel next handles
+            executor.execute(entity);
         }
     }
 }
