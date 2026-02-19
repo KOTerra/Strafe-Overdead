@@ -3,7 +3,8 @@ package com.strafergame.game.ecs.system;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.esotericsoftware.spine.Animation;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.AnimationComponent;
@@ -20,9 +21,18 @@ public class AnimationSystem extends IteratingSystem {
         final AnimationComponent aniCmp = ComponentMappers.animation().get(entity);
         final SpriteComponent spriteCmp = ComponentMappers.sprite().get(entity);
 
+        // Get the animation based on current state/direction/type
+        Animation<Sprite> newAnim = AnimationProvider.getAnimation(entity);
+
+        // Check if the animation has switched
+        if (newAnim != aniCmp.prevAnimation) {
+            aniCmp.timer = 0f;
+            aniCmp.prevAnimation = newAnim;
+            aniCmp.animation = newAnim;
+        }
+
         aniCmp.timer += deltaTime;
 
-        aniCmp.animation = AnimationProvider.getAnimation(entity);
         if (aniCmp.animation != null) {
             spriteCmp.sprite = aniCmp.animation.getKeyFrame(aniCmp.timer, true);
             spriteCmp.width = spriteCmp.sprite.getWidth() * Strafer.SCALE_FACTOR;
