@@ -2,6 +2,7 @@ package com.strafergame.game.ecs.component.ai;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ai.steer.Steerable;
 import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
@@ -37,32 +38,33 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
             behavior.calculateSteering(steeringOutput);
             applySteering(steeringOutput);
             //change to not change direction if hit from the opposite direction
-            posCmp.changeDirection(steeringOutput.linear.nor());
+
+            // Only update visual direction if there is actual movement
+            if (!getLinearVelocity().isZero(0.1f)) {
+                posCmp.changeDirection(getLinearVelocity().nor());
+            }
         }
     }
 
     private void applySteering(SteeringAcceleration<Vector2> steeringOutput) {
-        boolean anyAccelerations = false;
+        if (steeringOutput.linear.isZero()) {
+            // Stop immediately if no steering is required to prevent drifting
+            b2dCmp.body.setLinearVelocity(0, 0);
+            return;
+        }
 
-        if (!steeringOutput.linear.isZero()) {
-            Vector2 force = steeringOutput.linear;
-            b2dCmp.body.applyForceToCenter(force, true);
-            anyAccelerations = true;
-        }
+        // Calculate velocity based on acceleration and delta time for a natural "walking" feel
+        Vector2 velocity = b2dCmp.body.getLinearVelocity();
+        velocity.add(steeringOutput.linear.scl(Gdx.graphics.getDeltaTime()));
+
+        // Clamp to max speed
+        velocity.limit(getMaxLinearSpeed());
+
+        // Set velocity directly to remove the "sliding on ice" effect
+        b2dCmp.body.setLinearVelocity(velocity);
+
         if (steeringOutput.angular != 0) {
-            b2dCmp.body.applyTorque(steeringOutput.angular, true);
-            anyAccelerations = true;
-        }
-        if (anyAccelerations) {
-            Vector2 velocity = b2dCmp.body.getLinearVelocity();
-            float currentSpeedSquare = velocity.len2();
-            if (currentSpeedSquare > getMaxLinearSpeed() * getMaxLinearSpeed()) {
-                movCmp.dir.set(velocity.cpy()).clamp(-1, 1);
-                b2dCmp.body.setLinearVelocity(movCmp.dir.cpy().scl(getMaxLinearSpeed() / (float) Math.sqrt(currentSpeedSquare)));
-            }
-            if (b2dCmp.body.getAngularVelocity() > getMaxAngularSpeed()) {
-                b2dCmp.body.setAngularVelocity(getMaxAngularSpeed());
-            }
+            b2dCmp.body.setAngularVelocity(steeringOutput.angular);
         }
     }
 

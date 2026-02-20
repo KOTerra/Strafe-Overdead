@@ -6,6 +6,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
+import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
@@ -29,7 +30,7 @@ public class ShadowSystem extends IteratingSystem {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
 
 
-        shdCmp.position.set(posCmp.renderPos.x, posCmp.renderPos.y);
+        shdCmp.position.set(posCmp.renderPos.x, posCmp.renderPos.y); //+ shdCmp.radius / 2f * Strafer.SCALE_FACTOR
         if (!ClimbFallSystem.isGrounded(entity)) {
             shdCmp.position.set(posCmp.renderPos.x, elvCmp.fallTargetY);
         }

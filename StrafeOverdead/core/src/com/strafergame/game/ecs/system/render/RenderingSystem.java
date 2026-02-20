@@ -31,8 +31,7 @@ public class RenderingSystem extends SortedIteratingSystem {
     String fragmentShader;
     ShaderProgram shaderProgram;
 
-    private Array<Entity> renderQueue; // an array used to allow sorting of images allowing us to draw images on top of
-    // each other
+    private Array<Entity> renderQueue; // an array used to allow sorting of images allowing us to draw images on top of each other
     private Comparator<Entity> comparator = new ZComparator();
 
     private ComponentMapper<SpriteComponent> spriteMapper;
@@ -155,6 +154,5 @@ public class RenderingSystem extends SortedIteratingSystem {
         shadowDrawer = new ShapeDrawer(batch, onePixelTextureRegion);
 
         shadowDrawer.setColor(new Color(0, 0, 0, .25f));
-        // shadowDrawer.setColor(Color.CYAN);
     }
 }

@@ -182,7 +182,7 @@
         },
         {
             "name": "goblin_death_w",
-            "duration": 0.08,
+            "duration": 0.09,
             "loop": false
         },
         {

@@ -4,42 +4,39 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.ai.btree.BehaviorTree;
 import com.badlogic.gdx.ai.btree.branch.Selector;
 import com.badlogic.gdx.ai.btree.branch.Sequence;
-import com.strafergame.game.ecs.system.ai.tasks.ApproachPlayer;
-import com.strafergame.game.ecs.system.ai.tasks.IdleAction;
-import com.strafergame.game.ecs.system.ai.tasks.IsElevationMatching;
-import com.strafergame.game.ecs.system.ai.tasks.IsPlayerNear;
+import com.strafergame.game.ecs.system.ai.tasks.*;
 
 public class BehaviorTreeFactory {
 
     /**
      * Creates a standard NPC behavior tree:
-     *  Try to Chase (if close and on same elevation)
-     *  Otherwise Idle
+     * Try to Chase (if close and on same elevation)
+     * Otherwise Idle
      */
     public static BehaviorTree<Entity> createBasicNpcTree(Entity entity) {
         BehaviorTree<Entity> tree = new BehaviorTree<>();
-
-        // Root of the tree is a Selector (The "OR" logic)
-        // It tries the first child (Chase Logic). If that fails, it runs the second child (Idle).
         Selector<Entity> rootSelector = new Selector<>();
 
-        // Branch 1: Chase Logic (Sequence = "AND" logic)
-        // All conditions must be met for the action to happen
-        Sequence<Entity> chaseSequence = new Sequence<>();
-        chaseSequence.addChild(new IsPlayerNear());        // Condition 1
-        chaseSequence.addChild(new IsElevationMatching()); // Condition 2
-        chaseSequence.addChild(new ApproachPlayer());      // Action
+        // --- Branch 0: Death (Priority #1) ---
+        Sequence<Entity> deathSequence = new Sequence<>();
+        deathSequence.addChild(new IsDead());
+        deathSequence.addChild(new DieAction());
 
-        // Branch 2: Idle
-        // Fallback if chase sequence fails
+        // --- Branch 1: Chase Logic ---
+        Sequence<Entity> chaseSequence = new Sequence<>();
+        chaseSequence.addChild(new IsPlayerNear());
+        chaseSequence.addChild(new IsElevationMatching());
+        chaseSequence.addChild(new ApproachPlayer());
+
+        // --- Branch 2: Idle ---
         IdleAction idleAction = new IdleAction();
 
-        // Assemble Tree
-        rootSelector.addChild(chaseSequence);
-        rootSelector.addChild(idleAction);
+        // Assemble Tree (Order matters!)
+        rootSelector.addChild(deathSequence); // Check death first
+        rootSelector.addChild(chaseSequence); // Then try to chase
+        rootSelector.addChild(idleAction);    // Fallback to idle
 
         tree.addChild(rootSelector);
-
         return tree;
     }
 }

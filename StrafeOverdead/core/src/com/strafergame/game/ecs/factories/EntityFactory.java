@@ -74,7 +74,7 @@ public abstract class EntityFactory {
         player.add(aniCmp);
 
         ShadowComponent shdCmp = entityEngine.createComponent(ShadowComponent.class);
-        shdCmp.radius = aniCmp.animation.getKeyFrame(0).getWidth() * .4f;
+        shdCmp.radius = aniCmp.animation.getKeyFrame(0).getWidth() * .5f;
         player.add(shdCmp);
 
         //dependant on serialization
