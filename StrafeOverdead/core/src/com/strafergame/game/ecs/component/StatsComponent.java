@@ -11,4 +11,5 @@ public class StatsComponent implements Component {
     public float dashDuration = .5f;
     public float dashCooldownDuration = .25f;
     public float meleeAttackDuration = .8f; //16frames*0.05
+    public float meleeAttackDamagePerSecond = 10;
 }

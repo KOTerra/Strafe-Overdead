@@ -7,7 +7,11 @@ import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
+import com.strafergame.game.ecs.factories.ItemEntityFactory;
 
+/**
+ * keeps item attached to owner when owner moving
+ */
 public class AttachmentSystem extends IteratingSystem {
     public AttachmentSystem() {
         super(Family.all(ItemComponent.class, PositionComponent.class, AttackComponent.class).get());
@@ -18,14 +22,17 @@ public class AttachmentSystem extends IteratingSystem {
         ItemComponent itmCmp = ComponentMappers.item().get(entity);
         PositionComponent posCmp = ComponentMappers.position().get(entity);
         AttackComponent attckCmp = ComponentMappers.attack().get(entity);
-        PositionComponent ownerPosCmp = ComponentMappers.position().get(itmCmp.owner);//parent
+        PositionComponent ownerPosCmp = ComponentMappers.position().get(itmCmp.owner);
         Box2dComponent ownerB2dCmp = ComponentMappers.box2d().get(itmCmp.owner);
-        //  ItemHolderComponent hldCmp = ComponentMappers.itemHolding().get(itmCmp.owner);
-        //  to replace with AttachmentComponent
-        // calculate relative positions to child and parent with appropriate attachment types and attachment positions
 
-        posCmp.renderPos.x = ownerPosCmp.renderPos.x;
-        posCmp.renderPos.y = ownerPosCmp.renderPos.y;  //+attch.
-        attckCmp.hitbox.getBody().setTransform(ownerB2dCmp.body.getPosition(), 0);
+        if (ownerB2dCmp != null && ownerB2dCmp.initiatedPhysics) {
+            posCmp.renderPos.x = ownerPosCmp.renderPos.x + itmCmp.holdPosition.x;
+            posCmp.renderPos.y = ownerPosCmp.renderPos.y + itmCmp.holdPosition.y;
+
+            float worldX = ownerB2dCmp.body.getPosition().x + itmCmp.holdPosition.x;
+            float worldY = ownerB2dCmp.body.getPosition().y + itmCmp.holdPosition.y;
+
+            attckCmp.body.setTransform(worldX, worldY, itmCmp.holdPosition.z);
+        }
     }
 }

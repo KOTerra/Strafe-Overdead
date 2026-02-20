@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.BufferUtils;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
+import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.LightComponent;
 import com.strafergame.game.world.collision.FilteredContactListener;
@@ -57,6 +58,10 @@ public class LightSystem extends IteratingSystem {
         if (rayHandler == null) return;
 
         for (Entity entity : lightEntities) {
+            if (!EntityEngine.getInstance().getEntities().contains(entity, true)) {
+                lightEntities.removeValue(entity, true);
+                continue;
+            }
             LightComponent lightCmp = ComponentMappers.light().get(entity);
             boolean isActive = (lightCmp.elevation == elevation);
             for (LightComponent.LightSource source : lightCmp.lights) {

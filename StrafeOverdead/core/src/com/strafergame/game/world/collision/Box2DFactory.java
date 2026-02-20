@@ -74,32 +74,31 @@ public abstract class Box2DFactory {
     }
 
     public static Body createBodyWithHitbox(AttackComponent hitCmp, World world, float width, float height,
-                                            float xOffset, float yOffset, Vector2 pos) {
+                                            Vector3 pos) {
         Body body;
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.x = pos.x + xOffset;
-        bodyDef.position.y = pos.y + yOffset;
+        bodyDef.position.set(pos.x, pos.y);
         bodyDef.angle = 0;
         bodyDef.fixedRotation = true;
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(bodyDef);
 
-        // Create the shape for the sensor (e.g., rectangle)
         PolygonShape sensorShape = new PolygonShape();
-        sensorShape.setAsBox(width / 2, height / 2, new Vector2(xOffset, yOffset), 0);
 
-        // Create the fixture definition for the sensor
+        sensorShape.setAsBox(width / 2, height / 2, Vector2.Zero, 0);
+
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = sensorShape;
-        fixtureDef.isSensor = true; // Set the fixture as a sensor
+        fixtureDef.isSensor = true;
         fixtureDef.filter.categoryBits = FilteredContactListener.HITBOX_CATEGORY;
         fixtureDef.filter.maskBits = FilteredContactListener.HURTBOX_CATEGORY;
 
         hitCmp.body = body;
         hitCmp.hitbox = hitCmp.body.createFixture(fixtureDef);
         hitCmp.hitbox.setUserData(hitCmp);
-        return body;
 
+        sensorShape.dispose();
+        return body;
     }
 
 

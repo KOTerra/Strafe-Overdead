@@ -3,7 +3,7 @@ package com.strafergame.game.ecs.system.player;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
@@ -19,13 +19,16 @@ import com.strafergame.game.ecs.factories.ItemEntityFactory;
 import com.strafergame.game.ecs.states.EntityDirection;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.interaction.EntityActionExecutor;
+import com.strafergame.game.ecs.system.interaction.combat.CombatExecutor;
 import com.strafergame.input.PlayerControl;
 import com.strafergame.settings.KeyboardMapping;
 
 public class PlayerControlSystem extends IteratingSystem {
 
     Strafer game;
-    Entity item;
+    private Entity dashItem;
+    private Entity meleeItem;
+
 
     private boolean jumpTriggered = false;
     private boolean dashTriggered = false;
@@ -38,16 +41,11 @@ public class PlayerControlSystem extends IteratingSystem {
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
-        executeActionSequence(entity, KeyboardMapping.KONAMI_CODE_SEQUENCE, entity1 -> {
-            System.out.println("EYOO");
-            return true;
-        });
+        //sequences
+        konamiCode(entity);
+        tripleAttack(entity);
 
-        executeActionSequence(entity, KeyboardMapping.TRIPLE_CLICK_SEQUENCE, entity1 -> {
-            System.out.println("333 333 333 ");
-            return true;
-        });
-
+        //single input
         move(entity);
         dash(entity);
         jump(entity);
@@ -78,11 +76,7 @@ public class PlayerControlSystem extends IteratingSystem {
             posCmp.direction = EntityDirection.d;
         }
 
-        if (typeCmp.entityState.equals(EntityState.jump) ||
-                typeCmp.entityState.equals(EntityState.attack) ||
-                typeCmp.entityState.equals(EntityState.dash) ||
-                typeCmp.entityState.equals(EntityState.hit) ||
-                typeCmp.entityState.equals(EntityState.death)) {
+        if (typeCmp.entityState.equals(EntityState.jump) || typeCmp.entityState.equals(EntityState.attack) || typeCmp.entityState.equals(EntityState.dash) || typeCmp.entityState.equals(EntityState.hit) || typeCmp.entityState.equals(EntityState.death)) {
             return;
         }
 
@@ -111,27 +105,29 @@ public class PlayerControlSystem extends IteratingSystem {
 
     private void dash(Entity e) {
         final MovementComponent movCmp = ComponentMappers.movement().get(e);
-        final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
-        final StatsComponent statsCmp = ComponentMappers.stats().get(e);
-        final Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
-        final EntityEngine entityEngine = (EntityEngine) this.getEngine();
 
-        if (item == null) {
-            item = ItemEntityFactory.createItem(e, new Vector2(0, 0), 3, 3);
-            ComponentMappers.attack().get(item).body.setActive(false);
+        if (dashItem == null) {
+            dashItem = ItemEntityFactory.createItem(e, new Vector3(0, 0, 0), 3, 3);
+            ComponentMappers.attack().get(dashItem).body.setActive(false);
         }
 
         if (PlayerControl.DASH && movCmp.isMoving() && !movCmp.isDashCooldown && !dashTriggered) {
             dashTriggered = true;
             movCmp.isDashCooldown = true;
+
+            final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
+            final StatsComponent statsCmp = ComponentMappers.stats().get(e);
+            final Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
+            final EntityEngine entityEngine = (EntityEngine) this.getEngine();
+
             typeCmp.entityState = EntityState.dash;
 
-            final AttackComponent dashAttackCmp = ComponentMappers.attack().get(item);
+            final AttackComponent dashAttackCmp = ComponentMappers.attack().get(dashItem);
             dashAttackCmp.body.setTransform(b2dCmp.body.getPosition(), 0);
             dashAttackCmp.body.setActive(true);
 
-            if (!entityEngine.getEntities().contains(item, true)) {
-                entityEngine.addEntity(item);
+            if (!entityEngine.getEntities().contains(dashItem, true)) {
+                entityEngine.addEntity(dashItem);
             }
 
             Timer.schedule(new Timer.Task() {
@@ -139,8 +135,8 @@ public class PlayerControlSystem extends IteratingSystem {
                 public void run() {
                     typeCmp.entityState = EntityState.idle;
                     dashAttackCmp.body.setActive(false);
-                    if (entityEngine.getEntities().contains(item, true)) {
-                        entityEngine.removeEntity(item);
+                    if (entityEngine.getEntities().contains(dashItem, true)) {
+                        entityEngine.removeEntity(dashItem);
                     }
                 }
             }, movCmp.dashDuration);
@@ -158,51 +154,38 @@ public class PlayerControlSystem extends IteratingSystem {
         }
     }
 
-    private Entity meleeItem;
 
     private void attack(Entity e) {
-        final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
-        final EntityEngine entityEngine = (EntityEngine) this.getEngine();
-        final StatsComponent statsCmp = ComponentMappers.stats().get(e);
-        final Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
-
         if (meleeItem == null) {
-            meleeItem = ItemEntityFactory.createItem(e, new Vector2(0, 0), 2, 2);
+            meleeItem = ItemEntityFactory.createItem(e, ItemEntityFactory.inferPositionOnDirection(e), 1f, 2);
             ComponentMappers.attack().get(meleeItem).body.setActive(false);
         }
 
         if (PlayerControl.ATTACK && !attackTriggered) {
             attackTriggered = true;
-            typeCmp.entityState = EntityState.attack;
-            typeCmp.entitySubState = EntityState.AttackSubstate.melee;
 
-            final AttackComponent meleeAttackCmp = ComponentMappers.attack().get(meleeItem);
-            meleeAttackCmp.body.setTransform(b2dCmp.body.getPosition(), 0);
-            meleeAttackCmp.body.setActive(true); 
-
-            if (!entityEngine.getEntities().contains(meleeItem, true)) {
-                entityEngine.addEntity(meleeItem);
-            }
-
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    typeCmp.entityState = EntityState.idle;
-                    typeCmp.entitySubState = EntityState.NoneSubstate.none;
-
-                    meleeAttackCmp.body.setActive(false);
-
-                    if (entityEngine.getEntities().contains(meleeItem, true)) {
-                        entityEngine.removeEntity(meleeItem);
-                    }
-                }
-            }, statsCmp.meleeAttackDuration);
+            CombatExecutor.executeMeleeAttack(e, meleeItem);
         }
 
         if (!PlayerControl.ATTACK) {
             attackTriggered = false;
         }
     }
+
+    private void tripleAttack(Entity entity) {
+        executeActionSequence(entity, KeyboardMapping.TRIPLE_CLICK_SEQUENCE, entity1 -> {
+            System.out.println("333 333 333 ");
+            return true;
+        });
+    }
+
+    private void konamiCode(Entity entity) {
+        executeActionSequence(entity, KeyboardMapping.KONAMI_CODE_SEQUENCE, entity1 -> {
+            System.out.println("EYOO");
+            return true;
+        });
+    }
+
 
     private void executeActionSequence(Entity entity, int[] sequence, EntityActionExecutor executor) {
         boolean sequenceMatch = false;

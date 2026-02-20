@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -204,7 +205,7 @@ public class MapEntityFactory {
         return checkpoint;
     }
 
-    public static Entity createHitboxDummy(final Vector2 location, int width, int height, final Entity owner) {
+    public static Entity createHitboxDummy(final Vector3 location, int width, int height, final Entity owner) {
         final Entity dummy = entityEngine.createEntity();
         AttackComponent attckCmp = entityEngine.createComponent(AttackComponent.class);
 
@@ -212,7 +213,7 @@ public class MapEntityFactory {
         attckCmp.damagePerSecond = 10;
         attckCmp.doesKnockback = true;
         attckCmp.knockbackMagnitude = 2;
-        Box2DFactory.createBodyWithHitbox(attckCmp, entityEngine.getBox2dWorld().getWorld(), width, height, 0, 0, location);
+        Box2DFactory.createBodyWithHitbox(attckCmp, entityEngine.getBox2dWorld().getWorld(), width, height, location);
         dummy.add(attckCmp);
         entityEngine.addEntity(dummy);
         return dummy;
