@@ -46,7 +46,7 @@ public enum EntityState {
      */
     death;
 
-    private boolean withSubstates = false;
+    private final boolean withSubstates;
 
 
     EntityState() {
@@ -65,10 +65,16 @@ public enum EntityState {
         public default boolean isSubstate() {
             return !(this instanceof NoneSubstate);
         }
+
     }
 
     public enum NoneSubstate implements EntitySubState {
-        none
+        none;
+
+        @Override
+        public String toString() {
+            return "";
+        }
     }
 
     public enum AttackSubstate implements EntitySubState {

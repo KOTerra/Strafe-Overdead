@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.PlayerComponent;
 import com.strafergame.game.ecs.component.StatsComponent;
@@ -112,16 +113,22 @@ public class PlayerControlSystem extends IteratingSystem {
         final MovementComponent movCmp = ComponentMappers.movement().get(e);
         final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
         final StatsComponent statsCmp = ComponentMappers.stats().get(e);
+        final Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
         final EntityEngine entityEngine = (EntityEngine) this.getEngine();
 
         if (item == null) {
             item = ItemEntityFactory.createItem(e, new Vector2(0, 0), 3, 3);
+            ComponentMappers.attack().get(item).body.setActive(false);
         }
 
         if (PlayerControl.DASH && movCmp.isMoving() && !movCmp.isDashCooldown && !dashTriggered) {
             dashTriggered = true;
             movCmp.isDashCooldown = true;
             typeCmp.entityState = EntityState.dash;
+
+            final AttackComponent dashAttackCmp = ComponentMappers.attack().get(item);
+            dashAttackCmp.body.setTransform(b2dCmp.body.getPosition(), 0);
+            dashAttackCmp.body.setActive(true);
 
             if (!entityEngine.getEntities().contains(item, true)) {
                 entityEngine.addEntity(item);
@@ -131,6 +138,7 @@ public class PlayerControlSystem extends IteratingSystem {
                 @Override
                 public void run() {
                     typeCmp.entityState = EntityState.idle;
+                    dashAttackCmp.body.setActive(false);
                     if (entityEngine.getEntities().contains(item, true)) {
                         entityEngine.removeEntity(item);
                     }
@@ -156,15 +164,21 @@ public class PlayerControlSystem extends IteratingSystem {
         final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
         final EntityEngine entityEngine = (EntityEngine) this.getEngine();
         final StatsComponent statsCmp = ComponentMappers.stats().get(e);
+        final Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
 
         if (meleeItem == null) {
             meleeItem = ItemEntityFactory.createItem(e, new Vector2(0, 0), 2, 2);
+            ComponentMappers.attack().get(meleeItem).body.setActive(false);
         }
 
         if (PlayerControl.ATTACK && !attackTriggered) {
             attackTriggered = true;
             typeCmp.entityState = EntityState.attack;
             typeCmp.entitySubState = EntityState.AttackSubstate.melee;
+
+            final AttackComponent meleeAttackCmp = ComponentMappers.attack().get(meleeItem);
+            meleeAttackCmp.body.setTransform(b2dCmp.body.getPosition(), 0);
+            meleeAttackCmp.body.setActive(true); 
 
             if (!entityEngine.getEntities().contains(meleeItem, true)) {
                 entityEngine.addEntity(meleeItem);
@@ -175,6 +189,8 @@ public class PlayerControlSystem extends IteratingSystem {
                 public void run() {
                     typeCmp.entityState = EntityState.idle;
                     typeCmp.entitySubState = EntityState.NoneSubstate.none;
+
+                    meleeAttackCmp.body.setActive(false);
 
                     if (entityEngine.getEntities().contains(meleeItem, true)) {
                         entityEngine.removeEntity(meleeItem);

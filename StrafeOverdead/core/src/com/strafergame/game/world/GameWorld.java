@@ -11,8 +11,10 @@ import com.badlogic.gdx.utils.I18NBundle;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
 import com.strafergame.game.ecs.factories.EntityFactory;
+import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.save.SaveSystem;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.MapManager;
@@ -80,7 +82,7 @@ public class GameWorld implements Disposable {
 
     static void debugInfo() {
         HUD.debugInfoText = "FPS: " + Gdx.graphics.getFramesPerSecond() + '\n'
-                + "Player State: " + ComponentMappers.entityType().get(player).entityState + '\n'
+                + "Player State: " + ComponentMappers.entityType().get(player).entityState + "_" + ComponentMappers.entityType().get(player).entitySubState + '\n'
                 + "Player Elevation: " + ComponentMappers.elevation().get(player).elevation + '\n'
                 + "Target Y: " + ComponentMappers.elevation().get(player).fallTargetY + '\n'
                 + "Target Cell: " + ComponentMappers.elevation().get(player).fallTargetCell + '\n'
@@ -109,26 +111,13 @@ public class GameWorld implements Disposable {
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_1)) {
                 Strafer.worldCamera.setFocusOn(player);
             }
-            if (Gdx.input.isKeyPressed(Keys.NUMPAD_4)) {
-                HealthComponent hc = ComponentMappers.health().get(player);
-                hc.hitPoints -= 3;
-                ComponentMappers.elevation().get(player).elevation = 0;
-                ComponentMappers.position().get(player).elevation = 0;
-            }
-            if (Gdx.input.isKeyPressed(Keys.NUMPAD_5)) {
-                HealthComponent hc = ComponentMappers.health().get(player);
-                hc.hitPoints += 3;
-                ComponentMappers.elevation().get(player).elevation = 1;
-                ComponentMappers.position().get(player).elevation = 1;
-            }
-            if (Gdx.input.isKeyPressed(Keys.NUMPAD_6)) {
-                HealthComponent hc = ComponentMappers.health().get(player);
-                hc.hitPoints += 3;
-                ComponentMappers.elevation().get(player).elevation = 2;
-                ComponentMappers.position().get(player).elevation = 2;
-            }
+
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_8)) {
                 Strafer.i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"), new Locale("ro"), "utf-8");
+            }
+            if (Gdx.input.isKeyPressed(Keys.L)) {
+                EntityTypeComponent t = ComponentMappers.entityType().get(player);
+                t.entityState = EntityState.death;
             }
         }
     }

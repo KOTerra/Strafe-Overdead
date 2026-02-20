@@ -1,13 +1,9 @@
 package com.strafergame.assets;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.strafergame.game.ecs.states.EntityType;
 
-import java.util.EnumMap;
 import java.util.HashMap;
 
 /**
@@ -17,7 +13,7 @@ public abstract class AnimationDictionary {
 
     static HashMap<String, AnimationDictionaryEntry> all = new HashMap<>();//.gettype.getanimation => duration looping etc
 
-    private static final float DEFAULT_DURATION = 0.05f;
+    private static final float DEFAULT_FRAME_DURATION = 0.05f; //16 frames
 
     public static void loadEntries() {
         JsonReader jsonReader = new JsonReader();
@@ -35,7 +31,7 @@ public abstract class AnimationDictionary {
         if (a instanceof AnimationDictionaryEntry ade) {
             return ade.duration;
         }
-        return DEFAULT_DURATION;
+        return DEFAULT_FRAME_DURATION;
     }
 
     public static boolean isLooping(String key) {
