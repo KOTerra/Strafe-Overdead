@@ -3,6 +3,7 @@ package com.strafergame.game.ecs.system.player;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.MathUtils;
 import com.kotcrab.vis.ui.widget.VisProgressBar;
@@ -22,6 +23,9 @@ public class HudSystem extends IteratingSystem {
         HealthComponent healthCmp = ComponentMappers.health().get(entity);
         VisProgressBar healthBar = Strafer.uiManager.getHud().getHealthBar();
         healthBar.setValue(Interpolation.linear.apply(healthBar.getValue(), healthCmp.hitPoints, .05f));
+        if (healthCmp.hitPoints <= healthCmp.maxHitPoints / 10) {
+            healthBar.getStyle().knobBefore.setMinWidth(0);//should use sepparate copy of the style
+        }
     }
 
 }

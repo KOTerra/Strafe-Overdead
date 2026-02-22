@@ -115,9 +115,13 @@ public class GameWorld implements Disposable {
             if (Gdx.input.isKeyPressed(Keys.NUMPAD_8)) {
                 Strafer.i18n = I18NBundle.createBundle(Gdx.files.internal("assets/i18n/ui/bundle"), new Locale("ro"), "utf-8");
             }
-            if (Gdx.input.isKeyPressed(Keys.L)) {
+            if (Gdx.input.isKeyPressed(Keys.K)) {
                 EntityTypeComponent t = ComponentMappers.entityType().get(player);
+                ComponentMappers.health().get(player).hitPoints = -1;
                 t.entityState = EntityState.death;
+            }
+            if (Gdx.input.isKeyPressed(Keys.L)) {
+                ComponentMappers.health().get(player).init(ComponentMappers.stats().get(player).maxHealth);
             }
         }
     }

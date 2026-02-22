@@ -30,21 +30,30 @@ public class HealthSystem extends IteratingSystem {
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
         HealthComponent hlthCmp = ComponentMappers.health().get(entity);
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
+
         AttackComponent attckCmp = AttackContact.getAttack(b2dCmp);
 
-        if (attckCmp instanceof AttackComponent) {
-            if (attckCmp.owner != null && attckCmp.owner.equals(entity)) {
+        if (attckCmp != null) {
+            if (attckCmp.owner != null && attckCmp.owner.equals(entity)) { //no self damage
                 return;
             }
             typeCmp.entityState = EntityState.hit;
 
+            System.out.println("\n\n" + hlthCmp.hitPoints + " " + attckCmp.damagePerSecond * deltaTime);
             hlthCmp.hitPoints -= attckCmp.damagePerSecond * deltaTime;
+            System.out.println(hlthCmp.hitPoints);
 
             if (hlthCmp.hitPoints <= 0) {
                 typeCmp.entityState = EntityState.death;
             }
 
+            if (hlthCmp.hitPoints > hlthCmp.maxHitPoints) {
+                hlthCmp.hitPoints = hlthCmp.maxHitPoints;
+            }
+
         }
+
+        //schedule death
         if (typeCmp.entityState.equals(EntityState.death)) {
             if (!typeCmp.entityType.equals(EntityType.player)) {
                 b2dCmp.body.setLinearVelocity(0f, 0f);

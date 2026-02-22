@@ -127,7 +127,7 @@ public abstract class EntityFactory {
         enemy.add(movCmp);
 
         HealthComponent hlthComponent = entityEngine.createComponent(HealthComponent.class);
-        hlthComponent.hitPoints = 10;
+        hlthComponent.init(50);
         enemy.add(hlthComponent);
 
         SpriteComponent spriteCmp = entityEngine.createComponent(SpriteComponent.class);

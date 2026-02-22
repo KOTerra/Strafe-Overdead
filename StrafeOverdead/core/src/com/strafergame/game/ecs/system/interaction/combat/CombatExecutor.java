@@ -1,7 +1,6 @@
 package com.strafergame.game.ecs.system.interaction.combat;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
@@ -26,7 +25,7 @@ public class CombatExecutor {
         typeCmp.entitySubState = EntityState.AttackSubstate.melee;
 
 
-        itmCmp.holdPosition = ItemEntityFactory.inferPositionOnDirection(owner);
+        itmCmp.holdPosition = ItemEntityFactory.inferHoldPositionOnDirection(owner);
 
         float targetX = b2dCmp.body.getPosition().x + itmCmp.holdPosition.x;
         float targetY = b2dCmp.body.getPosition().y + itmCmp.holdPosition.y;
@@ -49,5 +48,8 @@ public class CombatExecutor {
                 }
             }
         }, statsCmp.meleeAttackDuration);
+    }
+
+    public static void executeRangedAttack(final Entity owner, final Entity meleeItem) {
     }
 }

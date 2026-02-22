@@ -8,6 +8,7 @@ import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.factories.ItemEntityFactory;
+import com.strafergame.game.ecs.states.ItemAttachmentType;
 
 /**
  * keeps item attached to owner when owner moving
@@ -18,10 +19,22 @@ public class AttachmentSystem extends IteratingSystem {
     }
 
     @Override
-    protected void processEntity(Entity entity, float deltaTime) {
-        ItemComponent itmCmp = ComponentMappers.item().get(entity);
-        PositionComponent posCmp = ComponentMappers.position().get(entity);
-        AttackComponent attckCmp = ComponentMappers.attack().get(entity);
+    protected void processEntity(Entity item, float deltaTime) {
+        ItemComponent itmCmp = ComponentMappers.item().get(item);
+
+        switch (itmCmp.attachmentType) {
+            case ATTACHED -> keepAttached(item);
+            case RANGE -> shoot(item);
+        }
+
+
+    }
+
+    private void keepAttached(Entity item) {
+        ItemComponent itmCmp = ComponentMappers.item().get(item);
+
+        PositionComponent posCmp = ComponentMappers.position().get(item);
+        AttackComponent attckCmp = ComponentMappers.attack().get(item);
         PositionComponent ownerPosCmp = ComponentMappers.position().get(itmCmp.owner);
         Box2dComponent ownerB2dCmp = ComponentMappers.box2d().get(itmCmp.owner);
 
@@ -34,5 +47,10 @@ public class AttachmentSystem extends IteratingSystem {
 
             attckCmp.body.setTransform(worldX, worldY, itmCmp.holdPosition.z);
         }
+
+    }
+
+    private void shoot(Entity item) {
+
     }
 }

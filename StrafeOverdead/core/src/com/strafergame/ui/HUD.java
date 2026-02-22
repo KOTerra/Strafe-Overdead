@@ -12,6 +12,8 @@ import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisProgressBar;
 import com.strafergame.Strafer;
+import com.strafergame.game.ecs.ComponentMappers;
+import com.strafergame.game.world.GameWorld;
 import com.strafergame.input.PlayerControl;
 
 public class HUD extends Table {
@@ -45,9 +47,10 @@ public class HUD extends Table {
     }
 
     private VisProgressBar makeHealthBar() {
-        VisProgressBar healthbar = new VisProgressBar(0, 200, 1, false);
+        float max = ComponentMappers.stats().get(GameWorld.player).maxHealth;
+        VisProgressBar healthbar = new VisProgressBar(0, max, .01f, false);
 
-        add(healthbar).expandX().width(healthbar.getMaxValue()).top().left();
+        add(healthbar).expandX().width(healthbar.getMaxValue() + 1).top().left();
 
         row();
         add(new Table()).fillY().expandY();

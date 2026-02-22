@@ -107,7 +107,7 @@ public class PlayerControlSystem extends IteratingSystem {
         final MovementComponent movCmp = ComponentMappers.movement().get(e);
 
         if (dashItem == null) {
-            dashItem = ItemEntityFactory.createItem(e, new Vector3(0, 0, 0), 3, 3);
+            dashItem = ItemEntityFactory.createMeleeItem(e, true, 3, 3);
             ComponentMappers.attack().get(dashItem).body.setActive(false);
         }
 
@@ -157,7 +157,7 @@ public class PlayerControlSystem extends IteratingSystem {
 
     private void attack(Entity e) {
         if (meleeItem == null) {
-            meleeItem = ItemEntityFactory.createItem(e, ItemEntityFactory.inferPositionOnDirection(e), 1f, 2);
+            meleeItem = ItemEntityFactory.createMeleeItem(e, true, 1, 2);
             ComponentMappers.attack().get(meleeItem).body.setActive(false);
         }
 
