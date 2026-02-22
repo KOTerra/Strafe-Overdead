@@ -13,6 +13,7 @@ public class KeyboardMapping {
     public static int DASH_KEY = makeKeyMapping("KEYBOARD_DASH", "L-Shift");
 
     public static int ATTACK_KEY = makeKeyMapping("KEYBOARD_ATTACK", "MOUSE_LEFT");
+    public static int SHOOT_KEY = makeKeyMapping("KEYBOARD_SHOOT", "MOUSE_RIGHT");
 
     public static int PAUSE_TRIGGER_KEY = makeKeyMapping("KEYBOARD_PAUSE_TRIGGER", "Escape");
     public static int MAP_TRIGGER_KEY = makeKeyMapping("KEYBOARD_MAP_TRIGGER", "Tab");
@@ -21,7 +22,7 @@ public class KeyboardMapping {
             "Up", "Up", "Down", "Down", "Left", "Right", "Left", "Right", "Space", "L-Shift");
 
     public static int[] TRIPLE_CLICK_SEQUENCE = makeSequenceMapping("KONAMI_CODE",
-            "MOUSE_LEFT","MOUSE_LEFT","MOUSE_LEFT");
+            "MOUSE_LEFT", "MOUSE_LEFT", "MOUSE_LEFT");
 
 
     private static int makeKeyMapping(String settingsKey, String defaultValue) {
@@ -37,8 +38,8 @@ public class KeyboardMapping {
         return result;
     }
 
-    private static int getFromName(String name){
-        return switch (name){
+    private static int getFromName(String name) {
+        return switch (name) {
             case "MOUSE_LEFT" -> Input.Buttons.LEFT;
             case "MOUSE_RIGHT" -> Input.Buttons.RIGHT;
             case "MOUSE_MIDDLE" -> Input.Buttons.MIDDLE;

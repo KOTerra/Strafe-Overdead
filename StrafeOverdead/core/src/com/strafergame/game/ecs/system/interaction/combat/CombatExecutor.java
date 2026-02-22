@@ -1,6 +1,7 @@
 package com.strafergame.game.ecs.system.interaction.combat;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
@@ -50,6 +51,28 @@ public class CombatExecutor {
         }, statsCmp.meleeAttackDuration);
     }
 
-    public static void executeRangedAttack(final Entity owner, final Entity meleeItem) {
+    public static void executeRangedAttack(final Entity owner, final Entity projectile) {
+        final EntityTypeComponent ownerTypeCmp = ComponentMappers.entityType().get(owner);
+        final StatsComponent ownerStatsCmp = ComponentMappers.stats().get(owner);
+        final Box2dComponent ownerB2dCmp = ComponentMappers.box2d().get(owner);
+        final ItemComponent itmCmp = ComponentMappers.item().get(projectile);
+        final AttackComponent rangedAttackCmp = ComponentMappers.attack().get(projectile);
+        final EntityEngine entityEngine = EntityEngine.getInstance();
+
+        ownerTypeCmp.entityState = EntityState.attack;
+        ownerTypeCmp.entitySubState = EntityState.AttackSubstate.shoot;
+
+        //get mouse angle (also update player direction from it)
+        //impulse on projectile, remove on impact(any body that s not the player) and apply instant damage or remove over certain max distance
+
+        rangedAttackCmp.body.applyForceToCenter(new Vector2(10, 10), true);//orsmth
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                ownerTypeCmp.entityState = EntityState.idle;
+                ownerTypeCmp.entitySubState = EntityState.NoneSubstate.none;
+            }
+        }, ownerStatsCmp.rangedAttackDuration);
     }
 }

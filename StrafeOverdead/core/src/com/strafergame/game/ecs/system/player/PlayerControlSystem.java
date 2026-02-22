@@ -3,7 +3,6 @@ package com.strafergame.game.ecs.system.player;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
@@ -32,7 +31,8 @@ public class PlayerControlSystem extends IteratingSystem {
 
     private boolean jumpTriggered = false;
     private boolean dashTriggered = false;
-    private boolean attackTriggered = false;
+    private boolean shootTriggered = false;
+    private boolean meleeTriggered = false;
 
     public PlayerControlSystem() {
         super(Family.all(PlayerComponent.class).get());
@@ -49,7 +49,8 @@ public class PlayerControlSystem extends IteratingSystem {
         move(entity);
         dash(entity);
         jump(entity);
-        attack(entity);
+        meleeAttack(entity);
+        shootAttack(entity);
     }
 
     private void move(Entity e) {
@@ -155,20 +156,37 @@ public class PlayerControlSystem extends IteratingSystem {
     }
 
 
-    private void attack(Entity e) {
+    private void meleeAttack(Entity e) {
+        if (ComponentMappers.entityType().get(e).equals(EntityState.attack)) {//already in an attack
+            return;
+        }
         if (meleeItem == null) {
             meleeItem = ItemEntityFactory.createMeleeItem(e, true, 1, 2);
             ComponentMappers.attack().get(meleeItem).body.setActive(false);
         }
 
-        if (PlayerControl.ATTACK && !attackTriggered) {
-            attackTriggered = true;
+        if (PlayerControl.ATTACK && !meleeTriggered) {
+            meleeTriggered = true;
 
             CombatExecutor.executeMeleeAttack(e, meleeItem);
         }
 
         if (!PlayerControl.ATTACK) {
-            attackTriggered = false;
+            meleeTriggered = false;
+        }
+    }
+
+    private void shootAttack(Entity e) {
+        if (ComponentMappers.entityType().get(e).equals(EntityState.attack)) {//already in an attack
+            return;
+        }
+        if (PlayerControl.SHOOT && !shootTriggered) {
+            Entity projectile = ItemEntityFactory.createProjectile(e);
+
+            CombatExecutor.executeRangedAttack(e, projectile);
+        }
+        if (!PlayerControl.SHOOT) {
+            shootTriggered = false;
         }
     }
 

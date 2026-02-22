@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public abstract class PlayerControl {
 
+
     public enum ActionType {
         MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, JUMP, DASH
     }
@@ -24,7 +25,7 @@ public abstract class PlayerControl {
     public static boolean DASH = false;
 
     public static boolean ATTACK = false;
-
+    public static boolean SHOOT = false;
 
 
     public static final int SEQUENCE_TIMEFRAME = 500;//ms

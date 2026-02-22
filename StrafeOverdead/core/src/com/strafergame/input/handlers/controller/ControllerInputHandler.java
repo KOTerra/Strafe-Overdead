@@ -31,20 +31,22 @@ public class ControllerInputHandler implements ControllerListener {
             keycode = KeyboardMapping.ATTACK_KEY;
         }
         if (buttonIndex == controller.getMapping().buttonY) {
+            PlayerControl.SHOOT = true;
+            keycode = KeyboardMapping.SHOOT_KEY;
         }
 
         //Dpad
         if (buttonIndex == controller.getMapping().buttonDpadUp) {
-            keycode= Input.Keys.UP;
+            keycode = Input.Keys.UP;
         }
         if (buttonIndex == controller.getMapping().buttonDpadDown) {
-            keycode=Input.Keys.DOWN;
+            keycode = Input.Keys.DOWN;
         }
         if (buttonIndex == controller.getMapping().buttonDpadLeft) {
-            keycode=Input.Keys.LEFT;
+            keycode = Input.Keys.LEFT;
         }
         if (buttonIndex == controller.getMapping().buttonDpadRight) {
-            keycode=Input.Keys.RIGHT;
+            keycode = Input.Keys.RIGHT;
         }
 
         if (keycode != -1) {
@@ -66,6 +68,7 @@ public class ControllerInputHandler implements ControllerListener {
             PlayerControl.ATTACK = false;
         }
         if (buttonIndex == controller.getMapping().buttonY) {
+            PlayerControl.SHOOT = false;
         }
 
         //Dpad

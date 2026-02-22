@@ -44,11 +44,11 @@ public class KeyboardInputProcessor implements InputProcessor {
         }
 
         //if (handled) {
-            PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
-       // }
+        PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
+        // }
 
-        if(keycode== Input.Keys.SHIFT_RIGHT){
-            Strafer.inDebug=!Strafer.inDebug;
+        if (keycode == Input.Keys.SHIFT_RIGHT) {
+            Strafer.inDebug = !Strafer.inDebug;
         }
 
         return handled;
@@ -100,6 +100,10 @@ public class KeyboardInputProcessor implements InputProcessor {
             PlayerControl.ATTACK = true;
             handled = true;
         }
+        if (button == Input.Buttons.RIGHT) {
+            PlayerControl.SHOOT = true;
+            handled = true;
+        }
         if (handled) {
             PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(button, System.currentTimeMillis()));
         }
@@ -113,7 +117,10 @@ public class KeyboardInputProcessor implements InputProcessor {
             PlayerControl.ATTACK = false;
             handled = true;
         }
-
+        if (button == Input.Buttons.RIGHT) {
+            PlayerControl.SHOOT = false;
+            handled = true;
+        }
         return handled;
     }
 
