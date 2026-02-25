@@ -20,4 +20,5 @@ public class StatsComponent implements Component {
 
     public float rangedAttackDuration = .3f;
     public float rangedAttackInstantDamage = 10;
+    public float rangedAttackDeletionTime = 2.f;
 }

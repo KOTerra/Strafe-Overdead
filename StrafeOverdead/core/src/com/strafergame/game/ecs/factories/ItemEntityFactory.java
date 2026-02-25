@@ -26,6 +26,7 @@ public abstract class ItemEntityFactory {
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
         item.add(posCmp);
 
+
         AttackComponent attckCmp = entityEngine.createComponent(AttackComponent.class);
         attckCmp.owner = owner;
 
@@ -52,7 +53,19 @@ public abstract class ItemEntityFactory {
     }
 
     public static Entity createProjectile(Entity owner) {
-        return createItem(owner, inferHoldPositionOnDirection(owner), .5f, .5f);
+        Entity projectile = createItem(owner, inferHoldPositionOnDirection(owner), .25f, .25f);
+
+        ItemComponent itmCmp = ComponentMappers.item().get(projectile);
+        AttackComponent attckCmp = ComponentMappers.attack().get(projectile);
+        StatsComponent ownerStats = ComponentMappers.stats().get(owner);
+
+        itmCmp.attachmentType = ItemAttachmentType.RANGE;
+
+        attckCmp.damagePerSecond = ownerStats.rangedAttackInstantDamage;
+        attckCmp.doesKnockback = false;
+
+
+        return projectile;
     }
 
     public static Vector3 inferHoldPositionOnDirection(Entity entity) {

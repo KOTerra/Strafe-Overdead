@@ -1,6 +1,7 @@
 package com.strafergame.game.ecs.system.interaction.combat;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.strafergame.game.ecs.ComponentMappers;
@@ -44,9 +45,6 @@ public class CombatExecutor {
                 typeCmp.entityState = EntityState.idle;
                 typeCmp.entitySubState = EntityState.NoneSubstate.none;
                 meleeAttackCmp.body.setActive(false);
-                if (entityEngine.getEntities().contains(meleeItem, true)) {
-                    entityEngine.removeEntity(meleeItem);
-                }
             }
         }, statsCmp.meleeAttackDuration);
     }
@@ -62,10 +60,31 @@ public class CombatExecutor {
         ownerTypeCmp.entityState = EntityState.attack;
         ownerTypeCmp.entitySubState = EntityState.AttackSubstate.shoot;
 
-        //get mouse angle (also update player direction from it)
-        //impulse on projectile, remove on impact(any body that s not the player) and apply instant damage or remove over certain max distance
+        itmCmp.holdPosition = ItemEntityFactory.inferHoldPositionOnDirection(owner);
+        float targetX = ownerB2dCmp.body.getPosition().x + itmCmp.holdPosition.x;
+        float targetY = ownerB2dCmp.body.getPosition().y + itmCmp.holdPosition.y;
 
-        rangedAttackCmp.body.applyForceToCenter(new Vector2(10, 10), true);//orsmth
+        rangedAttackCmp.body.setTransform(targetX, targetY, itmCmp.holdPosition.z);
+        rangedAttackCmp.body.setActive(true);
+        rangedAttackCmp.body.setAwake(true);
+
+        float speed = 15f; // m/s
+        Vector2 shotDir = new Vector2(itmCmp.holdPosition.x, itmCmp.holdPosition.y).nor(); //lock mouse in the center
+        // use mouse angle/rstick to determine aim dir
+        // change player direction based on aim
+        rangedAttackCmp.body.setLinearVelocity(shotDir.scl(speed));
+
+        entityEngine.addEntity(projectile);
+
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                if (entityEngine.getEntities().contains(projectile, true)) {
+                    entityEngine.removeEntity(projectile);
+                }
+            }
+        }, ownerStatsCmp.rangedAttackDeletionTime);
 
         Timer.schedule(new Timer.Task() {
             @Override

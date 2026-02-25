@@ -85,7 +85,7 @@ public abstract class Box2DFactory {
 
         PolygonShape sensorShape = new PolygonShape();
 
-        sensorShape.setAsBox(width / 2, height / 2, Vector2.Zero, 0);
+        sensorShape.setAsBox(width / 2, height / 2, new Vector2(0, 0), 0);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = sensorShape;

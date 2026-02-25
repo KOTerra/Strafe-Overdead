@@ -2,10 +2,14 @@ package com.strafergame.game.ecs;
 
 import box2dLight.RayHandler;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.strafergame.Strafer;
+import com.strafergame.game.ecs.component.AttackComponent;
+import com.strafergame.game.ecs.component.physics.Box2dComponent;
+import com.strafergame.game.ecs.listeners.Box2dEntitiesListener;
 import com.strafergame.game.ecs.system.AnimationSystem;
 import com.strafergame.game.ecs.system.CheckpointSystem;
 import com.strafergame.game.ecs.system.MovementSystem;
@@ -51,6 +55,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
     private final CameraSystem cameraSystem = new CameraSystem();
     private final HudSystem hudSystem = new HudSystem();
 
+    private Box2dEntitiesListener box2dEntitiesListener;
 
     public EntityEngine() {
         super();
@@ -62,6 +67,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
         if (!initialised || this.box2dWorld != box2dWorld) {
             this.box2dWorld = box2dWorld;
             this.rayHandler = rayHandler;
+
 
             removeAllSystems();
 //            renderingSystem.setRayHandler(rayHandler);
@@ -98,6 +104,8 @@ public class EntityEngine extends PooledEngine implements Disposable {
             addSystem(lightSystem);
 
 
+            box2dEntitiesListener = new Box2dEntitiesListener(box2dWorld.getWorld());
+            this.addEntityListener(Family.one(Box2dComponent.class, AttackComponent.class).get(), box2dEntitiesListener);
             initialised = true;
         }
     }

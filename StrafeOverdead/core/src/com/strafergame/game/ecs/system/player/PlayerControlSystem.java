@@ -157,17 +157,22 @@ public class PlayerControlSystem extends IteratingSystem {
 
 
     private void meleeAttack(Entity e) {
-        if (ComponentMappers.entityType().get(e).equals(EntityState.attack)) {//already in an attack
+        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
+
+        // already attacking
+        if (typeCmp.entityState.equals(EntityState.attack)) {
             return;
         }
+
         if (meleeItem == null) {
             meleeItem = ItemEntityFactory.createMeleeItem(e, true, 1, 2);
+            // add to engine once only
+            getEngine().addEntity(meleeItem);
             ComponentMappers.attack().get(meleeItem).body.setActive(false);
         }
 
         if (PlayerControl.ATTACK && !meleeTriggered) {
             meleeTriggered = true;
-
             CombatExecutor.executeMeleeAttack(e, meleeItem);
         }
 
@@ -177,7 +182,7 @@ public class PlayerControlSystem extends IteratingSystem {
     }
 
     private void shootAttack(Entity e) {
-        if (ComponentMappers.entityType().get(e).equals(EntityState.attack)) {//already in an attack
+        if (ComponentMappers.entityType().get(e).entityState.equals(EntityState.attack)) {//already in an attack
             return;
         }
         if (PlayerControl.SHOOT && !shootTriggered) {
