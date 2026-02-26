@@ -1,6 +1,7 @@
 package com.strafergame.input;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -8,9 +9,7 @@ import java.util.ArrayList;
 public abstract class PlayerControl {
 
 
-    public enum ActionType {
-        MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, JUMP, DASH
-    }
+    public static boolean USING_CONTROLLER = false;
 
     public static boolean MOVE_UP = false;
 
@@ -27,6 +26,7 @@ public abstract class PlayerControl {
     public static boolean ATTACK = false;
     public static boolean SHOOT = false;
 
+    public static Vector2 AIM_DIRECTION = new Vector2(0, 0);
 
     public static final int SEQUENCE_TIMEFRAME = 500;//ms
     public static final int DEFAULT_SEQUENCE_CAPACITY = 10;

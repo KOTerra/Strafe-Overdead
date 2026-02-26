@@ -3,6 +3,7 @@ package com.strafergame.input.handlers.desktop;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 import com.strafergame.Strafer;
 import com.strafergame.input.PlayerControl;
 import com.strafergame.settings.KeyboardMapping;
@@ -134,9 +135,23 @@ public class KeyboardInputProcessor implements InputProcessor {
         return false;
     }
 
+
+    private final Vector2 tempDir = new Vector2();
+
     @Override
     public boolean mouseMoved(int x, int y) {
-        return false;
+        float centerX = Gdx.graphics.getWidth() / 2f;
+        float centerY = Gdx.graphics.getHeight() / 2f;
+
+
+        tempDir.set(x - centerX, centerY - y);//if not working y-centery
+
+        if (!tempDir.isZero()) {
+            tempDir.nor();
+        }
+
+        PlayerControl.AIM_DIRECTION.set(tempDir);
+        return true;
     }
 
     @Override

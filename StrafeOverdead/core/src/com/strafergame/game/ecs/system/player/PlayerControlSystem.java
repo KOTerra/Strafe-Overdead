@@ -188,7 +188,7 @@ public class PlayerControlSystem extends IteratingSystem {
         if (PlayerControl.SHOOT && !shootTriggered) {
             Entity projectile = ItemEntityFactory.createProjectile(e);
 
-            CombatExecutor.executeRangedAttack(e, projectile);
+            CombatExecutor.executeRangedAttack(e, projectile, PlayerControl.AIM_DIRECTION);
         }
         if (!PlayerControl.SHOOT) {
             shootTriggered = false;
