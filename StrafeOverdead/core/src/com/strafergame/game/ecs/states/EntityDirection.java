@@ -1,5 +1,6 @@
 package com.strafergame.game.ecs.states;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -27,6 +28,13 @@ public enum EntityDirection {
             case d -> new Vector2(1, 0);
 
         };
+    }
+
+    public static EntityDirection fromVector2(Vector2 vector) {
+        if (Math.abs(vector.x) > Math.abs(vector.y)) {
+            return vector.x > 0 ? EntityDirection.d : EntityDirection.a;
+        }
+        return vector.y > 0 ? EntityDirection.w : EntityDirection.s;
     }
 
 }

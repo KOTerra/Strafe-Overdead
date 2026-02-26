@@ -204,12 +204,13 @@ public class PlayerControlSystem extends IteratingSystem {
                     if (tempDir.x != 0) {
                         tempDir.y = 0; //shoot on one axis if not aiming
                     }
-                 
+
                 }
             } else {
                 tempDir.set(PlayerControl.MOUSE_WORLD_POS.x - playerPos.x,
                         PlayerControl.MOUSE_WORLD_POS.y - playerPos.y).nor();
             }
+            ComponentMappers.position().get(e).direction = EntityDirection.fromVector2(tempDir); //for npc will target after looking
 
             CombatExecutor.executeRangedAttack(e, projectile, tempDir);
         }

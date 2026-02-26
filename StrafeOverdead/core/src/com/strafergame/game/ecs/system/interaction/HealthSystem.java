@@ -39,9 +39,7 @@ public class HealthSystem extends IteratingSystem {
             }
             typeCmp.entityState = EntityState.hit;
 
-            System.out.println("\n\n" + hlthCmp.hitPoints + " " + attckCmp.damagePerSecond * deltaTime);
             hlthCmp.hitPoints -= attckCmp.damagePerSecond * deltaTime;
-            System.out.println(hlthCmp.hitPoints);
 
             if (hlthCmp.hitPoints <= 0) {
                 typeCmp.entityState = EntityState.death;
