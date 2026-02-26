@@ -55,7 +55,7 @@ public class CombatExecutor {
         }, statsCmp.meleeAttackDuration);
     }
 
-    public static void executeRangedAttack(final Entity owner, final Entity projectile, Vector2 target) {
+    public static void executeRangedAttack(final Entity owner, final Entity projectile, Vector2 direction) {
         final EntityTypeComponent ownerTypeCmp = ComponentMappers.entityType().get(owner);
         final StatsComponent ownerStatsCmp = ComponentMappers.stats().get(owner);
         final Box2dComponent ownerB2dCmp = ComponentMappers.box2d().get(owner);
@@ -66,46 +66,16 @@ public class CombatExecutor {
         ownerTypeCmp.entityState = EntityState.attack;
         ownerTypeCmp.entitySubState = EntityState.AttackSubstate.shoot;
 
-
         Vector2 playerPos = ownerB2dCmp.body.getPosition();
-        Vector3 camPos = Strafer.worldCamera.position;
 
-        // ------------------------------------------------------------
-        // 2. Dynamic Distance Calculation
-        // ------------------------------------------------------------
-        // We use Gdx.input.getX()/getY() to find the actual mouse distance from screen center
-        float screenCenterX = Gdx.graphics.getWidth() / 2f;
-        float screenCenterY = Gdx.graphics.getHeight() / 2f;
+        float angle = MathUtils.atan2(direction.y, direction.x);
 
-        Vector3 centerWorld = new Vector3(screenCenterX, screenCenterY, 0);
-        Vector3 mouseWorld = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-
-        Strafer.worldCamera.unproject(centerWorld);
-        Strafer.worldCamera.unproject(mouseWorld);
-
-        // This is the actual world-distance from the camera center to the cursor
-        float actualWorldDistance = centerWorld.dst(mouseWorld);
-
-        // ------------------------------------------------------------
-        // 3. Create the Convergence Point
-        // ------------------------------------------------------------
-        // We project the target direction out from the CAMERA by the ACTUAL distance of the mouse.
-        // This ensures the projectile path intersects exactly where the cursor is visually.
-        float lookAtX = camPos.x + (target.x * actualWorldDistance);
-        float lookAtY = camPos.y + (target.y * actualWorldDistance);
-
-        // Calculate the direction from the PLAYER to that specific point.
-        Vector2 worldDirection = new Vector2(lookAtX - playerPos.x, lookAtY - playerPos.y).nor();
-        float angle = MathUtils.atan2(worldDirection.y, worldDirection.x);
-
-        // ------------------------------------------------------------
-        // 4. Spawn & Physics
-        // ------------------------------------------------------------
+        // Physics
         itmCmp.holdPosition = ItemEntityFactory.inferHoldPositionOnDirection(owner);
 
         float spawnOffset = 1.0f;
-        float spawnX = playerPos.x + worldDirection.x * spawnOffset;
-        float spawnY = playerPos.y + worldDirection.y * spawnOffset;
+        float spawnX = playerPos.x + direction.x * spawnOffset;
+        float spawnY = playerPos.y + direction.y * spawnOffset;
 
         rangedAttackCmp.body.setTransform(spawnX, spawnY, angle);
         rangedAttackCmp.body.setActive(true);
@@ -116,15 +86,15 @@ public class CombatExecutor {
 
         float desiredSpeed = 15f;
         float mass = rangedAttackCmp.body.getMass();
-        Vector2 impulse = new Vector2(worldDirection.x * desiredSpeed * mass, worldDirection.y * desiredSpeed * mass);
+        Vector2 impulse = new Vector2(
+                direction.x * desiredSpeed * mass,
+                direction.y * desiredSpeed * mass
+        );
 
         rangedAttackCmp.body.applyLinearImpulse(impulse, rangedAttackCmp.body.getWorldCenter(), true);
 
         entityEngine.addEntity(projectile);
 
-        // ------------------------------------------------------------
-        // 5. Timers (Cleanup and State Reset)
-        // ------------------------------------------------------------
         Timer.schedule(new Timer.Task() {
             @Override
             public void run() {

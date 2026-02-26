@@ -3,6 +3,7 @@ package com.strafergame.game.ecs.system.player;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
@@ -181,15 +182,38 @@ public class PlayerControlSystem extends IteratingSystem {
         }
     }
 
+
+    private final Vector2 tempDir = new Vector2();
+
     private void shootAttack(Entity e) {
-        if (ComponentMappers.entityType().get(e).entityState.equals(EntityState.attack)) {//already in an attack
+        if (ComponentMappers.entityType().get(e).entityState.equals(EntityState.attack)) {
             return;
         }
-        if (PlayerControl.SHOOT && !shootTriggered) {
-            Entity projectile = ItemEntityFactory.createProjectile(e);
 
-            CombatExecutor.executeRangedAttack(e, projectile, PlayerControl.AIM_DIRECTION);
+        if (PlayerControl.SHOOT && !shootTriggered) {
+            shootTriggered = true;
+            Entity projectile = ItemEntityFactory.createProjectile(e);
+            Vector2 playerPos = ComponentMappers.box2d().get(e).body.getPosition();
+
+            if (PlayerControl.USING_CONTROLLER) {
+                if (!PlayerControl.CONTROLLER_AIM_DIRECTION.isZero()) {
+                    tempDir.set(PlayerControl.CONTROLLER_AIM_DIRECTION).nor();
+                } else {
+
+                    tempDir.set(EntityDirection.toVector2(ComponentMappers.position().get(e).direction));
+                    if (tempDir.x != 0) {
+                        tempDir.y = 0; //shoot on one axis if not aiming
+                    }
+                 
+                }
+            } else {
+                tempDir.set(PlayerControl.MOUSE_WORLD_POS.x - playerPos.x,
+                        PlayerControl.MOUSE_WORLD_POS.y - playerPos.y).nor();
+            }
+
+            CombatExecutor.executeRangedAttack(e, projectile, tempDir);
         }
+
         if (!PlayerControl.SHOOT) {
             shootTriggered = false;
         }

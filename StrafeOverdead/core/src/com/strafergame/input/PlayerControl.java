@@ -26,7 +26,8 @@ public abstract class PlayerControl {
     public static boolean ATTACK = false;
     public static boolean SHOOT = false;
 
-    public static Vector2 AIM_DIRECTION = new Vector2(0, 0);
+    public static Vector2 MOUSE_WORLD_POS = new Vector2(0, 0);
+    public static Vector2 CONTROLLER_AIM_DIRECTION = new Vector2(0, 0);
 
     public static final int SEQUENCE_TIMEFRAME = 500;//ms
     public static final int DEFAULT_SEQUENCE_CAPACITY = 10;

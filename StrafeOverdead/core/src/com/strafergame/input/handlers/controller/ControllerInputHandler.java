@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerListener;
 import com.strafergame.input.PlayerControl;
-import com.strafergame.input.UIControl;
 import com.strafergame.settings.KeyboardMapping;
 
 public class ControllerInputHandler implements ControllerListener {
@@ -15,6 +14,7 @@ public class ControllerInputHandler implements ControllerListener {
 
     @Override
     public boolean buttonDown(Controller controller, int buttonIndex) {
+        PlayerControl.USING_CONTROLLER = true;
         int keycode = -1;
 
         ///ABXY
@@ -30,7 +30,7 @@ public class ControllerInputHandler implements ControllerListener {
             PlayerControl.ATTACK = true;
             keycode = KeyboardMapping.ATTACK_KEY;
         }
-        if (buttonIndex == controller.getMapping().buttonY) {
+        if (buttonIndex == controller.getMapping().buttonR1) {
             PlayerControl.SHOOT = true;
             keycode = KeyboardMapping.SHOOT_KEY;
         }
@@ -67,7 +67,7 @@ public class ControllerInputHandler implements ControllerListener {
         if (buttonIndex == controller.getMapping().buttonX) {
             PlayerControl.ATTACK = false;
         }
-        if (buttonIndex == controller.getMapping().buttonY) {
+        if (buttonIndex == controller.getMapping().buttonR1) {
             PlayerControl.SHOOT = false;
         }
 
@@ -86,6 +86,10 @@ public class ControllerInputHandler implements ControllerListener {
 
     @Override
     public boolean axisMoved(Controller controller, int axisIndex, float value) {
+        if (Math.abs(value) > DEADZONE) {
+            PlayerControl.USING_CONTROLLER = true;
+        }
+
         int keycode = -1;
         switch (axisIndex) {
             case 0: {
@@ -124,6 +128,22 @@ public class ControllerInputHandler implements ControllerListener {
                 }
                 break;
             }
+            // RIGHT STICK AIMING
+            case 2: {
+            }
+            case 3: {
+                float rx = controller.getAxis(2);
+                float ry = -controller.getAxis(3); // inverted Y
+
+                float magnitude = (float) Math.sqrt(rx * rx + ry * ry);
+
+                if (magnitude > DEADZONE) {
+                    PlayerControl.CONTROLLER_AIM_DIRECTION.set(rx, ry);
+                } else {
+                    PlayerControl.CONTROLLER_AIM_DIRECTION.set(0, 0);
+                }
+                break;
+            }
         }
         if (keycode != -1) {
             PlayerControl.actionSequence.addFirst(new PlayerControl.ActionSequenceElement(keycode, System.currentTimeMillis()));
@@ -133,11 +153,12 @@ public class ControllerInputHandler implements ControllerListener {
 
     @Override
     public void connected(Controller controller) {
-
+        PlayerControl.USING_CONTROLLER = true;
     }
 
     @Override
     public void disconnected(Controller controller) {
+        PlayerControl.USING_CONTROLLER = false;
     }
 
     public static ControllerInputHandler getInstance() {

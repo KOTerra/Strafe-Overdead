@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.strafergame.Strafer;
 import com.strafergame.input.PlayerControl;
 import com.strafergame.settings.KeyboardMapping;
@@ -18,6 +19,7 @@ public class KeyboardInputProcessor implements InputProcessor {
      */
     @Override
     public boolean keyDown(int keycode) {
+        PlayerControl.USING_CONTROLLER = false;
         boolean handled = false;
         if (keycode == KeyboardMapping.MOVE_UP_KEY) {
             PlayerControl.MOVE_UP = true;
@@ -96,6 +98,7 @@ public class KeyboardInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
+        PlayerControl.USING_CONTROLLER = false;
         boolean handled = false;
         if (button == Input.Buttons.LEFT) {
             PlayerControl.ATTACK = true;
@@ -132,25 +135,17 @@ public class KeyboardInputProcessor implements InputProcessor {
 
     @Override
     public boolean touchDragged(int x, int y, int pointer) {
-        return false;
+        return mouseMoved(x, y);
     }
 
 
-    private final Vector2 tempDir = new Vector2();
+    private final Vector3 tempMouse3d = new Vector3();
 
     @Override
-    public boolean mouseMoved(int x, int y) {
-        float centerX = Gdx.graphics.getWidth() / 2f;
-        float centerY = Gdx.graphics.getHeight() / 2f;
-
-
-        tempDir.set(x - centerX, centerY - y);//if not working y-centery
-
-        if (!tempDir.isZero()) {
-            tempDir.nor();
-        }
-
-        PlayerControl.AIM_DIRECTION.set(tempDir);
+    public boolean mouseMoved(int screenX, int screenY) {
+        PlayerControl.USING_CONTROLLER = false;
+        Strafer.worldCamera.unproject(tempMouse3d.set(screenX, screenY, 0));
+        PlayerControl.MOUSE_WORLD_POS.set(tempMouse3d.x, tempMouse3d.y);
         return true;
     }
 

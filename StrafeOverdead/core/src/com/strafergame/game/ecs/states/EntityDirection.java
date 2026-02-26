@@ -1,5 +1,7 @@
 package com.strafergame.game.ecs.states;
 
+import com.badlogic.gdx.math.Vector2;
+
 /**
  * the overall direction w,a,s or d
  */
@@ -16,4 +18,15 @@ public enum EntityDirection {
             default -> EntityDirection.w;
         };
     }
+
+    public static Vector2 toVector2(EntityDirection direction) {
+        return switch (direction) {
+            case w -> new Vector2(0, 1);
+            case s -> new Vector2(0, -1);
+            case a -> new Vector2(-1, 0);
+            case d -> new Vector2(1, 0);
+
+        };
+    }
+
 }
