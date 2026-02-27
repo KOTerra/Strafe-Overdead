@@ -129,8 +129,7 @@ public class ControllerInputHandler implements ControllerListener {
                 break;
             }
             // RIGHT STICK AIMING
-            case 2: {
-            }
+            case 2:
             case 3: {
                 float rx = controller.getAxis(2);
                 float ry = -controller.getAxis(3); // inverted Y

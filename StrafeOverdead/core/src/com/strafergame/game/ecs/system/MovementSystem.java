@@ -81,8 +81,16 @@ public class MovementSystem extends IteratingSystem {
                             break;
                         }
                         case attack: {
-                            // Stop movement or allow a small slide during attack
-                            b2dCmp.body.setLinearVelocity(0, 0);
+
+                            Vector2 currentVel = b2dCmp.body.getLinearVelocity();
+                            float decayFactor = 0.92f; // Closer to 1.0 = more slide, closer to 0 = more friction
+                            currentVel.scl(decayFactor);
+
+                            //  slow enough snap to zero
+                            if (currentVel.len() < 0.2f) {
+                                currentVel.set(0, 0);
+                            }
+                            b2dCmp.body.setLinearVelocity(currentVel);
                             break;
                         }
                         case dash: {

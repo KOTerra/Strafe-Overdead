@@ -32,6 +32,10 @@ public class CombatExecutor {
         typeCmp.entityState = EntityState.attack;
         typeCmp.entitySubState = EntityState.AttackSubstate.melee;
 
+        //  small forward impulse based on direction of the player
+        Vector2 faceDir = com.strafergame.game.ecs.states.EntityDirection.toVector2(ComponentMappers.position().get(owner).direction);
+        float lungeStrength = 5f;
+        b2dCmp.body.applyLinearImpulse(faceDir.scl(lungeStrength), b2dCmp.body.getWorldCenter(), true);
 
         itmCmp.holdPosition = ItemEntityFactory.inferHoldPositionOnDirection(owner);
 
