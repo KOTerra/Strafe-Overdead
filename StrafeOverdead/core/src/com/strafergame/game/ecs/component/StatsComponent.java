@@ -10,8 +10,8 @@ public class StatsComponent implements Component {
     public float maxHealth = 200;
     public float baseSpeed = 12;
 
-    public float dashForce = 10f;
-    public float dashDuration = .5f;
+    public float dashForce = 40f;
+    public float dashDuration = .4f;
     public float dashCooldownDuration = .25f;
 
     public float meleeAttackDuration = .8f; //16frames*0.05

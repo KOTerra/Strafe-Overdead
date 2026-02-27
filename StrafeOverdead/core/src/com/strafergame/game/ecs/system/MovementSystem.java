@@ -81,21 +81,19 @@ public class MovementSystem extends IteratingSystem {
                             break;
                         }
                         case attack: {
-
+                            // Slide logic we implemented earlier
                             Vector2 currentVel = b2dCmp.body.getLinearVelocity();
-                            float decayFactor = 0.92f; // Closer to 1.0 = more slide, closer to 0 = more friction
-                            currentVel.scl(decayFactor);
-
-                            //  slow enough snap to zero
-                            if (currentVel.len() < 0.2f) {
-                                currentVel.set(0, 0);
-                            }
+                            currentVel.scl(0.92f);
+                            if (currentVel.len() < 0.2f) currentVel.set(0, 0);
                             b2dCmp.body.setLinearVelocity(currentVel);
                             break;
                         }
                         case dash: {
-                            dashBodyOnce(b2dCmp.body, new Vector2(movCmp.dir.x, movCmp.dir.y), movCmp, typeCmp,
-                                    movCmp.isDashCooldown, movCmp.dashForce);
+
+                            //Apply slight damping so the dash doesn't
+                            Vector2 dashVel = b2dCmp.body.getLinearVelocity();
+                            dashVel.scl(0.98f);
+                            b2dCmp.body.setLinearVelocity(dashVel);
                             break;
                         }
                         case hit: {
@@ -111,7 +109,7 @@ public class MovementSystem extends IteratingSystem {
                             if (Math.abs(dif) >= 1) {
                                 ComponentMappers.elevation().get(e).prevIncrementalY = b2dCmp.body.getPosition().y;
                                 ComponentMappers.elevation().get(e).elevation -= 1;
-                                ComponentMappers.position().get(e).elevation -= 1;                //decrease from meter to meter
+                                ComponentMappers.position().get(e).elevation -= 1;
                             }
                             break;
                         }
@@ -148,9 +146,4 @@ public class MovementSystem extends IteratingSystem {
     protected void processEntity(Entity entity, float deltaTime) {
     }
 
-    public void dashBodyOnce(final Body body, Vector2 direction, MovementComponent movCmp,
-                             final EntityTypeComponent ettCmp, boolean dashCooldown, float dashForce) {
-        Vector2 impulse = direction.cpy().scl(dashForce);
-        body.applyLinearImpulse(impulse, body.getWorldCenter(), true);
-    }
 }

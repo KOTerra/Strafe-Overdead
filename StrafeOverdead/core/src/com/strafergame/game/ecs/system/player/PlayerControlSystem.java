@@ -78,6 +78,11 @@ public class PlayerControlSystem extends IteratingSystem {
             posCmp.direction = EntityDirection.d;
         }
 
+        // Normalize  so diagonal walking isn't faster
+        if (!movCmp.dir.isZero()) {
+            movCmp.dir.nor();
+        }
+
         if (typeCmp.entityState.equals(EntityState.jump) || typeCmp.entityState.equals(EntityState.attack) || typeCmp.entityState.equals(EntityState.dash) || typeCmp.entityState.equals(EntityState.hit) || typeCmp.entityState.equals(EntityState.death)) {
             return;
         }
@@ -108,54 +113,59 @@ public class PlayerControlSystem extends IteratingSystem {
     private void dash(Entity e) {
         final MovementComponent movCmp = ComponentMappers.movement().get(e);
 
-        if (dashItem == null) {
-            dashItem = ItemEntityFactory.createMeleeItem(e, true, 3, 3);
-            ComponentMappers.attack().get(dashItem).body.setActive(false);
-        }
+        if (PlayerControl.DASH) {
+            if (!dashTriggered && !movCmp.isDashCooldown) {
+                final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
+                final StatsComponent statsCmp = ComponentMappers.stats().get(e);
+                final Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
 
-        if (PlayerControl.DASH && movCmp.isMoving() && !movCmp.isDashCooldown && !dashTriggered) {
-            dashTriggered = true;
-            movCmp.isDashCooldown = true;
+                Vector2 dashDir = new Vector2(movCmp.dir);
 
-            final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
-            final StatsComponent statsCmp = ComponentMappers.stats().get(e);
-            final Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
-            final EntityEngine entityEngine = (EntityEngine) this.getEngine();
+                // Shift was hit before WASD, movCmp.dir is (0,0) Catch here
+                if (dashDir.isZero()) {
+                    if (PlayerControl.MOVE_UP) dashDir.y += 1;
+                    if (PlayerControl.MOVE_DOWN) dashDir.y -= 1;
+                    if (PlayerControl.MOVE_LEFT) dashDir.x -= 1;
+                    if (PlayerControl.MOVE_RIGHT) dashDir.x += 1;
 
-            typeCmp.entityState = EntityState.dash;
-
-            final AttackComponent dashAttackCmp = ComponentMappers.attack().get(dashItem);
-            dashAttackCmp.body.setTransform(b2dCmp.body.getPosition(), 0);
-            dashAttackCmp.body.setActive(true);
-
-            if (!entityEngine.getEntities().contains(dashItem, true)) {
-                entityEngine.addEntity(dashItem);
-            }
-
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    typeCmp.entityState = EntityState.idle;
-                    dashAttackCmp.body.setActive(false);
-                    if (entityEngine.getEntities().contains(dashItem, true)) {
-                        entityEngine.removeEntity(dashItem);
+                    // Normalize so that diagonal dashes aren't faster
+                    if (!dashDir.isZero()) {
+                        dashDir.nor();
                     }
                 }
-            }, movCmp.dashDuration);
 
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    movCmp.isDashCooldown = false;
+                if (!dashDir.isZero()) {
+                    dashTriggered = true;
+                    movCmp.isDashCooldown = true;
+                    typeCmp.entityState = EntityState.dash;
+
+                    Vector2 dashImpulse = dashDir.scl(movCmp.dashForce);
+
+                    // reset velocity so walking speed isn't added
+                    b2dCmp.body.setLinearVelocity(0, 0);
+                    b2dCmp.body.applyLinearImpulse(dashImpulse, b2dCmp.body.getWorldCenter(), true);
+
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            if (typeCmp.entityState.equals(EntityState.dash)) {
+                                typeCmp.entityState = EntityState.idle;
+                            }
+                        }
+                    }, movCmp.dashDuration);
+
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            movCmp.isDashCooldown = false;
+                        }
+                    }, statsCmp.dashCooldownDuration);
                 }
-            }, statsCmp.dashCooldownDuration);
-        }
-
-        if (!PlayerControl.DASH) {
+            }
+        } else {
             dashTriggered = false;
         }
     }
-
 
     private void meleeAttack(Entity e) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
