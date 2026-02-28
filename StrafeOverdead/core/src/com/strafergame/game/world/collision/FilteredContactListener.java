@@ -269,7 +269,6 @@ public class FilteredContactListener implements ContactListener {
         } else if ((catB & HURTBOX_CATEGORY) != 0 && (catA & attackBits) != 0) {
             handleHit(fixtureB, fixtureA); // B  victim, A  weapon
         }
-
     }
 
     private void handleHit(Fixture hurtbox, Fixture hitbox) {
@@ -307,8 +306,10 @@ public class FilteredContactListener implements ContactListener {
 
         boolean isAProjectile = (catA & PROJECTILE_HITBOX_CATEGORY) != 0;
         boolean isBProjectile = (catB & PROJECTILE_HITBOX_CATEGORY) != 0;
-        boolean isAWall = (catA & ALL_LIGHT_BITS) != 0;
-        boolean isBWall = (catB & ALL_LIGHT_BITS) != 0;
+
+        // wall hit if  not  a solid body
+        boolean isAWall = (catA & ALL_LIGHT_BITS) != 0 && (catA & SOLID_BODY_CATEGORY) == 0;
+        boolean isBWall = (catB & ALL_LIGHT_BITS) != 0 && (catB & SOLID_BODY_CATEGORY) == 0;
 
         if (isAProjectile && isBWall) {
             handleProjectileWallHit(fixtureA, fixtureB);
@@ -329,6 +330,7 @@ public class FilteredContactListener implements ContactListener {
             }
 
             // It's a real wall (or at least not the owner), so destroy the projectile
+            //TODO check for elevation of wall to decide if contact
             attk.contactMade = true;
         }
     }

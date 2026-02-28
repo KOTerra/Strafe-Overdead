@@ -12,7 +12,6 @@ public abstract class Box2DFactory {
     public static Body createBody(Box2dComponent b2dCmp, World world, float width, float height, float xOffset,
                                   float yOffset, Vector2 pos, BodyDef.BodyType type) {
         Body body;
-
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set((pos.x + width / 2) + xOffset, (pos.y + height / 2) + yOffset);
         bodyDef.angle = 0;
@@ -25,6 +24,7 @@ public abstract class Box2DFactory {
         circleShape.setRadius(width / 2);
         fixtureDef.shape = circleShape;
         fixtureDef.restitution = 0;
+
         fixtureDef.filter.categoryBits = FilteredContactListener.SOLID_BODY_CATEGORY;
 
         Fixture footprint = body.createFixture(fixtureDef);

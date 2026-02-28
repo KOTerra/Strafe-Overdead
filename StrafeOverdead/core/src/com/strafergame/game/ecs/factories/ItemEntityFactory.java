@@ -63,16 +63,19 @@ public abstract class ItemEntityFactory {
         attckCmp.damagePerSecond = ownerStats.rangedAttackInstantDamage;
         attckCmp.doesKnockback = false;
 
-
         Filter filter = attckCmp.hitbox.getFilterData();
         filter.categoryBits = FilteredContactListener.PROJECTILE_HITBOX_CATEGORY;
-        short elevationWallBit = FilteredContactListener.getWallCategory(ownerElev.elevation);
-        filter.maskBits = (short) (FilteredContactListener.HURTBOX_CATEGORY | elevationWallBit);
-        attckCmp.hitbox.setFilterData(filter);
 
+        short elevationWallBit = FilteredContactListener.getWallCategory(ownerElev.elevation);
+
+        // Mask excludes SOLID_BODY_CATEGORY, only interacts with Hurtboxes and Wall bits
+        filter.maskBits = (short) (FilteredContactListener.HURTBOX_CATEGORY | elevationWallBit);
+
+        attckCmp.hitbox.setFilterData(filter);
 
         return projectile;
     }
+
     public static Vector3 inferHoldPositionOnDirection(Entity entity) {
         PositionComponent posCmp = ComponentMappers.position().get(entity);
         SpriteComponent spriteCmp = ComponentMappers.sprite().get(entity);
