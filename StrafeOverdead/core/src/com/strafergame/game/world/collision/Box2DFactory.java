@@ -1,11 +1,7 @@
 package com.strafergame.game.world.collision;
 
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.PolygonMapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
 import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.component.AttackComponent;
@@ -29,6 +25,7 @@ public abstract class Box2DFactory {
         circleShape.setRadius(width / 2);
         fixtureDef.shape = circleShape;
         fixtureDef.restitution = 0;
+        fixtureDef.filter.categoryBits = FilteredContactListener.SOLID_BODY_CATEGORY;
 
         Fixture footprint = body.createFixture(fixtureDef);
         b2dCmp.footprint = footprint;
@@ -63,7 +60,8 @@ public abstract class Box2DFactory {
         fixtureDef.shape = sensorShape;
         fixtureDef.isSensor = true; // Set the fixture as a sensor
         fixtureDef.filter.categoryBits = FilteredContactListener.HURTBOX_CATEGORY;// hurtbox
-        fixtureDef.filter.maskBits = FilteredContactListener.HITBOX_CATEGORY;// hitbox
+
+        fixtureDef.filter.maskBits = (short) (FilteredContactListener.DPS_HITBOX_CATEGORY | FilteredContactListener.PROJECTILE_HITBOX_CATEGORY);//hitbox
 
         // Attach the fixture to the existing body
         b2dCmp.hurtbox = b2dCmp.body.createFixture(fixtureDef);
@@ -90,7 +88,7 @@ public abstract class Box2DFactory {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = sensorShape;
         fixtureDef.isSensor = true;
-        fixtureDef.filter.categoryBits = FilteredContactListener.HITBOX_CATEGORY;
+        fixtureDef.filter.categoryBits = FilteredContactListener.DPS_HITBOX_CATEGORY;
         fixtureDef.filter.maskBits = FilteredContactListener.HURTBOX_CATEGORY;
 
         hitCmp.body = body;

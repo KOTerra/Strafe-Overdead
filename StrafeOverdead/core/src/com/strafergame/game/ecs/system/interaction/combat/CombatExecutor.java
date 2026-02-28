@@ -1,14 +1,9 @@
 package com.strafergame.game.ecs.system.interaction.combat;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Timer;
-import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.AttackComponent;
@@ -17,8 +12,8 @@ import com.strafergame.game.ecs.component.ItemComponent;
 import com.strafergame.game.ecs.component.StatsComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.factories.ItemEntityFactory;
+import com.strafergame.game.ecs.states.EntityDirection;
 import com.strafergame.game.ecs.states.EntityState;
-import com.strafergame.input.PlayerControl;
 
 public class CombatExecutor {
     public static void executeMeleeAttack(final Entity owner, final Entity meleeItem) {
@@ -33,7 +28,7 @@ public class CombatExecutor {
         typeCmp.entitySubState = EntityState.AttackSubstate.melee;
 
         //  small forward impulse based on direction of the player
-        Vector2 faceDir = com.strafergame.game.ecs.states.EntityDirection.toVector2(ComponentMappers.position().get(owner).direction);
+        Vector2 faceDir = EntityDirection.toVector2(ComponentMappers.position().get(owner).direction);
         float lungeStrength = 5f;
         b2dCmp.body.applyLinearImpulse(faceDir.scl(lungeStrength), b2dCmp.body.getWorldCenter(), true);
 

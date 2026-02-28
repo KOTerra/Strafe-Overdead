@@ -51,6 +51,11 @@ public class AttachmentSystem extends IteratingSystem {
     }
 
     private void shoot(Entity item) {
+        AttackComponent attckCmp = ComponentMappers.attack().get(item);
 
+        if (attckCmp.contactMade) {
+            getEngine().removeEntity(item);
+            //TODO add explosion, smoke, effect etc at contact position
+        }
     }
 }

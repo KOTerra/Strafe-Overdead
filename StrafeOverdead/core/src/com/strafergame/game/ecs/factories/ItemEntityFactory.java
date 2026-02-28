@@ -3,15 +3,14 @@ package com.strafergame.game.ecs.factories;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
-import com.strafergame.game.ecs.component.AttackComponent;
-import com.strafergame.game.ecs.component.ItemComponent;
-import com.strafergame.game.ecs.component.SpriteComponent;
-import com.strafergame.game.ecs.component.StatsComponent;
+import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.states.ItemAttachmentType;
 import com.strafergame.game.world.collision.Box2DFactory;
+import com.strafergame.game.world.collision.FilteredContactListener;
 
 public abstract class ItemEntityFactory {
     static EntityEngine entityEngine = EntityEngine.getInstance();
@@ -58,16 +57,22 @@ public abstract class ItemEntityFactory {
         ItemComponent itmCmp = ComponentMappers.item().get(projectile);
         AttackComponent attckCmp = ComponentMappers.attack().get(projectile);
         StatsComponent ownerStats = ComponentMappers.stats().get(owner);
+        ElevationComponent ownerElev = ComponentMappers.elevation().get(owner);
 
         itmCmp.attachmentType = ItemAttachmentType.RANGE;
-
         attckCmp.damagePerSecond = ownerStats.rangedAttackInstantDamage;
         attckCmp.doesKnockback = false;
 
 
+        Filter filter = attckCmp.hitbox.getFilterData();
+        filter.categoryBits = FilteredContactListener.PROJECTILE_HITBOX_CATEGORY;
+        short elevationWallBit = FilteredContactListener.getWallCategory(ownerElev.elevation);
+        filter.maskBits = (short) (FilteredContactListener.HURTBOX_CATEGORY | elevationWallBit);
+        attckCmp.hitbox.setFilterData(filter);
+
+
         return projectile;
     }
-
     public static Vector3 inferHoldPositionOnDirection(Entity entity) {
         PositionComponent posCmp = ComponentMappers.position().get(entity);
         SpriteComponent spriteCmp = ComponentMappers.sprite().get(entity);

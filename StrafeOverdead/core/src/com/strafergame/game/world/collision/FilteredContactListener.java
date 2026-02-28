@@ -3,6 +3,7 @@ package com.strafergame.game.world.collision;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.*;
 import com.strafergame.game.ecs.ComponentMappers;
+import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.ComponentDataUtils;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
@@ -18,7 +19,7 @@ import com.strafergame.game.ecs.system.interaction.ProximityContact;
 public class FilteredContactListener implements ContactListener {
 
     public static final short HURTBOX_CATEGORY = 0x0001;                  // 1
-    public static final short HITBOX_CATEGORY = 0x0002;                   // 2
+    public static final short DPS_HITBOX_CATEGORY = 0x0002;                   // 2
     /**
      * collision filter for a player's own sensor of proximity
      */
@@ -37,6 +38,13 @@ public class FilteredContactListener implements ContactListener {
      * filter for an elevation sensor
      */
     public static final short FOOTPRINT_DETECTOR_CATEGORY = 0x0020;        // 32
+
+    /**
+     * filter for projectiles
+     */
+    public static final short PROJECTILE_HITBOX_CATEGORY = 0x0040;                // 64
+
+    public static final short SOLID_BODY_CATEGORY = 0x0080; // 128
 
     // --- LIGHTING BITS (Reserved Bits 8-15) ---
     public static final short LIGHT_BIT_OFFSET = 8;
@@ -59,7 +67,7 @@ public class FilteredContactListener implements ContactListener {
             if (!fixture.isSensor()) {
                 Filter filter = fixture.getFilterData();
                 filter.categoryBits &= ~ALL_LIGHT_BITS; // Clear old elevation bits
-                filter.categoryBits |= shadowBit;       // Add current elevation bit
+                filter.categoryBits |= shadowBit;       // Add current elevation bit //TODO also use for shooting on different elevations
                 fixture.setFilterData(filter);
             }
         }
@@ -73,6 +81,7 @@ public class FilteredContactListener implements ContactListener {
         beginFootprintContact(contact);
         beginProximityContact(contact);
         beginAttackContact(contact);
+        beginProjectileWorldContact(contact);
     }
 
     @Override
@@ -249,35 +258,95 @@ public class FilteredContactListener implements ContactListener {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        boolean isFixtureAHurtbox = (fixtureA.getFilterData().categoryBits & HURTBOX_CATEGORY) != 0;
-        boolean isFixtureAHitbox = (fixtureA.getFilterData().categoryBits & HITBOX_CATEGORY) != 0;
-        boolean isFixtureBHurtbox = (fixtureB.getFilterData().categoryBits & HURTBOX_CATEGORY) != 0;
-        boolean isFixtureBHitbox = (fixtureB.getFilterData().categoryBits & HITBOX_CATEGORY) != 0;
+        short catA = fixtureA.getFilterData().categoryBits;
+        short catB = fixtureB.getFilterData().categoryBits;
 
-        if (isFixtureAHurtbox && isFixtureBHitbox) {
-            // Don't overwrite if the wall is jumpable
-            if (!"jumpable".equals(fixtureA.getUserData())) {
-                fixtureA.setUserData(new AttackContact(fixtureA, fixtureB));
-            }
+        // Melee/aoe Hitbox or Projectile
+        short attackBits = (short) (DPS_HITBOX_CATEGORY | PROJECTILE_HITBOX_CATEGORY);
+
+        if ((catA & HURTBOX_CATEGORY) != 0 && (catB & attackBits) != 0) {
+            handleHit(fixtureA, fixtureB); // A victim, B  weapon
+        } else if ((catB & HURTBOX_CATEGORY) != 0 && (catA & attackBits) != 0) {
+            handleHit(fixtureB, fixtureA); // B  victim, A  weapon
         }
-        if (isFixtureAHitbox && isFixtureBHurtbox) {
-            if (!"jumpable".equals(fixtureB.getUserData())) {
-                fixtureB.setUserData(new AttackContact(fixtureB, fixtureA));
+
+    }
+
+    private void handleHit(Fixture hurtbox, Fixture hitbox) {
+        // the fixture hit is actually a HURTBOX
+        if ((hurtbox.getFilterData().categoryBits & HURTBOX_CATEGORY) == 0) {
+            return;
+        }
+
+        if (!"jumpable".equals(hurtbox.getUserData())) {
+            Entity victim = ComponentDataUtils.getEntityFrom(hurtbox);
+            Object data = hitbox.getUserData();
+
+            if (data instanceof AttackComponent attk) {
+                //don t hurt the owner
+                if (victim != null && victim.equals(attk.owner)) {
+                    return;
+                }
+
+                hurtbox.setUserData(new AttackContact(hurtbox, hitbox));
+
+                // Mark for removal after hitting the victim
+                if ((hitbox.getFilterData().categoryBits & PROJECTILE_HITBOX_CATEGORY) != 0) {
+                    attk.contactMade = true;
+                }
             }
         }
     }
+
+    private void beginProjectileWorldContact(Contact contact) {
+        Fixture fixtureA = contact.getFixtureA();
+        Fixture fixtureB = contact.getFixtureB();
+
+        short catA = fixtureA.getFilterData().categoryBits;
+        short catB = fixtureB.getFilterData().categoryBits;
+
+        boolean isAProjectile = (catA & PROJECTILE_HITBOX_CATEGORY) != 0;
+        boolean isBProjectile = (catB & PROJECTILE_HITBOX_CATEGORY) != 0;
+        boolean isAWall = (catA & ALL_LIGHT_BITS) != 0;
+        boolean isBWall = (catB & ALL_LIGHT_BITS) != 0;
+
+        if (isAProjectile && isBWall) {
+            handleProjectileWallHit(fixtureA, fixtureB);
+        }
+        if (isBProjectile && isAWall) {
+            handleProjectileWallHit(fixtureB, fixtureA);
+        }
+    }
+
+    private void handleProjectileWallHit(Fixture projectile, Fixture wall) {
+        Object data = projectile.getUserData();
+        if (data instanceof AttackComponent attk) {
+            Entity wallEntity = ComponentDataUtils.getEntityFrom(wall);
+
+            //  actually the owner s  body, ignore
+            if (wallEntity != null && wallEntity.equals(attk.owner)) {
+                return;
+            }
+
+            // It's a real wall (or at least not the owner), so destroy the projectile
+            attk.contactMade = true;
+        }
+    }
+
 
     private void endAttackContact(Contact contact) {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
 
-        if ((fixtureA.getFilterData().categoryBits & HURTBOX_CATEGORY) != 0 && (fixtureB.getFilterData().categoryBits & HITBOX_CATEGORY) != 0) {
+        short hitboxBits = (short) (DPS_HITBOX_CATEGORY | PROJECTILE_HITBOX_CATEGORY);
+
+        if ((fixtureA.getFilterData().categoryBits & HURTBOX_CATEGORY) != 0 && (fixtureB.getFilterData().categoryBits & hitboxBits) != 0) {
             // Only set to null if we actually set it to AttackContact previously
             if (fixtureA.getUserData() instanceof AttackContact) {
                 fixtureA.setUserData(null);
             }
         }
-        if ((fixtureB.getFilterData().categoryBits & HURTBOX_CATEGORY) != 0 && (fixtureA.getFilterData().categoryBits & HITBOX_CATEGORY) != 0) {
+        if ((fixtureB.getFilterData().categoryBits & HURTBOX_CATEGORY) != 0 && (fixtureA.getFilterData().categoryBits & hitboxBits) != 0) {
             if (fixtureB.getUserData() instanceof AttackContact) {
                 fixtureB.setUserData(null);
             }

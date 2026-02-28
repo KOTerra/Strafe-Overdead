@@ -10,21 +10,22 @@ import com.strafergame.game.ecs.system.interaction.combat.AttackType;
 
 public class AttackComponent implements Component, Poolable {
 
-	public Body body;
-	public Fixture hitbox;
-	public Entity owner;
-	public float damagePerSecond = 0;
-	public AttackType attackType;
-	public AttackRecoverType attackRecoverType = AttackRecoverType.none;
-	public boolean doesKnockback = false;
-	public float knockbackMagnitude = 0;
+    public Body body;
+    public Fixture hitbox;
+    public Entity owner;
+    public float damagePerSecond = 0;
+    public AttackType attackType;
+    public AttackRecoverType attackRecoverType = AttackRecoverType.none;
+    public boolean doesKnockback = false;
+    public float knockbackMagnitude = 0;
+    public boolean contactMade = false;
 
-	@Override
-	public void reset() {
-		body = null;
-		hitbox = null;
-		damagePerSecond = 0;
-		attackRecoverType = AttackRecoverType.none;
-	}
+    @Override
+    public void reset() {
+        body = null;
+        hitbox = null;
+        damagePerSecond = 0;
+        attackRecoverType = AttackRecoverType.none;
+    }
 
 }
