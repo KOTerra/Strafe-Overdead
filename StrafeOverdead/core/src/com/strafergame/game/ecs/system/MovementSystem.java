@@ -81,7 +81,7 @@ public class MovementSystem extends IteratingSystem {
                             break;
                         }
                         case attack: {
-                            // Slide logic we implemented earlier
+                            // Slide logic
                             Vector2 currentVel = b2dCmp.body.getLinearVelocity();
                             currentVel.scl(0.92f);
                             if (currentVel.len() < 0.2f) currentVel.set(0, 0);
@@ -90,7 +90,7 @@ public class MovementSystem extends IteratingSystem {
                         }
                         case dash: {
 
-                            //Apply slight damping so the dash doesn't
+                            //Apply slight damping
                             Vector2 dashVel = b2dCmp.body.getLinearVelocity();
                             dashVel.scl(0.98f);
                             b2dCmp.body.setLinearVelocity(dashVel);

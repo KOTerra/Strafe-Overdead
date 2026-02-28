@@ -111,11 +111,17 @@ public class PlayerControlSystem extends IteratingSystem {
     }
 
     private void dash(Entity e) {
+        final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
+
+        // block dashing in the air
+        if (typeCmp.entityState.equals(EntityState.jump) || typeCmp.entityState.equals(EntityState.fall)) {
+            return;
+        }
+
         final MovementComponent movCmp = ComponentMappers.movement().get(e);
 
         if (PlayerControl.DASH) {
             if (!dashTriggered && !movCmp.isDashCooldown) {
-                final EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
                 final StatsComponent statsCmp = ComponentMappers.stats().get(e);
                 final Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
 
