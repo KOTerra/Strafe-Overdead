@@ -11,6 +11,7 @@ import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.ItemComponent;
 import com.strafergame.game.ecs.component.StatsComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
+import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.factories.ItemEntityFactory;
 import com.strafergame.game.ecs.states.EntityDirection;
 import com.strafergame.game.ecs.states.EntityState;
@@ -60,30 +61,33 @@ public class CombatExecutor {
         final Box2dComponent ownerB2dCmp = ComponentMappers.box2d().get(owner);
         final ItemComponent itmCmp = ComponentMappers.item().get(projectile);
         final AttackComponent rangedAttackCmp = ComponentMappers.attack().get(projectile);
+        final PositionComponent projectilePosCmp = ComponentMappers.position().get(projectile);
         final EntityEngine entityEngine = EntityEngine.getInstance();
 
         ownerTypeCmp.entityState = EntityState.attack;
         ownerTypeCmp.entitySubState = EntityState.AttackSubstate.shoot;
 
         Vector2 playerPos = ownerB2dCmp.body.getPosition();
-
         float angle = MathUtils.atan2(direction.y, direction.x);
-
-        // Physics
-        itmCmp.holdPosition = ItemEntityFactory.inferHoldPositionOnDirection(owner);
 
         float spawnOffset = 1.0f;
         float spawnX = playerPos.x + direction.x * spawnOffset;
-        float spawnY = playerPos.y + direction.y * spawnOffset;
+        float spawnY = playerPos.y + (ComponentMappers.sprite().get(owner).height / 2) + direction.y * spawnOffset;
 
-        rangedAttackCmp.body.setTransform(spawnX, spawnY, angle);
+        rangedAttackCmp.body.setTransform(spawnX, spawnY, MathUtils.radiansToDegrees * angle);
         rangedAttackCmp.body.setActive(true);
         rangedAttackCmp.body.setAwake(true);
 
+
+        if (projectilePosCmp != null) {
+            projectilePosCmp.renderPos.set(rangedAttackCmp.body.getPosition().x, rangedAttackCmp.body.getPosition().y);
+        }
+        ComponentMappers.sprite().get(projectile).sprite.setRotation(rangedAttackCmp.body.getAngle());
+        
         rangedAttackCmp.body.setLinearVelocity(0, 0);
         rangedAttackCmp.body.setAngularVelocity(0);
 
-        float desiredSpeed = 15f;
+        float desiredSpeed = ownerStatsCmp.rangedAttackSpeed;
         float mass = rangedAttackCmp.body.getMass();
         Vector2 impulse = new Vector2(
                 direction.x * desiredSpeed * mass,
@@ -92,7 +96,11 @@ public class CombatExecutor {
 
         rangedAttackCmp.body.applyLinearImpulse(impulse, rangedAttackCmp.body.getWorldCenter(), true);
 
-        entityEngine.addEntity(projectile);
+
+        if (!entityEngine.getEntities().contains(projectile, true)) {
+            entityEngine.addEntity(projectile);
+        }
+
 
         Timer.schedule(new Timer.Task() {
             @Override

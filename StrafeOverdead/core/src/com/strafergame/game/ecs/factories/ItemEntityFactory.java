@@ -1,16 +1,26 @@
 package com.strafergame.game.ecs.factories;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Filter;
+import com.strafergame.Strafer;
+import com.strafergame.assets.AnimationProvider;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.*;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
+import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.states.ItemAttachmentType;
 import com.strafergame.game.world.collision.Box2DFactory;
 import com.strafergame.game.world.collision.FilteredContactListener;
+import com.sun.jdi.TypeComponent;
+
+import static com.strafergame.game.ecs.factories.EntityFactory.attachLight;
 
 public abstract class ItemEntityFactory {
     static EntityEngine entityEngine = EntityEngine.getInstance();
@@ -24,6 +34,10 @@ public abstract class ItemEntityFactory {
 
         PositionComponent posCmp = entityEngine.createComponent(PositionComponent.class);
         item.add(posCmp);
+
+        EntityTypeComponent typeCmp = entityEngine.createComponent(EntityTypeComponent.class);
+        typeCmp.entityType = EntityType.item;
+        item.add(typeCmp);
 
 
         AttackComponent attckCmp = entityEngine.createComponent(AttackComponent.class);
@@ -72,6 +86,19 @@ public abstract class ItemEntityFactory {
         filter.maskBits = (short) (FilteredContactListener.HURTBOX_CATEGORY | elevationWallBit);
 
         attckCmp.hitbox.setFilterData(filter);
+
+
+        SpriteComponent spriteCmp = entityEngine.createComponent(SpriteComponent.class);
+        projectile.add(spriteCmp);
+        spriteCmp.sprite = new Sprite(Strafer.assetManager.get("images/dummy_static.png", Texture.class));//TODO change
+        spriteCmp.height = spriteCmp.sprite.getHeight() * Strafer.SCALE_FACTOR;
+        spriteCmp.width = spriteCmp.sprite.getWidth() * Strafer.SCALE_FACTOR;
+
+        AnimationComponent aniCmp = entityEngine.createComponent(AnimationComponent.class);
+        aniCmp.animation = AnimationProvider.getAnimation(projectile);
+        projectile.add(aniCmp);
+
+        attachLight(projectile, new Vector2(0, 0), 2f, Color.RED, 32);
 
         return projectile;
     }

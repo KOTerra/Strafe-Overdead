@@ -52,10 +52,19 @@ public class AttachmentSystem extends IteratingSystem {
 
     private void shoot(Entity item) {
         AttackComponent attckCmp = ComponentMappers.attack().get(item);
+        PositionComponent posCmp = ComponentMappers.position().get(item);
 
         if (attckCmp.contactMade) {
             getEngine().removeEntity(item);
             //TODO add explosion, smoke, effect etc at contact position
+            return;
+        }
+
+
+        if (attckCmp.body != null && attckCmp.body.isActive()) {
+            posCmp.renderPos.x = attckCmp.body.getPosition().x;
+            posCmp.renderPos.y = attckCmp.body.getPosition().y;
+
         }
     }
 }

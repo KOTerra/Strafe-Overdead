@@ -27,6 +27,11 @@ public class AnimationProvider {
     public static Animation<Sprite> getAnimation(Entity entity) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
         PositionComponent posCmp = ComponentMappers.position().get(entity);
+
+        if (typeCmp.entityType.equals(EntityType.item)) {//get name
+
+        }
+
         if (posCmp == null) {
             return TYPE_ANIMATIONS.get(typeCmp.entityType).get(typeCmp.entityState.toString());
         }

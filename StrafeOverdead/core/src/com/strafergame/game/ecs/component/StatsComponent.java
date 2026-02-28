@@ -19,6 +19,7 @@ public class StatsComponent implements Component {
     public float meleeKnockbackMagnitude = 1000;
 
     public float rangedAttackDuration = .3f;
-    public float rangedAttackInstantDamage = 10;
+    public float rangedAttackInstantDamage = 100f;
     public float rangedAttackDeletionTime = 2.f;
+    public float rangedAttackSpeed = 15f;
 }

@@ -9,6 +9,6 @@ public enum EntityType {
     /**
      * the PLAYER type
      */
-    player, goblin, dummy, checkpoint, npc;
+    player, goblin, dummy, checkpoint, npc, item;
 
 }
