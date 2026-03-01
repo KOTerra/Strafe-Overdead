@@ -30,13 +30,14 @@ public class MovementSystem extends IteratingSystem {
 
     @Override
     public void update(float delta) {
-        playerMovement();
 
         float frameTime = Math.min(Gdx.graphics.getDeltaTime(), 0.25f);
         accumulator += frameTime;
 
         while (accumulator >= GameWorld.FIXED_TIME_STEP) {
             savePositions();
+
+            playerMovement();
 
             // AI movement
             applySteering();

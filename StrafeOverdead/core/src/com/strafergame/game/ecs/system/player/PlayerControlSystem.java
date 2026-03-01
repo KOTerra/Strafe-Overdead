@@ -202,7 +202,7 @@ public class PlayerControlSystem extends IteratingSystem {
     private final Vector2 tempDir = new Vector2();
 
     private void shootAttack(Entity e) {
-        if (ComponentMappers.entityType().get(e).entityState.equals(EntityState.attack)) {
+        if (ComponentMappers.entityType().get(e).entityState.equals(EntityState.attack)) { //maybe allow shooting to higher elevation +-1 lvl?
             return;
         }
 
