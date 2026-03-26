@@ -177,7 +177,7 @@ public class PlayerControlSystem extends IteratingSystem {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
 
         // already attacking
-        if (typeCmp.entityState.equals(EntityState.attack)) {
+        if (typeCmp.entityState.equals(EntityState.attack) || typeCmp.entityState.equals(EntityState.jump) || typeCmp.entityState.equals(EntityState.fall)) {
             return;
         }
 
@@ -201,8 +201,10 @@ public class PlayerControlSystem extends IteratingSystem {
 
     private final Vector2 tempDir = new Vector2();
 
-    private void shootAttack(Entity e) {
-        if (ComponentMappers.entityType().get(e).entityState.equals(EntityState.attack)) { //maybe allow shooting to higher elevation +-1 lvl?
+    private void shootAttack(Entity e) {//TODO maybe allow shooting to higher elevation +-1 lvl?
+        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
+
+        if (typeCmp.entityState.equals(EntityState.attack) || typeCmp.entityState.equals(EntityState.jump) || typeCmp.entityState.equals(EntityState.fall)) { //should not allow in the split second idle between jump and fall
             return;
         }
 
