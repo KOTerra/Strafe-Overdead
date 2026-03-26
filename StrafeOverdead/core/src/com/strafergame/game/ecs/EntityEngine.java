@@ -9,7 +9,9 @@ import com.badlogic.gdx.utils.Disposable;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
+import com.strafergame.game.ecs.factories.*;
 import com.strafergame.game.ecs.listeners.Box2dEntitiesListener;
+import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.AnimationSystem;
 import com.strafergame.game.ecs.system.CheckpointSystem;
 import com.strafergame.game.ecs.system.MovementSystem;
@@ -103,11 +105,21 @@ public class EntityEngine extends PooledEngine implements Disposable {
 
             addSystem(lightSystem);
 
+            initBuilders();
 
             box2dEntitiesListener = new Box2dEntitiesListener(box2dWorld.getWorld());
             this.addEntityListener(Family.one(Box2dComponent.class, AttackComponent.class).get(), box2dEntitiesListener);
             initialised = true;
         }
+    }
+
+    public void initBuilders() {
+        EntityRegistry.clear();
+        EntityRegistry.register(EntityType.player, new PlayerFactory());
+        EntityRegistry.register(EntityType.goblin, new EnemyFactory(EntityType.goblin));
+        EntityRegistry.register(EntityType.collision, new CollisionFactory());
+        EntityRegistry.register(EntityType.elevationAgent, new ElevationAgentFactory());
+        EntityRegistry.register(EntityType.checkpoint, new CheckpointFactory());
     }
 
     @Override

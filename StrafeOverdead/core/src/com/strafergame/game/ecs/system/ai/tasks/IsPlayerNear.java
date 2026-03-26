@@ -27,7 +27,6 @@ public class IsPlayerNear extends LeafTask<Entity> {
 
     @Override
     protected Task<Entity> copyTo(Task<Entity> task) {
-        IsPlayerNear copy = (task != null) ? (IsPlayerNear) task : new IsPlayerNear();
-        return copy;
+        return (task != null) ? (IsPlayerNear) task : new IsPlayerNear();
     }
 }

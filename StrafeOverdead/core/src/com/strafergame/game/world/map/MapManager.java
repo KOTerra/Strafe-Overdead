@@ -9,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector3;
 import com.strafergame.Strafer;
-import com.strafergame.game.ecs.factories.EntityFactory;
+import com.strafergame.game.ecs.factories.EntityRegistry;
 import com.strafergame.game.ecs.factories.MapEntityFactory;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.world.GameWorld;
@@ -51,33 +51,34 @@ public class MapManager {
     }
 
     private void loadMapObjects(TiledMap tiledMap) {
-
         Strafer.worldCamera.setFocusOn(GameWorld.player);
-
         Strafer.tiledMapRenderer.setMap(tiledMap);
 
         map.getLayers().forEach(layer -> {
             String name = layer.getName();
-            if (name.startsWith("collisions")) {
-                loadObjectLayer(tiledMap, name, mapObject -> {
-                    MapEntityFactory.createCollisionEntity(box2DWorld.getWorld(), mapObject);
-                });
+            String typeStr = layer.getProperties().get("type", String.class);
+            if (typeStr == null) {
+                // Try to infer type from name if property not set
+                if (name.startsWith("collisions")) typeStr = "collision";
+                else if (name.startsWith("elevationAgents")) typeStr = "elevationAgent";
+                else if (name.startsWith("checkpoints")) typeStr = "checkpoint";
+                else if (name.startsWith("enemies")) typeStr = "goblin";
             }
-            if (name.startsWith("elevationAgents")) {
-                loadObjectLayer(tiledMap, name, mapObject -> {
-                    MapEntityFactory.createElevationAgent(box2DWorld.getWorld(), mapObject);
-                });
-            }
-            if (name.startsWith("checkpoints")) {
-                loadObjectLayer(tiledMap, name, mapObject -> {
-                    MapEntityFactory.createCheckpoint(mapObject, () -> {
+
+            final EntityType type = EntityType.convert(typeStr);
+            if (type != null) {
+                if (layer instanceof TiledMapTileLayer) {
+                    loadTileLayer(tiledMap, name, (i, j) -> {
+                        EntityRegistry.create(type, new Vector3(i, j, 0), null);
                     });
-                });
-            }
-            if (name.startsWith("enemies")) {
-                loadTileLayer(tiledMap, name,
-                        (i, j) -> EntityFactory.createEnemy(new Vector3(i, j, 1), 1, EntityType.goblin));//starts on one level of elevation higher to stabilise the shadow
-                layer.setVisible(false);
+                    if (EntityType.isEnemyOrNPC(type)) {
+                        layer.setVisible(false);
+                    }
+                } else {
+                    loadObjectLayer(tiledMap, name, mapObject -> {
+                        EntityRegistry.create(type, null, mapObject);
+                    });
+                }
             }
         });
     }

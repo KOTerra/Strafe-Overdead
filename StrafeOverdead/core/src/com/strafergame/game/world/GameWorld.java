@@ -14,7 +14,9 @@ import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
 import com.strafergame.game.ecs.factories.EntityFactory;
+import com.strafergame.game.ecs.factories.EntityRegistry;
 import com.strafergame.game.ecs.states.EntityState;
+import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.save.SaveSystem;
 import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.MapManager;
@@ -46,7 +48,7 @@ public class GameWorld implements Disposable {
 
         mapManager = new MapManager(box2DWorld, rayHandler);
         SaveSystem.getCurrentSave().deserialize();
-        player = EntityFactory.createPlayer();
+        player = EntityRegistry.create(EntityType.player, null, null);
         currentMap = Strafer.assetManager.get("maps/test/test.tmx", TiledMap.class);
         mapManager.loadMap(currentMap);
     }

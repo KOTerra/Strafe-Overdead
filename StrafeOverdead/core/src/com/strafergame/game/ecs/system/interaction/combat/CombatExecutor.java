@@ -83,16 +83,13 @@ public class CombatExecutor {
             projectilePosCmp.renderPos.set(rangedAttackCmp.body.getPosition().x, rangedAttackCmp.body.getPosition().y);
         }
         ComponentMappers.sprite().get(projectile).sprite.setRotation(rangedAttackCmp.body.getAngle());
-        
+
         rangedAttackCmp.body.setLinearVelocity(0, 0);
         rangedAttackCmp.body.setAngularVelocity(0);
 
         float desiredSpeed = ownerStatsCmp.rangedAttackSpeed;
         float mass = rangedAttackCmp.body.getMass();
-        Vector2 impulse = new Vector2(
-                direction.x * desiredSpeed * mass,
-                direction.y * desiredSpeed * mass
-        );
+        Vector2 impulse = new Vector2(direction.x * desiredSpeed * mass, direction.y * desiredSpeed * mass);
 
         rangedAttackCmp.body.applyLinearImpulse(impulse, rangedAttackCmp.body.getWorldCenter(), true);
 
@@ -121,6 +118,7 @@ public class CombatExecutor {
     }
 
     public static void executeAreaAttack(final Entity owner, final Entity effect, float radius) {
-
+        int flags = owner.flags;
+        //empty
     }
 }

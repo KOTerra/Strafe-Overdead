@@ -17,26 +17,29 @@ public class BehaviorTreeFactory {
         BehaviorTree<Entity> tree = new BehaviorTree<>();
         Selector<Entity> rootSelector = new Selector<>();
 
-        // --- Branch 0: Death (Priority #1) ---
+        // Death Branch
         Sequence<Entity> deathSequence = new Sequence<>();
         deathSequence.addChild(new IsDead());
         deathSequence.addChild(new DieAction());
 
-        // --- Branch 1: Chase Logic ---
+        // Chase Branch
         Sequence<Entity> chaseSequence = new Sequence<>();
         chaseSequence.addChild(new IsPlayerNear());
         chaseSequence.addChild(new IsElevationMatching());
         chaseSequence.addChild(new ApproachPlayer());
 
-        // --- Branch 2: Idle ---
+        // Idle Branch
         IdleAction idleAction = new IdleAction();
 
-        // Assemble Tree (Order matters!)
+        // Assemble Tree with priority
         rootSelector.addChild(deathSequence); // Check death first
         rootSelector.addChild(chaseSequence); // Then try to chase
         rootSelector.addChild(idleAction);    // Fallback to idle
 
         tree.addChild(rootSelector);
         return tree;
+    }
+
+    private BehaviorTreeFactory() {
     }
 }
