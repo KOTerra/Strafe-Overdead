@@ -1,0 +1,121 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="copyright" content="(C) Copyright 2023"><meta name="DC.rights.owner" content="(C) Copyright 2023"><meta name="DC.type" content="topic"><meta name="DC.format" content="HTML5"><meta name="DC.identifier" content="strafer-liberator"><link rel="stylesheet" type="text/css" href="../commonltr.css"><title>Arhitectura</title></head><body id="strafer-liberator"><main role="main"><article role="article" aria-labelledby="ariaid-title1">
+    <h1 class="title topictitle1" id="ariaid-title1">Arhitectura</h1>
+    <article class="topic nested1" aria-labelledby="ariaid-title2" id="launchers">
+        <h2 class="title topictitle2" id="ariaid-title2">Launchers</h2>
+        <div class="body">
+            <p class="p">Fiecare launcher determina rezolutia si setarile necesare sistemului pe care ruleaza,
+                apoi instantiaza game class-ul Strafer din core</p>
+            <div class="bodydiv">
+                <p class="p">Strafer- Game class-ul in care se regaseste rendering loop-ul si unde sunt
+                    declarate constantele globale si obiecte statice:</p>
+                <ul class="ul" id="launchers__ul_esg_gy4_fyb">
+                    <li class="li">WORLD_WIDTH, WORLD_HEIGHT </li>
+                    <li class="li">aspectRatio</li>
+                    <li class="li">SCALE_FACTOR unitatea de masura principala(1 metru=32 pixeli)</li>
+                    <li class="li">assetManager incarca si returneaza asseturi recursiv din folderul assets in
+                        timpul fazei de loading</li>
+                    <li class="li">i18n traduce stringuri in functie de limba setata</li>
+                    <li class="li">spriteBatch se ocupa cu rendering-ul sprite-urilor pe ecran</li>
+                    <li class="li">tiledMapRenderer un OrthogonalTiledMapRenderer modificat pentru a evita
+                        probleme de texture bleeding, se ocupa de rendering pentru fisiere tmx,
+                        tiled maps</li>
+                    <li class="li">inputManager decide ce tip de platforma si periferice sunt disponibile si
+                        seteaza ce tip de InputProcessor este
+                        necesar(Keyboard,Controller,Touchscreen). Input-ul nu este hardcodat, ci se
+                        incarca din fisierul preferences, adica fiecare tasta poate fi reconfigurata
+                        de user. libGDX permite de asemenea utilizarea acestor tipuri de input
+                        interschimbabil intre platforme(Controller, Keyboard pe mobile, touch pe
+                        desktop etc)</li>
+                    <li class="li">worldCamera este camera care se plimba pe harta dupa entitati</li>
+                    <li class="li">extendViewport este folosit de worldCamera pentru a determina portiunea
+                        vizibla din ecran, acesta se adapteaza pentru orice resize al windowului si
+                        orice aspect ratio</li>
+                    <li class="li">uiManager un scene2d stage, contine toate meniurile si componentele de user
+                        interface</li>
+                    <li class="li">uiCamera este o alta camera cu un screenViewport care separa ui-ul de
+                        gameworld</li>
+                    <li class="li">loadingScreen</li>
+                    <li class="li">settingsScreen</li>
+                    <li class="li">titleScreen</li>
+                </ul>
+                <p class="p">gameScreen ecranul in care se petrece gameplay loop-ul. Aici este instantiat pe
+                    uiManager un HUD, adica user interface-ul prezent in timpul jocului(healthbar si
+                    input pentru mobile). Pe gameScreen se instantiaza un GameWorld, container-ul
+                    pentru toata lumea jocului.</p>
+                <ul class="ul" id="launchers__ul_fsg_gy4_fyb">
+                    <li class="li">rayHandler se va ocupa de iluminarea obiectelor din physics engine</li>
+                    <li class="li">box2dWorld este container-ul pentru physics engine (box2d) Pentru a crea
+                        Body-uri, Sensor-uri si Fixture-uri folosim clasa Box2dFactory</li>
+                    <li class="li">tiledMap este harta propriu-zisa a jocului din care se incarca automat
+                        checkpoint-uri si pereti</li>
+                    <li class="li">FIXED_TIME_STEP constanta folosita pentru a da update in physics engine la
+                        un interval constant de timp, lucru ce separa frame rate-ul de coliziuni si
+                        movement</li>
+                    <li class="li">entityEngine este un PooledEngine din framework-ul Ashley. Acesta este un
+                        entity-component system ce permite management-ul entitatilor care sunt
+                        formate prin compunere de componente, asupra carora actioneaza diferite
+                        system-uri .Un system itereaza prin orice entity care contine compinentele
+                        specificate pe constructor si proceseaza datele acestuia. Astfel creste
+                        valoarea de reutilizare a compinentelor, evitand inheritance-ul. Acesta are
+                        un pattern de factory, adica poate returna prin metode Entity-uri, spre
+                        exemplu player-ul</li>
+                </ul>
+                <p class="p">Player-ul are mai multe componente:</p>
+                <ul class="ul" id="launchers__ul_gsg_gy4_fyb">
+                    <li class="li">PlayerComponent folosit pentru controlarea playerului, acesta are un sensor
+                        fixture pe body folosit pentru a determina alte entity-uri din
+                        proximitate</li>
+                    <li class="li">EntityTypeComponent indica ce tip de entity este playerul si in ce state se
+                        afla(idle,hit, walk etc)</li>
+                    <li class="li">PositionComponent pozitia in lume</li>
+                    <li class="li">MovementComponent directiile de deplasare active, viteza si forta de
+                        dash</li>
+                    <li class="li">SpriteComponent imaginea entity-ului si dimensiunile acesteia</li>
+                    <li class="li">AnimationComponent un Animation&lt;Sprite&gt; si un timer intern folosit pentru
+                        actualizarea animatiei</li>
+                    <li class="li">Box2dComponent indica engine-ului ca entity-ul ia parte in coliziuni.
+                        Body-ul este creat dupa dimensiunile sprite-ului avand doua Fixture-uri:
+                        fingerprint-ul(partea solida a corpului) si hurtbox-ul(folosit pentru
+                        interactiunile de combat cu hitboxuri)</li>
+                    <li class="li">HealthConponent entity-ul ia parte in combat si poate primi damage.</li>
+                    <li class="li">CameraComponent camera poate focusa entity-ul</li>
+                </ul>
+                <p class="p">alte entity-uri pot avea:</p>
+                <ul class="ul" id="launchers__ul_hsg_gy4_fyb">
+                    <li class="li">DetectorComponent detecteaza proximitatea cu playerul</li>
+                    <li class="li">CheckpointComponent primeste un checkpoint action si este focusat automat de
+                        camera in zonele hartii care sunt points of interest</li>
+                    <li class="li">AttackComponent are un hitbox si alte caracteristici ale unui atac precum
+                        damage tip de atac etc</li>
+                </ul>
+                <p class="p">System-uri</p>
+                <ul class="ul" id="launchers__ul_isg_gy4_fyb">
+                    <li class="li">AnimationSystem se foloseste de counterele din AnimationComponent si schimba
+                        SpriteComponent-ul cu frame-ul curent. Animatiile sunt incarcate din
+                        AnimationProvider pe baza EntityType-ului si al EntityState-ului. Animatiile
+                        sunt salave in spritesheet-uri si decodate cu un fisier atlas in care sunt
+                        salvate informatii despre toate frame-urile animatiilor. Astfel este necesar
+                        un singur png si un fisier atlas pentru toate animatiile.</li>
+                    <li class="li">CheckpointSystem executa actiunile din checkpointuri cand sunt atinse</li>
+                    <li class="li">RenderingSystem foloseste spriteBatch-ul si randeaza Sprite-urile la
+                        pozitiile entity-urilor dupa ce compara pozitia lor pe axa Y, astfel incat
+                        sprite-urile sa para ca pot fi unul in spatele celuilalt.</li>
+                    <li class="li">HudSystem actualizeaza hud-ul cu informatii din player</li>
+                    <li class="li">CameraSystem decide unde este focusata camera. Daca player-ul este in
+                        proximitatea unui grup de inamici camera focuseaza in mijlocul grupului.
+                        Daca exista un checkpoint in proximitate, acesta va fi focusat. Daca
+                        playerul nu are entity-uri cu CameraComponent in proximitate este focusat
+                        singur.</li>
+                    <li class="li">HealthSystem verifica daca un hurtbox a primit damage si actualizeaza
+                        nivelul de health</li>
+                    <li class="li">CombatSystem aplica efecte de knockback daca un entity a fost lovit</li>
+                </ul>
+                <p class="p">FilteredContactListener este un listener adaugat la box2dWorld care filtreaza
+                    coliziunile astfel incat sa determine cand s-a realizat un contact intre
+                    hitbox-uri/hurtbox-uri sau intre sensorul playerului si un detector</p>
+            </div>
+        </div>
+    </article>
+</article></main></body></html>
