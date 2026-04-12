@@ -53,14 +53,10 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
             return;
         }
 
-        // Calculate velocity based on acceleration and delta time for a natural "walking" feel
-        Vector2 velocity = b2dCmp.body.getLinearVelocity();
-        velocity.add(steeringOutput.linear.scl(Gdx.graphics.getDeltaTime()));
+        // Set velocity directly in the direction of steering to mimic player movement and avoid "ice" feel or orbiting
+        Vector2 velocity = steeringOutput.linear.nor().scl(getMaxLinearSpeed());
 
-        // Clamp to max speed
-        velocity.limit(getMaxLinearSpeed());
-
-        // Set velocity directly to remove the "sliding on ice" effect
+        // Set velocity directly to the body
         b2dCmp.body.setLinearVelocity(velocity);
 
         if (steeringOutput.angular != 0) {
