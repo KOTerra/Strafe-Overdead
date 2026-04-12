@@ -26,7 +26,7 @@ public class BehaviorTreeFactory {
         Sequence<Entity> chaseSequence = new Sequence<>();
         chaseSequence.addChild(new IsPlayerNear());
         chaseSequence.addChild(new IsElevationMatching());
-        chaseSequence.addChild(new ApproachPlayer());
+        chaseSequence.addChild(new ApproachPlayerAStar());
 
         // Idle Branch
         IdleAction idleAction = new IdleAction();

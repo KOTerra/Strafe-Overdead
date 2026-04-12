@@ -9,9 +9,11 @@ import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
 import com.strafergame.game.ecs.ComponentMappers;
+import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.MovementComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
+import com.strafergame.game.ecs.states.EntityState;
 
 public class SteeringComponent implements Steerable<Vector2>, Component {
 
@@ -33,10 +35,23 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
         return this;
     }
 
+    private int frameCounter = 0;
+    private static final int UPDATE_INTERVAL = 5;
+
     public void update() {
+        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(owner);
+        if (typeCmp != null && (typeCmp.entityState == EntityState.hit || typeCmp.entityState == EntityState.death)) {
+            b2dCmp.body.setLinearVelocity(0, 0);
+            return;
+        }
+
         if (behavior != null) {
-            behavior.calculateSteering(steeringOutput);
-            applySteering(steeringOutput);
+            frameCounter++;
+            if (frameCounter >= UPDATE_INTERVAL) {
+                behavior.calculateSteering(steeringOutput);
+                applySteering(steeringOutput);
+                frameCounter = 0;
+            }
             //change to not change direction if hit from the opposite direction
 
             // Only update visual direction if there is actual movement

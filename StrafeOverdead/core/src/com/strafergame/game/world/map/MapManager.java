@@ -20,17 +20,25 @@ import java.util.Map;
 
 public class MapManager {
 
+    private static MapManager instance;
     private Box2DWorld box2DWorld;
     private RayHandler rayHandler;
     private TiledMap map;
     private static int maxElevation = 0;
 
     private static final HashMap<Integer, MapLayers> layersElevatedMap = new HashMap<>();
+    public static int width;
+    public static int height;
 
     public MapManager(Box2DWorld box2dworld, RayHandler rayHandler) {
+        instance = this;
         this.box2DWorld = box2dworld;
         this.rayHandler = rayHandler;
 
+    }
+
+    public static MapManager getInstance() {
+        return instance;
     }
 
     public void loadMap(TiledMap tiledMap) {
@@ -43,6 +51,14 @@ public class MapManager {
 
 
         this.map = tiledMap;
+
+        for (MapLayer layer : tiledMap.getLayers()) {
+            if (layer instanceof TiledMapTileLayer) {
+                width = ((TiledMapTileLayer) layer).getWidth();
+                height = ((TiledMapTileLayer) layer).getHeight();
+                break;
+            }
+        }
 
         tiledMap.getLayers().forEach(MapEntityFactory::createLayerEntity);
         loadMapObjects(tiledMap);
@@ -147,6 +163,10 @@ public class MapManager {
 
     public static Map<Integer, MapLayers> getLayersElevatedMap() {
         return layersElevatedMap;
+    }
+
+    public TiledMap getMap() {
+        return map;
     }
 
 
