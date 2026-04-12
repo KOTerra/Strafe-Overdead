@@ -23,6 +23,7 @@ public class ApproachPlayerAStar extends LeafTask<Entity> {
     private int lastElevation = -1;
     private float timeSinceLastPathUpdate = 0;
     private static final float PATH_UPDATE_INTERVAL = 1.0f; // Update path every second
+    private static final float STOP_DISTANCE = 2.0f; // Distance at which to stop to avoid pushing player
 
     @Override
     public Status execute() {
@@ -32,6 +33,12 @@ public class ApproachPlayerAStar extends LeafTask<Entity> {
         int elevation = ComponentMappers.elevation().get(entity).elevation;
         
         if (steerCmp == null || GameWorld.player == null) return Status.FAILED;
+
+        // Check distance to player
+        Vector2 playerPos = ComponentMappers.box2d().get(GameWorld.player).body.getPosition();
+        if (b2dCmp.body.getPosition().dst(playerPos) < STOP_DISTANCE) {
+            return Status.FAILED; // Break chase sequence and go to idle
+        }
 
         if (elevation != lastElevation) {
             pathfinder = null;
