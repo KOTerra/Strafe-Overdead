@@ -1,11 +1,18 @@
 package com.strafergame.game.ecs.system.ai.tasks;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.ai.btree.LeafTask;
 import com.badlogic.gdx.ai.btree.Task;
+import com.badlogic.gdx.ai.steer.Steerable;
+import com.badlogic.gdx.ai.steer.behaviors.PrioritySteering;
 import com.badlogic.gdx.ai.steer.behaviors.Seek;
+import com.badlogic.gdx.ai.steer.behaviors.Separation;
+import com.badlogic.gdx.ai.steer.proximities.RadiusProximity;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.strafergame.game.ecs.ComponentMappers;
+import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
@@ -33,14 +40,22 @@ public class ApproachPlayer extends LeafTask<Entity> {
 
         typeCmp.entityState = EntityState.walk;
 
-        //  Set the Behavior intention(will update in MovementSystem)
-        if (!(steerCmp.behavior instanceof Seek)) {
-            SteeringComponent playerSteer = ComponentMappers.steering().get(GameWorld.player);
-            if (playerSteer != null) {
-                steerCmp.behavior = new Seek<>(steerCmp, playerSteer);
+        // Gather neighbors for separation
+        Array<Steerable<Vector2>> neighbors = new Array<>();
+        for (Entity other : EntityEngine.getInstance().getEntitiesFor(Family.all(SteeringComponent.class).get())) {
+            if (other != e) {
+                neighbors.add(ComponentMappers.steering().get(other));
             }
         }
+        RadiusProximity<Vector2> proximity = new RadiusProximity<>(steerCmp, neighbors, 1.2f);
+        Separation<Vector2> separation = new Separation<>(steerCmp, proximity);
 
+        PrioritySteering<Vector2> prioritySteering = new PrioritySteering<>(steerCmp);
+        prioritySteering.add(separation);
+        prioritySteering.add(new Seek<>(steerCmp, ComponentMappers.steering().get(GameWorld.player)));
+
+        steerCmp.behavior = prioritySteering;
+        steerCmp.debugPath = null;
 
         return Status.SUCCEEDED;
     }
@@ -49,4 +64,6 @@ public class ApproachPlayer extends LeafTask<Entity> {
     protected Task<Entity> copyTo(Task<Entity> task) {
         return task != null ? task : new ApproachPlayer();
     }
+
+
 }

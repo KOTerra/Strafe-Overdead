@@ -66,8 +66,15 @@ public class AStarGraph implements Graph<AStarNode> {
                                 float endX = (rect.x + rect.width) * sf;
                                 float endY = (rect.y + rect.height) * sf;
                                 
-                                for (int ix = (int) Math.floor(startX); ix < (int) Math.ceil(endX); ix++) {
-                                    for (int iy = (int) Math.floor(startY); iy < (int) Math.ceil(endY); iy++) {
+                                // Calculate integer bounds for tiles touched by the rectangle
+                                int x1 = (int) Math.floor(startX);
+                                int y1 = (int) Math.floor(startY);
+                                int x2 = (int) Math.ceil(endX);
+                                int y2 = (int) Math.ceil(endY);
+                                
+                                // Mark the core area PLUS a 1-tile buffer in every direction
+                                for (int ix = x1 - 1; ix <= x2; ix++) {
+                                    for (int iy = y1 - 1; iy <= y2; iy++) {
                                         AStarNode node = getNode(ix, iy);
                                         if (node != null) {
                                             node.traversable = false;

@@ -17,9 +17,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.utils.Array;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
+import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.SpriteComponent;
 import com.strafergame.game.ecs.component.world.ShadowComponent;
+import com.badlogic.gdx.math.Vector2;
 import space.earlygrey.shapedrawer.ShapeDrawer;
 
 public class RenderingSystem extends SortedIteratingSystem {
@@ -129,6 +131,18 @@ public class RenderingSystem extends SortedIteratingSystem {
                     1,
                     1,
                     spriteCmp.sprite.getRotation());
+
+            if (Strafer.inDebug) {
+                SteeringComponent steerCmp = ComponentMappers.steering().get(entity);
+                if (steerCmp != null && steerCmp.debugPath != null && steerCmp.debugPath.size > 1) {
+                    shadowDrawer.setColor(new Color(0, 1, 0, 0.5f));
+                    for (int i = 0; i < steerCmp.debugPath.size - 1; i++) {
+                        Vector2 current = steerCmp.debugPath.get(i);
+                        Vector2 next = steerCmp.debugPath.get(i + 1);
+                        shadowDrawer.line(current.x, current.y, next.x, next.y, 0.1f);
+                    }
+                }
+            }
         }
 
         batch.end();

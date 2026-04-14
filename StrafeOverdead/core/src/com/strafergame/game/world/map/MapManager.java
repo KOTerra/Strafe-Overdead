@@ -12,6 +12,7 @@ import com.strafergame.Strafer;
 import com.strafergame.game.ecs.factories.EntityRegistry;
 import com.strafergame.game.ecs.factories.MapEntityFactory;
 import com.strafergame.game.ecs.states.EntityType;
+import com.strafergame.game.ecs.system.ai.pathfinding.AStarPathfinder;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.collision.Box2DWorld;
 
@@ -27,6 +28,7 @@ public class MapManager {
     private static int maxElevation = 0;
 
     private static final HashMap<Integer, MapLayers> layersElevatedMap = new HashMap<>();
+    private static final HashMap<Integer, AStarPathfinder> pathfinders = new HashMap<>();
     public static int width;
     public static int height;
 
@@ -46,6 +48,7 @@ public class MapManager {
             this.map.dispose();
         }
         layersElevatedMap.clear();
+        pathfinders.clear();
         layersElevatedMap.put(0, new MapLayers());
         maxElevation = 0;
 
@@ -64,6 +67,15 @@ public class MapManager {
         loadMapObjects(tiledMap);
         layersElevatedMap.put(maxElevation + 1, new MapLayers());   //to allow jump at peak height
 
+    }
+
+    public static AStarPathfinder getPathfinder(int elevation) {
+        AStarPathfinder pf = pathfinders.get(elevation);
+        if (pf == null) {
+            pf = new AStarPathfinder(width, height, elevation);
+            pathfinders.put(elevation, pf);
+        }
+        return pf;
     }
 
     private void loadMapObjects(TiledMap tiledMap) {

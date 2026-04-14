@@ -8,6 +8,7 @@ import com.badlogic.gdx.ai.steer.SteeringAcceleration;
 import com.badlogic.gdx.ai.steer.SteeringBehavior;
 import com.badlogic.gdx.ai.utils.Location;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
@@ -26,6 +27,7 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
 
     public SteeringBehavior<Vector2> behavior;
     public SteeringAcceleration<Vector2> steeringOutput = new SteeringAcceleration<>(new Vector2());
+    public Array<Vector2> debugPath;
 
     public SteeringComponent setOwner(Entity owner) {
         this.owner = owner;

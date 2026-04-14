@@ -24,6 +24,7 @@ public class IdleAction extends LeafTask<Entity> {
         if (steerCmp != null) {
             steerCmp.behavior = null;       // Tells MovementSystem to stop pushing
             steerCmp.steeringOutput.setZero();
+            steerCmp.debugPath = null;
         }
 
         // Kill velocity
