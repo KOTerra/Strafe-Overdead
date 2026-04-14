@@ -42,6 +42,14 @@ public class ElevationContactFilter implements ContactFilter {
                 ElevationAgentComponent agA = ComponentMappers.elevationAgent().get(entityA);
                 ElevationAgentComponent agB = ComponentMappers.elevationAgent().get(entityB);
 
+                // Railing collision logic: railings only collide with the player
+                if (agA != null && (fixtureA.getBody() == agA.leftRailing || fixtureA.getBody() == agA.rightRailing)) {
+                    return ComponentMappers.player().has(entityB);
+                }
+                if (agB != null && (fixtureB.getBody() == agB.leftRailing || fixtureB.getBody() == agB.rightRailing)) {
+                    return ComponentMappers.player().has(entityA);
+                }
+
                 if (elvA != null && actvB != null) {                                              //one is activator
                     return collideActivator(elvA, actvB);
                 }

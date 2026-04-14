@@ -54,16 +54,17 @@ public class ApproachTargetAStar extends LeafTask<Entity> {
 
         timeSinceLastPathUpdate += 0.016f; // Rough estimate of delta time
 
-        // Intelligent Fallback: Check Line of Sight
+        // Intelligent Fallback: Check Line of Sight with clearance
         World world = EntityEngine.getInstance().getBox2dWorld().getWorld();
-        boolean hasLOS = hasLineOfSight(world, start, end, entity, steerCmp.target);
+        float width = ComponentMappers.sprite().get(entity).width;
+        boolean hasClearFOV = hasClearFOV(world, start, end, entity, steerCmp.target, width);
 
-        if (hasLOS) {
-            // If we have LOS, just use simple Seek + Separation
+        if (hasClearFOV) {
+            // If FOV is clear, just use simple Seek + Separation
             steerCmp.behavior = createChaseBehavior(entity, steerCmp, null);
             steerCmp.debugPath = null;
         } else {
-            // No LOS, we need A*
+            // no lin of sight or enough clearance -> A*
             if (timeSinceLastPathUpdate >= PATH_UPDATE_INTERVAL || steerCmp.debugPath == null) {
                 updatePathfinder(entity, b2dCmp, steerCmp, end);
                 timeSinceLastPathUpdate = 0;
@@ -71,6 +72,16 @@ public class ApproachTargetAStar extends LeafTask<Entity> {
         }
 
         return Status.SUCCEEDED;
+    }
+
+    private boolean hasClearFOV(World world, Vector2 start, Vector2 end, Entity self, Entity target, float width) {
+        // Thick raycast: check center and both sides
+        Vector2 dir = end.cpy().sub(start).nor();
+        Vector2 side = new Vector2(-dir.y, dir.x).scl(width / 2f);
+
+        return hasLineOfSight(world, start, end, self, target) &&
+               hasLineOfSight(world, start.cpy().add(side), end.cpy().add(side), self, target) &&
+               hasLineOfSight(world, start.cpy().sub(side), end.cpy().sub(side), self, target);
     }
 
     private boolean hasLineOfSight(World world, Vector2 start, Vector2 end, Entity self, Entity target) {
@@ -100,14 +111,14 @@ public class ApproachTargetAStar extends LeafTask<Entity> {
             FollowPath<Vector2, LinePath.LinePathParam> followPath = new FollowPath<>(steerCmp, path, 1.0f);
             steerCmp.behavior = createChaseBehavior(entity, steerCmp, followPath);
         } else {
-            // A* failed or destination unreachable, fallback to Seek
+            // A* failed or destination unreachable, fallback to Seek  //TODO maybe stop entirely
             steerCmp.behavior = createChaseBehavior(entity, steerCmp, null);
             steerCmp.debugPath = null;
         }
     }
 
     private PrioritySteering<Vector2> createChaseBehavior(Entity entity, SteeringComponent steerCmp, SteeringBehavior<Vector2> followBehavior) {
-        // Gather neighbors for separation
+        // neighbors for separation
         Array<Steerable<Vector2>> neighbors = new Array<>();
         for (Entity other : EntityEngine.getInstance().getEntitiesFor(Family.all(SteeringComponent.class).get())) {
             if (other != entity) {

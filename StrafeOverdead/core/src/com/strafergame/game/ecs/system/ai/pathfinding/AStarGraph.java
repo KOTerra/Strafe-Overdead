@@ -6,6 +6,7 @@ import com.badlogic.gdx.ai.pfa.Graph;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -54,33 +55,51 @@ public class AStarGraph implements Graph<AStarNode> {
                         String type = object.getProperties().get("type", String.class);
                         if (type == null) {
                             String name = layer.getName();
-                            if (name.startsWith("collisions")) type = "collision";
+                            if (name.startsWith("collisions")) type = "COLLISION";
+                            else if (name.startsWith("elevationAgents")) type = "ELEVATIONAGENT";
+                            else if (name.startsWith("activators")) type = "ACTIVATOR";
                         }
                         
-                        int objElevation = object.getProperties().get("elevation", 0, Integer.class);
-                        if ("collision".equals(type) && objElevation == elevation) {
+                        if (type == null) continue;
+                        type = type.toUpperCase();
+
+                        // Skip railings as enemies don't collide with them and should be able to path through them
+                        if ("RAILING".equals(type)) continue;
+
+                        int objElevation = object.getProperties().get("elevation", -1, Integer.class);
+                        int baseElevation = object.getProperties().get("baseElevation", -1, Integer.class);
+                        int topElevation = object.getProperties().get("topElevation", -1, Integer.class);
+                        
+                        // Check if this object is on the current graph elevation
+                        boolean isElevationMatch = (objElevation != -1 && objElevation == elevation) || 
+                                                   (baseElevation != -1 && baseElevation == elevation) ||
+                                                   (topElevation != -1 && topElevation == elevation);
+                        
+                        // If no elevation properties found, default to 0
+                        if (objElevation == -1 && baseElevation == -1 && topElevation == -1) {
+                            isElevationMatch = (elevation == 0);
+                        }
+
+                        boolean isObstacleType = "COLLISION".equals(type) || "ELEVATIONAGENT".equals(type) || 
+                                               "FOOTPRINT".equals(type) || "ACTIVATOR".equals(type) || "SLOPE".equals(type);
+                        
+                        if (isObstacleType && isElevationMatch) {
                             if (object instanceof RectangleMapObject rectObj) {
                                 Rectangle rect = rectObj.getRectangle();
-                                float startX = rect.x * sf;
-                                float startY = rect.y * sf;
-                                float endX = (rect.x + rect.width) * sf;
-                                float endY = (rect.y + rect.height) * sf;
-                                
-                                // Calculate integer bounds for tiles touched by the rectangle
-                                int x1 = (int) Math.floor(startX);
-                                int y1 = (int) Math.floor(startY);
-                                int x2 = (int) Math.ceil(endX);
-                                int y2 = (int) Math.ceil(endY);
-                                
-                                // Mark the core area PLUS a 1-tile buffer in every direction
-                                for (int ix = x1 - 1; ix <= x2; ix++) {
-                                    for (int iy = y1 - 1; iy <= y2; iy++) {
-                                        AStarNode node = getNode(ix, iy);
-                                        if (node != null) {
-                                            node.traversable = false;
-                                        }
-                                    }
+                                markObstacle(rect.x * sf, rect.y * sf, rect.width * sf, rect.height * sf);
+                            } else if (object instanceof PolygonMapObject polyObj) {
+                                float[] vertices = polyObj.getPolygon().getTransformedVertices();
+                                float minX = Float.MAX_VALUE, maxX = -Float.MAX_VALUE;
+                                float minY = Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
+                                for (int i = 0; i < vertices.length; i += 2) {
+                                    float xV = vertices[i] * sf;
+                                    float yV = vertices[i + 1] * sf;
+                                    if (xV < minX) minX = xV;
+                                    if (xV > maxX) maxX = xV;
+                                    if (yV < minY) minY = yV;
+                                    if (yV > maxY) maxY = yV;
                                 }
+                                markObstacle(minX, minY, maxX - minX, maxY - minY);
                             }
                         }
                     }
@@ -104,6 +123,23 @@ public class AStarGraph implements Graph<AStarNode> {
                 addDiagonalConnection(node, x - 1, y + 1, x - 1, y, x, y + 1);
                 addDiagonalConnection(node, x + 1, y - 1, x + 1, y, x, y - 1);
                 addDiagonalConnection(node, x - 1, y - 1, x - 1, y, x, y - 1);
+            }
+        }
+    }
+
+    private void markObstacle(float x, float y, float width, float height) {
+        int x1 = (int) Math.floor(x);
+        int y1 = (int) Math.floor(y);
+        int x2 = (int) Math.ceil(x + width);
+        int y2 = (int) Math.ceil(y + height);
+
+        // Mark the core area PLUS a 1-tile buffer in every direction
+        for (int ix = x1 - 1; ix <= x2; ix++) {
+            for (int iy = y1 - 1; iy <= y2; iy++) {
+                AStarNode node = getNode(ix, iy);
+                if (node != null) {
+                    node.traversable = false;
+                }
             }
         }
     }

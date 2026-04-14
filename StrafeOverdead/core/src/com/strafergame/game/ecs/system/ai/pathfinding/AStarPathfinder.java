@@ -16,8 +16,7 @@ public class AStarPathfinder {
         this.graph = new AStarGraph(width, height, elevation);
         this.heuristic = new AStarHeuristic();
         
-        // Custom IndexedGraph implementation since AStarGraph is just a Graph
-        IndexedGraph<AStarNode> indexedGraph = new IndexedGraph<AStarNode>() {
+        IndexedGraph<AStarNode> indexedGraph = new IndexedGraph<>() {
             @Override
             public int getIndex(AStarNode node) {
                 return node.getIndex(width);

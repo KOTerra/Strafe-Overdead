@@ -169,32 +169,38 @@ public class FilteredContactListener implements ContactListener {
 
                     ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(actvCmp.agent);
                     if (elvAgentCmp != null) {
-                        elvAgentCmp.sensorBody.setAwake(true);
+                        // Only player activates elevation agents
+                        if (ComponentMappers.player().has(footprintEntity)) {
+                            elvAgentCmp.sensorBody.setAwake(true);
+                        }
                         //send the entity that activated it to the agent
                     }
                 }
 
                 ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(detectorEntity);
                 if (elvAgentCmp != null) {
-                    //recieve the entities sent by the activator check them in
-                    elvAgentCmp.footprintBody.setAwake(false); //or change with filtering out the set of entities that were sent by the activator
-                    // elvAgentCmp.footprintBody.getFixtureList().first().setSensor(true);
+                    // Only player activates elevation agents
+                    if (ComponentMappers.player().has(footprintEntity)) {
+                        //recieve the entities sent by the activator check them in
+                        elvAgentCmp.footprintBody.setAwake(false); //or change with filtering out the set of entities that were sent by the activator
+                        // elvAgentCmp.footprintBody.getFixtureList().first().setSensor(true);
 
-                    elvAgentCmp.leftRailing.setAwake(true);
-                    //  elvAgentCmp.leftRailing.getFixtureList().first().setSensor(false);                              //maybe change the category of the interacting entity and them temporarily
-                    elvAgentCmp.rightRailing.setAwake(true);
-                    //  elvAgentCmp.rightRailing.getFixtureList().first().setSensor(false);
+                        elvAgentCmp.leftRailing.setAwake(true);
+                        //  elvAgentCmp.leftRailing.getFixtureList().first().setSensor(false);                              //maybe change the category of the interacting entity and them temporarily
+                        elvAgentCmp.rightRailing.setAwake(true);
+                        //  elvAgentCmp.rightRailing.getFixtureList().first().setSensor(false);
 
-                    //just the render elevation is changed, full elevation  is changed when both activators passed
-                    PositionComponent positionComponent = ComponentMappers.position().get(footprintEntity);
-                    if (positionComponent != null) {
-                        positionComponent.elevation = elvAgentCmp.topElevation;
-                        // Update player shadow bit to cast shadows on the upper layer
-                        setShadowFilter(ComponentMappers.box2d().get(footprintEntity).body, positionComponent.elevation);
-                    }
-                    if (!elvAgentCmp.interactingEntitites.contains(footprintEntity)) {
-                        elvAgentCmp.interactingEntitites.add(footprintEntity);
-                        ComponentMappers.elevation().get(footprintEntity).isClimbing = true;
+                        //just the render elevation is changed, full elevation  is changed when both activators passed
+                        PositionComponent positionComponent = ComponentMappers.position().get(footprintEntity);
+                        if (positionComponent != null) {
+                            positionComponent.elevation = elvAgentCmp.topElevation;
+                            // Update player shadow bit to cast shadows on the upper layer
+                            setShadowFilter(ComponentMappers.box2d().get(footprintEntity).body, positionComponent.elevation);
+                        }
+                        if (!elvAgentCmp.interactingEntitites.contains(footprintEntity)) {
+                            elvAgentCmp.interactingEntitites.add(footprintEntity);
+                            ComponentMappers.elevation().get(footprintEntity).isClimbing = true;
+                        }
                     }
                 }
             }
