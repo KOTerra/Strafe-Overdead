@@ -38,10 +38,10 @@ public class AStarPathfinder {
     }
 
     public Array<Vector2> findPath(Vector2 start, Vector2 end) {
-        AStarNode startNode = graph.getNodeAtWorld(start.x, start.y);
-        AStarNode endNode = graph.getNodeAtWorld(end.x, end.y);
+        AStarNode startNode = graph.getNearestTraversableNode(start.x, start.y);
+        AStarNode endNode = graph.getNearestTraversableNode(end.x, end.y);
 
-        if (startNode == null || endNode == null || !endNode.traversable) {
+        if (startNode == null || endNode == null) {
             return null;
         }
 

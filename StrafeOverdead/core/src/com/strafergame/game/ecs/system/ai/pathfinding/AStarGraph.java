@@ -99,11 +99,11 @@ public class AStarGraph implements Graph<AStarNode> {
                 addConnection(node, x, y + 1);
                 addConnection(node, x, y - 1);
                 
-                // Diagonals
-                addConnection(node, x + 1, y + 1);
-                addConnection(node, x - 1, y + 1);
-                addConnection(node, x + 1, y - 1);
-                addConnection(node, x - 1, y - 1);
+                // Diagonals (only if adjacent orthogonals are also traversable to avoid corner cutting)
+                addDiagonalConnection(node, x + 1, y + 1, x + 1, y, x, y + 1);
+                addDiagonalConnection(node, x - 1, y + 1, x - 1, y, x, y + 1);
+                addDiagonalConnection(node, x + 1, y - 1, x + 1, y, x, y - 1);
+                addDiagonalConnection(node, x - 1, y - 1, x - 1, y, x, y - 1);
             }
         }
     }
@@ -117,6 +117,21 @@ public class AStarGraph implements Graph<AStarNode> {
         }
     }
 
+    private void addDiagonalConnection(AStarNode fromNode, int x, int y, int adjX1, int adjY1, int adjX2, int adjY2) {
+        if (x >= 0 && x < width && y >= 0 && y < height &&
+            adjX1 >= 0 && adjX1 < width && adjY1 >= 0 && adjY1 < height &&
+            adjX2 >= 0 && adjX2 < width && adjY2 >= 0 && adjY2 < height) {
+            
+            AStarNode toNode = nodes[y * width + x];
+            AStarNode adj1 = nodes[adjY1 * width + adjX1];
+            AStarNode adj2 = nodes[adjY2 * width + adjX2];
+            
+            if (toNode.traversable && adj1.traversable && adj2.traversable) {
+                fromNode.getConnections().add(new DefaultConnection<>(fromNode, toNode));
+            }
+        }
+    }
+
     public AStarNode getNode(int x, int y) {
         if (x < 0 || x >= width || y < 0 || y >= height) return null;
         return nodes[y * width + x];
@@ -124,6 +139,23 @@ public class AStarGraph implements Graph<AStarNode> {
 
     public AStarNode getNodeAtWorld(float x, float y) {
         return getNode((int) x, (int) y);
+    }
+
+    public AStarNode getNearestTraversableNode(float x, float y) {
+        AStarNode node = getNodeAtWorld(x, y);
+        if (node != null && node.traversable) return node;
+
+        // Search in increasing rings
+        for (int r = 1; r < 5; r++) {
+            for (int ix = -r; ix <= r; ix++) {
+                for (int iy = -r; iy <= r; iy++) {
+                    if (Math.abs(ix) != r && Math.abs(iy) != r) continue;
+                    AStarNode n = getNodeAtWorld(x + ix, y + iy);
+                    if (n != null && n.traversable) return n;
+                }
+            }
+        }
+        return null;
     }
 
     @Override

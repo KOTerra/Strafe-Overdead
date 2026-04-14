@@ -17,11 +17,10 @@ import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.states.EntityState;
-import com.strafergame.game.world.GameWorld;
 
-public class ApproachPlayer extends LeafTask<Entity> {
+public class ApproachTarget extends LeafTask<Entity> {
 
-    private static final float STOP_DISTANCE = 2.0f; // Distance at which to stop to avoid pushing player
+    private static final float STOP_DISTANCE = 2.0f; // Distance at which to stop to avoid pushing target
 
     @Override
     public Status execute() {
@@ -30,11 +29,16 @@ public class ApproachPlayer extends LeafTask<Entity> {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(e);
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(e);
 
-        if (steerCmp == null || GameWorld.player == null) return Status.FAILED;
+        if (steerCmp == null || steerCmp.target == null) return Status.FAILED;
 
-        // Check distance to player
-        Vector2 playerPos = ComponentMappers.box2d().get(GameWorld.player).body.getPosition();
-        if (b2dCmp.body.getPosition().dst(playerPos) < STOP_DISTANCE) {
+        Box2dComponent targetB2d = ComponentMappers.box2d().get(steerCmp.target);
+        SteeringComponent targetSteer = ComponentMappers.steering().get(steerCmp.target);
+        
+        if (targetB2d == null || targetSteer == null) return Status.FAILED;
+
+        // Check distance to target
+        Vector2 targetPos = targetB2d.body.getPosition();
+        if (b2dCmp.body.getPosition().dst(targetPos) < STOP_DISTANCE) {
             return Status.FAILED; // Break chase sequence and go to idle
         }
 
@@ -52,7 +56,7 @@ public class ApproachPlayer extends LeafTask<Entity> {
 
         PrioritySteering<Vector2> prioritySteering = new PrioritySteering<>(steerCmp);
         prioritySteering.add(separation);
-        prioritySteering.add(new Seek<>(steerCmp, ComponentMappers.steering().get(GameWorld.player)));
+        prioritySteering.add(new Seek<>(steerCmp, targetSteer));
 
         steerCmp.behavior = prioritySteering;
         steerCmp.debugPath = null;
@@ -62,8 +66,6 @@ public class ApproachPlayer extends LeafTask<Entity> {
 
     @Override
     protected Task<Entity> copyTo(Task<Entity> task) {
-        return task != null ? task : new ApproachPlayer();
+        return task != null ? task : new ApproachTarget();
     }
-
-
 }
