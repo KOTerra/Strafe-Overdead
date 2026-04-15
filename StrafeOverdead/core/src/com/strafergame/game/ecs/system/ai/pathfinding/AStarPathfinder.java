@@ -47,11 +47,18 @@ public class AStarPathfinder {
         DefaultGraphPath<AStarNode> path = new DefaultGraphPath<>();
         if (pathFinder.searchNodePath(startNode, endNode, heuristic, path)) {
             Array<Vector2> waypoints = new Array<>();
-            for (AStarNode node : path) {
+            // Use current position as the start of the path to avoid "jumping" back to tile center
+            waypoints.add(new Vector2(start.x, start.y));
+            for (int i = 1; i < path.getCount(); i++) {
+                AStarNode node = path.get(i);
                 waypoints.add(new Vector2(node.x + 0.5f, node.y + 0.5f));
             }
             return waypoints;
         }
         return null;
+    }
+
+    public AStarGraph getGraph() {
+        return graph;
     }
 }

@@ -15,6 +15,9 @@ import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.MovementComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.states.EntityState;
+import com.strafergame.game.ecs.system.ai.pathfinding.AStarNode;
+import com.strafergame.game.ecs.system.ai.pathfinding.AStarGraph;
+import com.strafergame.game.world.map.MapManager;
 
 public class SteeringComponent implements Steerable<Vector2>, Component {
 
@@ -70,11 +73,50 @@ public class SteeringComponent implements Steerable<Vector2>, Component {
             return;
         }
 
-        // Set velocity directly in the direction of steering to mimic player movement and avoid "ice" feel or orbiting
-        Vector2 velocity = steeringOutput.linear.nor().scl(getMaxLinearSpeed());
+        Vector2 desiredVelocity = steeringOutput.linear.nor().scl(getMaxLinearSpeed());
 
-        // Set velocity directly to the body
-        b2dCmp.body.setLinearVelocity(velocity);
+        // Simple Wall Repulsion
+        int elevation = ComponentMappers.elevation().get(owner).elevation;
+        AStarGraph graph = MapManager.getPathfinder(elevation).getGraph();
+        Vector2 pos = getPosition();
+        int ix = (int) Math.floor(pos.x);
+        int iy = (int) Math.floor(pos.y);
+        Vector2 repulsion = new Vector2();
+        float repulsionThreshold = 0.65f;
+
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                if (dx == 0 && dy == 0) continue;
+                AStarNode n = graph.getNode(ix + dx, iy + dy);
+                if (n != null && !n.traversable) {
+                    // Closest point on the wall tile's boundary to the NPC
+                    float closestX = Math.max(ix + dx, Math.min(pos.x, ix + dx + 1));
+                    float closestY = Math.max(iy + dy, Math.min(pos.y, iy + dy + 1));
+                    Vector2 closestPoint = new Vector2(closestX, closestY);
+                    Vector2 diff = pos.cpy().sub(closestPoint);
+                    float dist = diff.len();
+                    if (dist < repulsionThreshold) {
+                        float forceScale = (repulsionThreshold - dist) / repulsionThreshold;
+                        repulsion.add(diff.nor().scl(forceScale));
+                    }
+                }
+            }
+        }
+        if (!repulsion.isZero()) {
+            // Apply a strong enough force to steer away before physical contact
+            desiredVelocity.add(repulsion.scl(getMaxLinearSpeed() * 2.5f)).nor().scl(getMaxLinearSpeed());
+        }
+
+        Vector2 currentVelocity = b2dCmp.body.getLinearVelocity();
+
+        if (currentVelocity.isZero(0.1f)) {
+            b2dCmp.body.setLinearVelocity(desiredVelocity);
+        } else {
+            // Smoothly rotate the current velocity towards the desired direction
+            // 0.4f is fast enough to feel responsive but slow enough to remove jitter
+            currentVelocity.lerp(desiredVelocity, 0.4f).nor().scl(getMaxLinearSpeed());
+            b2dCmp.body.setLinearVelocity(currentVelocity);
+        }
 
         if (steeringOutput.angular != 0) {
             b2dCmp.body.setAngularVelocity(steeringOutput.angular);

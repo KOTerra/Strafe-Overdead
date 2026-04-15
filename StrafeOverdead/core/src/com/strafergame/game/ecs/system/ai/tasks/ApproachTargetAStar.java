@@ -13,15 +13,14 @@ import com.badlogic.gdx.ai.steer.behaviors.Separation;
 import com.badlogic.gdx.ai.steer.proximities.RadiusProximity;
 import com.badlogic.gdx.ai.steer.utils.paths.LinePath;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
-import com.strafergame.game.ecs.component.ComponentDataUtils;
 import com.strafergame.game.ecs.component.ai.SteeringComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.ai.pathfinding.AStarPathfinder;
+import com.strafergame.game.world.GameWorld;
 import com.strafergame.game.world.map.MapManager;
 
 public class ApproachTargetAStar extends LeafTask<Entity> {
@@ -29,6 +28,7 @@ public class ApproachTargetAStar extends LeafTask<Entity> {
     private float timeSinceLastPathUpdate = 0;
     private static final float PATH_UPDATE_INTERVAL = 0.5f; // Update path every 0.5s for better responsiveness
     private static final float STOP_DISTANCE = 2.0f; // Distance at which to stop to avoid pushing target
+    private final Vector2 lastTargetPos = new Vector2();
 
     @Override
     public Status execute() {
@@ -54,47 +54,14 @@ public class ApproachTargetAStar extends LeafTask<Entity> {
 
         timeSinceLastPathUpdate += 0.016f; // Rough estimate of delta time
 
-        // Intelligent Fallback: Check Line of Sight with clearance
-        World world = EntityEngine.getInstance().getBox2dWorld().getWorld();
-        float width = ComponentMappers.sprite().get(entity).width;
-        boolean hasClearFOV = hasClearFOV(world, start, end, entity, steerCmp.target, width);
-
-        if (hasClearFOV) {
-            // If FOV is clear, just use simple Seek + Separation
-            steerCmp.behavior = createChaseBehavior(entity, steerCmp, null);
-            steerCmp.debugPath = null;
-        } else {
-            // no lin of sight or enough clearance -> A*
-            if (timeSinceLastPathUpdate >= PATH_UPDATE_INTERVAL || steerCmp.debugPath == null) {
-                updatePathfinder(entity, b2dCmp, steerCmp, end);
-                timeSinceLastPathUpdate = 0;
-            }
+        // Update path if interval passed OR if target moved significantly OR if we have no behavior
+        if (timeSinceLastPathUpdate >= PATH_UPDATE_INTERVAL || steerCmp.behavior == null || end.dst2(lastTargetPos) > 0.25f) {
+            updatePathfinder(entity, b2dCmp, steerCmp, end);
+            timeSinceLastPathUpdate = 0;
+            lastTargetPos.set(end);
         }
 
         return Status.SUCCEEDED;
-    }
-
-    private boolean hasClearFOV(World world, Vector2 start, Vector2 end, Entity self, Entity target, float width) {
-        // Thick raycast: check center and both sides
-        Vector2 dir = end.cpy().sub(start).nor();
-        Vector2 side = new Vector2(-dir.y, dir.x).scl(width / 2f);
-
-        return hasLineOfSight(world, start, end, self, target) &&
-               hasLineOfSight(world, start.cpy().add(side), end.cpy().add(side), self, target) &&
-               hasLineOfSight(world, start.cpy().sub(side), end.cpy().sub(side), self, target);
-    }
-
-    private boolean hasLineOfSight(World world, Vector2 start, Vector2 end, Entity self, Entity target) {
-        final boolean[] blocked = {false};
-        world.rayCast((fixture, point, normal, fraction) -> {
-            if (fixture.isSensor()) return -1;
-            Entity hitEntity = ComponentDataUtils.getEntityFrom(fixture);
-            if (hitEntity != null && (hitEntity.equals(self) || hitEntity.equals(target))) return -1;
-            
-            blocked[0] = true;
-            return 0;
-        }, start, end);
-        return !blocked[0];
     }
 
     private void updatePathfinder(Entity entity, Box2dComponent b2dCmp, SteeringComponent steerCmp, Vector2 end) {
@@ -108,24 +75,26 @@ public class ApproachTargetAStar extends LeafTask<Entity> {
 
         if (waypoints != null && waypoints.size > 1) {
             LinePath<Vector2> path = new LinePath<>(waypoints, false);
-            FollowPath<Vector2, LinePath.LinePathParam> followPath = new FollowPath<>(steerCmp, path, 1.0f);
+            FollowPath<Vector2, LinePath.LinePathParam> followPath = new FollowPath<>(steerCmp, path, 0.25f);
             steerCmp.behavior = createChaseBehavior(entity, steerCmp, followPath);
         } else {
-            // A* failed or destination unreachable, fallback to Seek  //TODO maybe stop entirely
-            steerCmp.behavior = createChaseBehavior(entity, steerCmp, null);
+            // A* failed or destination unreachable, just stop instead of seeking through walls
+            steerCmp.behavior = null;
+            b2dCmp.body.setLinearVelocity(0, 0);
             steerCmp.debugPath = null;
         }
     }
 
     private PrioritySteering<Vector2> createChaseBehavior(Entity entity, SteeringComponent steerCmp, SteeringBehavior<Vector2> followBehavior) {
-        // neighbors for separation
+        // Gather neighbors for separation
         Array<Steerable<Vector2>> neighbors = new Array<>();
         for (Entity other : EntityEngine.getInstance().getEntitiesFor(Family.all(SteeringComponent.class).get())) {
             if (other != entity) {
                 neighbors.add(ComponentMappers.steering().get(other));
             }
         }
-        RadiusProximity<Vector2> proximity = new RadiusProximity<>(steerCmp, neighbors, 1.2f);
+        // Reduced proximity radius for tighter, less jittery separation
+        RadiusProximity<Vector2> proximity = new RadiusProximity<>(steerCmp, neighbors, 0.6f);
         Separation<Vector2> separation = new Separation<>(steerCmp, proximity);
 
         PrioritySteering<Vector2> prioritySteering = new PrioritySteering<>(steerCmp);
@@ -133,11 +102,6 @@ public class ApproachTargetAStar extends LeafTask<Entity> {
 
         if (followBehavior != null) {
             prioritySteering.add(followBehavior);
-        } else {
-            SteeringComponent targetSteer = ComponentMappers.steering().get(steerCmp.target);
-            if (targetSteer != null) {
-                prioritySteering.add(new Seek<>(steerCmp, targetSteer));
-            }
         }
         
         return prioritySteering;

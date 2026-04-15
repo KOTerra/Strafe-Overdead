@@ -51,6 +51,10 @@ public class AStarGraph implements Graph<AStarNode> {
         if (map != null) {
             for (MapLayer layer : map.getLayers()) {
                 if (!(layer instanceof TiledMapTileLayer)) {
+                    String layerName = layer.getName();
+                    if (layerName != null && layerName.toLowerCase().startsWith("railings")) {
+                        continue;
+                    }
                     for (MapObject object : layer.getObjects()) {
                         String type = object.getProperties().get("type", String.class);
                         if (type == null) {
@@ -81,7 +85,7 @@ public class AStarGraph implements Graph<AStarNode> {
                         }
 
                         boolean isObstacleType = "COLLISION".equals(type) || "ELEVATIONAGENT".equals(type) || 
-                                               "FOOTPRINT".equals(type) || "ACTIVATOR".equals(type) || "SLOPE".equals(type);
+                                               "FOOTPRINT".equals(type) || "ACTIVATOR".equals(type);
                         
                         if (isObstacleType && isElevationMatch) {
                             if (object instanceof RectangleMapObject rectObj) {
@@ -133,9 +137,9 @@ public class AStarGraph implements Graph<AStarNode> {
         int x2 = (int) Math.ceil(x + width);
         int y2 = (int) Math.ceil(y + height);
 
-        // Mark the core area PLUS a 1-tile buffer in every direction
-        for (int ix = x1 - 1; ix <= x2; ix++) {
-            for (int iy = y1 - 1; iy <= y2; iy++) {
+        // Mark only the tiles actually touched by the collision object
+        for (int ix = x1; ix < x2; ix++) {
+            for (int iy = y1; iy < y2; iy++) {
                 AStarNode node = getNode(ix, iy);
                 if (node != null) {
                     node.traversable = false;
