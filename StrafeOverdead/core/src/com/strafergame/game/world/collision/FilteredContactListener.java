@@ -164,13 +164,29 @@ public class FilteredContactListener implements ContactListener {
                 ActivatorComponent actvCmp = ComponentMappers.activator().get(detectorEntity);
                 if (actvCmp != null) {
                     fixtureA.setUserData(new ProximityContact(fixtureB, fixtureA));
-                    Box2dComponent b2dCmp = ComponentMappers.box2d().get(footprintEntity);
-                    if (b2dCmp != null && (b2dCmp.footprintStack.isEmpty() || !b2dCmp.footprintStack.getFirst().equals(detectorEntity))) {
-                        b2dCmp.footprintStack.addFirst(detectorEntity);
+                    
+                    ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(actvCmp.agent);
+                    ElevationComponent elvCmp = ComponentMappers.elevation().get(footprintEntity);
+                    
+                    boolean isValidActivation = false;
+                    if (elvAgentCmp != null && elvCmp != null) {
+                        if (detectorEntity.equals(elvAgentCmp.baseActivator)) {
+                            if (elvCmp.elevation == elvAgentCmp.baseElevation || elvAgentCmp.interactingEntitites.contains(footprintEntity)) {
+                                isValidActivation = true;
+                            }
+                        } else if (detectorEntity.equals(elvAgentCmp.topActivator)) {
+                            if (elvCmp.elevation == elvAgentCmp.topElevation || elvAgentCmp.interactingEntitites.contains(footprintEntity)) {
+                                isValidActivation = true;
+                            }
+                        }
                     }
 
-                    ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(actvCmp.agent);
-                    if (elvAgentCmp != null) {
+                    if (isValidActivation) {
+                        Box2dComponent b2dCmp = ComponentMappers.box2d().get(footprintEntity);
+                        if (b2dCmp != null && (b2dCmp.footprintStack.isEmpty() || !b2dCmp.footprintStack.getFirst().equals(detectorEntity))) {
+                            b2dCmp.footprintStack.addFirst(detectorEntity);
+                        }
+
                         elvAgentCmp.sensorEnabledEntities.add(footprintEntity);
                         // Check if the entity is already in the slope area
                         if (elvAgentCmp.inSlopeArea.contains(footprintEntity)) {
