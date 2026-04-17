@@ -8,7 +8,7 @@ import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.world.ActivatorComponent;
 import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
 import com.strafergame.game.ecs.states.ActivatorType;
-import com.strafergame.game.world.collision.FilteredContactListener;
+import com.strafergame.game.world.collision.ElevationUtils;
 
 import static com.strafergame.game.ecs.system.world.ClimbFallSystem.TARGET_NOT_CALCULATED;
 
@@ -16,7 +16,6 @@ public class ClimbDelegate {
 
     public void climb(Entity entity) {
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
-        ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
 
         if (b2dCmp.footprintStack.size() >= 2) {
             Entity first = b2dCmp.footprintStack.pop();
@@ -27,15 +26,13 @@ public class ClimbDelegate {
 
             if (actvA.agent.equals(actvB.agent)) {                                              //activators of the same agent
                 if (actvA.type.equals(ActivatorType.ELEVATION_UP) && actvB.type.equals(ActivatorType.ELEVATION_DOWN)) { //goes down
-                    elvCmp.elevation = agentCmp.baseElevation;
-                    FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation); // Sync shadow filter
+                    ElevationUtils.changeElevation(entity, agentCmp.baseElevation);
                     b2dCmp.footprintStack.clear();      //solved clear
                     b2dCmp.footprintStack.addFirst(first);
                     return;
                 }
                 if (actvA.type.equals(ActivatorType.ELEVATION_DOWN) && actvB.type.equals(ActivatorType.ELEVATION_UP)) { //goes up
-                    elvCmp.elevation = agentCmp.topElevation;
-                    FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation);
+                    ElevationUtils.changeElevation(entity, agentCmp.topElevation);
                     b2dCmp.footprintStack.clear();
                     b2dCmp.footprintStack.addFirst(first);
                     return;
@@ -68,9 +65,7 @@ public class ClimbDelegate {
         int yRound = Math.round(b2dCmp.body.getPosition().y);
 
         if (MapQueryUtils.isTileAt(xRound, yRound, checkElevation)) {
-            elvCmp.elevation = checkElevation;
-            ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
-            FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation);
+            ElevationUtils.changeElevation(entity, checkElevation);
 
             // Safety: Clear fall targets to prevent stale state from a previous frame
             elvCmp.fallTargetCell = null;

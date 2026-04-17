@@ -17,6 +17,7 @@ import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.states.ItemAttachmentType;
 import com.strafergame.game.world.collision.Box2DFactory;
+import com.strafergame.game.world.collision.ElevationUtils;
 import com.strafergame.game.world.collision.FilteredContactListener;
 import com.sun.jdi.TypeComponent;
 
@@ -80,7 +81,7 @@ public abstract class ItemEntityFactory {
         Filter filter = attckCmp.hitbox.getFilterData();
         filter.categoryBits = FilteredContactListener.PROJECTILE_HITBOX_CATEGORY;
 
-        short elevationWallBit = FilteredContactListener.getWallCategory(ownerElev.elevation);
+        short elevationWallBit = ElevationUtils.getWallCategory(ownerElev.elevation);
 
         // Mask excludes SOLID_BODY_CATEGORY, only interacts with Hurtboxes and Wall bits
         filter.maskBits = (short) (FilteredContactListener.HURTBOX_CATEGORY | elevationWallBit);

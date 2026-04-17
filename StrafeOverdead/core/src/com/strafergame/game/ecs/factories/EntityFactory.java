@@ -15,7 +15,7 @@ import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.LightComponent;
 import com.strafergame.game.world.collision.Box2DFactory;
-import com.strafergame.game.world.collision.FilteredContactListener;
+import com.strafergame.game.world.collision.ElevationUtils;
 
 public abstract class EntityFactory {
 
@@ -36,7 +36,7 @@ public abstract class EntityFactory {
         b2dCmp.body.setUserData(e);
 
         // Add shadow casting bit for this elevation without overwriting HURTBOX bits.
-        short shadowBit = FilteredContactListener.getWallCategory(posCmp.elevation);
+        short shadowBit = ElevationUtils.getWallCategory(posCmp.elevation);
         for (Fixture fixture : b2dCmp.body.getFixtureList()) {
             if (!fixture.isSensor()) {
                 Filter filter = fixture.getFilterData();
@@ -47,7 +47,7 @@ public abstract class EntityFactory {
 
 
         // Apply elevation shadow bit to the player's solid body fixtures
-        FilteredContactListener.setShadowFilter(b2dCmp.body, posCmp.elevation);
+        ElevationUtils.setShadowFilter(b2dCmp.body, posCmp.elevation);
 
         b2dCmp.initiatedPhysics = true;
     }

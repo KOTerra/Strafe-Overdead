@@ -17,6 +17,7 @@ import com.strafergame.game.ecs.states.ActivatorType;
 import com.strafergame.game.ecs.states.ElevationAgentType;
 import com.strafergame.game.ecs.states.EntityDirection;
 import com.strafergame.game.world.collision.Box2DMapFactory;
+import com.strafergame.game.world.collision.ElevationUtils;
 import com.strafergame.game.world.collision.FilteredContactListener;
 
 public class ElevationAgentFactory implements EntityCreator {
@@ -58,7 +59,7 @@ public class ElevationAgentFactory implements EntityCreator {
         elvAgentCmp.rightRailing.setAwake(true);
 
         // Railings should cast shadows on the base elevation
-        short shadowBit = FilteredContactListener.getWallCategory(elvAgentCmp.baseElevation);
+        short shadowBit = ElevationUtils.getWallCategory(elvAgentCmp.baseElevation);
         for (Fixture f : elvAgentCmp.leftRailing.getFixtureList()) {
             Filter filter = f.getFilterData();
             filter.categoryBits |= shadowBit;

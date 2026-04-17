@@ -9,7 +9,7 @@ import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.states.EntityState;
-import com.strafergame.game.world.collision.FilteredContactListener;
+import com.strafergame.game.world.collision.ElevationUtils;
 import com.strafergame.game.world.map.MapManager;
 import org.antlr.v4.runtime.misc.Pair;
 
@@ -44,6 +44,10 @@ public class FallDelegate {
         return true;
     }
 
+
+    /**
+     * raycasts through the tile layers below the entity finding the first non-null tile, taking perspective offset on Y axis in consideration
+     */
     public void computeFallTarget(Entity entity) {         //solve fall after jumping in null layer, maybe add an empty layer on top of the map, handled automatically
 
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
@@ -70,15 +74,14 @@ public class FallDelegate {
                 b2dCmp.body.setTransform(b2dCmp.body.getPosition().x, currentY - 1f, 0);
             }
 
-            elvCmp.elevation -= 1;
-            ComponentMappers.position().get(entity).elevation -= 1; ///if falling in w direction starts with an elevation down already
-            FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation);
+            ElevationUtils.changeElevation(entity, elvCmp.elevation - 1);
 
             elvCmp.prevIncrementalY = currentY;
             elvCmp.fallTargetCell = cell;
             elvCmp.fallTargetY = targetY;
             elvCmp.fallTargetElevation = elevation;
         }
+
     }
 
     public void updateFallTarget(Entity entity) {  //TODO have to also update if a higher elevation cell comes between target and entity
@@ -126,9 +129,15 @@ public class FallDelegate {
                 elvCmp.fallTargetY = targetY;
                 elvCmp.fallTargetElevation = targetElevation;
             }
+
+
         }
     }
 
+
+    /**
+     * stops the entity from falling if it hits the fallTargets
+     */
     public void fallArrive(Entity entity) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
@@ -141,9 +150,7 @@ public class FallDelegate {
                 //place shadow on the target height
                 if (b2dCmp.body.getPosition().y <= elvCmp.fallTargetY) {
                     typeCmp.entityState = EntityState.idle;
-                    elvCmp.elevation = elvCmp.fallTargetElevation;
-                    ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
-                    FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation);
+                    ElevationUtils.changeElevation(entity, elvCmp.fallTargetElevation);
 
                     b2dCmp.body.setTransform(b2dCmp.body.getPosition().x, elvCmp.fallTargetY, 0);
 
@@ -157,15 +164,16 @@ public class FallDelegate {
         }
     }
 
+    /**
+     * handles the case in which an etity falls off the map
+     */
     public void fallOffWorld(Entity entity) {
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
         if (elvCmp.elevation < OFF_WORLD_FALL_DISTANCE) {
             b2dCmp.body.setTransform(elvCmp.lastStablePosition, 0);
-            elvCmp.elevation = elvCmp.lastStableElevation;
-            ComponentMappers.position().get(entity).elevation = elvCmp.lastStableElevation;
-            FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation);
+            ElevationUtils.changeElevation(entity, elvCmp.lastStableElevation);
 
             elvCmp.fallTargetCell = null;
             elvCmp.fallTargetElevation = 0;

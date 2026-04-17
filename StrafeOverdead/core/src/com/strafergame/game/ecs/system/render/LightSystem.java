@@ -13,6 +13,7 @@ import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.LightComponent;
+import com.strafergame.game.world.collision.ElevationUtils;
 import com.strafergame.game.world.collision.FilteredContactListener;
 
 import java.nio.IntBuffer;
@@ -47,7 +48,7 @@ public class LightSystem extends IteratingSystem {
                 source.light.setPosition(posCmp.renderPos.x + source.offset.x, posCmp.renderPos.y + source.offset.y);
 
                 //  which wall elevation bit this light hits
-                short mask = FilteredContactListener.getWallCategory(lightCmp.elevation);
+                short mask = ElevationUtils.getWallCategory(lightCmp.elevation);
                 // Set light category to -1 so it is never ignored by object maskBits
                 source.light.setContactFilter((short) -1, (short) 0, mask);
             }

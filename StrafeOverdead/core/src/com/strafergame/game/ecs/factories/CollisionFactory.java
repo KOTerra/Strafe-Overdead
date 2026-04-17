@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.world.collision.Box2DMapFactory;
-import com.strafergame.game.world.collision.FilteredContactListener;
+import com.strafergame.game.world.collision.ElevationUtils;
 
 public class CollisionFactory implements EntityCreator {
     @Override
@@ -27,10 +27,10 @@ public class CollisionFactory implements EntityCreator {
         elvCmp.elevation = mapObject.getProperties().get("elevation", 0, Integer.class);
         collisionEntity.add(elvCmp);
 
-        FilteredContactListener.setShadowFilter(body, elvCmp.elevation);
+        ElevationUtils.setShadowFilter(body, elvCmp.elevation);
 
         // Add shadow casting bit for this elevation. use |= to preserve existing bits.
-        short shadowBit = FilteredContactListener.getWallCategory(elvCmp.elevation);
+        short shadowBit = ElevationUtils.getWallCategory(elvCmp.elevation);
         for (Fixture f : body.getFixtureList()) {
             Filter filter = f.getFilterData();
             filter.categoryBits |= shadowBit;

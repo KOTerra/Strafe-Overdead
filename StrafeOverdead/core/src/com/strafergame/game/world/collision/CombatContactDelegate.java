@@ -8,6 +8,7 @@ import com.strafergame.game.ecs.component.ComponentDataUtils;
 import com.strafergame.game.ecs.system.interaction.combat.AttackContact;
 
 import static com.strafergame.game.world.collision.FilteredContactListener.*;
+import static com.strafergame.game.world.collision.ElevationUtils.*;
 
 public class CombatContactDelegate {
 

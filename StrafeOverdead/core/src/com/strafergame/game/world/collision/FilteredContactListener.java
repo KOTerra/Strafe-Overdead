@@ -32,33 +32,6 @@ public class FilteredContactListener implements ContactListener {
 
     public static final short SOLID_BODY_CATEGORY = 0x0080; // 128
 
-    // --- LIGHTING BITS (Reserved Bits 8-15) ---
-    public static final short LIGHT_BIT_OFFSET = 8;
-    public static final short ALL_LIGHT_BITS = (short) 0xFF00;
-
-    public static short getWallCategory(int elevation) {
-        int bitShift = (elevation % 8) + LIGHT_BIT_OFFSET;
-        return (short) (1 << bitShift);
-    }
-
-    /**
-     * Updates fixture filters to cast shadows on a specific elevation
-     * without losing existing gameplay categories (Player, Footprint, etc).
-     */
-    public static void setShadowFilter(Body body, int elevation) {
-        if (body == null) return;
-        short shadowBit = getWallCategory(elevation);
-        for (Fixture fixture : body.getFixtureList()) {
-            // Only solid objects (non-sensors) cast shadows
-            if (!fixture.isSensor()) {
-                Filter filter = fixture.getFilterData();
-                filter.categoryBits &= ~ALL_LIGHT_BITS; // Clear old elevation bits
-                filter.categoryBits |= shadowBit;       // Add current elevation bit //TODO also use for shooting on different elevations
-                fixture.setFilterData(filter);
-            }
-        }
-    }
-
 
     public static final float DETECTOR_RADIUS = 9;
 

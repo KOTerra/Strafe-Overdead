@@ -13,7 +13,7 @@ import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.states.EntityState;
-import com.strafergame.game.world.collision.FilteredContactListener;
+import com.strafergame.game.world.collision.ElevationUtils;
 import com.strafergame.game.world.map.MapManager;
 
 import static com.strafergame.game.ecs.system.world.ClimbFallSystem.JUMP_HEIGHT_DIFFERENCE;
@@ -104,6 +104,7 @@ public class JumpDelegate {
         typeCmp.entityState = EntityState.idle;
     }
 
+
     public void beginJump(Entity entity) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
@@ -126,9 +127,7 @@ public class JumpDelegate {
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
             ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
             if (b2dCmp.body.getPosition().y >= elvCmp.jumpHeight) {
-                elvCmp.elevation = elvCmp.elevation + elvCmp.jumpElevationDifference;
-                ComponentMappers.position().get(entity).elevation = elvCmp.elevation;
-                FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation);
+                ElevationUtils.changeElevation(entity, elvCmp.elevation + elvCmp.jumpElevationDifference);
 
                 typeCmp.entityState = EntityState.fall;
                 elvCmp.jumpHeight = 0f;

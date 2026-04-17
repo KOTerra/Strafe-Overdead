@@ -7,7 +7,6 @@ import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ComponentDataUtils;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
-import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.ActivatorComponent;
 import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
 import com.strafergame.game.ecs.system.interaction.ProximityContact;
@@ -126,13 +125,7 @@ public class VerticalityContactDelegate {
     }
 
     public void addInteractingEntity(ElevationAgentComponent elvAgentCmp, Entity entity) {
-        //just the render elevation is changed, full elevation  is changed when both activators passed
-        PositionComponent positionComponent = ComponentMappers.position().get(entity);
-        if (positionComponent != null) {
-            positionComponent.elevation = elvAgentCmp.topElevation;
-            // Update shadow bit to cast shadows on the upper layer
-            setShadowFilter(ComponentMappers.box2d().get(entity).body, positionComponent.elevation);
-        }
+        ElevationUtils.changeRenderElevation(entity, elvAgentCmp.topElevation);
         if (!elvAgentCmp.interactingEntitites.contains(entity)) {
             elvAgentCmp.interactingEntitites.add(entity);
             ComponentMappers.elevation().get(entity).isClimbing = true;
@@ -140,18 +133,12 @@ public class VerticalityContactDelegate {
     }
 
     public void removeInteractingEntity(ElevationAgentComponent elvAgentCmp, Entity entity) {
-        PositionComponent posCmp = ComponentMappers.position().get(entity);
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
-        //reset render elevation to real elevation
-        if (posCmp != null && elvCmp != null) {
-            posCmp.elevation = elvCmp.elevation;
-            // Restore shadow bit to original layer
-            setShadowFilter(ComponentMappers.box2d().get(entity).body, posCmp.elevation);
+        if (elvCmp != null) {
+            ElevationUtils.changeRenderElevation(entity, elvCmp.elevation);
+            elvCmp.isClimbing = false;
         }
 
         elvAgentCmp.interactingEntitites.remove(entity);
-        if (elvCmp != null) {
-            elvCmp.isClimbing = false;
-        }
     }
 }
