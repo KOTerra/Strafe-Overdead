@@ -51,11 +51,11 @@ public class ElevationAgentFactory implements EntityCreator {
         elvAgentCmp.footprintBody.setUserData(elevationAgent);
         elvAgentCmp.footprintBody.setAwake(true);
         elvAgentCmp.sensorBody.setUserData(elevationAgent);
-        elvAgentCmp.sensorBody.setAwake(false);
+        elvAgentCmp.sensorBody.setAwake(true);
         elvAgentCmp.leftRailing.setUserData(elevationAgent);
-        elvAgentCmp.leftRailing.setAwake(false);
+        elvAgentCmp.leftRailing.setAwake(true);
         elvAgentCmp.rightRailing.setUserData(elevationAgent);
-        elvAgentCmp.rightRailing.setAwake(false);
+        elvAgentCmp.rightRailing.setAwake(true);
 
         // Railings should cast shadows on the base elevation
         short shadowBit = FilteredContactListener.getWallCategory(elvAgentCmp.baseElevation);

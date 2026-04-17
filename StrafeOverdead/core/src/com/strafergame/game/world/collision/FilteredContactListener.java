@@ -169,38 +169,22 @@ public class FilteredContactListener implements ContactListener {
 
                     ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(actvCmp.agent);
                     if (elvAgentCmp != null) {
-                        // Only player activates elevation agents
-                        if (ComponentMappers.player().has(footprintEntity)) {
-                            elvAgentCmp.sensorBody.setAwake(true);
+                        elvAgentCmp.sensorEnabledEntities.add(footprintEntity);
+                        // Check if the entity is already in the slope area
+                        if (elvAgentCmp.inSlopeArea.contains(footprintEntity)) {
+                            addInteractingEntity(elvAgentCmp, footprintEntity);
                         }
-                        //send the entity that activated it to the agent
                     }
                 }
 
                 ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(detectorEntity);
                 if (elvAgentCmp != null) {
-                    // Only player activates elevation agents
-                    if (ComponentMappers.player().has(footprintEntity)) {
-                        //recieve the entities sent by the activator check them in
-                        elvAgentCmp.footprintBody.setAwake(false); //or change with filtering out the set of entities that were sent by the activator
-                        // elvAgentCmp.footprintBody.getFixtureList().first().setSensor(true);
+                    if (!elvAgentCmp.inSlopeArea.contains(footprintEntity)) {
+                        elvAgentCmp.inSlopeArea.add(footprintEntity);
+                    }
 
-                        elvAgentCmp.leftRailing.setAwake(true);
-                        //  elvAgentCmp.leftRailing.getFixtureList().first().setSensor(false);                              //maybe change the category of the interacting entity and them temporarily
-                        elvAgentCmp.rightRailing.setAwake(true);
-                        //  elvAgentCmp.rightRailing.getFixtureList().first().setSensor(false);
-
-                        //just the render elevation is changed, full elevation  is changed when both activators passed
-                        PositionComponent positionComponent = ComponentMappers.position().get(footprintEntity);
-                        if (positionComponent != null) {
-                            positionComponent.elevation = elvAgentCmp.topElevation;
-                            // Update player shadow bit to cast shadows on the upper layer
-                            setShadowFilter(ComponentMappers.box2d().get(footprintEntity).body, positionComponent.elevation);
-                        }
-                        if (!elvAgentCmp.interactingEntitites.contains(footprintEntity)) {
-                            elvAgentCmp.interactingEntitites.add(footprintEntity);
-                            ComponentMappers.elevation().get(footprintEntity).isClimbing = true;
-                        }
+                    if (elvAgentCmp.sensorEnabledEntities.contains(footprintEntity)) {
+                        addInteractingEntity(elvAgentCmp, footprintEntity);
                     }
                 }
             }
@@ -230,32 +214,42 @@ public class FilteredContactListener implements ContactListener {
             if (footprintEntity != null && detectorEntity != null) {
                 ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(detectorEntity);
                 if (elvAgentCmp != null) {
-                    elvAgentCmp.footprintBody.setAwake(true);
-                    //elvAgentCmp.footprintBody.getFixtureList().first().setSensor(false);
-
-
-                    elvAgentCmp.sensorBody.setAwake(false);
-                    elvAgentCmp.leftRailing.setAwake(false);
-                    // elvAgentCmp.leftRailing.getFixtureList().first().setSensor(true);
-                    elvAgentCmp.rightRailing.setAwake(false);
-                    // elvAgentCmp.rightRailing.getFixtureList().first().setSensor(true);
-
-                    PositionComponent posCmp = ComponentMappers.position().get(footprintEntity);
-                    ElevationComponent elvCmp = ComponentMappers.elevation().get(footprintEntity);
-                    //reset render elevation to real elevation
-                    if (posCmp != null && elvCmp != null) {
-                        posCmp.elevation = elvCmp.elevation;
-                        // Restore player shadow bit to original layer
-                        setShadowFilter(ComponentMappers.box2d().get(footprintEntity).body, posCmp.elevation);
-                    }
-
-
-                    elvAgentCmp.interactingEntitites.remove(footprintEntity);
-                    ComponentMappers.elevation().get(footprintEntity).isClimbing = false;
-
+                    elvAgentCmp.inSlopeArea.remove(footprintEntity);
+                    elvAgentCmp.sensorEnabledEntities.remove(footprintEntity);
+                    removeInteractingEntity(elvAgentCmp, footprintEntity);
                 }
                 fixtureB.setUserData(null);
             }
+        }
+    }
+
+    private void addInteractingEntity(ElevationAgentComponent elvAgentCmp, Entity entity) {
+        //just the render elevation is changed, full elevation  is changed when both activators passed
+        PositionComponent positionComponent = ComponentMappers.position().get(entity);
+        if (positionComponent != null) {
+            positionComponent.elevation = elvAgentCmp.topElevation;
+            // Update shadow bit to cast shadows on the upper layer
+            setShadowFilter(ComponentMappers.box2d().get(entity).body, positionComponent.elevation);
+        }
+        if (!elvAgentCmp.interactingEntitites.contains(entity)) {
+            elvAgentCmp.interactingEntitites.add(entity);
+            ComponentMappers.elevation().get(entity).isClimbing = true;
+        }
+    }
+
+    private void removeInteractingEntity(ElevationAgentComponent elvAgentCmp, Entity entity) {
+        PositionComponent posCmp = ComponentMappers.position().get(entity);
+        ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+        //reset render elevation to real elevation
+        if (posCmp != null && elvCmp != null) {
+            posCmp.elevation = elvCmp.elevation;
+            // Restore shadow bit to original layer
+            setShadowFilter(ComponentMappers.box2d().get(entity).body, posCmp.elevation);
+        }
+
+        elvAgentCmp.interactingEntitites.remove(entity);
+        if (elvCmp != null) {
+            elvCmp.isClimbing = false;
         }
     }
 
@@ -369,6 +363,38 @@ public class FilteredContactListener implements ContactListener {
         // if one is a jumping/falling entity and the other is a jumpable fixture disable contact
         if (checkJumpBypass(contact, fixtureA, fixtureB) || checkJumpBypass(contact, fixtureB, fixtureA)) {
             contact.setEnabled(false); //
+        }
+
+        checkElevationAgentBypass(contact, fixtureA, fixtureB);
+        checkElevationAgentBypass(contact, fixtureB, fixtureA);
+    }
+
+    private void checkElevationAgentBypass(Contact contact, Fixture agentFixture, Fixture entityFixture) {
+        Entity agentEntity = ComponentDataUtils.getEntityFrom(agentFixture);
+        if (agentEntity == null) {
+            return;
+        }
+        ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(agentEntity);
+        if (elvAgentCmp == null) {
+            return;
+        }
+
+        Entity entity = ComponentDataUtils.getEntityFrom(entityFixture);
+        if (entity == null) {
+            return;
+        }
+
+        boolean isInteracting = elvAgentCmp.interactingEntitites.contains(entity);
+        Body agentBody = agentFixture.getBody();
+
+        if (agentBody == elvAgentCmp.footprintBody) {
+            if (isInteracting) {
+                contact.setEnabled(false);
+            }
+        } else if (agentBody == elvAgentCmp.leftRailing || agentBody == elvAgentCmp.rightRailing) {
+            if (!isInteracting) {
+                contact.setEnabled(false);
+            }
         }
     }
 

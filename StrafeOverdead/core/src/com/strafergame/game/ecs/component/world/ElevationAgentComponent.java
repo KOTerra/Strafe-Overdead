@@ -9,7 +9,9 @@ import com.strafergame.game.ecs.states.ElevationAgentType;
 import com.strafergame.game.ecs.states.EntityDirection;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * used on map entities with elevationCompomponents to operate on their elevation
@@ -44,6 +46,8 @@ public class ElevationAgentComponent implements Component, Pool.Poolable {
     public Body rightRailing;
 
     public List<Entity> interactingEntitites = new ArrayList<>();
+    public List<Entity> inSlopeArea = new ArrayList<>();
+    public Set<Entity> sensorEnabledEntities = new HashSet<>();
 
     public void activate(Boolean activate){
 
