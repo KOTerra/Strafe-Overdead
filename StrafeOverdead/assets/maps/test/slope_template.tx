@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+ <object>
+  <properties>
+   <property name="baseActivator" type="object" value="91"/>
+   <property name="baseElevation" type="int" value="0"/>
+   <property name="direction" value="d"/>
+   <property name="footprint" type="object" value="95"/>
+   <property name="leftRailing" type="object" value="93"/>
+   <property name="rightRailing" type="object" value="94"/>
+   <property name="topActivator" type="object" value="92"/>
+   <property name="topElevation" type="int" value="10"/>
+   <property name="type" value="SLOPE"/>
+  </properties>
+  <polygon points="-302.395,289.849 -655.189,644.099 -676.575,634.033 -671.881,467.736 -656.04,447.033 -305.177,100.722 -284.858,124.382 -286.89,265.174"/>
+ </object>
+</template>

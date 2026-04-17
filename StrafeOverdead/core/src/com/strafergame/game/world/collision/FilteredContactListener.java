@@ -15,6 +15,7 @@ import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.ecs.system.interaction.combat.AttackContact;
 import com.strafergame.game.ecs.system.interaction.ProximityContact;
+import com.strafergame.game.ecs.system.world.ClimbFallSystem;
 
 public class FilteredContactListener implements ContactListener {
 
@@ -182,6 +183,7 @@ public class FilteredContactListener implements ContactListener {
                     }
 
                     if (isValidActivation) {
+                        ClimbFallSystem.saveStablePosition(footprintEntity);
                         Box2dComponent b2dCmp = ComponentMappers.box2d().get(footprintEntity);
                         if (b2dCmp != null && (b2dCmp.footprintStack.isEmpty() || !b2dCmp.footprintStack.getFirst().equals(detectorEntity))) {
                             b2dCmp.footprintStack.addFirst(detectorEntity);
@@ -230,6 +232,11 @@ public class FilteredContactListener implements ContactListener {
             Entity footprintEntity = ComponentDataUtils.getEntityFrom(fixtureA);
 
             if (footprintEntity != null && detectorEntity != null) {
+                // If it was an activator, save position
+                if (ComponentMappers.activator().has(detectorEntity)) {
+                    ClimbFallSystem.saveStablePosition(footprintEntity);
+                }
+
                 ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(detectorEntity);
                 if (elvAgentCmp != null) {
                     elvAgentCmp.inSlopeArea.remove(footprintEntity);

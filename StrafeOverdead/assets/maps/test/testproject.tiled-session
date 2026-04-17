@@ -6,11 +6,11 @@
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "test.tmx": {
-            "scale": 2,
-            "selectedLayer": 8,
+            "scale": 0.5,
+            "selectedLayer": 7,
             "viewCenter": {
-                "x": 1062.25,
-                "y": 3601
+                "x": 3221,
+                "y": 3000
             }
         },
         "test.tmx#detoate": {
@@ -20,7 +20,7 @@
             "scaleInDock": 1
         }
     },
-    "last.objectTemplatePath": "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test",
+    "last.objectTemplatePath": "/Users/mihaistoica/REPOSITORIES/Strafe-Overdead/StrafeOverdead/assets/maps/test",
     "last.worldFilePath": "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test",
     "loadedWorlds": [
         "D:/Games/CV9 projekt red/Strafe Overdead/StrafeOverdead/StrafeOverdead/assets/maps/test/test_world.world"

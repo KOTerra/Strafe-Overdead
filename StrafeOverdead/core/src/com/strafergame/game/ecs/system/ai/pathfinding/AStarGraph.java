@@ -84,8 +84,9 @@ public class AStarGraph implements Graph<AStarNode> {
                             isElevationMatch = (elevation == 0);
                         }
 
-                        boolean isObstacleType = "COLLISION".equals(type) || "ELEVATIONAGENT".equals(type) || 
-                                               "FOOTPRINT".equals(type) || "ACTIVATOR".equals(type);
+                        // We only want standard collisions to be obstacles. 
+                        // Slopes, footprints, and activators should be traversable.
+                        boolean isObstacleType = "COLLISION".equals(type);
                         
                         if (isObstacleType && isElevationMatch) {
                             if (object instanceof RectangleMapObject rectObj) {

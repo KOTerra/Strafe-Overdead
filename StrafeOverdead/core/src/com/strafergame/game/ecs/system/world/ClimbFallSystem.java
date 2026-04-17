@@ -426,7 +426,7 @@ public class ClimbFallSystem extends IteratingSystem {
     /**
      * saves the entity's last known elevatio and position right before a fall or jump took place
      */
-    private void saveStablePosition(Entity entity) {
+    public static void saveStablePosition(Entity entity) {
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
