@@ -86,12 +86,14 @@ public class ClimbFallSystem extends IteratingSystem {
                     elvCmp.elevation = agentCmp.baseElevation;
                     FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation); // Sync shadow filter
                     b2dCmp.footprintStack.clear();      //solved clear
+                    b2dCmp.footprintStack.addFirst(first);
                     return;
                 }
                 if (actvA.type.equals(ActivatorType.ELEVATION_DOWN) && actvB.type.equals(ActivatorType.ELEVATION_UP)) { //goes up
                     elvCmp.elevation = agentCmp.topElevation;
                     FilteredContactListener.setShadowFilter(b2dCmp.body, elvCmp.elevation);
                     b2dCmp.footprintStack.clear();
+                    b2dCmp.footprintStack.addFirst(first);
                     return;
                 }
             }

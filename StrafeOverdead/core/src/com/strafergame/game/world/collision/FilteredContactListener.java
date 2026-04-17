@@ -165,7 +165,9 @@ public class FilteredContactListener implements ContactListener {
                 if (actvCmp != null) {
                     fixtureA.setUserData(new ProximityContact(fixtureB, fixtureA));
                     Box2dComponent b2dCmp = ComponentMappers.box2d().get(footprintEntity);
-                    b2dCmp.footprintStack.addFirst(detectorEntity);
+                    if (b2dCmp != null && (b2dCmp.footprintStack.isEmpty() || !b2dCmp.footprintStack.getFirst().equals(detectorEntity))) {
+                        b2dCmp.footprintStack.addFirst(detectorEntity);
+                    }
 
                     ElevationAgentComponent elvAgentCmp = ComponentMappers.elevationAgent().get(actvCmp.agent);
                     if (elvAgentCmp != null) {
