@@ -18,6 +18,7 @@ public class ClimbFallSystem extends IteratingSystem {
     public static final float JUMP_HEIGHT_DIFFERENCE = 3f;
     public static final int OFF_WORLD_FALL_DISTANCE = -10;
     public static final int TARGET_NOT_CALCULATED = -100;
+    public static final String JUMPABLE_TAG = "jumpable";
 
     private final ClimbDelegate climbDelegate = new ClimbDelegate();
     private final JumpDelegate jumpDelegate = new JumpDelegate();
@@ -34,7 +35,7 @@ public class ClimbFallSystem extends IteratingSystem {
 
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
         // Only clamp elevation if we are stable (not falling/jumping) to avoid interfering with movement
-        if (!isClimbing(entity) && !typeCmp.entityState.equals(EntityState.fall) && !typeCmp.entityState.equals(EntityState.jump)) {
+        if (!isClimbing(entity) && (typeCmp == null || (!typeCmp.entityState.equals(EntityState.fall) && !typeCmp.entityState.equals(EntityState.jump)))) {
             climbDelegate.lowElevationClamping(entity);
         }
 
@@ -45,7 +46,9 @@ public class ClimbFallSystem extends IteratingSystem {
         jumpDelegate.jumpArrive(entity);
 
         if (fallDelegate.shouldFall(entity) && !isClimbing(entity)) {    //change is climbing to not be true if just passed activator but not went up on elevation agent
-            ComponentMappers.entityType().get(entity).entityState = EntityState.fall;
+            if (typeCmp != null) {
+                typeCmp.entityState = EntityState.fall;
+            }
             fallDelegate.computeFallTarget(entity);
         }
         fallDelegate.updateFallTarget(entity);
@@ -65,7 +68,7 @@ public class ClimbFallSystem extends IteratingSystem {
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
-        if (typeCmp.entityState.equals(EntityState.jump) || typeCmp.entityState.equals(EntityState.fall)) {
+        if (typeCmp != null && (typeCmp.entityState.equals(EntityState.jump) || typeCmp.entityState.equals(EntityState.fall))) {
             return;
         }
         elvCmp.lastStableElevation = elvCmp.elevation;

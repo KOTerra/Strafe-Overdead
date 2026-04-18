@@ -10,6 +10,7 @@ import com.strafergame.game.ecs.component.ComponentDataUtils;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
 import com.strafergame.game.ecs.states.EntityState;
+import com.strafergame.game.ecs.system.world.ClimbFallSystem;
 
 public class PhysicsBypassDelegate {
 
@@ -59,7 +60,7 @@ public class PhysicsBypassDelegate {
         Entity entity = ComponentDataUtils.getEntityFrom(entityFixture);
         if (entity == null) return false;
 
-        boolean isJumpable = "jumpable".equals(wallFixture.getUserData());
+        boolean isJumpable = ClimbFallSystem.JUMPABLE_TAG.equals(wallFixture.getUserData());
 
         if (isJumpable) {
             contact.setFriction(0f);

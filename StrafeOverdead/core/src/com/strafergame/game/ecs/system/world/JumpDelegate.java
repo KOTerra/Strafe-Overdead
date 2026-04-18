@@ -12,6 +12,7 @@ import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
+import com.strafergame.game.ecs.component.physics.MovementComponent;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.world.collision.ElevationUtils;
 import com.strafergame.game.world.map.MapManager;
@@ -25,7 +26,7 @@ public class JumpDelegate {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity); //mYBE CHnange elevation at the start of the jump maybe intermediate state tryjump to check if canjump then change elevation and then move upwards
 
-        if (!typeCmp.entityState.equals(EntityState.jump)) {
+        if (typeCmp == null || !typeCmp.entityState.equals(EntityState.jump)) {
             return false;
         }
         if (!elvCmp.jumpFinished) {
@@ -49,7 +50,7 @@ public class JumpDelegate {
                         b2dCmp.body.getWorld().QueryAABB(new QueryCallback() {
                             @Override
                             public boolean reportFixture(Fixture fixture) {
-                                if ("jumpable".equals(fixture.getUserData())) {
+                                if (ClimbFallSystem.JUMPABLE_TAG.equals(fixture.getUserData())) {
                                     isJumpable[0] = true;
                                     return false;
                                 }
@@ -74,7 +75,7 @@ public class JumpDelegate {
         b2dCmp.body.getWorld().rayCast(new RayCastCallback() {
             @Override
             public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
-                if (!fixture.isSensor() && !"jumpable".equals(fixture.getUserData())) {
+                if (!fixture.isSensor() && !ClimbFallSystem.JUMPABLE_TAG.equals(fixture.getUserData())) {
                     isBlocked[0] = true;
                     return 0;
                 }
@@ -101,17 +102,24 @@ public class JumpDelegate {
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
         elvCmp.jumpHeight = 0f;
-        typeCmp.entityState = EntityState.idle;
+        if (typeCmp != null) {
+            typeCmp.entityState = EntityState.idle;
+        }
     }
 
 
     public void beginJump(Entity entity) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
-        if (typeCmp.entityState.equals(EntityState.jump) && !elvCmp.jumpTaken) {
+        if (typeCmp != null && typeCmp.entityState.equals(EntityState.jump) && !elvCmp.jumpTaken) {
             elvCmp.jumpTaken = true;
             elvCmp.jumpFinished = false;
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+            MovementComponent movCmp = ComponentMappers.movement().get(entity);
+
+            if (movCmp != null && movCmp.isMoving()) {
+                b2dCmp.body.applyLinearImpulse(movCmp.dir.cpy().scl(0.5f), b2dCmp.body.getWorldCenter(), true);
+            }
 
             elvCmp.prevIncrementalY = b2dCmp.body.getPosition().y;
             elvCmp.fallTargetY = b2dCmp.body.getPosition().y;
@@ -122,7 +130,7 @@ public class JumpDelegate {
 
     public void jumpArrive(Entity entity) {
         EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
-        if (typeCmp.entityState.equals(EntityState.jump)) {
+        if (typeCmp != null && typeCmp.entityState.equals(EntityState.jump)) {
 
             Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
             ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);

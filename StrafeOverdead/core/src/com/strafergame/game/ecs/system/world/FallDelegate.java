@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
@@ -45,15 +46,34 @@ public class FallDelegate {
     }
 
 
-    /**
-     * raycasts through the tile layers below the entity finding the first non-null tile, taking perspective offset on Y axis in consideration
-     */
     public void computeFallTarget(Entity entity) {         //solve fall after jumping in null layer, maybe add an empty layer on top of the map, handled automatically
 
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
+        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+
+        if (elvCmp.fallTargetCell != null || elvCmp.fallTargetY != TARGET_NOT_CALCULATED) {
+            return;
+        }
+
+        // Initial raycast to see where we'd land without a nudge
         Pair<TiledMapTileLayer.Cell, Integer[]> raycastPair = MapQueryUtils.raycastFirstCellDown(entity);
         TiledMapTileLayer.Cell cell = raycastPair.a;
         int elevation = raycastPair.b[2];
+
+        // Apply nudge only if it's a small drop (<= 2 levels) onto a valid tile to prevent "W-Direction Snag"
+        // without making high falls or off-world drops feel too fast/teleporty.
+        if (cell != null && elvCmp.elevation - elevation <= 2) {
+            Vector2 velocity = b2dCmp.body.getLinearVelocity();
+            if (velocity.len2() > 0.1f) {
+                Vector2 nudge = velocity.cpy().nor().scl(0.5f);
+                b2dCmp.body.setTransform(b2dCmp.body.getPosition().x + nudge.x, b2dCmp.body.getPosition().y + nudge.y, 0);
+
+                // Re-calculate after nudge for precision
+                raycastPair = MapQueryUtils.raycastFirstCellDown(entity);
+                cell = raycastPair.a;
+                elevation = raycastPair.b[2];
+            }
+        }
 
         if (cell == null || elevation == elvCmp.elevation) {
             return;
@@ -62,26 +82,20 @@ public class FallDelegate {
         cell.setRotation(TiledMapTileLayer.Cell.ROTATE_90);
         //
 
-        Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+        float currentY = b2dCmp.body.getPosition().y;
+        float targetY = currentY - (elvCmp.elevation - elevation);
 
-        if (elvCmp.fallTargetCell == null && elvCmp.fallTargetY == TARGET_NOT_CALCULATED) {
-
-            float currentY = b2dCmp.body.getPosition().y;
-            float targetY = currentY - (elvCmp.elevation - elevation);
-
-            // Force at least -1.0f on the body if the calculated target is too close
-            if (currentY - targetY <= 1.0f) {
-                b2dCmp.body.setTransform(b2dCmp.body.getPosition().x, currentY - 1f, 0);
-            }
-
-            ElevationUtils.changeElevation(entity, elvCmp.elevation - 1);
-
-            elvCmp.prevIncrementalY = currentY;
-            elvCmp.fallTargetCell = cell;
-            elvCmp.fallTargetY = targetY;
-            elvCmp.fallTargetElevation = elevation;
+        // Force at least -1.0f on the body if the calculated target is too close
+        if (currentY - targetY <= 1.0f) {
+            b2dCmp.body.setTransform(b2dCmp.body.getPosition().x, currentY - 1f, 0);
         }
 
+        ElevationUtils.changeElevation(entity, elvCmp.elevation - 1);
+
+        elvCmp.prevIncrementalY = currentY;
+        elvCmp.fallTargetCell = cell;
+        elvCmp.fallTargetY = targetY;
+        elvCmp.fallTargetElevation = elevation;
     }
 
     public void updateFallTarget(Entity entity) {  //TODO have to also update if a higher elevation cell comes between target and entity
@@ -111,11 +125,16 @@ public class FallDelegate {
                 return;
             }
             if (v.b[2] == -1) {                     //over an offWorld hole   handling may change
-                elvCmp.fallTargetCell = null;
-                elvCmp.fallTargetY = -1;
-                elvCmp.fallTargetElevation = -1;
+                float offset = 0.25f;
+                Pair<TiledMapTileLayer.Cell, Integer[]> vLeft = MapQueryUtils.raycastFirstCellDown(b2dCmp.body.getPosition().x - offset, b2dCmp.body.getPosition().y, elvCmp.fallTargetElevation, 0);
+                Pair<TiledMapTileLayer.Cell, Integer[]> vRight = MapQueryUtils.raycastFirstCellDown(b2dCmp.body.getPosition().x + offset, b2dCmp.body.getPosition().y, elvCmp.fallTargetElevation, 0);
 
-                return;
+                if (vLeft.b[2] == -1 && vRight.b[2] == -1) {
+                    elvCmp.fallTargetCell = null;
+                    elvCmp.fallTargetY = -1;
+                    elvCmp.fallTargetElevation = -1;
+                    return;
+                }
             }
 
 
@@ -143,7 +162,7 @@ public class FallDelegate {
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
 
-        if (typeCmp.entityState.equals(EntityState.fall)) {
+        if (typeCmp != null && typeCmp.entityState.equals(EntityState.fall)) {
             if (elvCmp.fallTargetCell != null || elvCmp.fallTargetY != TARGET_NOT_CALCULATED) {
                 //fall to it
                 // upon arrival state=idle or return to before falling if falling through map
@@ -177,7 +196,9 @@ public class FallDelegate {
 
             elvCmp.fallTargetCell = null;
             elvCmp.fallTargetElevation = 0;
-            typeCmp.entityState = EntityState.idle;
+            if (typeCmp != null) {
+                typeCmp.entityState = EntityState.idle;
+            }
         }
     }
 }

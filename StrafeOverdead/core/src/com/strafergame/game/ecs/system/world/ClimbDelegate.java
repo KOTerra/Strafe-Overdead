@@ -4,10 +4,12 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.Vector2;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ElevationComponent;
+import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.component.world.ActivatorComponent;
 import com.strafergame.game.ecs.component.world.ElevationAgentComponent;
 import com.strafergame.game.ecs.states.ActivatorType;
+import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.world.collision.ElevationUtils;
 
 import static com.strafergame.game.ecs.system.world.ClimbFallSystem.TARGET_NOT_CALCULATED;
@@ -45,12 +47,17 @@ public class ClimbDelegate {
     public void lowElevationClamping(Entity entity) {
         ElevationComponent elvCmp = ComponentMappers.elevation().get(entity);
         Box2dComponent b2dCmp = ComponentMappers.box2d().get(entity);
+        EntityTypeComponent typeCmp = ComponentMappers.entityType().get(entity);
+
+        if (typeCmp != null && typeCmp.entityState.equals(EntityState.fall)) {
+            return;
+        }
 
         //  we are moving  check if the tile ahead at the current elevation is empty.
         // if empty we are  walking off a ledge so no clamp up
         Vector2 velocity = b2dCmp.body.getLinearVelocity();
         if (velocity.len2() > 0.1f) {
-            float lookAheadDist = 0.5f;
+            float lookAheadDist = velocity.y > 0 ? 0.7f : 0.5f;
             float predictX = b2dCmp.body.getPosition().x + (velocity.x != 0 ? (velocity.x > 0 ? lookAheadDist : -lookAheadDist) : 0);
             float predictY = b2dCmp.body.getPosition().y + (velocity.y != 0 ? (velocity.y > 0 ? lookAheadDist : -lookAheadDist) : 0);
 
