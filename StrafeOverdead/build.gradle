@@ -32,8 +32,8 @@ allprojects {
     }
 
     repositories {
-      //mavenLocal()
-      //  mavenCentral()
+        mavenLocal()
+        mavenCentral()
         google()
         gradlePluginPortal()
         maven { url "https://jitpack.io" }
@@ -137,6 +137,7 @@ project(":core") {
 
         // implementation name: 'YarnGdx'
         implementation fileTree(dir: 'libs', include: ['*.jar'])
+        implementation "com.articy:runtime:1.0.0"
 
     }
 }

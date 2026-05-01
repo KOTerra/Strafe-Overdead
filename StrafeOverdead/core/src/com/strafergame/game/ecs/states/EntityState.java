@@ -41,10 +41,15 @@ public enum EntityState {
      * the RECOVER state after a hit
      */
     recover,
+
+    //TODO use this for playing timed animations, essentially a wait to play things like the death animation before the actual death state or things like this?
+    coreography,
+
     /**
      * the DEATH state
      */
     death;
+
 
     private final boolean withSubstates;
 
