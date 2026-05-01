@@ -71,6 +71,8 @@ public class WorldCamera extends OrthographicCamera {
      */
     private Interpolation interpolation = Interpolation.linear;
 
+    private float targetRotation = 0f;
+
     /**
      * constructor
      *
@@ -209,6 +211,23 @@ public class WorldCamera extends OrthographicCamera {
                     .interpolate(cameraSnapPosition, alpha, interpolation);
 
         }
+
+        // Interpolate rotation
+        float currentRotation = (float) Math.toDegrees(Math.atan2(up.x, up.y));
+        if (Float.isNaN(currentRotation)) currentRotation = 0;
+        
+        float rotationAlpha = 0.2f; // Snappier rotation
+        float newRotation = currentRotation + (targetRotation - currentRotation) * rotationAlpha;
+        
+        if (Math.abs(newRotation) > 0.01f || Math.abs(targetRotation) > 0.01f) {
+            up.set(0, 1, 0);
+            direction.set(0, 0, -1);
+            rotate(-newRotation);
+        }
+    }
+
+    public void setTargetRotation(float targetRotation) {
+        this.targetRotation = targetRotation;
     }
 
     public boolean isWeighted() {

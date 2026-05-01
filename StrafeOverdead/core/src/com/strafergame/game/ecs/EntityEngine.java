@@ -13,6 +13,7 @@ import com.strafergame.game.ecs.factories.*;
 import com.strafergame.game.ecs.listeners.Box2dEntitiesListener;
 import com.strafergame.game.ecs.states.EntityType;
 import com.strafergame.game.ecs.system.AnimationSystem;
+import com.strafergame.game.ecs.system.ArticyMapperSystem;
 import com.strafergame.game.ecs.system.CheckpointSystem;
 import com.strafergame.game.ecs.system.MovementSystem;
 import com.strafergame.game.ecs.system.SubstateUpdateSystem;
@@ -54,6 +55,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
     private final SubstateUpdateSystem substateUpdateSystem = new SubstateUpdateSystem();
     private final AttachmentSystem attachmentSystem = new AttachmentSystem();
     private final CombatSystem combatSystem = new CombatSystem();
+    private final ArticyMapperSystem articyMapperSystem = new ArticyMapperSystem();
     private final CameraSystem cameraSystem = new CameraSystem();
     private final HudSystem hudSystem = new HudSystem();
 
@@ -91,6 +93,7 @@ public class EntityEngine extends PooledEngine implements Disposable {
             addSystem(healthSystem);
             addSystem(attachmentSystem);
             addSystem(shadowSystem);
+            addSystem(articyMapperSystem);
             addSystem(combatSystem);
 
 

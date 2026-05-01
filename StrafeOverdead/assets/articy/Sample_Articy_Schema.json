@@ -1,0 +1,51 @@
+{
+  "GlobalVariables": [
+    {
+      "Namespace": "NPCState",
+      "Variables": [
+        {
+          "Variable": "Goblin_Guard_Visible",
+          "Type": "Boolean",
+          "Value": "True",
+          "Description": "Dictates if the Goblin Guard is active in the physical world."
+        },
+        {
+          "Variable": "World_Alert_Level",
+          "Type": "Integer",
+          "Value": "0",
+          "Description": "Global alert level that AI tasks can query."
+        }
+      ]
+    }
+  ],
+  "Templates": [
+    {
+      "TechnicalName": "Tpl_DynamicEntity",
+      "Features": [
+        {
+          "TechnicalName": "CombatStats",
+          "Properties": [
+            { "Property": "MaxHP", "Type": "Integer" },
+            { "Property": "BaseSpeed", "Type": "Float" }
+          ]
+        },
+        {
+          "TechnicalName": "AIConfiguration",
+          "Properties": [
+            { "Property": "BehaviorTreePath", "Type": "String" }
+          ]
+        }
+      ]
+    }
+  ],
+  "Instructions": [
+    {
+      "Example": "cameraPan(15.5, 10.0, 2.5)",
+      "Result": "Triggers a smooth camera transition in LibGDX."
+    },
+    {
+      "Example": "NPCState.Goblin_Guard_Visible = false",
+      "Result": "The ArticyMapperSystem will set isHidden=true on the Ashley entity with techName 'Goblin_Guard'."
+    }
+  ]
+}

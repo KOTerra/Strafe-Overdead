@@ -110,6 +110,10 @@ public abstract class ComponentMappers {
         return ComponentMapper.getFor(BehaviorTreeComponent.class);
     }
 
+    public static final ComponentMapper<ArticyComponent> articy() {
+        return ComponentMapper.getFor(ArticyComponent.class);
+    }
+
 
 
     private ComponentMappers() {

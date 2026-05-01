@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.files.FileHandle;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
+import com.strafergame.game.ecs.system.save.data.ArticySaveData;
 import com.strafergame.game.ecs.system.save.data.MetaSaveData;
 import com.strafergame.game.ecs.system.save.data.PlayerSaveData;
 import com.strafergame.game.ecs.system.save.data.WorldSaveData;
@@ -26,6 +27,7 @@ public class SaveSystem {
     private static MetaSaveData metaSaveData = new MetaSaveData();
     private static PlayerSaveData playerSaveData = new PlayerSaveData();
     private static WorldSaveData worldSaveData = new WorldSaveData();
+    private static ArticySaveData articySaveData = new ArticySaveData();
 
 
     public static Save getCurrentSave() {
@@ -110,6 +112,10 @@ public class SaveSystem {
 
     public static WorldSaveData getWorldSaveData() {
         return worldSaveData;
+    }
+
+    public static ArticySaveData getArticySaveData() {
+        return articySaveData;
     }
 
     public static boolean anySaveFiles() {

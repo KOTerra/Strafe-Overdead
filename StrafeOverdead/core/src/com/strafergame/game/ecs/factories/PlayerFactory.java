@@ -29,6 +29,7 @@ public class PlayerFactory implements EntityCreator {
         AutoSaveComponent asvCmp = entityEngine.createComponent(AutoSaveComponent.class);
         asvCmp.saveAction = () -> {
             playerSaveData.register();
+            SaveSystem.getArticySaveData().register();
             SaveSystem.getCurrentSave().serialize();
         };
         player.add(asvCmp);
