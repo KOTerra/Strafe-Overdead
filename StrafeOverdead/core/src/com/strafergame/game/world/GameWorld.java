@@ -52,7 +52,8 @@ public class GameWorld implements Disposable {
     private final EntityEngine entityEngine;
 
     public static Entity player;
-    private static boolean articyTriggered = false;
+    private static boolean spawnTriggered = false;
+    private static boolean cameraTriggered = false;
     private List<Branch> currentBranches;
 
     public GameWorld() {
@@ -126,15 +127,6 @@ public class GameWorld implements Disposable {
             );
             ArticyRuntime.setFlowPlayer(flowPlayer);
             System.out.println("Articy Runtime initialized successfully.");
-
-            // Spawn the NPC with a slight delay to ensure engine is ready
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    System.out.println("Articy: Spawning Goblin NPC...");
-                    ArticyEntityFactory.createEntity(0x010000000000000FL, new Vector3(22, 10, 0));
-                }
-            }, 2.0f);
         } catch (IOException e) {
             Gdx.app.error("Articy", "Failed to initialize Articy Runtime", e);
         }
@@ -164,26 +156,36 @@ public class GameWorld implements Disposable {
         debugUpdate();
 
         // Articy Trigger Check
-        if (!articyTriggered && player != null) {
+        if (player != null) {
             com.strafergame.game.ecs.component.physics.PositionComponent posCmp = ComponentMappers.position().get(player);
             if (posCmp != null) {
-                float targetX = 20f;
-                float targetY = 10f;
-                float distSq = (posCmp.renderPos.x - targetX) * (posCmp.renderPos.x - targetX) +
-                               (posCmp.renderPos.y - targetY) * (posCmp.renderPos.y - targetY);
-                
-                // Logging distance occasionally to avoid spam
-                if (System.currentTimeMillis() % 1000 < 20) {
-                     System.out.println("Articy Trigger Check: Player at (" + posCmp.renderPos.x + ", " + posCmp.renderPos.y + "), Target: (" + targetX + ", " + targetY + "), DistSq: " + distSq);
+                // Step 1: Spawn NPC at (10, 10)
+                if (!spawnTriggered) {
+                    float targetX = 10f;
+                    float targetY = 10f;
+                    float distSq = (posCmp.renderPos.x - targetX) * (posCmp.renderPos.x - targetX) +
+                                   (posCmp.renderPos.y - targetY) * (posCmp.renderPos.y - targetY);
+                    if (distSq < 4.0f) {
+                        spawnTriggered = true;
+                        if (ArticyRuntime.getFlowPlayer() != null) {
+                            System.out.println("Articy TRIGGER: Spawning NPC!");
+                            ArticyRuntime.getFlowPlayer().startOn(0x0100000000000011L); // Zone_Spawn_NPC
+                        }
+                    }
                 }
-
-                if (distSq < 4.0f) { // Increased radius to 2 units (distSq < 4)
-                    System.out.println("Articy TRIGGER FIRED!");
-                    articyTriggered = true;
-                    if (ArticyRuntime.getFlowPlayer() != null) {
-                        ArticyRuntime.getFlowPlayer().startOn(0x010000000000000AL); // Zone_Trigger_Camera
-                    } else {
-                        System.err.println("Articy: FlowPlayer is null!");
+                
+                // Step 2: Camera + Dialogue at (20, 10)
+                if (spawnTriggered && !cameraTriggered) {
+                    float targetX = 20f;
+                    float targetY = 10f;
+                    float distSq = (posCmp.renderPos.x - targetX) * (posCmp.renderPos.x - targetX) +
+                                   (posCmp.renderPos.y - targetY) * (posCmp.renderPos.y - targetY);
+                    if (distSq < 4.0f) {
+                        cameraTriggered = true;
+                        if (ArticyRuntime.getFlowPlayer() != null) {
+                            System.out.println("Articy TRIGGER: Camera + Dialogue!");
+                            ArticyRuntime.getFlowPlayer().startOn(0x010000000000000AL); // Zone_Trigger_Camera
+                        }
                     }
                 }
             }
@@ -205,7 +207,8 @@ public class GameWorld implements Disposable {
                 + "Target Elevation: " + ComponentMappers.elevation().get(player).fallTargetElevation + '\n'
                 + "xr: " + Math.round(ComponentMappers.position().get(player).renderPos.x) + " yr: " + Math.round(ComponentMappers.position().get(player).renderPos.y) + '\n'
                 + "x: " + Math.round(ComponentMappers.position().get(player).renderPos.x * 100) / 100f + " y: " + Math.round(ComponentMappers.position().get(player).renderPos.y * 100) / 100f + '\n'
-                + "Articy Triggered: " + articyTriggered + '\n'
+                + "Spawn Triggered: " + spawnTriggered + '\n'
+                + "Camera Triggered: " + cameraTriggered + '\n'
 //                + PlayerControl.actionSequence.toString() + '\n'
 //                + PlayerControl.actionSequence.getSequenceKeycodes(10) + '\n'
 //                + PlayerControl.actionSequence.isInTimeframe(3,500);
@@ -233,8 +236,15 @@ public class GameWorld implements Disposable {
                 Strafer.worldCamera.setFocusOn(player);
             }
 
+            if (Gdx.input.isKeyJustPressed(Keys.NUMPAD_6)) {
+                System.out.println("MANUAL Spawn TRIGGER!");
+                if (ArticyRuntime.getFlowPlayer() != null) {
+                    ArticyRuntime.getFlowPlayer().startOn(0x0100000000000011L); 
+                }
+            }
+
             if (Gdx.input.isKeyJustPressed(Keys.NUMPAD_7)) {
-                System.out.println("MANUAL Articy TRIGGER!");
+                System.out.println("MANUAL Camera TRIGGER!");
                 if (ArticyRuntime.getFlowPlayer() != null) {
                     ArticyRuntime.getFlowPlayer().startOn(0x010000000000000AL); 
                 }

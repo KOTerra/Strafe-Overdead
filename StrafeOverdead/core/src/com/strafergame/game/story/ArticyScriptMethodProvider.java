@@ -2,6 +2,7 @@ package com.strafergame.game.story;
 
 import com.articy.runtime.logic.IScriptMethodProvider;
 import com.articy.runtime.core.ArticyRuntime;
+import com.articy.runtime.core.ArticyDatabase;
 import com.articy.runtime.logic.ArticyVariableManager;
 import com.badlogic.gdx.Gdx;
 import java.util.HashMap;
@@ -40,6 +41,19 @@ public class ArticyScriptMethodProvider implements IScriptMethodProvider {
                     if (com.strafergame.Strafer.worldCamera != null) {
                         com.strafergame.Strafer.worldCamera.setTargetRotation(degrees);
                     }
+                });
+            }
+        });
+
+        commands.put("spawnNPC", args -> {
+            // args: [articyId, x, y]
+            if (args.length >= 3) {
+                long id = ArticyDatabase.parseHexId(args[0].toString());
+                float x = ((Number) args[1]).floatValue();
+                float y = ((Number) args[2]).floatValue();
+                Gdx.app.postRunnable(() -> {
+                    System.out.println("Articy Command: Spawning NPC " + args[0] + " at (" + x + ", " + y + ")");
+                    com.strafergame.game.ecs.factories.ArticyEntityFactory.createEntity(id, new com.badlogic.gdx.math.Vector3(x, y, 0));
                 });
             }
         });
