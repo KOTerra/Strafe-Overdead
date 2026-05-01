@@ -76,9 +76,9 @@ public class GameWorld implements Disposable {
 
             // Try different possible paths for the export directory
             String[] possiblePaths = {
-                "../Articy-Java-Runtime/Articy-Test-Project-json",
-                "../../Articy-Java-Runtime/Articy-Test-Project-json",
-                "../../../Articy-Java-Runtime/Articy-Test-Project-json"
+                "assets/articy/export",
+                "../assets/articy/export",
+                "../../assets/articy/export"
             };
 
             String exportDir = null;
