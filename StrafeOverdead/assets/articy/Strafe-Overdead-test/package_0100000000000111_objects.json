@@ -1,0 +1,702 @@
+{
+  "Objects": [
+    {
+      "Type": "FlowFragment",
+      "Properties": {
+        "TechnicalName": "Zone_Spawn_NPC",
+        "Id": "0x010000000000012F",
+        "Parent": "0x0300000043CE43F7",
+        "Attachments": [],
+        "DisplayName": "Zone_Spawn_NPC.DisplayName",
+        "PreviewImage": {
+          "ViewBox": {
+            "x": 0.0,
+            "y": 0.0,
+            "w": 0.0,
+            "h": 0.0
+          },
+          "Mode": "FromAsset",
+          "Asset": "0x0000000000000000"
+        },
+        "Color": {
+          "r": 0.78431374,
+          "g": 0.8862745,
+          "b": 0.90588236
+        },
+        "Text": "",
+        "ExternalId": "Zone_Spawn_NPC",
+        "Position": {
+          "x": 125.0,
+          "y": 225.0
+        },
+        "ZIndex": 0.0,
+        "Size": {
+          "w": 275.0,
+          "h": 200.0
+        },
+        "ShortId": 1503902372,
+        "InputPins": [
+          {
+            "Text": "",
+            "Id": "0x0100000000000132",
+            "Owner": "0x010000000000012F"
+          }
+        ],
+        "OutputPins": [
+          {
+            "Text": "print(\"Spawning Initial Goblin\"); \nspawnNPC(\"NPC_Goblin\", 22.0, 10.0); \nNPCState.First_Goblin_Spawned = true;",
+            "Id": "0x0100000000000133",
+            "Owner": "0x010000000000012F"
+          }
+        ]
+      }
+    },
+    {
+      "Type": "FlowFragment",
+      "Properties": {
+        "TechnicalName": "Zone_Trigger_Camera",
+        "Id": "0x0100000000000135",
+        "Parent": "0x0300000043CE43F7",
+        "Attachments": [],
+        "DisplayName": "Zone_Trigger_Camera.DisplayName",
+        "PreviewImage": {
+          "ViewBox": {
+            "x": 0.0,
+            "y": 0.0,
+            "w": 0.0,
+            "h": 0.0
+          },
+          "Mode": "FromAsset",
+          "Asset": "0x0000000000000000"
+        },
+        "Color": {
+          "r": 0.78431374,
+          "g": 0.8862745,
+          "b": 0.90588236
+        },
+        "Text": "",
+        "ExternalId": "Zone_Trigger_Camera",
+        "Position": {
+          "x": 125.0,
+          "y": 525.0
+        },
+        "ZIndex": 1.0,
+        "Size": {
+          "w": 275.0,
+          "h": 200.0
+        },
+        "ShortId": 4289858374,
+        "InputPins": [
+          {
+            "Text": "NPCState.First_Goblin_Spawned == true",
+            "Id": "0x0100000000000138",
+            "Owner": "0x0100000000000135"
+          }
+        ],
+        "OutputPins": [
+          {
+            "Text": "print(\"Entering Camera Zone\"); \ncameraRotate(45.0, 1.0);",
+            "Id": "0x0100000000000139",
+            "Owner": "0x0100000000000135",
+            "Connections": [
+              {
+                "Color": {
+                  "a": 1.0,
+                  "r": 0.78431374,
+                  "g": 0.8862745,
+                  "b": 0.90588236
+                },
+                "Label": "",
+                "TargetPin": "0x0100000000000151",
+                "Target": "0x010000000000014E"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Type": "Dialogue",
+      "Properties": {
+        "TechnicalName": "Dialogue_Test",
+        "Id": "0x010000000000014E",
+        "Parent": "0x0300000043CE43F7",
+        "Attachments": [],
+        "DisplayName": "Dialogue_Test.DisplayName",
+        "PreviewImage": {
+          "ViewBox": {
+            "x": 0.0,
+            "y": 0.0,
+            "w": 0.0,
+            "h": 0.0
+          },
+          "Mode": "FromAsset",
+          "Asset": "0x0000000000000000"
+        },
+        "Color": {
+          "r": 0.78431374,
+          "g": 0.8862745,
+          "b": 0.90588236
+        },
+        "Text": "",
+        "ExternalId": "Dialogue_Test",
+        "Position": {
+          "x": 567.0,
+          "y": 525.0
+        },
+        "ZIndex": 2.0,
+        "Size": {
+          "w": 291.0,
+          "h": 200.0
+        },
+        "ShortId": 3966687465,
+        "InputPins": [
+          {
+            "Text": "",
+            "Id": "0x0100000000000151",
+            "Owner": "0x010000000000014E",
+            "Connections": [
+              {
+                "Color": {
+                  "a": 1.0,
+                  "r": 0.78431374,
+                  "g": 0.8862745,
+                  "b": 0.90588236
+                },
+                "Label": "",
+                "TargetPin": "0x0100000000000157",
+                "Target": "0x0100000000000154"
+              }
+            ]
+          }
+        ],
+        "OutputPins": [
+          {
+            "Text": "",
+            "Id": "0x0100000000000152",
+            "Owner": "0x010000000000014E"
+          }
+        ]
+      }
+    },
+    {
+      "Type": "DialogueFragment",
+      "Properties": {
+        "TechnicalName": "DFr_44972ACC",
+        "Id": "0x0100000000000154",
+        "Parent": "0x010000000000014E",
+        "MenuText": "Greeting",
+        "StageDirections": "",
+        "Speaker": "0x0100000000000123",
+        "SplitHeight": 64.0,
+        "Color": {
+          "r": 0.78431374,
+          "g": 0.8862745,
+          "b": 0.90588236
+        },
+        "Text": "DFr_44972ACC.Text",
+        "ExternalId": "",
+        "Position": {
+          "x": -25.0,
+          "y": 250.0
+        },
+        "ZIndex": 0.0,
+        "Size": {
+          "w": 225.0,
+          "h": 200.0
+        },
+        "ShortId": 1150757580,
+        "InputPins": [
+          {
+            "Text": "",
+            "Id": "0x0100000000000157",
+            "Owner": "0x0100000000000154"
+          }
+        ],
+        "OutputPins": [
+          {
+            "Text": "",
+            "Id": "0x0100000000000158",
+            "Owner": "0x0100000000000154",
+            "Connections": [
+              {
+                "Color": {
+                  "a": 1.0,
+                  "r": 0.78431374,
+                  "g": 0.8862745,
+                  "b": 0.90588236
+                },
+                "Label": "",
+                "TargetPin": "0x010000000000015F",
+                "Target": "0x010000000000015C"
+              },
+              {
+                "Color": {
+                  "a": 1.0,
+                  "r": 0.78431374,
+                  "g": 0.8862745,
+                  "b": 0.90588236
+                },
+                "Label": "",
+                "TargetPin": "0x0100000000000165",
+                "Target": "0x0100000000000162"
+              },
+              {
+                "Color": {
+                  "a": 1.0,
+                  "r": 0.78431374,
+                  "g": 0.8862745,
+                  "b": 0.90588236
+                },
+                "Label": "",
+                "TargetPin": "0x010000000000016B",
+                "Target": "0x0100000000000168"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Type": "DialogueFragment",
+      "Properties": {
+        "TechnicalName": "DFr_567B62C8",
+        "Id": "0x010000000000015C",
+        "Parent": "0x010000000000014E",
+        "MenuText": "Spawn a friend for the Goblin",
+        "StageDirections": "",
+        "Speaker": "0x0100000000000123",
+        "SplitHeight": 64.0,
+        "Color": {
+          "r": 0.78431374,
+          "g": 0.8862745,
+          "b": 0.90588236
+        },
+        "Text": "DFr_567B62C8.Text",
+        "ExternalId": "",
+        "Position": {
+          "x": 262.0,
+          "y": 0.0
+        },
+        "ZIndex": 1.0,
+        "Size": {
+          "w": 225.0,
+          "h": 200.0
+        },
+        "ShortId": 1450926792,
+        "InputPins": [
+          {
+            "Text": "spawnNPC(\"NPC_Goblin\", 24.0, 10.0);",
+            "Id": "0x010000000000015F",
+            "Owner": "0x010000000000015C"
+          }
+        ],
+        "OutputPins": [
+          {
+            "Text": "",
+            "Id": "0x0100000000000160",
+            "Owner": "0x010000000000015C"
+          }
+        ]
+      }
+    },
+    {
+      "Type": "DialogueFragment",
+      "Properties": {
+        "TechnicalName": "DFr_19DA46A4",
+        "Id": "0x0100000000000162",
+        "Parent": "0x010000000000014E",
+        "MenuText": "Extreme Camera Tilt.",
+        "StageDirections": "",
+        "Speaker": "0x0100000000000123",
+        "SplitHeight": 64.0,
+        "Color": {
+          "r": 0.78431374,
+          "g": 0.8862745,
+          "b": 0.90588236
+        },
+        "Text": "DFr_19DA46A4.Text",
+        "ExternalId": "",
+        "Position": {
+          "x": 262.0,
+          "y": 250.0
+        },
+        "ZIndex": 3.0,
+        "Size": {
+          "w": 225.0,
+          "h": 200.0
+        },
+        "ShortId": 433735332,
+        "InputPins": [
+          {
+            "Text": "cameraRotate(-90.0, 1.0);",
+            "Id": "0x0100000000000165",
+            "Owner": "0x0100000000000162"
+          }
+        ],
+        "OutputPins": [
+          {
+            "Text": "",
+            "Id": "0x0100000000000166",
+            "Owner": "0x0100000000000162",
+            "Connections": [
+              {
+                "Color": {
+                  "a": 1.0,
+                  "r": 0.78431374,
+                  "g": 0.8862745,
+                  "b": 0.90588236
+                },
+                "Label": "",
+                "TargetPin": "0x0100000000000171",
+                "Target": "0x010000000000016E"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Type": "DialogueFragment",
+      "Properties": {
+        "TechnicalName": "DFr_5DD40815",
+        "Id": "0x0100000000000168",
+        "Parent": "0x010000000000014E",
+        "MenuText": "Just reset camera and finish.",
+        "StageDirections": "",
+        "Speaker": "0x0100000000000123",
+        "SplitHeight": 64.0,
+        "Color": {
+          "r": 0.78431374,
+          "g": 0.8862745,
+          "b": 0.90588236
+        },
+        "Text": "DFr_5DD40815.Text",
+        "ExternalId": "",
+        "Position": {
+          "x": 262.0,
+          "y": 500.0
+        },
+        "ZIndex": 5.0,
+        "Size": {
+          "w": 225.0,
+          "h": 200.0
+        },
+        "ShortId": 1574176789,
+        "InputPins": [
+          {
+            "Text": "cameraRotate(0.0, 1.0);",
+            "Id": "0x010000000000016B",
+            "Owner": "0x0100000000000168"
+          }
+        ],
+        "OutputPins": [
+          {
+            "Text": "",
+            "Id": "0x010000000000016C",
+            "Owner": "0x0100000000000168"
+          }
+        ]
+      }
+    },
+    {
+      "Type": "DialogueFragment",
+      "Properties": {
+        "TechnicalName": "DFr_29B10EBA",
+        "Id": "0x010000000000016E",
+        "Parent": "0x010000000000014E",
+        "MenuText": "Restore Camera.",
+        "StageDirections": "",
+        "Speaker": "0x0100000000000123",
+        "SplitHeight": 64.0,
+        "Color": {
+          "r": 0.78431374,
+          "g": 0.8862745,
+          "b": 0.90588236
+        },
+        "Text": "DFr_29B10EBA.Text",
+        "ExternalId": "",
+        "Position": {
+          "x": 600.0,
+          "y": 250.0
+        },
+        "ZIndex": 7.0,
+        "Size": {
+          "w": 225.0,
+          "h": 200.0
+        },
+        "ShortId": 699469498,
+        "InputPins": [
+          {
+            "Text": "cameraRotate(0.0, 1.0);",
+            "Id": "0x0100000000000171",
+            "Owner": "0x010000000000016E"
+          }
+        ],
+        "OutputPins": [
+          {
+            "Text": "",
+            "Id": "0x0100000000000172",
+            "Owner": "0x010000000000016E"
+          }
+        ]
+      }
+    },
+    {
+      "Type": "Tpl_DynamicEntity",
+      "Properties": {
+        "TechnicalName": "Ntt_DC506545",
+        "Id": "0x0100000000000123",
+        "Parent": "0x03000000AC61A2B3",
+        "Attachments": [],
+        "DisplayName": "Ntt_DC506545.DisplayName",
+        "Color": {
+          "r": 0.78431374,
+          "g": 0.8862745,
+          "b": 0.90588236
+        },
+        "Text": "",
+        "ExternalId": "",
+        "Position": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ZIndex": 0.0,
+        "Size": {
+          "w": 256.0,
+          "h": 196.0
+        },
+        "PreviewImage": {
+          "ViewBox": {
+            "x": 0.0,
+            "y": 0.0,
+            "w": 0.0,
+            "h": 0.0
+          },
+          "Mode": "FromAsset",
+          "Asset": "0x0100000000000181"
+        },
+        "ShortId": 3696256325
+      },
+      "Template": {}
+    },
+    {
+      "Type": "Tpl_DynamicEntity",
+      "Properties": {
+        "TechnicalName": "Ntt_A03F4109",
+        "Id": "0x0100000000000127",
+        "Parent": "0x03000000AC61A2B3",
+        "Attachments": [],
+        "DisplayName": "Ntt_A03F4109.DisplayName",
+        "Color": {
+          "r": 0.78431374,
+          "g": 0.8862745,
+          "b": 0.90588236
+        },
+        "Text": "",
+        "ExternalId": "",
+        "Position": {
+          "x": 199.0,
+          "y": 57.5
+        },
+        "ZIndex": 1.0,
+        "Size": {
+          "w": 256.0,
+          "h": 196.0
+        },
+        "PreviewImage": {
+          "ViewBox": {
+            "x": 0.0,
+            "y": 0.0,
+            "w": 0.0,
+            "h": 0.0
+          },
+          "Mode": "FromAsset",
+          "Asset": "0x010000000000017E"
+        },
+        "ShortId": 2688499977
+      },
+      "Template": {}
+    },
+    {
+      "Type": "Asset",
+      "AssetRef": "Assets/Documents/instr.md",
+      "Category": "Misc",
+      "Properties": {
+        "TechnicalName": "Ast_7BBD7054",
+        "Id": "0x010000000000011E",
+        "Parent": "0x010000000000011A",
+        "DisplayName": "instr",
+        "Filename": "instr(001E).md",
+        "OriginalSource": "file:///Y:/REPOSITORIES/Strafe-Overdead/StrafeOverdead/assets/articy/Strafe-Overdead-test/instr.md",
+        "PreviewImage": {
+          "ViewBox": {
+            "x": 0.0,
+            "y": 0.0,
+            "w": 0.0,
+            "h": 0.0
+          }
+        },
+        "Color": {
+          "r": 0.78431374,
+          "g": 0.8862745,
+          "b": 0.90588236
+        },
+        "Text": "",
+        "ExternalId": "",
+        "Position": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ZIndex": 0.0,
+        "Size": {
+          "w": 256.0,
+          "h": 196.0
+        },
+        "ShortId": 2076012628
+      }
+    },
+    {
+      "Type": "Asset",
+      "AssetRef": "Assets/Images/Charactr/goblin_static.png",
+      "Category": "Image",
+      "Properties": {
+        "TechnicalName": "Ast_9464807A",
+        "Id": "0x010000000000017E",
+        "Parent": "0x010000000000017C",
+        "DisplayName": "goblin_static",
+        "Filename": "goblin_static(007E).png",
+        "OriginalSource": "file:///Y:/REPOSITORIES/Strafe-Overdead/StrafeOverdead/assets/images/goblin_static.png",
+        "PreviewImage": {
+          "ViewBox": {
+            "x": 0.0,
+            "y": 0.0,
+            "w": 0.0,
+            "h": 0.0
+          }
+        },
+        "Color": {
+          "r": 0.78431374,
+          "g": 0.8862745,
+          "b": 0.90588236
+        },
+        "Text": "",
+        "ExternalId": "",
+        "Position": {
+          "x": 0.0,
+          "y": 0.0
+        },
+        "ZIndex": 0.0,
+        "Size": {
+          "w": 256.0,
+          "h": 196.0
+        },
+        "ShortId": 2489614458
+      }
+    },
+    {
+      "Type": "Asset",
+      "AssetRef": "Assets/Images/Charactr/player_static.png",
+      "Category": "Image",
+      "Properties": {
+        "TechnicalName": "Ast_75446B9C",
+        "Id": "0x0100000000000181",
+        "Parent": "0x010000000000017C",
+        "DisplayName": "player_static",
+        "Filename": "player_static(0081).png",
+        "OriginalSource": "file:///Y:/REPOSITORIES/Strafe-Overdead/StrafeOverdead/assets/images/player_static.png",
+        "PreviewImage": {
+          "ViewBox": {
+            "x": 0.0,
+            "y": 0.0,
+            "w": 0.0,
+            "h": 0.0
+          }
+        },
+        "Color": {
+          "r": 0.78431374,
+          "g": 0.8862745,
+          "b": 0.90588236
+        },
+        "Text": "",
+        "ExternalId": "",
+        "Position": {
+          "x": 20.0,
+          "y": 20.0
+        },
+        "ZIndex": 1.0,
+        "Size": {
+          "w": 256.0,
+          "h": 196.0
+        },
+        "ShortId": 1967418268
+      }
+    },
+    {
+      "Type": "UserFolder",
+      "Properties": {
+        "TechnicalName": "Ufo_F99E3F21",
+        "Id": "0x0100000000000114",
+        "Parent": "0x030000004C3DAF54",
+        "DisplayName": "Images",
+        "ExternalId": "",
+        "ShortId": 4187897633
+      }
+    },
+    {
+      "Type": "UserFolder",
+      "Properties": {
+        "TechnicalName": "Ufo_FDEB2867",
+        "Id": "0x0100000000000116",
+        "Parent": "0x030000004C3DAF54",
+        "DisplayName": "Videos",
+        "ExternalId": "",
+        "ShortId": 4260046951
+      }
+    },
+    {
+      "Type": "UserFolder",
+      "Properties": {
+        "TechnicalName": "Ufo_400F8EED",
+        "Id": "0x0100000000000118",
+        "Parent": "0x030000004C3DAF54",
+        "DisplayName": "Audio",
+        "ExternalId": "",
+        "ShortId": 1074761453
+      }
+    },
+    {
+      "Type": "UserFolder",
+      "Properties": {
+        "TechnicalName": "Ufo_55459066",
+        "Id": "0x010000000000011A",
+        "Parent": "0x030000004C3DAF54",
+        "DisplayName": "Documents",
+        "ExternalId": "",
+        "ShortId": 1430622310
+      }
+    },
+    {
+      "Type": "UserFolder",
+      "Properties": {
+        "TechnicalName": "Ufo_8667FBB3",
+        "Id": "0x010000000000011C",
+        "Parent": "0x030000004C3DAF54",
+        "DisplayName": "Miscellaneous",
+        "ExternalId": "",
+        "ShortId": 2254961587
+      }
+    },
+    {
+      "Type": "UserFolder",
+      "Properties": {
+        "TechnicalName": "Ufo_318EAE76",
+        "Id": "0x010000000000017C",
+        "Parent": "0x0100000000000114",
+        "DisplayName": "Charactr",
+        "ExternalId": "",
+        "ShortId": 831434358
+      }
+    }
+  ]
+}

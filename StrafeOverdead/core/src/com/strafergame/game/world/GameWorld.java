@@ -76,10 +76,9 @@ public class GameWorld implements Disposable {
 
             // Try different possible paths for the export directory
             String[] possiblePaths = {
-                "assets/articy/export/Strafe-Overdead-test"
-                    ,
-                "../assets/articy/export",
-                "../../assets/articy/export"
+//                    "articy/Strafe-Overdead-test"
+//                    ,
+                    "articy/mock-export"
             };
 
             String exportDir = null;
@@ -100,47 +99,54 @@ public class GameWorld implements Disposable {
             ArticyRuntime.initialize(exportDir, methodProvider);
 
             ArticyFlowPlayer flowPlayer = new ArticyFlowPlayer(
-                ArticyRuntime.getDatabase(), 
-                ArticyRuntime.getVariableManager(), 
-                ArticyRuntime.getEngine(), 
-                methodProvider,
-                new IArticyFlowPlayerCallbacks() {
-                    @Override
-                    public void onBranchesUpdated(List<Branch> branches) {
-                        currentBranches = branches;
-                        System.out.println("Articy: Branches updated, count: " + branches.size() + " [Press 0, 1, etc. to choose]");
-                        for (int i = 0; i < branches.size(); i++) {
-                            Branch b = branches.get(i);
-                            String text = "";
-                            if (b.getTargetNode() instanceof com.articy.runtime.model.DialogueFragment) {
-                                com.articy.runtime.model.DialogueFragment df = (com.articy.runtime.model.DialogueFragment) b.getTargetNode();
-                                text = df.getMenuText() != null && !df.getMenuText().isEmpty() ? df.getMenuText() : df.getText();
+                    ArticyRuntime.getDatabase(),
+                    ArticyRuntime.getVariableManager(),
+                    ArticyRuntime.getEngine(),
+                    methodProvider,
+                    new IArticyFlowPlayerCallbacks() {
+                        @Override
+                        public void onBranchesUpdated(List<Branch> branches) {
+                            currentBranches = branches;
+                            System.out.println("Articy: Branches updated, count: " + branches.size() + " [Press 0, 1, etc. to choose]");
+                            for (int i = 0; i < branches.size(); i++) {
+                                Branch b = branches.get(i);
+                                String text = "";
+                                if (b.getTargetNode() instanceof com.articy.runtime.model.DialogueFragment) {
+                                    com.articy.runtime.model.DialogueFragment df = (com.articy.runtime.model.DialogueFragment) b.getTargetNode();
+                                    text = df.getMenuText() != null && !df.getMenuText().isEmpty() ? df.getMenuText() : df.getText();
+                                }
+                                System.out.println("  [" + i + "]: " + text + " (Target: " + b.getTargetNode().getTechnicalName() + ")");
                             }
-                            System.out.println("  [" + i + "]: " + text + " (Target: " + b.getTargetNode().getTechnicalName() + ")");
+                        }
+
+                        @Override
+                        public void onFlowPlayerPaused(FlowObject object) {
+                            System.out.println("Articy: Flow player paused on: " + object.getTechnicalName() + " (Text: " + (object instanceof com.articy.runtime.model.DialogueFragment ? ((com.articy.runtime.model.DialogueFragment) object).getText() : "") + ")");
                         }
                     }
-
-                    @Override
-                    public void onFlowPlayerPaused(FlowObject object) {
-                        System.out.println("Articy: Flow player paused on: " + object.getTechnicalName() + " (Text: " + (object instanceof com.articy.runtime.model.DialogueFragment ? ((com.articy.runtime.model.DialogueFragment)object).getText() : "") + ")");
-                    }
-                }
             );
             ArticyRuntime.setFlowPlayer(flowPlayer);
             System.out.println("Articy Runtime initialized successfully.");
+
+            // --- DIAGNOSTIC DB DUMP ---
+            System.out.println("--- DB DUMP START ---");
+            com.articy.runtime.model.ArticyObject testObj = ArticyRuntime.getDatabase().getObject(0x010000000000012FL, com.articy.runtime.model.ArticyObject.class);
+            if (testObj != null) {
+                System.out.println("Found obj by ID: " + testObj.getTechnicalName() + " of class " + testObj.getClass().getSimpleName());
+            } else {
+                System.out.println("Could NOT find obj by ID 0x010000000000012F (Zone_Spawn_NPC). The loader dropped it.");
+            }
+            System.out.println("--- DB DUMP END ---");
+
         } catch (IOException e) {
             Gdx.app.error("Articy", "Failed to initialize Articy Runtime", e);
         }
     }
+
     private void initLight() {
-
-        //rayHandler.setAmbientLight(0.4f);
-
         rayHandler.setAmbientLight(ColorPallete.AMBIENT_NIGHT_LIGHT_COLOR);
-
         rayHandler.setBlur(true);
         rayHandler.setBlurNum(3);
-
     }
 
     public void triggerLoad() {
@@ -165,27 +171,43 @@ public class GameWorld implements Disposable {
                     float targetX = 10f;
                     float targetY = 10f;
                     float distSq = (posCmp.renderPos.x - targetX) * (posCmp.renderPos.x - targetX) +
-                                   (posCmp.renderPos.y - targetY) * (posCmp.renderPos.y - targetY);
+                            (posCmp.renderPos.y - targetY) * (posCmp.renderPos.y - targetY);
                     if (distSq < 4.0f) {
                         spawnTriggered = true;
-                        if (ArticyRuntime.getFlowPlayer() != null) {
-                            System.out.println("Articy TRIGGER: Spawning NPC!");
-                            ArticyRuntime.getFlowPlayer().startOn(0x0100000000000011L); // Zone_Spawn_NPC
+                        System.out.println("Articy TRIGGER: Spawning NPC!");
+                        com.articy.runtime.model.ArticyObject spawnNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Spawn_NPC", com.articy.runtime.model.ArticyObject.class);
+
+                        if (spawnNode instanceof com.articy.runtime.model.FlowObject) {
+                            com.articy.runtime.model.FlowObject flowObj = (com.articy.runtime.model.FlowObject) spawnNode;
+                            // Directly execute the script on the first output pin
+                            if (!flowObj.getOutputPins().isEmpty()) {
+                                String script = flowObj.getOutputPins().get(0).getScript();
+                                ArticyRuntime.getEngine().executeInstruction(
+                                        script,
+                                        ArticyRuntime.getVariableManager(),
+                                        new ArticyScriptMethodProvider()
+                                );
+                            }
                         }
                     }
                 }
-                
+
                 // Step 2: Camera + Dialogue at (20, 10)
                 if (spawnTriggered && !cameraTriggered) {
                     float targetX = 20f;
                     float targetY = 10f;
                     float distSq = (posCmp.renderPos.x - targetX) * (posCmp.renderPos.x - targetX) +
-                                   (posCmp.renderPos.y - targetY) * (posCmp.renderPos.y - targetY);
+                            (posCmp.renderPos.y - targetY) * (posCmp.renderPos.y - targetY);
                     if (distSq < 4.0f) {
                         cameraTriggered = true;
                         if (ArticyRuntime.getFlowPlayer() != null) {
                             System.out.println("Articy TRIGGER: Camera + Dialogue!");
-                            ArticyRuntime.getFlowPlayer().startOn(0x010000000000000AL); // Zone_Trigger_Camera
+                            com.articy.runtime.model.ArticyObject cameraNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Trigger_Camera", com.articy.runtime.model.ArticyObject.class);
+                            if (cameraNode != null) {
+                                ArticyRuntime.getFlowPlayer().startOn(cameraNode.getId());
+                            } else {
+                                com.badlogic.gdx.Gdx.app.error("Articy", "Could not find node: Zone_Trigger_Camera");
+                            }
                         }
                     }
                 }
@@ -209,11 +231,7 @@ public class GameWorld implements Disposable {
                 + "xr: " + Math.round(ComponentMappers.position().get(player).renderPos.x) + " yr: " + Math.round(ComponentMappers.position().get(player).renderPos.y) + '\n'
                 + "x: " + Math.round(ComponentMappers.position().get(player).renderPos.x * 100) / 100f + " y: " + Math.round(ComponentMappers.position().get(player).renderPos.y * 100) / 100f + '\n'
                 + "Spawn Triggered: " + spawnTriggered + '\n'
-                + "Camera Triggered: " + cameraTriggered + '\n'
-//                + PlayerControl.actionSequence.toString() + '\n'
-//                + PlayerControl.actionSequence.getSequenceKeycodes(10) + '\n'
-//                + PlayerControl.actionSequence.isInTimeframe(3,500);
-        ;
+                + "Camera Triggered: " + cameraTriggered + '\n';
         if (HUD.debugInfo != null) {
             HUD.debugInfo.setText(Strafer.inDebug ? HUD.debugInfoText : "");
         }
@@ -240,14 +258,24 @@ public class GameWorld implements Disposable {
             if (Gdx.input.isKeyJustPressed(Keys.NUMPAD_6)) {
                 System.out.println("MANUAL Spawn TRIGGER!");
                 if (ArticyRuntime.getFlowPlayer() != null) {
-                    ArticyRuntime.getFlowPlayer().startOn(0x0100000000000011L); 
+                    com.articy.runtime.model.ArticyObject spawnNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Spawn_NPC", com.articy.runtime.model.ArticyObject.class);
+                    if (spawnNode != null) {
+                        ArticyRuntime.getFlowPlayer().startOn(spawnNode.getId());
+                    } else {
+                        com.badlogic.gdx.Gdx.app.error("Articy Debug", "Could not find node: Zone_Spawn_NPC");
+                    }
                 }
             }
 
             if (Gdx.input.isKeyJustPressed(Keys.NUMPAD_7)) {
                 System.out.println("MANUAL Camera TRIGGER!");
                 if (ArticyRuntime.getFlowPlayer() != null) {
-                    ArticyRuntime.getFlowPlayer().startOn(0x010000000000000AL); 
+                    com.articy.runtime.model.ArticyObject cameraNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Trigger_Camera", com.articy.runtime.model.ArticyObject.class);
+                    if (cameraNode != null) {
+                        ArticyRuntime.getFlowPlayer().startOn(cameraNode.getId());
+                    } else {
+                        com.badlogic.gdx.Gdx.app.error("Articy Debug", "Could not find node: Zone_Trigger_Camera");
+                    }
                 }
             }
 

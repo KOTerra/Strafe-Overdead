@@ -1,0 +1,68 @@
+{
+  "Settings": {
+    "set_TextFormatter": "",
+    "set_IncludingAssets": "True",
+    "set_IncludedNodes": "Settings, Project, GlobalVariables, ObjectDefinitions, Packages, ScriptMethods, Hierarchy, Assets, Languages",
+    "set_UseScriptSupport": "True",
+    "RuleSetChecksum": "5DF1C2DE118CD9C4DEE1FFAC27D20312CB9FD54D-DA39A3EE5E6B4B0D3255BFEF95601890AFD80709",
+    "ExportVersion": "2.1",
+    "RuleSetId": "010000000000010E",
+    "RuleSetName": "Default Export Ruleset (complete Project)"
+  },
+  "Project": {
+    "Name": "StrafeOverdead",
+    "DetailName": "",
+    "Guid": "73056cb0-39d3-44f2-bbed-108ef4bd2c1a",
+    "TechnicalName": "Strafeoverdead"
+  },
+  "Languages": [
+    {
+      "CultureName": "en-US",
+      "ArticyLanguageId": 127,
+      "LanguageName": "English (United States)",
+      "IsVoiceOver": false
+    }
+  ],
+  "GlobalVariables": {
+    "FileName": "global_variables.json",
+    "Hash": "4Fi/rRsplNVXUuJG0GJiYsoXORIuiU+3WWmhnIV5TZE="
+  },
+  "ObjectDefinitions": {
+    "Types": {
+      "FileName": "object_definitions.json",
+      "Hash": "xI3gQ6YYLDK0PYVQDZgXgeDUOH10qcGuJpRckV9ckvk="
+    },
+    "Texts": {
+      "FileName": "object_definitions_localization.json",
+      "Hash": "RBNvo1WzZ4oRRq0W9+hknpT7T8If536DEMBg9hyq/4o="
+    }
+  },
+  "Packages": [
+    {
+      "Name": "All objects",
+      "Id": "0x0100000000000111",
+      "Description": "Exports all objects & types of the project",
+      "IsDefaultPackage": true,
+      "IsIncluded": true,
+      "ScriptFragmentHash": "qbQ6CLt0qQt/ypIPluL0vwpIwdsls2ZBVouFEfRt9PU=",
+      "Files": {
+        "Objects": {
+          "FileName": "package_0100000000000111_objects.json",
+          "Hash": "i92+a5toeScQwU2BE3b1DDdaZ4s/0MXWeks8HMjP5DA="
+        },
+        "Texts": {
+          "FileName": "package_0100000000000111_localization.json",
+          "Hash": "MqWEFiIhZUis9wN3PEsfEXyYShIE+XzahVxCuP50IbA="
+        }
+      }
+    }
+  ],
+  "ScriptMethods": {
+    "FileName": "script_methods.json",
+    "Hash": "BHaRYrxTLMplcqcLvru3Q1q0lEOTqCMyN0Zu6THVYKo="
+  },
+  "Hierarchy": {
+    "FileName": "hierarchy.json",
+    "Hash": "m5EAMRixypZE3OMjUO+AQDUPFmCjA1jh4OnXP/MDB0k="
+  }
+}

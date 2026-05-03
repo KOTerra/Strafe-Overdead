@@ -1,0 +1,62 @@
+{
+  "Zone_Spawn_NPC.DisplayName": {
+    "en-US": {
+      "Text": "Zone_Spawn_NPC"
+    },
+    "Context": "Flow/Zone_Spawn_NPC"
+  },
+  "Zone_Trigger_Camera.DisplayName": {
+    "en-US": {
+      "Text": "Zone_Trigger_Camera"
+    },
+    "Context": "Flow/Zone_Trigger_Camera"
+  },
+  "Dialogue_Test.DisplayName": {
+    "en-US": {
+      "Text": "Dialogue_Test"
+    },
+    "Context": "Flow/Dialogue_Test"
+  },
+  "DFr_44972ACC.Text": {
+    "en-US": {
+      "Text": "NPC is here! What shall we do next?"
+    },
+    "Context": "Flow/Dialogue_Test/Player: \"NPC is here! What shall we do next?\""
+  },
+  "DFr_567B62C8.Text": {
+    "en-US": {
+      "Text": "Another one joins the party!"
+    },
+    "Context": "Flow/Dialogue_Test/Player: \"Another one joins the party!\""
+  },
+  "DFr_19DA46A4.Text": {
+    "en-US": {
+      "Text": "Hold on tight!"
+    },
+    "Context": "Flow/Dialogue_Test/Player: \"Hold on tight!\""
+  },
+  "DFr_5DD40815.Text": {
+    "en-US": {
+      "Text": "Restoring camera tilt."
+    },
+    "Context": "Flow/Dialogue_Test/Player: \"Restoring camera tilt.\""
+  },
+  "DFr_29B10EBA.Text": {
+    "en-US": {
+      "Text": "Restoring camera tilt."
+    },
+    "Context": "Flow/Dialogue_Test/Player: \"Restoring camera tilt.\""
+  },
+  "Ntt_DC506545.DisplayName": {
+    "en-US": {
+      "Text": "Player"
+    },
+    "Context": "Entities/Player"
+  },
+  "Ntt_A03F4109.DisplayName": {
+    "en-US": {
+      "Text": "Goblin"
+    },
+    "Context": "Entities/Goblin"
+  }
+}

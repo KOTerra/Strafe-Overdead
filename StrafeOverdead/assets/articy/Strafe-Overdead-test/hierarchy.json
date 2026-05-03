@@ -1,0 +1,379 @@
+{
+  "Id": "0x0100000000000001",
+  "TechnicalName": "Strafeoverdead",
+  "Type": "Project",
+  "Children": [
+    {
+      "Id": "0x03000000F917511B",
+      "TechnicalName": "ProjectSettings",
+      "Type": "ProjectSettingsFolder",
+      "Children": [
+        {
+          "Id": "0x010000000000000C",
+          "TechnicalName": "",
+          "Type": "ProjectSettingsFlow"
+        },
+        {
+          "Id": "0x0100000000000007",
+          "TechnicalName": "",
+          "Type": "ProjectSettingsGeneral"
+        },
+        {
+          "Id": "0x010000000000000A",
+          "TechnicalName": "",
+          "Type": "ProjectSettingsJourneys"
+        },
+        {
+          "Id": "0x010000000000000B",
+          "TechnicalName": "",
+          "Type": "ProjectSettingsLocation"
+        }
+      ]
+    },
+    {
+      "Id": "0x030000002B4F4C54",
+      "TechnicalName": "GlobalVariables",
+      "Type": "GlobalVariables",
+      "Children": [
+        {
+          "Id": "0x010000000000012B",
+          "TechnicalName": "",
+          "Type": "VariableSet"
+        }
+      ]
+    },
+    {
+      "Id": "0x0300000043CE43F7",
+      "TechnicalName": "Flow",
+      "Type": "Flow",
+      "Children": [
+        {
+          "Id": "0x010000000000012F",
+          "TechnicalName": "Zone_Spawn_NPC",
+          "Type": "FlowFragment"
+        },
+        {
+          "Id": "0x0100000000000135",
+          "TechnicalName": "Zone_Trigger_Camera",
+          "Type": "FlowFragment"
+        },
+        {
+          "Id": "0x010000000000014E",
+          "TechnicalName": "Dialogue_Test",
+          "Type": "Dialogue",
+          "Children": [
+            {
+              "Id": "0x0100000000000154",
+              "TechnicalName": "DFr_44972ACC",
+              "Type": "DialogueFragment"
+            },
+            {
+              "Id": "0x010000000000015C",
+              "TechnicalName": "DFr_567B62C8",
+              "Type": "DialogueFragment"
+            },
+            {
+              "Id": "0x0100000000000162",
+              "TechnicalName": "DFr_19DA46A4",
+              "Type": "DialogueFragment"
+            },
+            {
+              "Id": "0x0100000000000168",
+              "TechnicalName": "DFr_5DD40815",
+              "Type": "DialogueFragment"
+            },
+            {
+              "Id": "0x010000000000016E",
+              "TechnicalName": "DFr_29B10EBA",
+              "Type": "DialogueFragment"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "0x03000000AC61A2B3",
+      "TechnicalName": "Entities",
+      "Type": "Entities",
+      "Children": [
+        {
+          "Id": "0x0100000000000127",
+          "TechnicalName": "Ntt_A03F4109",
+          "Type": "Entity"
+        },
+        {
+          "Id": "0x0100000000000123",
+          "TechnicalName": "Ntt_DC506545",
+          "Type": "Entity"
+        }
+      ]
+    },
+    {
+      "Id": "0x030000003140D3AC",
+      "TechnicalName": "Locations",
+      "Type": "Locations"
+    },
+    {
+      "Id": "0x03000000103AA2F0",
+      "TechnicalName": "Documents",
+      "Type": "Documents"
+    },
+    {
+      "Id": "0x03000000236F7272",
+      "TechnicalName": "Journeys",
+      "Type": "Journeys"
+    },
+    {
+      "Id": "0x0300000029CF057C",
+      "TechnicalName": "TemplateDesign",
+      "Type": "TemplateDesign",
+      "Children": [
+        {
+          "Id": "0x03000000D2404DC0",
+          "TechnicalName": "Features",
+          "Type": "Features",
+          "Children": [
+            {
+              "Id": "0x010000000000000F",
+              "TechnicalName": "DefaultBasicCharacterFeature",
+              "Type": "Feature"
+            },
+            {
+              "Id": "0x0100000000000051",
+              "TechnicalName": "DefaultExtendedCharacterFeature",
+              "Type": "Feature"
+            }
+          ]
+        },
+        {
+          "Id": "0x030000002C0951AE",
+          "TechnicalName": "PropertyTemplates",
+          "Type": "PropertyTemplates",
+          "Children": [
+            {
+              "Id": "0x03000000BB12F1B8",
+              "TechnicalName": "",
+              "Type": "TypedPropertyTemplates"
+            },
+            {
+              "Id": "0x0300000037DCE3F0",
+              "TechnicalName": "",
+              "Type": "TypedPropertyTemplates"
+            },
+            {
+              "Id": "0x030000006E2C178B",
+              "TechnicalName": "",
+              "Type": "TypedPropertyTemplates"
+            },
+            {
+              "Id": "0x03000000D745C449",
+              "TechnicalName": "",
+              "Type": "TypedPropertyTemplates"
+            },
+            {
+              "Id": "0x030000003630A240",
+              "TechnicalName": "",
+              "Type": "TypedPropertyTemplates"
+            },
+            {
+              "Id": "0x030000006F82D78E",
+              "TechnicalName": "",
+              "Type": "TypedPropertyTemplates"
+            }
+          ]
+        },
+        {
+          "Id": "0x030000009AF68DCD",
+          "TechnicalName": "Templates",
+          "Type": "Templates",
+          "Children": [
+            {
+              "Id": "0x0300000030635118",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x03000000DCC67F9D",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x03000000030B5ACF",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x030000008DD5C0F2",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x03000000ECC00F83",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x0300000078B45A71",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder",
+              "Children": [
+                {
+                  "Id": "0x01000000000000A9",
+                  "TechnicalName": "DefaultMainCharacterTemplate",
+                  "Type": "Template"
+                },
+                {
+                  "Id": "0x010000000000007F",
+                  "TechnicalName": "DefaultSupportingCharacterTemplate",
+                  "Type": "Template"
+                },
+                {
+                  "Id": "0x0100000000000121",
+                  "TechnicalName": "Tpl_DynamicEntity",
+                  "Type": "Template"
+                }
+              ]
+            },
+            {
+              "Id": "0x030000006D1BC275",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x0300000013DF3A1A",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x03000000CC5A07F0",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x03000000BA022E2F",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x03000000ADA9FA17",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x03000000FB371D5C",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x0300000092CF598E",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x030000005314E813",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x030000004264B29C",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x03000000F514339C",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x0300000096812FC1",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            },
+            {
+              "Id": "0x03000000A715C057",
+              "TechnicalName": "",
+              "Type": "TemplateTypeFolder"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "0x03000000173C3392",
+      "TechnicalName": "",
+      "Type": "RuleSets",
+      "Children": [
+        {
+          "Id": "0x010000000000010E",
+          "TechnicalName": "",
+          "Type": "RuleSet",
+          "Children": [
+            {
+              "Id": "0x0100000000000111",
+              "TechnicalName": "",
+              "Type": "RuleSetPackage"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "0x030000004C3DAF54",
+      "TechnicalName": "Assets",
+      "Type": "Assets",
+      "Children": [
+        {
+          "Id": "0x0100000000000118",
+          "TechnicalName": "Ufo_400F8EED",
+          "Type": "AssetsUserFolder"
+        },
+        {
+          "Id": "0x010000000000011A",
+          "TechnicalName": "Ufo_55459066",
+          "Type": "AssetsUserFolder",
+          "Children": [
+            {
+              "Id": "0x010000000000011E",
+              "TechnicalName": "Ast_7BBD7054",
+              "Type": "Asset"
+            }
+          ]
+        },
+        {
+          "Id": "0x0100000000000114",
+          "TechnicalName": "Ufo_F99E3F21",
+          "Type": "AssetsUserFolder",
+          "Children": [
+            {
+              "Id": "0x010000000000017C",
+              "TechnicalName": "Ufo_318EAE76",
+              "Type": "AssetsUserFolder",
+              "Children": [
+                {
+                  "Id": "0x010000000000017E",
+                  "TechnicalName": "Ast_9464807A",
+                  "Type": "Asset"
+                },
+                {
+                  "Id": "0x0100000000000181",
+                  "TechnicalName": "Ast_75446B9C",
+                  "Type": "Asset"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "Id": "0x010000000000011C",
+          "TechnicalName": "Ufo_8667FBB3",
+          "Type": "AssetsUserFolder"
+        },
+        {
+          "Id": "0x0100000000000116",
+          "TechnicalName": "Ufo_FDEB2867",
+          "Type": "AssetsUserFolder"
+        }
+      ]
+    }
+  ]
+}
