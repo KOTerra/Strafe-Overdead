@@ -1,6 +1,8 @@
 package com.strafergame.game.world;
 
 import box2dLight.RayHandler;
+import com.articy.runtime.model.ArticyObject;
+import com.articy.runtime.model.DialogueFragment;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -15,6 +17,7 @@ import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.HealthComponent;
+import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.factories.ArticyEntityFactory;
 import com.strafergame.game.ecs.factories.EntityFactory;
 import com.strafergame.game.ecs.factories.EntityRegistry;
@@ -81,6 +84,7 @@ public class GameWorld implements Disposable {
 //                    "articy/mock-export"
             };
 
+
             String exportDir = null;
             for (String path : possiblePaths) {
                 java.io.File dir = new java.io.File(path);
@@ -111,8 +115,7 @@ public class GameWorld implements Disposable {
                             for (int i = 0; i < branches.size(); i++) {
                                 Branch b = branches.get(i);
                                 String text = "";
-                                if (b.getTargetNode() instanceof com.articy.runtime.model.DialogueFragment) {
-                                    com.articy.runtime.model.DialogueFragment df = (com.articy.runtime.model.DialogueFragment) b.getTargetNode();
+                                if (b.getTargetNode() instanceof DialogueFragment df) {
                                     text = df.getMenuText() != null && !df.getMenuText().isEmpty() ? df.getMenuText() : df.getText();
                                 }
                                 System.out.println("  [" + i + "]: " + text + " (Target: " + b.getTargetNode().getTechnicalName() + ")");
@@ -121,7 +124,7 @@ public class GameWorld implements Disposable {
 
                         @Override
                         public void onFlowPlayerPaused(FlowObject object) {
-                            System.out.println("Articy: Flow player paused on: " + object.getTechnicalName() + " (Text: " + (object instanceof com.articy.runtime.model.DialogueFragment ? ((com.articy.runtime.model.DialogueFragment) object).getText() : "") + ")");
+                            System.out.println("Articy: Flow player paused on: " + object.getTechnicalName() + " (Text: " + (object instanceof DialogueFragment df ? df.getText() : "") + ")");
                         }
                     }
             );
@@ -130,7 +133,7 @@ public class GameWorld implements Disposable {
 
             // --- DIAGNOSTIC DB DUMP ---
             System.out.println("--- DB DUMP START ---");
-            com.articy.runtime.model.ArticyObject testObj = ArticyRuntime.getDatabase().getObject(0x010000000000012FL, com.articy.runtime.model.ArticyObject.class);
+            ArticyObject testObj = ArticyRuntime.getDatabase().getObject(0x010000000000012FL, ArticyObject.class);
             if (testObj != null) {
                 System.out.println("Found obj by ID: " + testObj.getTechnicalName() + " of class " + testObj.getClass().getSimpleName());
             } else {
@@ -164,7 +167,7 @@ public class GameWorld implements Disposable {
 
         // Articy Trigger Check
         if (player != null) {
-            com.strafergame.game.ecs.component.physics.PositionComponent posCmp = ComponentMappers.position().get(player);
+            PositionComponent posCmp = ComponentMappers.position().get(player);
             if (posCmp != null) {
                 // Step 1: Spawn NPC at (10, 10)
                 if (!spawnTriggered) {
@@ -175,10 +178,9 @@ public class GameWorld implements Disposable {
                     if (distSq < 4.0f) {
                         spawnTriggered = true;
                         System.out.println("Articy TRIGGER: Spawning NPC!");
-                        com.articy.runtime.model.ArticyObject spawnNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Spawn_NPC", com.articy.runtime.model.ArticyObject.class);
+                        ArticyObject spawnNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Spawn_NPC", ArticyObject.class);
 
-                        if (spawnNode instanceof com.articy.runtime.model.FlowObject) {
-                            com.articy.runtime.model.FlowObject flowObj = (com.articy.runtime.model.FlowObject) spawnNode;
+                        if (spawnNode instanceof FlowObject flowObj) {
                             // Directly execute the script on the first output pin
                             if (!flowObj.getOutputPins().isEmpty()) {
                                 String script = flowObj.getOutputPins().get(0).getScript();
@@ -202,11 +204,11 @@ public class GameWorld implements Disposable {
                         cameraTriggered = true;
                         if (ArticyRuntime.getFlowPlayer() != null) {
                             System.out.println("Articy TRIGGER: Camera + Dialogue!");
-                            com.articy.runtime.model.ArticyObject cameraNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Trigger_Camera", com.articy.runtime.model.ArticyObject.class);
+                            ArticyObject cameraNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Trigger_Camera", ArticyObject.class);
                             if (cameraNode != null) {
                                 ArticyRuntime.getFlowPlayer().startOn(cameraNode.getId());
                             } else {
-                                com.badlogic.gdx.Gdx.app.error("Articy", "Could not find node: Zone_Trigger_Camera");
+                               Gdx.app.error("Articy", "Could not find node: Zone_Trigger_Camera");
                             }
                         }
                     }
@@ -258,11 +260,11 @@ public class GameWorld implements Disposable {
             if (Gdx.input.isKeyJustPressed(Keys.NUMPAD_6)) {
                 System.out.println("MANUAL Spawn TRIGGER!");
                 if (ArticyRuntime.getFlowPlayer() != null) {
-                    com.articy.runtime.model.ArticyObject spawnNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Spawn_NPC", com.articy.runtime.model.ArticyObject.class);
+                   ArticyObject spawnNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Spawn_NPC",ArticyObject.class);
                     if (spawnNode != null) {
                         ArticyRuntime.getFlowPlayer().startOn(spawnNode.getId());
                     } else {
-                        com.badlogic.gdx.Gdx.app.error("Articy Debug", "Could not find node: Zone_Spawn_NPC");
+                        Gdx.app.error("Articy Debug", "Could not find node: Zone_Spawn_NPC");
                     }
                 }
             }
@@ -270,11 +272,11 @@ public class GameWorld implements Disposable {
             if (Gdx.input.isKeyJustPressed(Keys.NUMPAD_7)) {
                 System.out.println("MANUAL Camera TRIGGER!");
                 if (ArticyRuntime.getFlowPlayer() != null) {
-                    com.articy.runtime.model.ArticyObject cameraNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Trigger_Camera", com.articy.runtime.model.ArticyObject.class);
+                    ArticyObject cameraNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Trigger_Camera", ArticyObject.class);
                     if (cameraNode != null) {
                         ArticyRuntime.getFlowPlayer().startOn(cameraNode.getId());
                     } else {
-                        com.badlogic.gdx.Gdx.app.error("Articy Debug", "Could not find node: Zone_Trigger_Camera");
+                        Gdx.app.error("Articy Debug", "Could not find node: Zone_Trigger_Camera");
                     }
                 }
             }
