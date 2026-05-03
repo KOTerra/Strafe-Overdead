@@ -98,7 +98,7 @@
       "Children": [
         {
           "Id": "0x0100000000000127",
-          "TechnicalName": "Ntt_A03F4109",
+          "TechnicalName": "NPC_Goblin",
           "Type": "Entity"
         },
         {

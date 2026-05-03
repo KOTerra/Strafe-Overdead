@@ -483,11 +483,11 @@
     {
       "Type": "Tpl_DynamicEntity",
       "Properties": {
-        "TechnicalName": "Ntt_A03F4109",
+        "TechnicalName": "NPC_Goblin",
         "Id": "0x0100000000000127",
         "Parent": "0x03000000AC61A2B3",
         "Attachments": [],
-        "DisplayName": "Ntt_A03F4109.DisplayName",
+        "DisplayName": "NPC_Goblin.DisplayName",
         "Color": {
           "r": 0.78431374,
           "g": 0.8862745,

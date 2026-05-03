@@ -23,7 +23,7 @@ public class ArticyScriptMethodProvider implements IScriptMethodProvider {
 
     private void registerDefaultCommands() {
         commands.put("print", args -> System.out.println("Articy: " + (args.length > 0 ? args[0] : "")));
-        
+
         // Example game commands
         commands.put("cameraPan", args -> {
             // args: [x, y, duration]
@@ -46,14 +46,22 @@ public class ArticyScriptMethodProvider implements IScriptMethodProvider {
         });
 
         commands.put("spawnNPC", args -> {
-            // args: [articyId, x, y]
+            // args: [technicalName, x, y]
             if (args.length >= 3) {
-                long id = ArticyDatabase.parseHexId(args[0].toString());
+                String techName = args[0].toString();
                 float x = ((Number) args[1]).floatValue();
                 float y = ((Number) args[2]).floatValue();
+
                 Gdx.app.postRunnable(() -> {
-                    System.out.println("Articy Command: Spawning NPC " + args[0] + " at (" + x + ", " + y + ")");
-                    com.strafergame.game.ecs.factories.ArticyEntityFactory.createEntity(id, new com.badlogic.gdx.math.Vector3(x, y, 0));
+                    // Look up the actual ID using the Technical Name from the script
+                    com.articy.runtime.model.ArticyObject obj = ArticyRuntime.getDatabase().getObjectByTechnicalName(techName, com.articy.runtime.model.ArticyObject.class);
+
+                    if (obj != null) {
+                        System.out.println("Articy Command: Spawning NPC " + techName + " at (" + x + ", " + y + ")");
+                        com.strafergame.game.ecs.factories.ArticyEntityFactory.createEntity(obj.getId(), new com.badlogic.gdx.math.Vector3(x, y, 0));
+                    } else {
+                        Gdx.app.error("Articy", "spawnNPC failed: Could not find entity with Technical Name '" + techName + "'");
+                    }
                 });
             }
         });

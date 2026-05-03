@@ -76,9 +76,9 @@ public class GameWorld implements Disposable {
 
             // Try different possible paths for the export directory
             String[] possiblePaths = {
-//                    "articy/Strafe-Overdead-test"
+                    "articy/Strafe-Overdead-test"
 //                    ,
-                    "articy/mock-export"
+//                    "articy/mock-export"
             };
 
             String exportDir = null;
