@@ -115,6 +115,7 @@ public class GameWorld implements Disposable {
                                 Strafer.uiManager.getHud().getDialogueBox().setCurrentBranches(branches);
                                 Strafer.uiManager.getHud().getDialogueBox().setEndOfDialogue(branches.isEmpty());
                                 Strafer.uiManager.getHud().getDialogueBox().showChoices(branches);
+                                Strafer.uiManager.getHud().getDialogueBox().updateVisibility();
                             }
                             System.out.println("Articy: Branches updated, count: " + branches.size() + " [Press 0, 1, etc. to choose]");
                             for (int i = 0; i < branches.size(); i++) {
@@ -133,6 +134,7 @@ public class GameWorld implements Disposable {
                                 if (object instanceof DialogueFragment df) {
                                     Strafer.uiManager.getHud().getDialogueBox().showText(df.getText());
                                     Strafer.uiManager.getHud().getDialogueBox().setVisible(true);
+                                    Strafer.uiManager.getHud().getDialogueBox().updateVisibility();
                                 } else {
                                     Strafer.uiManager.getHud().getDialogueBox().setVisible(false);
                                 }

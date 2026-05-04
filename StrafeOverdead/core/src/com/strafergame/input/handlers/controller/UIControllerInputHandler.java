@@ -127,7 +127,6 @@ public class UIControllerInputHandler implements ControllerListener {
         return handled;
     }
 
-
     private boolean yAxisAlreadyMoved = false;
     private boolean xAxisAlreadyMoved = false;
 

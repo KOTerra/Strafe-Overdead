@@ -124,6 +124,9 @@ public class UiManager extends ControllerMenuStage implements Disposable {
 
     public static boolean canControlUI() {
         if (GameStateManager.isState(GameStateType.PLAY)) {
+            if (com.strafergame.Strafer.uiManager.getHud() != null && com.strafergame.Strafer.uiManager.getHud().getDialogueBox().isVisible()) {
+                return true;
+            }
             return false;
         }
         return true;

@@ -24,6 +24,12 @@ public class UIKeyboardInputProcessor implements InputProcessor {
             UIControl.MAP_TRIGGER = true;
             return true;
         }
+        if (keycode == com.badlogic.gdx.Input.Keys.ENTER || keycode == com.badlogic.gdx.Input.Keys.SPACE) {
+            if (com.strafergame.ui.UiManager.canControlUI()) {
+                UIControl.SELECT = true;
+                return true;
+            }
+        }
         //pass la alt processor in multiplexer
         return false;
     }
@@ -37,6 +43,12 @@ public class UIKeyboardInputProcessor implements InputProcessor {
         if (keycode == KeyboardMapping.MAP_TRIGGER_KEY) {
             UIControl.MAP_TRIGGER = false;
             return true;
+        }
+        if (keycode == com.badlogic.gdx.Input.Keys.ENTER || keycode == com.badlogic.gdx.Input.Keys.SPACE) {
+            if (com.strafergame.ui.UiManager.canControlUI()) {
+                UIControl.SELECT = false;
+                return true;
+            }
         }
         return false;
     }

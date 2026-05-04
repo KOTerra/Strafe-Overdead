@@ -3,7 +3,9 @@ package com.strafergame.ui;
 import com.articy.runtime.model.Branch;
 import com.articy.runtime.model.DialogueFragment;
 import com.articy.runtime.core.ArticyRuntime;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -17,6 +19,7 @@ import java.util.List;
 public class DialogueBox extends Table {
     private final TypingLabel label;
     private final Table choicesTable;
+    private final VisTextButton nextButton;
 
     private List<Branch> currentBranches;
     private boolean isEndOfDialogue;
@@ -27,18 +30,21 @@ public class DialogueBox extends Table {
         label.setAlignment(Align.left);
         choicesTable = new Table();
 
+        nextButton = new VisTextButton(">");
+        nextButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                advanceDialogue();
+            }
+        });
 
         this.add(label).expandX().fillX().pad(20).row();
-        this.add(choicesTable).expandX().fillX().pad(10);
+        this.add(choicesTable).expandX().fillX().pad(10).row();
+        this.add(nextButton).right().bottom().pad(10);
 
         this.setBackground(VisUI.getSkin().getDrawable("window"));
 
-        this.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                advance();
-            }
-        });
+        Strafer.uiManager.addFocusableActor(nextButton);
     }
 
     @Override
@@ -46,7 +52,7 @@ public class DialogueBox extends Table {
         super.act(delta);
     }
 
-    private void advance() {
+    private void advanceDialogue() {
         if (currentBranches != null && !currentBranches.isEmpty()) {
             if (currentBranches.size() == 1) {
                 ArticyRuntime.getFlowPlayer().advance(currentBranches.get(0));
@@ -54,16 +60,35 @@ public class DialogueBox extends Table {
             // If branches > 1, do nothing (force choice button click)
         } else if (isEndOfDialogue) {
             this.setVisible(false);
+            choicesTable.clearChildren();
+            currentBranches = null;
+            Strafer.uiManager.setFocusedActor(null);
             // potentially resume game movement
+        }
+    }
+
+    public void updateVisibility() {
+        if (currentBranches == null || currentBranches.size() <= 1) {
+            nextButton.setVisible(true);
+            Strafer.uiManager.setFocusedActor(nextButton);
+        } else {
+            nextButton.setVisible(false);
         }
     }
 
     public void showText(String text) {
         this.setVisible(true);
-        String localizedText = ArticyRuntime.getLocalization().localize(text);
+        String localizedText = text;
+        if (text.startsWith("DFr_")) {
+            localizedText = ArticyRuntime.getLocalization().localize(text);
+            if (localizedText.equals(text)) {
+                System.err.println("DialogueBox: Localization key not found: " + text);
+            }
+        }
         label.setText(localizedText);
         label.restart();
         choicesTable.clearChildren();
+        Strafer.uiManager.setFocusedActor(nextButton);
     }
 
     public void showChoices(List<Branch> branches) {
@@ -81,7 +106,10 @@ public class DialogueBox extends Table {
                     text = "Continue";
                 }
 
-                String localizedText = ArticyRuntime.getLocalization().localize(text);
+                String localizedText = text;
+                if (text.startsWith("DFr_")) {
+                    localizedText = ArticyRuntime.getLocalization().localize(text);
+                }
                 VisTextButton button = new VisTextButton(localizedText);
                 button.addListener(new ClickListener() {
                     @Override
