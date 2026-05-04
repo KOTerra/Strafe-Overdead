@@ -34,7 +34,9 @@ public class UiManager extends ControllerMenuStage implements Disposable {
         //((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(this);
         //Gdx.input.setInputProcessor(this);
 
-        Skin skin = new Skin(new TextureAtlas(Gdx.files.internal("ui/styles/commodore64/skin/uiskin.atlas"))) {
+        Skin skin = new Skin(new TextureAtlas(Gdx.files.internal(
+                "ui/styles/commodore64/skin/uiskin.atlas"
+        ))) {
             @Override
             protected Json getJsonLoader(FileHandle skinFile) {
                 Json json = super.getJsonLoader(skinFile);
@@ -42,7 +44,9 @@ public class UiManager extends ControllerMenuStage implements Disposable {
                 return json;
             }
         };
-        skin.load(Gdx.files.internal("ui/styles/commodore64/skin/uiskin.json"));
+        skin.load(Gdx.files.internal(
+                "ui/styles/commodore64/skin/uiskin.json"
+        ));
 
         SkinMapper.map(skin);
 

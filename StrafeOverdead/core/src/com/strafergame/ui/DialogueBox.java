@@ -18,6 +18,9 @@ public class DialogueBox extends Table {
     private final TypingLabel label;
     private final Table choicesTable;
 
+    private List<Branch> currentBranches;
+    private boolean isEndOfDialogue;
+
     public DialogueBox() {
         label = new TypingLabel("", VisUI.getSkin());
         label.setWrap(true);
@@ -28,7 +31,14 @@ public class DialogueBox extends Table {
         this.add(label).expandX().fillX().pad(20).row();
         this.add(choicesTable).expandX().fillX().pad(10);
 
-        this.setBackground(VisUI.getSkin().getDrawable("window")); 
+        this.setBackground(VisUI.getSkin().getDrawable("window"));
+
+        this.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                advance();
+            }
+        });
     }
 
     @Override
@@ -36,9 +46,22 @@ public class DialogueBox extends Table {
         super.act(delta);
     }
 
+    private void advance() {
+        if (currentBranches != null && !currentBranches.isEmpty()) {
+            if (currentBranches.size() == 1) {
+                ArticyRuntime.getFlowPlayer().advance(currentBranches.get(0));
+            }
+            // If branches > 1, do nothing (force choice button click)
+        } else if (isEndOfDialogue) {
+            this.setVisible(false);
+            // potentially resume game movement
+        }
+    }
+
     public void showText(String text) {
         this.setVisible(true);
-        label.setText(text);
+        String localizedText = ArticyRuntime.getLocalization().localize(text);
+        label.setText(localizedText);
         label.restart();
         choicesTable.clearChildren();
     }
@@ -46,30 +69,42 @@ public class DialogueBox extends Table {
     public void showChoices(List<Branch> branches) {
         this.setVisible(true);
         choicesTable.clearChildren();
-        for (Branch branch : branches) {
-            String text = "";
-            if (branch.getTargetNode() instanceof DialogueFragment df) {
-                text = df.getMenuText() != null && !df.getMenuText().isEmpty() ? df.getMenuText() : df.getText();
-            }
-            
-            if (text.isEmpty()) {
-                text = "Continue";
-            }
 
-            VisTextButton button = new VisTextButton(text);
-            button.addListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    ArticyRuntime.getFlowPlayer().advance(branch);
-                    choicesTable.clearChildren();
+        if (branches.size() > 1) {
+            for (Branch branch : branches) {
+                String text = "";
+                if (branch.getTargetNode() instanceof DialogueFragment df) {
+                    text = df.getMenuText() != null && !df.getMenuText().isEmpty() ? df.getMenuText() : df.getText();
                 }
-            });
-            choicesTable.add(button).fillX().pad(5).row();
-            
-            Strafer.uiManager.addFocusableActor(button);
+
+                if (text.isEmpty()) {
+                    text = "Continue";
+                }
+
+                String localizedText = ArticyRuntime.getLocalization().localize(text);
+                VisTextButton button = new VisTextButton(localizedText);
+                button.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        ArticyRuntime.getFlowPlayer().advance(branch);
+                        choicesTable.clearChildren();
+                    }
+                });
+                choicesTable.add(button).fillX().pad(5).row();
+
+                Strafer.uiManager.addFocusableActor(button);
+            }
+            if (!branches.isEmpty()) {
+                Strafer.uiManager.setFocusedActor(choicesTable.getChildren().first());
+            }
         }
-        if (!branches.isEmpty()) {
-             Strafer.uiManager.setFocusedActor(choicesTable.getChildren().first());
-        }
+    }
+
+    public void setCurrentBranches(List<Branch> currentBranches) {
+        this.currentBranches = currentBranches;
+    }
+
+    public void setEndOfDialogue(boolean isEndOfDialogue) {
+        this.isEndOfDialogue = isEndOfDialogue;
     }
 }
