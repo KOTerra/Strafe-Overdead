@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
+import com.github.tommyettinger.textra.Styles;
 import com.kotcrab.vis.ui.Sizes;
 import com.kotcrab.vis.ui.widget.VisImageButton.VisImageButtonStyle;
 import com.kotcrab.vis.ui.widget.VisTextButton.VisTextButtonStyle;
@@ -32,6 +33,9 @@ public class SkinMapper {
 
         LabelStyle ls = skin.get(LabelStyle.class);
         skin.add("default", ls, LabelStyle.class);
+
+        Styles.LabelStyle tls = new Styles.LabelStyle(ls.font, ls.fontColor);
+        skin.add("default", tls, Styles.LabelStyle.class);
 
         TextFieldStyle tfs = skin.get(TextFieldStyle.class);
         VisTextFieldStyle vtfs = new VisTextFieldStyle();

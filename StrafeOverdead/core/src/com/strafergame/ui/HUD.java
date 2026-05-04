@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisProgressBar;
@@ -24,6 +25,8 @@ public class HUD extends Table {
     public static String debugInfoText = "";
     private Entity player;
 
+    private DialogueBox dialogueBox;
+
     public HUD() {
         setFillParent(true);
         pad(40);
@@ -31,11 +34,20 @@ public class HUD extends Table {
         align(Align.center);
         Strafer.uiManager.addActor(this);
         this.healthBar = makeHealthBar();
+
+        this.dialogueBox = new DialogueBox();
+        add(dialogueBox).width(Value.percentWidth(.8f, this)).bottom().pad(20);
+        dialogueBox.setVisible(false);
+
         if (Gdx.app.getType().equals(ApplicationType.iOS) || Gdx.app.getType().equals(ApplicationType.Android)) {
             mobileUI();
         }
 
         debugInfo = makeDebugLabel();
+    }
+
+    public DialogueBox getDialogueBox() {
+        return dialogueBox;
     }
 
     private VisLabel makeDebugLabel() {

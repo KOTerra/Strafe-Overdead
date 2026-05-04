@@ -111,6 +111,9 @@ public class GameWorld implements Disposable {
                         @Override
                         public void onBranchesUpdated(List<Branch> branches) {
                             currentBranches = branches;
+                            if (Strafer.uiManager.getHud() != null) {
+                                Strafer.uiManager.getHud().getDialogueBox().showChoices(branches);
+                            }
                             System.out.println("Articy: Branches updated, count: " + branches.size() + " [Press 0, 1, etc. to choose]");
                             for (int i = 0; i < branches.size(); i++) {
                                 Branch b = branches.get(i);
@@ -124,6 +127,13 @@ public class GameWorld implements Disposable {
 
                         @Override
                         public void onFlowPlayerPaused(FlowObject object) {
+                            if (Strafer.uiManager.getHud() != null) {
+                                if (object instanceof DialogueFragment df) {
+                                    Strafer.uiManager.getHud().getDialogueBox().showText(df.getText());
+                                } else {
+                                    Strafer.uiManager.getHud().getDialogueBox().setVisible(false);
+                                }
+                            }
                             System.out.println("Articy: Flow player paused on: " + object.getTechnicalName() + " (Text: " + (object instanceof DialogueFragment df ? df.getText() : "") + ")");
                         }
                     }
