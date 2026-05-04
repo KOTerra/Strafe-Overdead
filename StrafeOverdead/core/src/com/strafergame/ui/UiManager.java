@@ -2,14 +2,18 @@ package com.strafergame.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.kotcrab.vis.ui.VisUI;
-import com.kotcrab.vis.ui.VisUI.SkinScale;
 import com.strafergame.game.GameStateManager;
 import com.strafergame.game.GameStateType;
 import com.strafergame.input.UIControl;
@@ -29,8 +33,20 @@ public class UiManager extends ControllerMenuStage implements Disposable {
         setSendMouseOverEvents(false);
         //((InputMultiplexer) Gdx.input.getInputProcessor()).addProcessor(this);
         //Gdx.input.setInputProcessor(this);
-        VisUI.load(SkinScale.X2);
 
+        Skin skin = new Skin(new TextureAtlas(Gdx.files.internal("ui/styles/commodore64/skin/uiskin.atlas"))) {
+            @Override
+            protected Json getJsonLoader(FileHandle skinFile) {
+                Json json = super.getJsonLoader(skinFile);
+                json.setIgnoreUnknownFields(true);
+                return json;
+            }
+        };
+        skin.load(Gdx.files.internal("ui/styles/commodore64/skin/uiskin.json"));
+
+        SkinMapper.map(skin);
+
+        VisUI.load(skin);
     }
 
 
