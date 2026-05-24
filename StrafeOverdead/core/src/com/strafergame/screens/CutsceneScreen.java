@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.video.VideoPlayer;
 import com.badlogic.gdx.video.VideoPlayerCreator;
 import com.strafergame.game.GameStateManager;
@@ -41,6 +42,14 @@ public class CutsceneScreen implements Screen {
     private String pendingCutscenePath;
     private boolean playing;
     private boolean completed;
+    
+    private ShapeRenderer shapeRenderer;
+    private float fadeTimer;
+    private static final float FADE_DURATION = 1.0f;
+    private enum FadeState {
+        FADE_IN, PLAYING, FADE_OUT
+    }
+    private FadeState fadeState;
 
     /**
      * Saved input processor to restore when the cutscene ends.
@@ -65,7 +74,7 @@ public class CutsceneScreen implements Screen {
     private final InputAdapter skipInputProcessor = new InputAdapter() {
         @Override
         public boolean keyDown(int keycode) {
-            if (!playing) return false;
+            if (!playing || fadeState == FadeState.FADE_OUT) return false;
 
             if (skipPromptVisible) {
                 // Prompt is showing — only ENTER confirms the skip
@@ -105,6 +114,7 @@ public class CutsceneScreen implements Screen {
         font = new BitmapFont();
         font.setColor(Color.WHITE);
         glyphLayout = new GlyphLayout();
+        shapeRenderer = new ShapeRenderer();
     }
 
     /**
@@ -136,6 +146,9 @@ public class CutsceneScreen implements Screen {
         skipPromptVisible = false;
         skipConfirmed = false;
         skipPromptTimer = 0f;
+        
+        fadeState = FadeState.FADE_IN;
+        fadeTimer = 0f;
 
         // Save current input processor and replace with skip handler
         previousInputProcessor = Gdx.input.getInputProcessor();
@@ -174,9 +187,22 @@ public class CutsceneScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Handle skip confirmation or natural completion
-        if (skipConfirmed || completed) {
-            endCutscene();
-            return;
+        if ((skipConfirmed || completed) && fadeState != FadeState.FADE_OUT) {
+            fadeState = FadeState.FADE_OUT;
+            fadeTimer = 0f;
+        }
+
+        if (fadeState == FadeState.FADE_IN) {
+            fadeTimer += delta;
+            if (fadeTimer >= FADE_DURATION) {
+                fadeState = FadeState.PLAYING;
+            }
+        } else if (fadeState == FadeState.FADE_OUT) {
+            fadeTimer += delta;
+            if (fadeTimer >= FADE_DURATION) {
+                endCutscene();
+                return;
+            }
         }
 
         // Update skip prompt timer
@@ -228,6 +254,24 @@ public class CutsceneScreen implements Screen {
 
                 batch.end();
             }
+        }
+
+        if (fadeState != FadeState.PLAYING) {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            shapeRenderer.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            float fadeAlpha = 0f;
+            if (fadeState == FadeState.FADE_IN) {
+                fadeAlpha = 1f - (fadeTimer / FADE_DURATION);
+            } else if (fadeState == FadeState.FADE_OUT) {
+                fadeAlpha = (fadeTimer / FADE_DURATION);
+            }
+            fadeAlpha = Math.max(0f, Math.min(1f, fadeAlpha));
+            shapeRenderer.setColor(0, 0, 0, fadeAlpha);
+            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            shapeRenderer.end();
+            Gdx.gl.glDisable(GL20.GL_BLEND);
         }
     }
 
@@ -287,6 +331,9 @@ public class CutsceneScreen implements Screen {
         }
         if (font != null) {
             font.dispose();
+        }
+        if (shapeRenderer != null) {
+            shapeRenderer.dispose();
         }
     }
 
