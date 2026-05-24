@@ -28,6 +28,7 @@ import com.strafergame.game.world.collision.Box2DWorld;
 import com.strafergame.game.world.map.MapManager;
 import com.strafergame.graphics.ColorPallete;
 import com.strafergame.input.PlayerControl;
+import com.strafergame.screens.CutsceneScreen;
 import com.strafergame.ui.HUD;
 import com.articy.runtime.core.ArticyRuntime;
 import com.articy.runtime.core.ArticyFlowPlayer;
@@ -307,6 +308,11 @@ public class GameWorld implements Disposable {
             if (Gdx.input.isKeyPressed(Keys.L)) {
                 ComponentMappers.health().get(player).init(ComponentMappers.stats().get(player).maxHealth);
             }
+
+            if (Gdx.input.isKeyPressed(Keys.C)) {
+                CutsceneScreen.playCutscene("cutscenes/yee.webm");
+            }
+
 
             // Articy Branch Selection
             if (currentBranches != null && !currentBranches.isEmpty()) {

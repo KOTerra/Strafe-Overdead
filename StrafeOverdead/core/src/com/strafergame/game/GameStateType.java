@@ -6,6 +6,7 @@ import com.badlogic.gdx.ai.msg.Telegram;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.EntityEngine;
 import com.strafergame.screens.*;
+import com.strafergame.screens.CutsceneScreen;
 import com.strafergame.ui.menus.GameOverMenu;
 
 //pause and add ecs systems and listeners based on the gamestate
@@ -65,7 +66,18 @@ public enum GameStateType implements State<GameStateManager> {
 
         }
     },
-    CUTSCENE,
+    CUTSCENE {
+        @Override
+        public void enter(GameStateManager entity) {
+            EntityEngine.getInstance().pauseOnSystems(null, true);
+            Strafer.getInstance().setScreen(CutsceneScreen.getInstance());
+        }
+
+        @Override
+        public void exit(GameStateManager entity) {
+            EntityEngine.getInstance().pauseOnSystems(null, false);
+        }
+    },
     PLAY {
         @Override
         public void enter(GameStateManager entity) {

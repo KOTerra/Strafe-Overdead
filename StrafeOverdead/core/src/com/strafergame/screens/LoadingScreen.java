@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 import com.strafergame.Strafer;
 import com.strafergame.assets.AnimationProvider;
 import com.strafergame.assets.AssetUtils;
@@ -77,6 +78,8 @@ public class LoadingScreen implements Screen {
 
     }
 
+    public static Array<String> cutscenePaths = new Array<>();
+
     private void queueAssetsToLoad() {
 
         Strafer.assetManager.setLoader(Texture.class, new TextureLoader(new InternalFileHandleResolver()));
@@ -98,6 +101,8 @@ public class LoadingScreen implements Screen {
             Strafer.assetManager.load(file, TextureAtlas.class);
 
         }
+
+        cutscenePaths = AssetUtils.listFilesInAssets("cutscenes", "webm");
 
     }
 
