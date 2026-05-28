@@ -40,6 +40,7 @@ public class CutsceneScreen implements Screen {
     private BitmapFont font;
     private GlyphLayout glyphLayout;
     private String pendingCutscenePath;
+    private float cutsceneDuration = -1f;
     private boolean playing;
     private boolean completed;
     
@@ -123,7 +124,11 @@ public class CutsceneScreen implements Screen {
      * @param cutscenePath internal path to the .webm file (e.g. "cutscenes/yee.webm")
      */
     public static void playCutscene(String cutscenePath) {
-        playCutscene(cutscenePath, GameStateType.PLAY);
+        playCutscene(cutscenePath, -1f, GameStateType.PLAY);
+    }
+
+    public static void playCutscene(String cutscenePath, float durationInSeconds) {
+        playCutscene(cutscenePath, durationInSeconds, GameStateType.PLAY);
     }
 
     /**
@@ -133,8 +138,13 @@ public class CutsceneScreen implements Screen {
      * @param returnTo     the game state to transition to after the cutscene
      */
     public static void playCutscene(String cutscenePath, GameStateType returnTo) {
+        playCutscene(cutscenePath, -1f, returnTo);
+    }
+
+    public static void playCutscene(String cutscenePath, float durationInSeconds, GameStateType returnTo) {
         CutsceneScreen screen = getInstance();
         screen.pendingCutscenePath = cutscenePath;
+        screen.cutsceneDuration = durationInSeconds;
         screen.returnState = returnTo;
         GameStateManager.changeState(GameStateType.CUTSCENE);
     }
@@ -185,6 +195,17 @@ public class CutsceneScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        // Auto fade-out near the end if duration is known
+        if (playing && videoPlayer != null && fadeState != FadeState.FADE_OUT) {
+            if (cutsceneDuration > 0) {
+                float currentSec = videoPlayer.getCurrentTimestamp() / 1000f;
+                if (currentSec >= (cutsceneDuration - FADE_DURATION)) {
+                    fadeState = FadeState.FADE_OUT;
+                    fadeTimer = 0f;
+                }
+            }
+        }
 
         // Handle skip confirmation or natural completion
         if ((skipConfirmed || completed) && fadeState != FadeState.FADE_OUT) {

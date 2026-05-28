@@ -310,7 +310,7 @@ public class GameWorld implements Disposable {
             }
 
             if (Gdx.input.isKeyPressed(Keys.C)) {
-                CutsceneScreen.playCutscene("cutscenes/yee.webm");
+                CutsceneScreen.playCutscene("cutscenes/yee.webm", 9.017f);
             }
 
 
