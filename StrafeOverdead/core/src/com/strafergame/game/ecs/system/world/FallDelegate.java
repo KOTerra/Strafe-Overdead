@@ -12,7 +12,7 @@ import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.ecs.states.EntityState;
 import com.strafergame.game.world.collision.ElevationUtils;
 import com.strafergame.game.world.map.MapManager;
-import org.antlr.v4.runtime.misc.Pair;
+import com.strafergame.utils.Pair;
 
 import static com.strafergame.game.ecs.system.world.ClimbFallSystem.OFF_WORLD_FALL_DISTANCE;
 import static com.strafergame.game.ecs.system.world.ClimbFallSystem.TARGET_NOT_CALCULATED;

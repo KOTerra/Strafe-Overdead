@@ -13,7 +13,6 @@ import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.physics.PositionComponent;
 import com.strafergame.game.ecs.component.world.ShadowComponent;
 import com.strafergame.game.ecs.states.EntityState;
-import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.Vector;
 

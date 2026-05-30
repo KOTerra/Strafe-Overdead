@@ -8,7 +8,7 @@ import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.ecs.component.ElevationComponent;
 import com.strafergame.game.ecs.component.physics.Box2dComponent;
 import com.strafergame.game.world.map.MapManager;
-import org.antlr.v4.runtime.misc.Pair;
+import com.strafergame.utils.Pair;
 
 public class MapQueryUtils {
 

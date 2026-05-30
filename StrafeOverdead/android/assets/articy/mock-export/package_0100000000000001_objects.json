@@ -1,0 +1,147 @@
+{
+  "Objects": [
+    {
+      "Type": "Entity",
+      "Properties": {
+        "Id": "0x010000000000000F",
+        "TechnicalName": "NPC_Goblin"
+      }
+    },
+    {
+      "Type": "FlowFragment",
+      "Properties": {
+        "Id": "0x0100000000000011",
+        "TechnicalName": "Zone_Spawn_NPC",
+        "OutputPins": [
+          {
+            "Id": "0x0100000000000021",
+            "Expression": "print('Spawning Initial Goblin'); spawnNPC('0x010000000000000F', 22.0, 10.0); NPCState.First_Goblin_Spawned = true;",
+            "Connections": []
+          }
+        ]
+      }
+    },
+    {
+      "Type": "FlowFragment",
+      "Properties": {
+        "Id": "0x010000000000000A",
+        "TechnicalName": "Zone_Trigger_Camera",
+        "InputPins": [
+          { "Id": "0x0100000000000019", "Expression": "NPCState.First_Goblin_Spawned == true" }
+        ],
+        "OutputPins": [
+          {
+            "Id": "0x010000000000001A",
+            "Expression": "print('Entering Camera Zone'); cameraRotate(45.0, 1.0);",
+            "Connections": [
+              { "TargetPin": "0x010000000000001B", "Target": "0x010000000000000B" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Type": "Dialogue",
+      "Properties": {
+        "Id": "0x010000000000000B",
+        "TechnicalName": "Dialogue_Test",
+        "InputPins": [
+          { "Id": "0x010000000000001B", "Expression": "" }
+        ],
+        "OutputPins": [
+          {
+            "Id": "0x010000000000002B",
+            "Connections": [
+              { "TargetPin": "0x010000000000001C", "Target": "0x010000000000000C" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Type": "DialogueFragment",
+      "Properties": {
+        "Id": "0x010000000000000C",
+        "TechnicalName": "Greeting",
+        "Text": "NPC is here! What shall we do next?",
+        "Speaker": "0x0200000000000001",
+        "InputPins": [
+          { "Id": "0x010000000000001C" }
+        ],
+        "OutputPins": [
+          {
+            "Id": "0x010000000000002C",
+            "Connections": [
+              { "TargetPin": "0x0100000000000031", "Target": "0x0100000000000041" },
+              { "TargetPin": "0x0100000000000032", "Target": "0x0100000000000042" },
+              { "TargetPin": "0x0100000000000033", "Target": "0x0100000000000043" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Type": "DialogueFragment",
+      "Properties": {
+        "Id": "0x0100000000000041",
+        "TechnicalName": "Branch_SpawnFriend",
+        "MenuText": "Spawn a friend for the Goblin.",
+        "Text": "Another one joins the party!",
+        "Speaker": "0x0200000000000001",
+        "InputPins": [
+          { "Id": "0x0100000000000031", "Expression": "spawnNPC('0x010000000000000F', 24.0, 10.0);" }
+        ],
+        "OutputPins": []
+      }
+    },
+    {
+      "Type": "DialogueFragment",
+      "Properties": {
+        "Id": "0x0100000000000042",
+        "TechnicalName": "Branch_ExtremeTilt",
+        "MenuText": "Extreme Camera Tilt.",
+        "Text": "Hold on tight!",
+        "Speaker": "0x0200000000000001",
+        "InputPins": [
+          { "Id": "0x0100000000000032", "Expression": "cameraRotate(-90.0, 1.0);" }
+        ],
+        "OutputPins": [
+          {
+            "Id": "0x0100000000000052",
+            "Connections": [
+              { "TargetPin": "0x0100000000000062", "Target": "0x0100000000000072" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Type": "DialogueFragment",
+      "Properties": {
+        "Id": "0x0100000000000072",
+        "TechnicalName": "Branch_RestoreExtreme",
+        "MenuText": "Restore Camera.",
+        "Text": "Back to normal.",
+        "Speaker": "0x0200000000000001",
+        "InputPins": [
+          { "Id": "0x0100000000000062", "Expression": "cameraRotate(0.0, 1.0);" }
+        ],
+        "OutputPins": []
+      }
+    },
+    {
+      "Type": "DialogueFragment",
+      "Properties": {
+        "Id": "0x0100000000000043",
+        "TechnicalName": "Branch_NormalReset",
+        "MenuText": "Just reset camera and finish.",
+        "Text": "Restoring camera tilt.",
+        "Speaker": "0x0200000000000001",
+        "InputPins": [
+          { "Id": "0x0100000000000033", "Expression": "cameraRotate(0.0, 1.0);" }
+        ],
+        "OutputPins": []
+      }
+    }
+  ]
+}

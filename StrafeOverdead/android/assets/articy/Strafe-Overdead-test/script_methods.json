@@ -1,0 +1,36 @@
+{
+  "ScriptMethods": [
+    {
+      "Name": "spawnNPC",
+      "ReturnType": "bool",
+      "Parameters": [
+        {
+          "Param": "aParam0",
+          "Type": "string"
+        },
+        {
+          "Param": "aParam1",
+          "Type": "float"
+        },
+        {
+          "Param": "aParam2",
+          "Type": "float"
+        }
+      ]
+    },
+    {
+      "Name": "cameraRotate",
+      "ReturnType": "bool",
+      "Parameters": [
+        {
+          "Param": "aParam0",
+          "Type": "float"
+        },
+        {
+          "Param": "aParam1",
+          "Type": "float"
+        }
+      ]
+    }
+  ]
+}

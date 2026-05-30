@@ -1,0 +1,28 @@
+{
+  "GlobalVariables": [
+    {
+      "Namespace": "NPCState",
+      "Description": "",
+      "Variables": [
+        {
+          "Variable": "NPC_Goblin_Visible",
+          "Type": "Boolean",
+          "Value": "True",
+          "Description": ""
+        },
+        {
+          "Variable": "Camera_IsRotated",
+          "Type": "Boolean",
+          "Value": "False",
+          "Description": ""
+        },
+        {
+          "Variable": "First_Goblin_Spawned",
+          "Type": "Boolean",
+          "Value": "False",
+          "Description": ""
+        }
+      ]
+    }
+  ]
+}
