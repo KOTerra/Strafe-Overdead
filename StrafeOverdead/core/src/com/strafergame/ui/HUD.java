@@ -4,18 +4,23 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisLabel;
 import com.kotcrab.vis.ui.widget.VisProgressBar;
+import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
 import com.strafergame.game.world.GameWorld;
 import com.strafergame.input.PlayerControl;
+import com.strafergame.screens.CutsceneScreen;
 
 public class HUD extends Table {
 
@@ -71,11 +76,14 @@ public class HUD extends Table {
     }
 
     private void mobileUI() {
-        align(Align.bottomLeft);
+        // Create an overlay table for mobile controls to ensure they are on top and correctly positioned
+        Table mobileControls = new Table();
+        mobileControls.setFillParent(true);
+        this.addActor(mobileControls);
 
-        final float deadzone = 0.15f; // Normalized deadzone (0 to 1)
+        // Movement Touchpad on the left
+        final float deadzone = 0.15f;
         final Touchpad touchpad = new Touchpad(deadzone, VisUI.getSkin());
-        
         touchpad.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -83,16 +91,74 @@ public class HUD extends Table {
                 PlayerControl.ANALOG_MOVE_X = touchpad.getKnobPercentX();
                 PlayerControl.ANALOG_MOVE_Y = touchpad.getKnobPercentY();
 
-                // Maintain digital booleans for backward compatibility/other systems
+                // Maintain digital booleans for backward compatibility
                 PlayerControl.MOVE_UP = touchpad.getKnobPercentY() > 0.5f;
                 PlayerControl.MOVE_LEFT = touchpad.getKnobPercentX() < -0.5f;
                 PlayerControl.MOVE_DOWN = touchpad.getKnobPercentY() < -0.5f;
                 PlayerControl.MOVE_RIGHT = touchpad.getKnobPercentX() > 0.5f;
             }
         });
+        mobileControls.add(touchpad).size(300).bottom().left().expand().pad(60);
 
-        // Add to table with fixed size instead of using setScale (which breaks input bounds)
-        add(touchpad).size(300).bottom().left().pad(60);
+        // Action Buttons on the right
+        Table buttonTable = new Table();
+
+        // Dash Button
+        VisTextButton dashButton = new VisTextButton("Dash");
+        dashButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                PlayerControl.DASH = true;
+                return true;
+            }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                PlayerControl.DASH = false;
+            }
+        });
+        buttonTable.add(dashButton).size(180, 120).pad(10);
+
+        // Jump Button
+        VisTextButton jumpButton = new VisTextButton("Jump");
+        jumpButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                PlayerControl.JUMP = true;
+                return true;
+            }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                PlayerControl.JUMP = false;
+            }
+        });
+        buttonTable.add(jumpButton).size(180, 120).pad(10).row();
+
+        // Attack Button
+        VisTextButton attackButton = new VisTextButton("Attack");
+        attackButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                PlayerControl.ATTACK = true;
+                return true;
+            }
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                PlayerControl.ATTACK = false;
+            }
+        });
+        buttonTable.add(attackButton).size(180, 120).pad(10);
+
+        // Cutscene Debug Button
+        VisTextButton cutsceneButton = new VisTextButton("Cutscene");
+        cutsceneButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                CutsceneScreen.playCutscene("cutscenes/yee.webm", 9.017f);
+            }
+        });
+        buttonTable.add(cutsceneButton).size(180, 120).pad(10);
+
+        mobileControls.add(buttonTable).bottom().right().expandY().pad(60);
     }
 
     public void resize() {
