@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic PUBLIC "-//OASIS//DTD DITA Topic//EN" "topic.dtd">
+<topic id="untitled3">
+    <title>Tehnologii utilizate</title>
+    <body>
+        <p>Java</p>
+        <p>GLSL</p>
+        <p>Gradle</p>
+        <p>Maven</p>
+        <p>libGDX(+plugins)</p>
+        <p>Git</p>
+        <p>Tiled</p>
+        <p>Eclipse IDE</p>
+        <p> Visual Studio Code IDE</p>
+        <p>Android Studio IDE</p>
+        <p>NetBeans IDE</p>
+        <p>JProfiler</p>
+        <p>Launch4j</p>
+        <p>Install4j</p>
+        <p>Oxygen XML editor</p>
+        <p>Photoshop</p>
+        <p>Aseprite</p>
+        <p>Spine</p>
+        <p>Texture Packer</p>
+        <p>Skin Composer</p>
+    </body>
+</topic>

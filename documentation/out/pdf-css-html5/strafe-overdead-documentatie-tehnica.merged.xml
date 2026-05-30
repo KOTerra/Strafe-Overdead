@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type='text/css' href='file:/C:/Program Files/Oxygen XML Editor 21/frameworks/dita/DITA-OT3.x/plugins/com.oxygenxml.webhelp.responsive/oxygen-webhelp/app/topic-page-print.css'?>
+<?xml-stylesheet type='text/css' href='file:/C:/Program Files/Oxygen XML Editor 21/frameworks/dita/css/print/p-dita.css'?>
+<?xml-stylesheet type='text/css' href='file:/C:/Program Files/Oxygen XML Editor 21/frameworks/dita/DITA-OT3.x/plugins/com.oxygenxml.editlink/pdf-css.css'?>
+<map xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/" xmlns:opentopic-index="http://www.idiominc.com/opentopic/index" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:oxy="http://www.oxygenxml.com/extensions/author" xmlns:nd="http://www.oxygenxml.com/css2fo/named-destinations" xmlns:opentopic="http://www.idiominc.com/opentopic" xmlns:css2fo="http://www.oxygenxml.com/css2fo" xmlns:dita-ot="dita-ot.sourceforge.net/ns/201007/dita-ot" cascade="merge" class="- map/map " ditaarch:DITAArchVersion="1.3" domains="(map mapgroup-d) (topic abbrev-d) (topic delay-d) a(props deliveryTarget) (map ditavalref-d) (map glossref-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)" xtrc="map:1;3:6" xtrf="file:/C:/Repossitories/Strafe-Overdead/documentatie/strafe-overdead-documentatie-tehnica.ditamap"><oxy:front-page class="- front-page/front-page "><oxy:front-page-title class="- front-page/front-page-title "><title xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" xmlns:ot-placeholder="http://suite-sol.com/namespaces/ot-placeholder" class="- topic/title ">Strafe Overdead - Documentatie tehnica</title></oxy:front-page-title></oxy:front-page><opentopic:map xmlns:ot-placeholder="http://suite-sol.com/namespaces/ot-placeholder" class="- toc/toc "><oxy:toc-title class="- toc/title " empty="true"/>
+ <title xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" class="- topic/title ">Strafe Overdead - Documentatie tehnica</title>
+ <topicref xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" is-chapter="true" class="- map/topicref " href="#unique_1" type="topic"><topicmeta class="- map/topicmeta " data-topic-id="untitled3"><resourceid appid="untitled3" class="- topic/resourceid " oxy-source="topic"/><navtitle href="#unique_1" class="- topic/navtitle ">Tehnologii utilizate</navtitle><?ditaot gentext?></topicmeta></topicref>
+ <topicref xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" is-chapter="true" class="- map/topicref " href="#unique_2" type="topic"><topicmeta class="- map/topicmeta " data-topic-id="Untitled"><resourceid appid="Untitled" class="- topic/resourceid " oxy-source="topic"/><navtitle href="#unique_2" class="- topic/navtitle ">Cerinte de sistem</navtitle><?ditaot gentext?></topicmeta></topicref>
+ <topicref xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" is-chapter="true" class="- map/topicref " href="#unique_3" type="topic"><topicmeta class="- map/topicmeta " data-topic-id="structura_proiectului"><resourceid appid="structura_proiectului" class="- topic/resourceid " oxy-source="topic"/><navtitle href="#unique_3" class="- topic/navtitle ">Structura Proiectului</navtitle><?ditaot gentext?></topicmeta></topicref>
+ <topicref xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" is-chapter="true" class="- map/topicref " href="#unique_4" type="topic"><topicmeta class="- map/topicmeta " data-topic-id="strafer-liberator"><resourceid appid="strafer-liberator" class="- topic/resourceid " oxy-source="topic"/><navtitle href="#unique_4" class="- topic/navtitle ">Arhitectura</navtitle><?ditaot gentext?></topicmeta></topicref>
+</opentopic:map><topic xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" break-before="true" is-chapter="true" oxy:topicref-class="- map/topicref " class="- topic/topic " id="unique_1" nd:nd-id="untitled3" oid="untitled3">
+    <title class="- topic/title ">Tehnologii utilizate</title>
+    <body class="- topic/body ">
+        <p class="- topic/p ">Java</p>
+        <p class="- topic/p ">GLSL</p>
+        <p class="- topic/p ">Gradle</p>
+        <p class="- topic/p ">Maven</p>
+        <p class="- topic/p ">libGDX(+plugins)</p>
+        <p class="- topic/p ">Git</p>
+        <p class="- topic/p ">Tiled</p>
+        <p class="- topic/p ">Eclipse IDE</p>
+        <p class="- topic/p "> Visual Studio Code IDE</p>
+        <p class="- topic/p ">Android Studio IDE</p>
+        <p class="- topic/p ">NetBeans IDE</p>
+        <p class="- topic/p ">JProfiler</p>
+        <p class="- topic/p ">Launch4j</p>
+        <p class="- topic/p ">Install4j</p>
+        <p class="- topic/p ">Oxygen XML editor</p>
+        <p class="- topic/p ">Photoshop</p>
+        <p class="- topic/p ">Aseprite</p>
+        <p class="- topic/p ">Spine</p>
+        <p class="- topic/p ">Texture Packer</p>
+        <p class="- topic/p ">Skin Composer</p>
+    </body>
+</topic><topic xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" break-before="true" is-chapter="true" oxy:topicref-class="- map/topicref " class="- topic/topic " id="unique_2" nd:nd-id="Untitled" oid="Untitled">
+    <title class="- topic/title ">Cerinte de sistem</title>
+    <body class="- topic/body ">
+        <p class="- topic/p "/>
+        <section class="- topic/section " id="unique_2_Connect_42_id_1" nd:nd-id="id_1">
+            <title class="- topic/title ">Cerinte sistem</title>
+            <p class="- topic/p "><b class="+ topic/ph hi-d/b ">Cerinte minime Desktop:</b></p>
+            <p class="- topic/p ">4GB RAM</p>
+            <p class="- topic/p ">3GB ROM(repository)</p>
+            <p class="- topic/p ">1GB ROM(instalat)</p>
+            <p class="- topic/p ">Procesor 2.5GHz</p>
+            <p class="- topic/p "><b class="+ topic/ph hi-d/b ">Cerinte minime Mobile:</b></p>
+            <p class="- topic/p ">Android 11+</p>
+            <p class="- topic/p ">6GB RAM</p>
+            <p class="- topic/p "><b class="+ topic/ph hi-d/b ">A fost testat pe:</b></p>
+            <p class="- topic/p ">
+                <ul class="- topic/ul " id="unique_2_Connect_42_ul_wdc_rt5_4xb" nd:nd-id="ul_wdc_rt5_4xb">
+                    <li class="- topic/li ">Desktop(dual boot Windows+Linux distro Mint): <p class="- topic/p ">Procesor AMD Ryzen
+                            5600</p><p class="- topic/p ">Placa Video Nvidia RTX 2070super</p><p class="- topic/p ">32GB RAM</p></li>
+                </ul>
+            </p>
+            <p class="- topic/p ">
+                <ul class="- topic/ul " id="unique_2_Connect_42_ul_oy3_rt5_4xb" nd:nd-id="ul_oy3_rt5_4xb">
+                    <li class="- topic/li ">Masina Virtuala(Linux distro Manjaro)</li>
+                </ul>
+            </p>
+            <p class="- topic/p ">
+                <ul class="- topic/ul " id="unique_2_Connect_42_ul_r14_rt5_4xb" nd:nd-id="ul_r14_rt5_4xb">
+                    <li class="- topic/li ">Laptop(Linux distro Ubuntu) <p class="- topic/p ">Procesor Intel celeron 1.8GHz</p><p class="- topic/p ">4GB
+                            RAM</p></li>
+                </ul>
+            </p>
+            <p class="- topic/p ">
+                <ul class="- topic/ul " id="unique_2_Connect_42_ul_tbh_wt5_4xb" nd:nd-id="ul_tbh_wt5_4xb">
+                    <li class="- topic/li ">Google pixel 6 (Android 13)</li>
+                </ul>
+            </p>
+            <p class="- topic/p ">
+                <ul class="- topic/ul " id="unique_2_Connect_42_ul_szk_wt5_4xb" nd:nd-id="ul_szk_wt5_4xb">
+                    <li class="- topic/li ">Samsung Galaxy S21 (Android 12)</li>
+                </ul>
+            </p>
+        </section>
+    </body>
+</topic><topic xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" break-before="true" is-chapter="true" oxy:topicref-class="- map/topicref " class="- topic/topic " id="unique_3" nd:nd-id="structura_proiectului" oid="structura_proiectului">
+    <title class="- topic/title ">Structura Proiectului</title>
+    <body class="- topic/body ">
+        <p class="- topic/p ">Orice proiect <b class="+ topic/ph hi-d/b ">libGDX</b> poate fi generat cu setup tool-ul dedicat. Acesta genereaza
+            dupa preferintele utilizatorului mai multe proiecte Java care au dependente intre ele in
+            functie de platformele si plugin-urile selectate in setup. Pentru build s-a folosit
+                <b class="+ topic/ph hi-d/b ">Gradle</b>, dar dependentele catre <b class="+ topic/ph hi-d/b ">LWJGL</b> sunt gestionate de libGDX cu
+            Maven. In cazul Strafer, exista:</p>
+        <p class="- topic/p ">
+            <ul class="- topic/ul " id="unique_3_Connect_42_ul_n3v_lqq_g5b" nd:nd-id="ul_n3v_lqq_g5b">
+                <li class="- topic/li ">proiectul master ce inglobeaza toate proiectele</li>
+            </ul>
+        </p>
+        <p class="- topic/p ">
+            <ul class="- topic/ul " id="unique_3_Connect_42_ul_lc4_lqq_g5b" nd:nd-id="ul_lc4_lqq_g5b">
+                <li class="- topic/li ">proiectul core avand pachetele comune pentru toate versiunile</li>
+            </ul>
+        </p>
+        <p class="- topic/p ">
+            <ul class="- topic/ul " id="unique_3_Connect_42_ul_mxh_mqq_g5b" nd:nd-id="ul_mxh_mqq_g5b">
+                <li class="- topic/li ">proiectele<b class="+ topic/ph hi-d/b ">launcher</b> pentru fiecare platforma Android si Desktop (entry
+                    point-ul aplicatiei)</li>
+            </ul>
+        </p>
+        <p class="- topic/p "> </p>
+    </body>
+</topic><topic xmlns:dita-ot="http://dita-ot.sourceforge.net/ns/201007/dita-ot" break-before="true" is-chapter="true" oxy:topicref-class="- map/topicref " class="- topic/topic " id="unique_4" nd:nd-id="strafer-liberator" oid="strafer-liberator">
+    <title class="- topic/title ">Arhitectura</title>
+    <topic class="- topic/topic " id="unique_5" nd:nd-id="launchers" oid="launchers">
+        <title class="- topic/title ">Launchers</title>
+        <body class="- topic/body ">
+            <p class="- topic/p ">Fiecare launcher determina rezolutia si setarile necesare sistemului pe care ruleaza,
+                apoi instantiaza game class-ul Strafer din core</p>
+            <bodydiv class="- topic/bodydiv ">
+                <p class="- topic/p ">Strafer- Game class-ul in care se regaseste rendering loop-ul si unde sunt
+                    declarate constantele globale si obiecte statice:</p>
+                <ul class="- topic/ul " id="unique_5_Connect_42_ul_esg_gy4_fyb" nd:nd-id="ul_esg_gy4_fyb">
+                    <li class="- topic/li ">WORLD_WIDTH, WORLD_HEIGHT </li>
+                    <li class="- topic/li ">aspectRatio</li>
+                    <li class="- topic/li ">SCALE_FACTOR unitatea de masura principala(1 metru=32 pixeli)</li>
+                    <li class="- topic/li ">assetManager incarca si returneaza asseturi recursiv din folderul assets in
+                        timpul fazei de loading</li>
+                    <li class="- topic/li ">i18n traduce stringuri in functie de limba setata</li>
+                    <li class="- topic/li ">spriteBatch se ocupa cu rendering-ul sprite-urilor pe ecran</li>
+                    <li class="- topic/li ">tiledMapRenderer un OrthogonalTiledMapRenderer modificat pentru a evita
+                        probleme de texture bleeding, se ocupa de rendering pentru fisiere tmx,
+                        tiled maps</li>
+                    <li class="- topic/li ">inputManager decide ce tip de platforma si periferice sunt disponibile si
+                        seteaza ce tip de InputProcessor este
+                        necesar(Keyboard,Controller,Touchscreen). Input-ul nu este hardcodat, ci se
+                        incarca din fisierul preferences, adica fiecare tasta poate fi reconfigurata
+                        de user. libGDX permite de asemenea utilizarea acestor tipuri de input
+                        interschimbabil intre platforme(Controller, Keyboard pe mobile, touch pe
+                        desktop etc)</li>
+                    <li class="- topic/li ">worldCamera este camera care se plimba pe harta dupa entitati</li>
+                    <li class="- topic/li ">extendViewport este folosit de worldCamera pentru a determina portiunea
+                        vizibla din ecran, acesta se adapteaza pentru orice resize al windowului si
+                        orice aspect ratio</li>
+                    <li class="- topic/li ">uiManager un scene2d stage, contine toate meniurile si componentele de user
+                        interface</li>
+                    <li class="- topic/li ">uiCamera este o alta camera cu un screenViewport care separa ui-ul de
+                        gameworld</li>
+                    <li class="- topic/li ">loadingScreen</li>
+                    <li class="- topic/li ">settingsScreen</li>
+                    <li class="- topic/li ">titleScreen</li>
+                </ul>
+                <p class="- topic/p ">gameScreen ecranul in care se petrece gameplay loop-ul. Aici este instantiat pe
+                    uiManager un HUD, adica user interface-ul prezent in timpul jocului(healthbar si
+                    input pentru mobile). Pe gameScreen se instantiaza un GameWorld, container-ul
+                    pentru toata lumea jocului.</p>
+                <ul class="- topic/ul " id="unique_5_Connect_42_ul_fsg_gy4_fyb" nd:nd-id="ul_fsg_gy4_fyb">
+                    <li class="- topic/li ">rayHandler se va ocupa de iluminarea obiectelor din physics engine</li>
+                    <li class="- topic/li ">box2dWorld este container-ul pentru physics engine (box2d) Pentru a crea
+                        Body-uri, Sensor-uri si Fixture-uri folosim clasa Box2dFactory</li>
+                    <li class="- topic/li ">tiledMap este harta propriu-zisa a jocului din care se incarca automat
+                        checkpoint-uri si pereti</li>
+                    <li class="- topic/li ">FIXED_TIME_STEP constanta folosita pentru a da update in physics engine la
+                        un interval constant de timp, lucru ce separa frame rate-ul de coliziuni si
+                        movement</li>
+                    <li class="- topic/li ">entityEngine este un PooledEngine din framework-ul Ashley. Acesta este un
+                        entity-component system ce permite management-ul entitatilor care sunt
+                        formate prin compunere de componente, asupra carora actioneaza diferite
+                        system-uri .Un system itereaza prin orice entity care contine compinentele
+                        specificate pe constructor si proceseaza datele acestuia. Astfel creste
+                        valoarea de reutilizare a compinentelor, evitand inheritance-ul. Acesta are
+                        un pattern de factory, adica poate returna prin metode Entity-uri, spre
+                        exemplu player-ul</li>
+                </ul>
+                <p class="- topic/p ">Player-ul are mai multe componente:</p>
+                <ul class="- topic/ul " id="unique_5_Connect_42_ul_gsg_gy4_fyb" nd:nd-id="ul_gsg_gy4_fyb">
+                    <li class="- topic/li ">PlayerComponent folosit pentru controlarea playerului, acesta are un sensor
+                        fixture pe body folosit pentru a determina alte entity-uri din
+                        proximitate</li>
+                    <li class="- topic/li ">EntityTypeComponent indica ce tip de entity este playerul si in ce state se
+                        afla(idle,hit, walk etc)</li>
+                    <li class="- topic/li ">PositionComponent pozitia in lume</li>
+                    <li class="- topic/li ">MovementComponent directiile de deplasare active, viteza si forta de
+                        dash</li>
+                    <li class="- topic/li ">SpriteComponent imaginea entity-ului si dimensiunile acesteia</li>
+                    <li class="- topic/li ">AnimationComponent un Animation&lt;Sprite&gt; si un timer intern folosit pentru
+                        actualizarea animatiei</li>
+                    <li class="- topic/li ">Box2dComponent indica engine-ului ca entity-ul ia parte in coliziuni.
+                        Body-ul este creat dupa dimensiunile sprite-ului avand doua Fixture-uri:
+                        fingerprint-ul(partea solida a corpului) si hurtbox-ul(folosit pentru
+                        interactiunile de combat cu hitboxuri)</li>
+                    <li class="- topic/li ">HealthConponent entity-ul ia parte in combat si poate primi damage.</li>
+                    <li class="- topic/li ">CameraComponent camera poate focusa entity-ul</li>
+                </ul>
+                <p class="- topic/p ">alte entity-uri pot avea:</p>
+                <ul class="- topic/ul " id="unique_5_Connect_42_ul_hsg_gy4_fyb" nd:nd-id="ul_hsg_gy4_fyb">
+                    <li class="- topic/li ">DetectorComponent detecteaza proximitatea cu playerul</li>
+                    <li class="- topic/li ">CheckpointComponent primeste un checkpoint action si este focusat automat de
+                        camera in zonele hartii care sunt points of interest</li>
+                    <li class="- topic/li ">AttackComponent are un hitbox si alte caracteristici ale unui atac precum
+                        damage tip de atac etc</li>
+                </ul>
+                <p class="- topic/p ">System-uri</p>
+                <ul class="- topic/ul " id="unique_5_Connect_42_ul_isg_gy4_fyb" nd:nd-id="ul_isg_gy4_fyb">
+                    <li class="- topic/li ">AnimationSystem se foloseste de counterele din AnimationComponent si schimba
+                        SpriteComponent-ul cu frame-ul curent. Animatiile sunt incarcate din
+                        AnimationProvider pe baza EntityType-ului si al EntityState-ului. Animatiile
+                        sunt salave in spritesheet-uri si decodate cu un fisier atlas in care sunt
+                        salvate informatii despre toate frame-urile animatiilor. Astfel este necesar
+                        un singur png si un fisier atlas pentru toate animatiile.</li>
+                    <li class="- topic/li ">CheckpointSystem executa actiunile din checkpointuri cand sunt atinse</li>
+                    <li class="- topic/li ">RenderingSystem foloseste spriteBatch-ul si randeaza Sprite-urile la
+                        pozitiile entity-urilor dupa ce compara pozitia lor pe axa Y, astfel incat
+                        sprite-urile sa para ca pot fi unul in spatele celuilalt.</li>
+                    <li class="- topic/li ">HudSystem actualizeaza hud-ul cu informatii din player</li>
+                    <li class="- topic/li ">CameraSystem decide unde este focusata camera. Daca player-ul este in
+                        proximitatea unui grup de inamici camera focuseaza in mijlocul grupului.
+                        Daca exista un checkpoint in proximitate, acesta va fi focusat. Daca
+                        playerul nu are entity-uri cu CameraComponent in proximitate este focusat
+                        singur.</li>
+                    <li class="- topic/li ">HealthSystem verifica daca un hurtbox a primit damage si actualizeaza
+                        nivelul de health</li>
+                    <li class="- topic/li ">CombatSystem aplica efecte de knockback daca un entity a fost lovit</li>
+                </ul>
+                <p class="- topic/p ">FilteredContactListener este un listener adaugat la box2dWorld care filtreaza
+                    coliziunile astfel incat sa determine cand s-a realizat un contact intre
+                    hitbox-uri/hurtbox-uri sau intre sensorul playerului si un detector</p>
+            </bodydiv>
+        </body>
+    </topic>
+</topic></map>

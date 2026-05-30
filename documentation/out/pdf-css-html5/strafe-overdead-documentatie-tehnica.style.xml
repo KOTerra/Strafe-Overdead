@@ -1,0 +1,1318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<css:root xmlns:chfox="http://www.oxygenxml.com/chemistry/extensions/fop"
+    xmlns:css="http://www.w3.org/1998/CSS" xmlns:ditaarch="ditaarch" xmlns:nd="nd" xmlns:oxy="oxy">
+    <css:pages>
+        <css:page>
+            <css:footnote>
+                <css:property name="border-top-style" value="solid"/>
+                <css:property name="border-top-color" value="black"/>
+                <css:property name="border-top-width" value="thin"/>
+                <css:property name="padding-top" value="8pt"/>
+            </css:footnote>
+        </css:page>
+        <css:page>
+            <css:property name="padding-top" value="0.2em"/>
+            <css:property name="padding-bottom" value="0.2em"/>
+            <css:property name="width" value="8.5in"/>
+            <css:property name="height" value="11.0in"/>
+            <css:property name="margin-top" value="1in"/>
+            <css:property name="margin-right" value="1in"/>
+            <css:property name="margin-left" value="1in"/>
+            <css:property name="margin-bottom" value="1in"/>
+        </css:page>
+        <css:page>
+            <css:property name="font-size" value="8pt"/>
+        </css:page>
+        <css:page pseudo="left ">
+            <css:top-left>
+                <css:property name="content">
+                    <css:string name="maptitle" position="first"/>
+                    <css:string name="parttitle" position="first"/>
+                    <css:string name="chaptertitle" position="first"/>
+                    <css:string name="sectiontitle" position="first"/>
+                    <css:text> | </css:text>
+                    <css:counter format="decimal" name="page"/>
+                </css:property>
+            </css:top-left>
+        </css:page>
+        <css:page pseudo="right ">
+            <css:top-right>
+                <css:property name="content">
+                    <css:string name="maptitle" position="first"/>
+                    <css:string name="parttitle" position="first"/>
+                    <css:string name="chaptertitle" position="first"/>
+                    <css:string name="sectiontitle" position="first"/>
+                    <css:text> | </css:text>
+                    <css:counter format="decimal" name="page"/>
+                </css:property>
+            </css:top-right>
+        </css:page>
+        <css:page pseudo="blank ">
+            <css:top-left>
+                <css:property name="content"/>
+            </css:top-left>
+            <css:top-right>
+                <css:property name="content"/>
+            </css:top-right>
+        </css:page>
+        <css:page name="front-page">
+            <css:top-left-corner>
+                <css:property name="content"/>
+            </css:top-left-corner>
+            <css:top-left>
+                <css:property name="content"/>
+            </css:top-left>
+            <css:top-center>
+                <css:property name="content"/>
+            </css:top-center>
+            <css:top-right>
+                <css:property name="content"/>
+            </css:top-right>
+            <css:top-right-corner>
+                <css:property name="content"/>
+            </css:top-right-corner>
+            <css:bottom-left-corner>
+                <css:property name="content"/>
+            </css:bottom-left-corner>
+            <css:bottom-left>
+                <css:property name="content"/>
+            </css:bottom-left>
+            <css:bottom-center>
+                <css:property name="content"/>
+            </css:bottom-center>
+            <css:bottom-right>
+                <css:property name="content"/>
+            </css:bottom-right>
+            <css:bottom-right-corner>
+                <css:property name="content"/>
+            </css:bottom-right-corner>
+        </css:page>
+        <css:page name="table-of-contents">
+            <css:top-left>
+                <css:property name="content"/>
+            </css:top-left>
+            <css:top-center>
+                <css:property name="content"/>
+            </css:top-center>
+            <css:top-right>
+                <css:property name="content"/>
+            </css:top-right>
+            <css:bottom-left>
+                <css:property name="content"/>
+            </css:bottom-left>
+            <css:bottom-center>
+                <css:property name="content"/>
+            </css:bottom-center>
+            <css:bottom-right>
+                <css:property name="content"/>
+            </css:bottom-right>
+        </css:page>
+        <css:page name="index">
+            <css:top-left-corner>
+                <css:property name="content"/>
+            </css:top-left-corner>
+            <css:top-left>
+                <css:property name="content"/>
+            </css:top-left>
+            <css:top-center>
+                <css:property name="content"/>
+            </css:top-center>
+            <css:top-right>
+                <css:property name="content"/>
+            </css:top-right>
+            <css:top-right-corner>
+                <css:property name="content"/>
+            </css:top-right-corner>
+            <css:bottom-left-corner>
+                <css:property name="content"/>
+            </css:bottom-left-corner>
+            <css:bottom-left>
+                <css:property name="content"/>
+            </css:bottom-left>
+            <css:bottom-center>
+                <css:property name="content">
+                    <css:counter format="lower-alpha" name="page"/>
+                </css:property>
+            </css:bottom-center>
+            <css:bottom-right>
+                <css:property name="content"/>
+            </css:bottom-right>
+            <css:bottom-right-corner>
+                <css:property name="content"/>
+            </css:bottom-right-corner>
+        </css:page>
+        <css:page name="index">
+            <css:property name="column-count" value="2"/>
+            <css:property name="column-fill" value="auto"/>
+        </css:page>
+        <css:page name="chapter"/>
+        <css:page name="matter-page">
+            <css:top-left-corner>
+                <css:property name="content"/>
+            </css:top-left-corner>
+            <css:top-left>
+                <css:property name="content"/>
+            </css:top-left>
+            <css:top-center>
+                <css:property name="content"/>
+            </css:top-center>
+            <css:top-right>
+                <css:property name="content"/>
+            </css:top-right>
+            <css:top-right-corner>
+                <css:property name="content"/>
+            </css:top-right-corner>
+            <css:bottom-left-corner>
+                <css:property name="content"/>
+            </css:bottom-left-corner>
+            <css:bottom-left>
+                <css:property name="content"/>
+            </css:bottom-left>
+            <css:bottom-center>
+                <css:property name="content"/>
+            </css:bottom-center>
+            <css:bottom-right>
+                <css:property name="content"/>
+            </css:bottom-right>
+            <css:bottom-right-corner>
+                <css:property name="content"/>
+            </css:bottom-right-corner>
+        </css:page>
+        <css:page name="portrait-page">
+            <css:property name="orientation" value="portrait"/>
+        </css:page>
+        <css:page name="table-of-contents" pseudo="left ">
+            <css:top-left>
+                <css:property name="content">
+                    <css:string name="toc-header" position="first"/>
+                    <css:text> | </css:text>
+                    <css:counter format="lower-roman" name="page"/>
+                </css:property>
+            </css:top-left>
+        </css:page>
+        <css:page name="table-of-contents" pseudo="right ">
+            <css:top-right>
+                <css:property name="content">
+                    <css:string name="toc-header" position="first"/>
+                    <css:text> | </css:text>
+                    <css:counter format="lower-roman" name="page"/>
+                </css:property>
+            </css:top-right>
+        </css:page>
+        <css:page name="landscape-page" pseudo="right ">
+            <css:property name="orientation" value="landscape"/>
+            <css:top-left>
+                <css:property name="content"/>
+            </css:top-left>
+            <css:top-center>
+                <css:property name="content"/>
+            </css:top-center>
+            <css:top-right>
+                <css:property name="content"/>
+            </css:top-right>
+            <css:right-bottom>
+                <css:property name="content">
+                    <css:reference-orientation-container-pmb reference-orientation="270">
+                        <css:string name="maptitle" position="first"/>
+                        <css:string name="parttitle" position="first"/>
+                        <css:string name="chaptertitle" position="first"/>
+                        <css:string name="sectiontitle" position="first"/>
+                        <css:text> | </css:text>
+                        <css:counter format="decimal" name="page"/>
+                    </css:reference-orientation-container-pmb>
+                </css:property>
+                <css:property name="vertical-align" value="middle"/>
+                <css:property name="text-align" value="right"/>
+            </css:right-bottom>
+        </css:page>
+        <css:page name="landscape-page" pseudo="left ">
+            <css:property name="orientation" value="landscape"/>
+            <css:top-left>
+                <css:property name="content"/>
+            </css:top-left>
+            <css:top-center>
+                <css:property name="content"/>
+            </css:top-center>
+            <css:top-right>
+                <css:property name="content"/>
+            </css:top-right>
+            <css:right-top>
+                <css:property name="content">
+                    <css:reference-orientation-container-pmb reference-orientation="270">
+                        <css:string name="maptitle" position="first"/>
+                        <css:string name="parttitle" position="first"/>
+                        <css:string name="chaptertitle" position="first"/>
+                        <css:string name="sectiontitle" position="first"/>
+                        <css:text> | </css:text>
+                        <css:counter format="decimal" name="page"/>
+                    </css:reference-orientation-container-pmb>
+                </css:property>
+                <css:property name="vertical-align" value="middle"/>
+                <css:property name="text-align" value="left"/>
+            </css:right-top>
+        </css:page>
+        <css:page name="table-of-contents" pseudo="first left ">
+            <css:top-left>
+                <css:property name="content"/>
+            </css:top-left>
+        </css:page>
+        <css:page name="table-of-contents" pseudo="first right ">
+            <css:top-right>
+                <css:property name="content"/>
+            </css:top-right>
+        </css:page>
+        <css:page name="chapter" pseudo="first left ">
+            <css:top-left>
+                <css:property name="content"/>
+            </css:top-left>
+        </css:page>
+        <css:page name="chapter" pseudo="first right ">
+            <css:top-right>
+                <css:property name="content"/>
+            </css:top-right>
+        </css:page>
+    </css:pages>
+    <css:page-sequence initial-page-number="1" page="front-page">
+        <html css:counter-reset=" page 1" css:display="block"
+            css:font-family="serif, Times, Times New Roman, Symbol, MingLiU, MS Mincho, Arial Unicode MS"
+            css:font-size="12px"
+            xtrf="file:/C:/Repossitories/Strafe-Overdead/documentatie/strafe-overdead-documentatie-tehnica.ditamap">
+            <head css:border-bottom-color="white" css:border-bottom-style="solid"
+                css:border-bottom-width="1pt" css:border-left-color="white"
+                css:border-left-style="solid" css:border-left-width="1pt"
+                css:border-right-color="white" css:border-right-style="solid"
+                css:border-right-width="1pt" css:border-top-color="white"
+                css:border-top-style="solid" css:border-top-width="1pt" css:display="none"
+                css:padding-bottom="1em" css:padding-left="1em" css:padding-right="1em"
+                css:padding-top="1em">
+                <meta charset="UTF-8" css:background-color="rgb(238 , 238 , 255)"
+                    css:border-bottom-color="rgb(204 , 204 , 238)" css:border-bottom-style="solid"
+                    css:border-bottom-width="1px" css:border-left-color="rgb(204 , 204 , 238)"
+                    css:border-left-style="solid" css:border-left-width="1px"
+                    css:border-right-color="rgb(204 , 204 , 238)" css:border-right-style="solid"
+                    css:border-right-width="1px" css:border-top-color="rgb(204 , 204 , 238)"
+                    css:border-top-style="solid" css:border-top-width="1px" css:display="none"
+                    css:font-family="monospace" css:font-size="smaller" css:margin-bottom="1px"
+                    css:margin-left="0" css:margin-right="0" css:margin-top="1px"/>
+                <meta content="(C) Copyright 2023" css:background-color="rgb(238 , 238 , 255)"
+                    css:border-bottom-color="rgb(204 , 204 , 238)" css:border-bottom-style="solid"
+                    css:border-bottom-width="1px" css:border-left-color="rgb(204 , 204 , 238)"
+                    css:border-left-style="solid" css:border-left-width="1px"
+                    css:border-right-color="rgb(204 , 204 , 238)" css:border-right-style="solid"
+                    css:border-right-width="1px" css:border-top-color="rgb(204 , 204 , 238)"
+                    css:border-top-style="solid" css:border-top-width="1px" css:display="none"
+                    css:font-family="monospace" css:font-size="smaller" css:margin-bottom="1px"
+                    css:margin-left="0" css:margin-right="0" css:margin-top="1px" name="copyright"/>
+                <meta content="(C) Copyright 2023" css:background-color="rgb(238 , 238 , 255)"
+                    css:border-bottom-color="rgb(204 , 204 , 238)" css:border-bottom-style="solid"
+                    css:border-bottom-width="1px" css:border-left-color="rgb(204 , 204 , 238)"
+                    css:border-left-style="solid" css:border-left-width="1px"
+                    css:border-right-color="rgb(204 , 204 , 238)" css:border-right-style="solid"
+                    css:border-right-width="1px" css:border-top-color="rgb(204 , 204 , 238)"
+                    css:border-top-style="solid" css:border-top-width="1px" css:display="none"
+                    css:font-family="monospace" css:font-size="smaller" css:margin-bottom="1px"
+                    css:margin-left="0" css:margin-right="0" css:margin-top="1px"
+                    name="DC.rights.owner"/>
+                <meta content="map" css:background-color="rgb(238 , 238 , 255)"
+                    css:border-bottom-color="rgb(204 , 204 , 238)" css:border-bottom-style="solid"
+                    css:border-bottom-width="1px" css:border-left-color="rgb(204 , 204 , 238)"
+                    css:border-left-style="solid" css:border-left-width="1px"
+                    css:border-right-color="rgb(204 , 204 , 238)" css:border-right-style="solid"
+                    css:border-right-width="1px" css:border-top-color="rgb(204 , 204 , 238)"
+                    css:border-top-style="solid" css:border-top-width="1px" css:display="none"
+                    css:font-family="monospace" css:font-size="smaller" css:margin-bottom="1px"
+                    css:margin-left="0" css:margin-right="0" css:margin-top="1px" name="DC.type"/>
+                <meta content="HTML5" css:background-color="rgb(238 , 238 , 255)"
+                    css:border-bottom-color="rgb(204 , 204 , 238)" css:border-bottom-style="solid"
+                    css:border-bottom-width="1px" css:border-left-color="rgb(204 , 204 , 238)"
+                    css:border-left-style="solid" css:border-left-width="1px"
+                    css:border-right-color="rgb(204 , 204 , 238)" css:border-right-style="solid"
+                    css:border-right-width="1px" css:border-top-color="rgb(204 , 204 , 238)"
+                    css:border-top-style="solid" css:border-top-width="1px" css:display="none"
+                    css:font-family="monospace" css:font-size="smaller" css:margin-bottom="1px"
+                    css:margin-left="0" css:margin-right="0" css:margin-top="1px" name="DC.format"/>
+                <link css:background-color="rgb(238 , 238 , 255)"
+                    css:border-bottom-color="rgb(204 , 204 , 238)" css:border-bottom-style="solid"
+                    css:border-bottom-width="1px" css:border-left-color="rgb(204 , 204 , 238)"
+                    css:border-left-style="solid" css:border-left-width="1px"
+                    css:border-right-color="rgb(204 , 204 , 238)" css:border-right-style="solid"
+                    css:border-right-width="1px" css:border-top-color="rgb(204 , 204 , 238)"
+                    css:border-top-style="solid" css:border-top-width="1px" css:display="none"
+                    css:font-family="monospace" css:font-size="smaller"
+                    css:link="file:/C:/Program Files/Oxygen XML Editor 21/frameworks/dita/DITA-OT3.x/plugins/com.oxygenxml.webhelp.responsive/oxygen-webhelp/app/topic-page-print.css"
+                    css:margin-bottom="1px" css:margin-left="0" css:margin-right="0"
+                    css:margin-top="1px"
+                    href="file:/C:/Program Files/Oxygen XML Editor 21/frameworks/dita/DITA-OT3.x/plugins/com.oxygenxml.webhelp.responsive/oxygen-webhelp/app/topic-page-print.css"
+                    rel="stylesheet" type="text/css"/>
+                <link css:background-color="rgb(238 , 238 , 255)"
+                    css:border-bottom-color="rgb(204 , 204 , 238)" css:border-bottom-style="solid"
+                    css:border-bottom-width="1px" css:border-left-color="rgb(204 , 204 , 238)"
+                    css:border-left-style="solid" css:border-left-width="1px"
+                    css:border-right-color="rgb(204 , 204 , 238)" css:border-right-style="solid"
+                    css:border-right-width="1px" css:border-top-color="rgb(204 , 204 , 238)"
+                    css:border-top-style="solid" css:border-top-width="1px" css:display="none"
+                    css:font-family="monospace" css:font-size="smaller"
+                    css:link="file:/C:/Program Files/Oxygen XML Editor 21/frameworks/dita/css/print/p-dita.css"
+                    css:margin-bottom="1px" css:margin-left="0" css:margin-right="0"
+                    css:margin-top="1px"
+                    href="file:/C:/Program Files/Oxygen XML Editor 21/frameworks/dita/css/print/p-dita.css"
+                    rel="stylesheet" type="text/css"/>
+                <link css:background-color="rgb(238 , 238 , 255)"
+                    css:border-bottom-color="rgb(204 , 204 , 238)" css:border-bottom-style="solid"
+                    css:border-bottom-width="1px" css:border-left-color="rgb(204 , 204 , 238)"
+                    css:border-left-style="solid" css:border-left-width="1px"
+                    css:border-right-color="rgb(204 , 204 , 238)" css:border-right-style="solid"
+                    css:border-right-width="1px" css:border-top-color="rgb(204 , 204 , 238)"
+                    css:border-top-style="solid" css:border-top-width="1px" css:display="none"
+                    css:font-family="monospace" css:font-size="smaller"
+                    css:link="file:/C:/Program Files/Oxygen XML Editor 21/frameworks/dita/DITA-OT3.x/plugins/com.oxygenxml.editlink/pdf-css.css"
+                    css:margin-bottom="1px" css:margin-left="0" css:margin-right="0"
+                    css:margin-top="1px"
+                    href="file:/C:/Program Files/Oxygen XML Editor 21/frameworks/dita/DITA-OT3.x/plugins/com.oxygenxml.editlink/pdf-css.css"
+                    rel="stylesheet" type="text/css"/>
+                <title css:border-bottom-color="rgb(0 , 68 , 119)" css:border-bottom-style="solid"
+                    css:border-bottom-width="2px" css:color="rgb(0 , 34 , 68)" css:display="none"
+                    css:font-size="2.2em" css:font-weight="bold" css:margin-bottom="0.5em"
+                    css:margin-left="0" css:margin-right="0" css:margin-top="0.5em">
+                    <css:oxy-pdf-meta-title>
+                        <css:content source="text"/>
+                    </css:oxy-pdf-meta-title>
+                </title>
+            </head>
+            <body class="wh_topic_page" css:display="block" css:font-size="11.5pt"
+                css:margin-left="auto" css:margin-right="auto">
+                <div class="wh_content_area" css:display="block">
+                    <div class="wh_topic_body" css:display="block">
+                        <div class="wh_topic_content" css:display="block">
+                            <div xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/"
+                                cascade="merge" class="- map/map map"
+                                css:counter-reset=" toc-chapter 0 chapter 0 figcount 0 tablecount 0"
+                                css:display="block" ditaarch:ditaarchversion="1.3"
+                                domains="(map mapgroup-d) (topic abbrev-d) (topic delay-d) a(props deliveryTarget) (map ditavalref-d) (map glossref-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)">
+                                <css:string-set name="toc-header">
+                                    <css:text>Contents</css:text>
+                                </css:string-set>
+                                <div class="- front-page/front-page front-page" css:display="block">
+                                    <div class="- front-page/front-page-title front-page-title"
+                                        css:display="block"
+                                        css:font-family="Arial, helvetica, sans-serif"
+                                        css:font-size="2em" css:font-weight="bold"
+                                        css:margin-top="3in" css:text-align="center">
+                                        <div class="- topic/title title" css:bookmark-level="1"
+                                            css:display="block" css:page-break-after="avoid"
+                                                ><css:string-set name="maptitle"><css:content
+                                                  source="text"
+                                                  /></css:string-set><css:bookmark-label><css:content
+                                                  source="before"/><css:content source="text"
+                                                /></css:bookmark-label><css:oxy-pdf-meta-title><css:content
+                                                  source="text"/></css:oxy-pdf-meta-title>Strafe
+                                            Overdead - Documentatie tehnica</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </css:page-sequence>
+    <css:page-sequence page="table-of-contents">
+        <html css:counter-reset=" page 1" css:display="block"
+            css:font-family="serif, Times, Times New Roman, Symbol, MingLiU, MS Mincho, Arial Unicode MS"
+            css:font-size="12px"
+            xtrf="file:/C:/Repossitories/Strafe-Overdead/documentatie/strafe-overdead-documentatie-tehnica.ditamap">
+            <body class="wh_topic_page" css:display="block" css:font-size="11.5pt"
+                css:margin-left="auto" css:margin-right="auto">
+                <div class="wh_content_area" css:display="block">
+                    <div class="wh_topic_body" css:display="block">
+                        <div class="wh_topic_content" css:display="block">
+                            <div xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/"
+                                cascade="merge" class="- map/map map"
+                                css:counter-reset=" toc-chapter 0 chapter 0 figcount 0 tablecount 0"
+                                css:display="block" ditaarch:ditaarchversion="1.3"
+                                domains="(map mapgroup-d) (topic abbrev-d) (topic delay-d) a(props deliveryTarget) (map ditavalref-d) (map glossref-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)">
+                                <div class="- toc/toc toc" css:display="block">
+                                    <div class="- toc/title title" css:bookmark-level="1"
+                                        css:display="block" css:font-size="2em"
+                                        css:margin-bottom="1em" empty="true">
+                                        <css:before css:display="inline">
+                                            <css:text>Contents</css:text>
+                                        </css:before>
+                                        <css:bookmark-label>
+                                            <css:content source="before"/>
+                                        </css:bookmark-label>
+                                    </div>
+                                    <div class="- topic/title title" css:display="none"
+                                        css:page-break-after="avoid">Strafe Overdead - Documentatie
+                                        tehnica</div>
+                                    <div class="- map/topicref topicref" css:display="block"
+                                        css:font-weight="bold" css:margin-bottom="0.5em"
+                                        css:margin-left="0" css:margin-top="0.5em" href="#unique_1"
+                                        is-chapter="true" type="topic">
+                                        <div class="- map/topicmeta topicmeta"
+                                            css:border-bottom-color="transparent"
+                                            css:border-bottom-style="none"
+                                            css:border-left-color="transparent"
+                                            css:border-left-style="none"
+                                            css:border-right-color="transparent"
+                                            css:border-right-style="none"
+                                            css:border-top-color="transparent"
+                                            css:border-top-style="none" css:display="block"
+                                            css:margin-bottom="0" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="0"
+                                            css:padding-bottom="0" css:padding-left="0"
+                                            css:padding-right="0" css:padding-top="0"
+                                            data-topic-id="untitled3">
+                                            <css:before css:display="inline"/>
+                                            <div appid="untitled3"
+                                                class="- topic/resourceid resourceid"
+                                                css:display="none" oxy-source="topic"/>
+                                            <div class="- topic/navtitle navtitle"
+                                                css:display="block" css:link="#unique_1"
+                                                css:text-align-last="justify" href="#unique_1"
+                                                  ><css:before css:display="inline"
+                                                  css:link="#unique_1"><css:text>Chapter
+                                                  </css:text><css:counter name="toc-chapter"
+                                                  value="1"/><css:text>.
+                                                </css:text></css:before>Tehnologii
+                                                  utilizate<css:after css:display="inline"
+                                                  css:link="#unique_1"><css:leader pattern="."
+                                                  /><css:target-counter url-fragment="unique_1"
+                                                  /></css:after></div>
+                                        </div>
+                                    </div>
+                                    <div class="- map/topicref topicref" css:display="block"
+                                        css:font-weight="bold" css:margin-bottom="0.5em"
+                                        css:margin-left="0" css:margin-top="0.5em" href="#unique_2"
+                                        is-chapter="true" type="topic">
+                                        <div class="- map/topicmeta topicmeta"
+                                            css:border-bottom-color="transparent"
+                                            css:border-bottom-style="none"
+                                            css:border-left-color="transparent"
+                                            css:border-left-style="none"
+                                            css:border-right-color="transparent"
+                                            css:border-right-style="none"
+                                            css:border-top-color="transparent"
+                                            css:border-top-style="none" css:display="block"
+                                            css:margin-bottom="0" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="0"
+                                            css:padding-bottom="0" css:padding-left="0"
+                                            css:padding-right="0" css:padding-top="0"
+                                            data-topic-id="Untitled">
+                                            <css:before css:display="inline"/>
+                                            <div appid="Untitled"
+                                                class="- topic/resourceid resourceid"
+                                                css:display="none" oxy-source="topic"/>
+                                            <div class="- topic/navtitle navtitle"
+                                                css:display="block" css:link="#unique_2"
+                                                css:text-align-last="justify" href="#unique_2"
+                                                  ><css:before css:display="inline"
+                                                  css:link="#unique_2"><css:text>Chapter
+                                                  </css:text><css:counter name="toc-chapter"
+                                                  value="2"/><css:text>.
+                                                </css:text></css:before>Cerinte de sistem<css:after
+                                                  css:display="inline" css:link="#unique_2"
+                                                  ><css:leader pattern="."/><css:target-counter
+                                                  url-fragment="unique_2"/></css:after></div>
+                                        </div>
+                                    </div>
+                                    <div class="- map/topicref topicref" css:display="block"
+                                        css:font-weight="bold" css:margin-bottom="0.5em"
+                                        css:margin-left="0" css:margin-top="0.5em" href="#unique_3"
+                                        is-chapter="true" type="topic">
+                                        <div class="- map/topicmeta topicmeta"
+                                            css:border-bottom-color="transparent"
+                                            css:border-bottom-style="none"
+                                            css:border-left-color="transparent"
+                                            css:border-left-style="none"
+                                            css:border-right-color="transparent"
+                                            css:border-right-style="none"
+                                            css:border-top-color="transparent"
+                                            css:border-top-style="none" css:display="block"
+                                            css:margin-bottom="0" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="0"
+                                            css:padding-bottom="0" css:padding-left="0"
+                                            css:padding-right="0" css:padding-top="0"
+                                            data-topic-id="structura_proiectului">
+                                            <css:before css:display="inline"/>
+                                            <div appid="structura_proiectului"
+                                                class="- topic/resourceid resourceid"
+                                                css:display="none" oxy-source="topic"/>
+                                            <div class="- topic/navtitle navtitle"
+                                                css:display="block" css:link="#unique_3"
+                                                css:text-align-last="justify" href="#unique_3"
+                                                  ><css:before css:display="inline"
+                                                  css:link="#unique_3"><css:text>Chapter
+                                                  </css:text><css:counter name="toc-chapter"
+                                                  value="3"/><css:text>.
+                                                </css:text></css:before>Structura
+                                                  Proiectului<css:after css:display="inline"
+                                                  css:link="#unique_3"><css:leader pattern="."
+                                                  /><css:target-counter url-fragment="unique_3"
+                                                  /></css:after></div>
+                                        </div>
+                                    </div>
+                                    <div class="- map/topicref topicref" css:display="block"
+                                        css:font-weight="bold" css:margin-bottom="0.5em"
+                                        css:margin-left="0" css:margin-top="0.5em" href="#unique_4"
+                                        is-chapter="true" type="topic">
+                                        <div class="- map/topicmeta topicmeta"
+                                            css:border-bottom-color="transparent"
+                                            css:border-bottom-style="none"
+                                            css:border-left-color="transparent"
+                                            css:border-left-style="none"
+                                            css:border-right-color="transparent"
+                                            css:border-right-style="none"
+                                            css:border-top-color="transparent"
+                                            css:border-top-style="none" css:display="block"
+                                            css:margin-bottom="0" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="0"
+                                            css:padding-bottom="0" css:padding-left="0"
+                                            css:padding-right="0" css:padding-top="0"
+                                            data-topic-id="strafer-liberator">
+                                            <css:before css:display="inline"/>
+                                            <div appid="strafer-liberator"
+                                                class="- topic/resourceid resourceid"
+                                                css:display="none" oxy-source="topic"/>
+                                            <div class="- topic/navtitle navtitle"
+                                                css:display="block" css:link="#unique_4"
+                                                css:text-align-last="justify" href="#unique_4"
+                                                  ><css:before css:display="inline"
+                                                  css:link="#unique_4"><css:text>Chapter
+                                                  </css:text><css:counter name="toc-chapter"
+                                                  value="4"/><css:text>.
+                                                  </css:text></css:before>Arhitectura<css:after
+                                                  css:display="inline" css:link="#unique_4"
+                                                  ><css:leader pattern="."/><css:target-counter
+                                                  url-fragment="unique_4"/></css:after></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </css:page-sequence>
+    <css:page-sequence xmlns:nd="http://www.oxygenxml.com/css2fo/named-destinations"
+        xmlns:oxy="http://www.oxygenxml.com/extensions/author" initial-page-number="1"
+        page="chapter">
+        <html css:counter-reset=" page 1" css:display="block"
+            css:font-family="serif, Times, Times New Roman, Symbol, MingLiU, MS Mincho, Arial Unicode MS"
+            css:font-size="12px"
+            xtrf="file:/C:/Repossitories/Strafe-Overdead/documentatie/strafe-overdead-documentatie-tehnica.ditamap">
+            <body class="wh_topic_page" css:display="block" css:font-size="11.5pt"
+                css:margin-left="auto" css:margin-right="auto">
+                <div class="wh_content_area" css:display="block">
+                    <div class="wh_topic_body" css:display="block">
+                        <div class="wh_topic_content" css:display="block">
+                            <div xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/"
+                                cascade="merge" class="- map/map map"
+                                css:counter-reset=" toc-chapter 0 chapter 0 figcount 0 tablecount 0"
+                                css:display="block" ditaarch:ditaarchversion="1.3"
+                                domains="(map mapgroup-d) (topic abbrev-d) (topic delay-d) a(props deliveryTarget) (map ditavalref-d) (map glossref-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)">
+                                <article aria-labelledby="ariaid-title1" break-before="true"
+                                    class="- topic/topic topic nested0" css:counter-reset="page 1"
+                                    css:display="block" css:margin-top="1em"
+                                    css:oxy-pdf-tag-type="Sect" id="unique_1" is-chapter="true"
+                                    nd:nd-id="untitled3" oid="untitled3"
+                                    oxy:topicref-class="- map/topicref ">
+                                    <h1 class="- topic/title title topictitle1"
+                                        css:bookmark-level="1" css:display="block"
+                                        css:font-size="2em" css:margin-bottom="1em"
+                                        css:margin-left="0" css:margin-right="0" css:margin-top="0"
+                                        css:oxy-pdf-tag-type="H1" css:page-break-after="avoid"
+                                        id="ariaid-title1"><css:string-set name="chaptertitle"
+                                                ><css:text> | </css:text><css:counter name="chapter"
+                                                value="1"/><css:text> - </css:text><css:content
+                                                source="text"
+                                                /></css:string-set><css:bookmark-label><css:content
+                                                source="before"/><css:content source="text"
+                                            /></css:bookmark-label><css:before css:display="inline"
+                                                ><css:text>Chapter </css:text><css:counter
+                                                name="chapter" value="1"/><css:text>.
+                                            </css:text></css:before>Tehnologii utilizate</h1>
+                                    <div class="- topic/body body" css:display="block"
+                                        css:margin-bottom="0" css:margin-left="0"
+                                        css:margin-right="0" css:margin-top="0">
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Java</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">GLSL</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Gradle</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Maven</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em"
+                                            >libGDX(+plugins)</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Git</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Tiled</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Eclipse
+                                            IDE</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em"> Visual Studio
+                                            Code IDE</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Android Studio
+                                            IDE</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">NetBeans
+                                            IDE</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">JProfiler</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Launch4j</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Install4j</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Oxygen XML
+                                            editor</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Photoshop</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Aseprite</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Spine</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Texture
+                                            Packer</p>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Skin
+                                            Composer</p>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </css:page-sequence>
+    <css:page-sequence xmlns:nd="http://www.oxygenxml.com/css2fo/named-destinations"
+        xmlns:oxy="http://www.oxygenxml.com/extensions/author" page="chapter">
+        <html css:counter-reset=" page 1" css:display="block"
+            css:font-family="serif, Times, Times New Roman, Symbol, MingLiU, MS Mincho, Arial Unicode MS"
+            css:font-size="12px"
+            xtrf="file:/C:/Repossitories/Strafe-Overdead/documentatie/strafe-overdead-documentatie-tehnica.ditamap">
+            <body class="wh_topic_page" css:display="block" css:font-size="11.5pt"
+                css:margin-left="auto" css:margin-right="auto">
+                <div class="wh_content_area" css:display="block">
+                    <div class="wh_topic_body" css:display="block">
+                        <div class="wh_topic_content" css:display="block">
+                            <div xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/"
+                                cascade="merge" class="- map/map map"
+                                css:counter-reset=" toc-chapter 0 chapter 0 figcount 0 tablecount 0"
+                                css:display="block" ditaarch:ditaarchversion="1.3"
+                                domains="(map mapgroup-d) (topic abbrev-d) (topic delay-d) a(props deliveryTarget) (map ditavalref-d) (map glossref-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)">
+                                <article aria-labelledby="ariaid-title2" break-before="true"
+                                    class="- topic/topic topic nested0" css:display="block"
+                                    css:margin-top="1em" css:oxy-pdf-tag-type="Sect" id="unique_2"
+                                    is-chapter="true" nd:nd-id="Untitled" oid="Untitled"
+                                    oxy:topicref-class="- map/topicref ">
+                                    <h1 class="- topic/title title topictitle1"
+                                        css:bookmark-level="1" css:display="block"
+                                        css:font-size="2em" css:margin-bottom="1em"
+                                        css:margin-left="0" css:margin-right="0" css:margin-top="0"
+                                        css:oxy-pdf-tag-type="H1" css:page-break-after="avoid"
+                                        id="ariaid-title2"><css:string-set name="chaptertitle"
+                                                ><css:text> | </css:text><css:counter name="chapter"
+                                                value="2"/><css:text> - </css:text><css:content
+                                                source="text"
+                                                /></css:string-set><css:bookmark-label><css:content
+                                                source="before"/><css:content source="text"
+                                            /></css:bookmark-label><css:before css:display="inline"
+                                                ><css:text>Chapter </css:text><css:counter
+                                                name="chapter" value="2"/><css:text>.
+                                            </css:text></css:before>Cerinte de sistem</h1>
+                                    <div class="- topic/body body" css:display="block"
+                                        css:margin-bottom="0" css:margin-left="0"
+                                        css:margin-right="0" css:margin-top="0">
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em"/>
+                                        <section class="- topic/section section" css:display="block"
+                                            css:margin-bottom="1em" css:margin-top="1em"
+                                            css:oxy-pdf-tag-type="Sect"
+                                            id="unique_2_Connect_42_id_1" nd:nd-id="id_1">
+                                            <h2 class="- topic/title title sectiontitle"
+                                                css:bookmark-level="2" css:display="block"
+                                                css:font-size="1.17em" css:font-weight="bold"
+                                                css:margin-bottom="0" css:margin-left="0"
+                                                css:margin-right="0" css:margin-top="1em"
+                                                css:oxy-pdf-tag-type="H2"
+                                                css:page-break-after="avoid"
+                                                  ><css:bookmark-label><css:content source="text"
+                                                  /></css:bookmark-label>Cerinte sistem</h2>
+                                            <p class="- topic/p p" css:display="block"
+                                                css:margin-bottom="0.5em" css:margin-left="0"
+                                                css:margin-right="0" css:margin-top="1em">
+                                                <strong class="+ topic/ph hi-d/b ph b"
+                                                  css:display="inline" css:font-weight="bold"
+                                                  >Cerinte minime Desktop:</strong>
+                                            </p>
+                                            <p class="- topic/p p" css:display="block"
+                                                css:margin-bottom="0.5em" css:margin-left="0"
+                                                css:margin-right="0" css:margin-top="1em">4GB
+                                                RAM</p>
+                                            <p class="- topic/p p" css:display="block"
+                                                css:margin-bottom="0.5em" css:margin-left="0"
+                                                css:margin-right="0" css:margin-top="1em">3GB
+                                                ROM(repository)</p>
+                                            <p class="- topic/p p" css:display="block"
+                                                css:margin-bottom="0.5em" css:margin-left="0"
+                                                css:margin-right="0" css:margin-top="1em">1GB
+                                                ROM(instalat)</p>
+                                            <p class="- topic/p p" css:display="block"
+                                                css:margin-bottom="0.5em" css:margin-left="0"
+                                                css:margin-right="0" css:margin-top="1em">Procesor
+                                                2.5GHz</p>
+                                            <p class="- topic/p p" css:display="block"
+                                                css:margin-bottom="0.5em" css:margin-left="0"
+                                                css:margin-right="0" css:margin-top="1em">
+                                                <strong class="+ topic/ph hi-d/b ph b"
+                                                  css:display="inline" css:font-weight="bold"
+                                                  >Cerinte minime Mobile:</strong>
+                                            </p>
+                                            <p class="- topic/p p" css:display="block"
+                                                css:margin-bottom="0.5em" css:margin-left="0"
+                                                css:margin-right="0" css:margin-top="1em">Android
+                                                11+</p>
+                                            <p class="- topic/p p" css:display="block"
+                                                css:margin-bottom="0.5em" css:margin-left="0"
+                                                css:margin-right="0" css:margin-top="1em">6GB
+                                                RAM</p>
+                                            <p class="- topic/p p" css:display="block"
+                                                css:margin-bottom="0.5em" css:margin-left="0"
+                                                css:margin-right="0" css:margin-top="1em">
+                                                <strong class="+ topic/ph hi-d/b ph b"
+                                                  css:display="inline" css:font-weight="bold">A fost
+                                                  testat pe:</strong>
+                                            </p>
+                                            <div class="- topic/p p" css:display="block"
+                                                css:margin-top="1em">
+                                                <ul class="- topic/ul ul" css:display="block"
+                                                  css:list-style-type="disc"
+                                                  css:margin-bottom="1.33em" css:margin-top="1.33em"
+                                                  id="unique_2_Connect_42_ul_wdc_rt5_4xb"
+                                                  nd:nd-id="ul_wdc_rt5_4xb">
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">Desktop(dual boot
+                                                  Windows+Linux distro Mint): <p class="- topic/p p"
+                                                  css:display="block" css:margin-bottom="0.5em"
+                                                  css:margin-left="0" css:margin-right="0"
+                                                  css:margin-top="1em">Procesor AMD Ryzen 5600</p><p
+                                                  class="- topic/p p" css:display="block"
+                                                  css:margin-bottom="0.5em" css:margin-left="0"
+                                                  css:margin-right="0" css:margin-top="1em">Placa
+                                                  Video Nvidia RTX 2070super</p><p
+                                                  class="- topic/p p" css:display="block"
+                                                  css:margin-bottom="0.5em" css:margin-left="0"
+                                                  css:margin-right="0" css:margin-top="1em">32GB
+                                                  RAM</p></li>
+                                                </ul>
+                                            </div>
+                                            <div class="- topic/p p" css:display="block"
+                                                css:margin-top="1em">
+                                                <ul class="- topic/ul ul" css:display="block"
+                                                  css:list-style-type="disc"
+                                                  css:margin-bottom="1.33em" css:margin-top="1.33em"
+                                                  id="unique_2_Connect_42_ul_oy3_rt5_4xb"
+                                                  nd:nd-id="ul_oy3_rt5_4xb">
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">Masina Virtuala(Linux distro
+                                                  Manjaro)</li>
+                                                </ul>
+                                            </div>
+                                            <div class="- topic/p p" css:display="block"
+                                                css:margin-top="1em">
+                                                <ul class="- topic/ul ul" css:display="block"
+                                                  css:list-style-type="disc"
+                                                  css:margin-bottom="1.33em" css:margin-top="1.33em"
+                                                  id="unique_2_Connect_42_ul_r14_rt5_4xb"
+                                                  nd:nd-id="ul_r14_rt5_4xb">
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">Laptop(Linux distro Ubuntu)
+                                                  <p class="- topic/p p" css:display="block"
+                                                  css:margin-bottom="0.5em" css:margin-left="0"
+                                                  css:margin-right="0" css:margin-top="1em">Procesor
+                                                  Intel celeron 1.8GHz</p><p class="- topic/p p"
+                                                  css:display="block" css:margin-bottom="0.5em"
+                                                  css:margin-left="0" css:margin-right="0"
+                                                  css:margin-top="1em">4GB RAM</p></li>
+                                                </ul>
+                                            </div>
+                                            <div class="- topic/p p" css:display="block"
+                                                css:margin-top="1em">
+                                                <ul class="- topic/ul ul" css:display="block"
+                                                  css:list-style-type="disc"
+                                                  css:margin-bottom="1.33em" css:margin-top="1.33em"
+                                                  id="unique_2_Connect_42_ul_tbh_wt5_4xb"
+                                                  nd:nd-id="ul_tbh_wt5_4xb">
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">Google pixel 6 (Android
+                                                  13)</li>
+                                                </ul>
+                                            </div>
+                                            <div class="- topic/p p" css:display="block"
+                                                css:margin-top="1em">
+                                                <ul class="- topic/ul ul" css:display="block"
+                                                  css:list-style-type="disc"
+                                                  css:margin-bottom="1.33em" css:margin-top="1.33em"
+                                                  id="unique_2_Connect_42_ul_szk_wt5_4xb"
+                                                  nd:nd-id="ul_szk_wt5_4xb">
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">Samsung Galaxy S21 (Android
+                                                  12)</li>
+                                                </ul>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </css:page-sequence>
+    <css:page-sequence xmlns:nd="http://www.oxygenxml.com/css2fo/named-destinations"
+        xmlns:oxy="http://www.oxygenxml.com/extensions/author" page="chapter">
+        <html css:counter-reset=" page 1" css:display="block"
+            css:font-family="serif, Times, Times New Roman, Symbol, MingLiU, MS Mincho, Arial Unicode MS"
+            css:font-size="12px"
+            xtrf="file:/C:/Repossitories/Strafe-Overdead/documentatie/strafe-overdead-documentatie-tehnica.ditamap">
+            <body class="wh_topic_page" css:display="block" css:font-size="11.5pt"
+                css:margin-left="auto" css:margin-right="auto">
+                <div class="wh_content_area" css:display="block">
+                    <div class="wh_topic_body" css:display="block">
+                        <div class="wh_topic_content" css:display="block">
+                            <div xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/"
+                                cascade="merge" class="- map/map map"
+                                css:counter-reset=" toc-chapter 0 chapter 0 figcount 0 tablecount 0"
+                                css:display="block" ditaarch:ditaarchversion="1.3"
+                                domains="(map mapgroup-d) (topic abbrev-d) (topic delay-d) a(props deliveryTarget) (map ditavalref-d) (map glossref-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)">
+                                <article aria-labelledby="ariaid-title3" break-before="true"
+                                    class="- topic/topic topic nested0" css:display="block"
+                                    css:margin-top="1em" css:oxy-pdf-tag-type="Sect" id="unique_3"
+                                    is-chapter="true" nd:nd-id="structura_proiectului"
+                                    oid="structura_proiectului" oxy:topicref-class="- map/topicref ">
+                                    <h1 class="- topic/title title topictitle1"
+                                        css:bookmark-level="1" css:display="block"
+                                        css:font-size="2em" css:margin-bottom="1em"
+                                        css:margin-left="0" css:margin-right="0" css:margin-top="0"
+                                        css:oxy-pdf-tag-type="H1" css:page-break-after="avoid"
+                                        id="ariaid-title3"><css:string-set name="chaptertitle"
+                                                ><css:text> | </css:text><css:counter name="chapter"
+                                                value="3"/><css:text> - </css:text><css:content
+                                                source="text"
+                                                /></css:string-set><css:bookmark-label><css:content
+                                                source="before"/><css:content source="text"
+                                            /></css:bookmark-label><css:before css:display="inline"
+                                                ><css:text>Chapter </css:text><css:counter
+                                                name="chapter" value="3"/><css:text>.
+                                            </css:text></css:before>Structura Proiectului</h1>
+                                    <div class="- topic/body body" css:display="block"
+                                        css:margin-bottom="0" css:margin-left="0"
+                                        css:margin-right="0" css:margin-top="0">
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em">Orice proiect
+                                                <strong class="+ topic/ph hi-d/b ph b"
+                                                css:display="inline" css:font-weight="bold"
+                                                >libGDX</strong> poate fi generat cu setup tool-ul
+                                            dedicat. Acesta genereaza dupa preferintele
+                                            utilizatorului mai multe proiecte Java care au
+                                            dependente intre ele in functie de platformele si
+                                            plugin-urile selectate in setup. Pentru build s-a
+                                            folosit <strong class="+ topic/ph hi-d/b ph b"
+                                                css:display="inline" css:font-weight="bold"
+                                                >Gradle</strong>, dar dependentele catre <strong
+                                                class="+ topic/ph hi-d/b ph b" css:display="inline"
+                                                css:font-weight="bold">LWJGL</strong> sunt
+                                            gestionate de libGDX cu Maven. In cazul Strafer,
+                                            exista:</p>
+                                        <div class="- topic/p p" css:display="block"
+                                            css:margin-top="1em">
+                                            <ul class="- topic/ul ul" css:display="block"
+                                                css:list-style-type="disc"
+                                                css:margin-bottom="1.33em" css:margin-top="1.33em"
+                                                id="unique_3_Connect_42_ul_n3v_lqq_g5b"
+                                                nd:nd-id="ul_n3v_lqq_g5b">
+                                                <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">proiectul master ce
+                                                  inglobeaza toate proiectele</li>
+                                            </ul>
+                                        </div>
+                                        <div class="- topic/p p" css:display="block"
+                                            css:margin-top="1em">
+                                            <ul class="- topic/ul ul" css:display="block"
+                                                css:list-style-type="disc"
+                                                css:margin-bottom="1.33em" css:margin-top="1.33em"
+                                                id="unique_3_Connect_42_ul_lc4_lqq_g5b"
+                                                nd:nd-id="ul_lc4_lqq_g5b">
+                                                <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">proiectul core avand
+                                                  pachetele comune pentru toate versiunile</li>
+                                            </ul>
+                                        </div>
+                                        <div class="- topic/p p" css:display="block"
+                                            css:margin-top="1em">
+                                            <ul class="- topic/ul ul" css:display="block"
+                                                css:list-style-type="disc"
+                                                css:margin-bottom="1.33em" css:margin-top="1.33em"
+                                                id="unique_3_Connect_42_ul_mxh_mqq_g5b"
+                                                nd:nd-id="ul_mxh_mqq_g5b">
+                                                <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">proiectele<strong
+                                                  class="+ topic/ph hi-d/b ph b"
+                                                  css:display="inline" css:font-weight="bold"
+                                                  >launcher</strong> pentru fiecare platforma
+                                                  Android si Desktop (entry point-ul
+                                                  aplicatiei)</li>
+                                            </ul>
+                                        </div>
+                                        <p class="- topic/p p" css:display="block"
+                                            css:margin-bottom="0.5em" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="1em"> </p>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </css:page-sequence>
+    <css:page-sequence xmlns:nd="http://www.oxygenxml.com/css2fo/named-destinations"
+        xmlns:oxy="http://www.oxygenxml.com/extensions/author" page="chapter">
+        <html css:counter-reset=" page 1" css:display="block"
+            css:font-family="serif, Times, Times New Roman, Symbol, MingLiU, MS Mincho, Arial Unicode MS"
+            css:font-size="12px"
+            xtrf="file:/C:/Repossitories/Strafe-Overdead/documentatie/strafe-overdead-documentatie-tehnica.ditamap">
+            <body class="wh_topic_page" css:display="block" css:font-size="11.5pt"
+                css:margin-left="auto" css:margin-right="auto">
+                <div class="wh_content_area" css:display="block">
+                    <div class="wh_topic_body" css:display="block">
+                        <div class="wh_topic_content" css:display="block">
+                            <div xmlns:ditaarch="http://dita.oasis-open.org/architecture/2005/"
+                                cascade="merge" class="- map/map map"
+                                css:counter-reset=" toc-chapter 0 chapter 0 figcount 0 tablecount 0"
+                                css:display="block" ditaarch:ditaarchversion="1.3"
+                                domains="(map mapgroup-d) (topic abbrev-d) (topic delay-d) a(props deliveryTarget) (map ditavalref-d) (map glossref-d) (topic hazard-d) (topic hi-d) (topic indexing-d) (topic markup-d) (topic pr-d) (topic relmgmt-d) (topic sw-d) (topic ui-d) (topic ut-d) (topic markup-d xml-d)">
+                                <article aria-labelledby="ariaid-title4" break-before="true"
+                                    class="- topic/topic topic nested0" css:display="block"
+                                    css:margin-top="1em" css:oxy-pdf-tag-type="Sect" id="unique_4"
+                                    is-chapter="true" nd:nd-id="strafer-liberator"
+                                    oid="strafer-liberator" oxy:topicref-class="- map/topicref ">
+                                    <h1 class="- topic/title title topictitle1"
+                                        css:bookmark-level="1" css:display="block"
+                                        css:font-size="2em" css:margin-bottom="1em"
+                                        css:margin-left="0" css:margin-right="0" css:margin-top="0"
+                                        css:oxy-pdf-tag-type="H1" css:page-break-after="avoid"
+                                        id="ariaid-title4"><css:string-set name="chaptertitle"
+                                                ><css:text> | </css:text><css:counter name="chapter"
+                                                value="4"/><css:text> - </css:text><css:content
+                                                source="text"
+                                                /></css:string-set><css:bookmark-label><css:content
+                                                source="before"/><css:content source="text"
+                                            /></css:bookmark-label><css:before css:display="inline"
+                                                ><css:text>Chapter </css:text><css:counter
+                                                name="chapter" value="4"/><css:text>.
+                                            </css:text></css:before>Arhitectura</h1>
+                                    <article aria-labelledby="ariaid-title5"
+                                        class="- topic/topic topic nested1" css:display="block"
+                                        css:oxy-pdf-tag-type="Sect" id="unique_5"
+                                        nd:nd-id="launchers" oid="launchers">
+                                        <h2 class="- topic/title title topictitle2"
+                                            css:bookmark-level="2" css:bookmark-state="closed"
+                                            css:display="block" css:font-size="1.7em"
+                                            css:font-style="italic" css:margin-bottom="0.5em"
+                                            css:margin-left="0" css:margin-right="0"
+                                            css:margin-top="1.5em" css:oxy-pdf-tag-type="H2"
+                                            css:page-break-after="avoid" id="ariaid-title5"
+                                                  ><css:bookmark-label><css:content source="before"
+                                                  /><css:content source="text"
+                                                /></css:bookmark-label>Launchers</h2>
+                                        <div class="- topic/body body" css:display="block"
+                                            css:margin-bottom="0" css:margin-left="0"
+                                            css:margin-right="0" css:margin-top="0">
+                                            <p class="- topic/p p" css:display="block"
+                                                css:margin-bottom="0.5em" css:margin-left="0"
+                                                css:margin-right="0" css:margin-top="1em">Fiecare
+                                                launcher determina rezolutia si setarile necesare
+                                                sistemului pe care ruleaza, apoi instantiaza game
+                                                class-ul Strafer din core</p>
+                                            <div class="- topic/bodydiv bodydiv" css:display="block">
+                                                <p class="- topic/p p" css:display="block"
+                                                  css:margin-bottom="0.5em" css:margin-left="0"
+                                                  css:margin-right="0" css:margin-top="1em">Strafer-
+                                                  Game class-ul in care se regaseste rendering
+                                                  loop-ul si unde sunt declarate constantele globale
+                                                  si obiecte statice:</p>
+                                                <ul class="- topic/ul ul" css:display="block"
+                                                  css:list-style-type="disc"
+                                                  css:margin-bottom="1.33em" css:margin-top="1.33em"
+                                                  id="unique_5_Connect_42_ul_esg_gy4_fyb"
+                                                  nd:nd-id="ul_esg_gy4_fyb">
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">WORLD_WIDTH, WORLD_HEIGHT </li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">aspectRatio</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">SCALE_FACTOR unitatea de
+                                                  masura principala(1 metru=32 pixeli)</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">assetManager incarca si
+                                                  returneaza asseturi recursiv din folderul assets
+                                                  in timpul fazei de loading</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">i18n traduce stringuri in
+                                                  functie de limba setata</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">spriteBatch se ocupa cu
+                                                  rendering-ul sprite-urilor pe ecran</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">tiledMapRenderer un
+                                                  OrthogonalTiledMapRenderer modificat pentru a
+                                                  evita probleme de texture bleeding, se ocupa de
+                                                  rendering pentru fisiere tmx, tiled maps</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">inputManager decide ce tip
+                                                  de platforma si periferice sunt disponibile si
+                                                  seteaza ce tip de InputProcessor este
+                                                  necesar(Keyboard,Controller,Touchscreen). Input-ul
+                                                  nu este hardcodat, ci se incarca din fisierul
+                                                  preferences, adica fiecare tasta poate fi
+                                                  reconfigurata de user. libGDX permite de asemenea
+                                                  utilizarea acestor tipuri de input interschimbabil
+                                                  intre platforme(Controller, Keyboard pe mobile,
+                                                  touch pe desktop etc)</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">worldCamera este camera care
+                                                  se plimba pe harta dupa entitati</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">extendViewport este folosit
+                                                  de worldCamera pentru a determina portiunea
+                                                  vizibla din ecran, acesta se adapteaza pentru
+                                                  orice resize al windowului si orice aspect
+                                                  ratio</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">uiManager un scene2d stage,
+                                                  contine toate meniurile si componentele de user
+                                                  interface</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">uiCamera este o alta camera
+                                                  cu un screenViewport care separa ui-ul de
+                                                  gameworld</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">loadingScreen</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">settingsScreen</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">titleScreen</li>
+                                                </ul>
+                                                <p class="- topic/p p" css:display="block"
+                                                  css:margin-bottom="0.5em" css:margin-left="0"
+                                                  css:margin-right="0" css:margin-top="1em"
+                                                  >gameScreen ecranul in care se petrece gameplay
+                                                  loop-ul. Aici este instantiat pe uiManager un HUD,
+                                                  adica user interface-ul prezent in timpul
+                                                  jocului(healthbar si input pentru mobile). Pe
+                                                  gameScreen se instantiaza un GameWorld,
+                                                  container-ul pentru toata lumea jocului.</p>
+                                                <ul class="- topic/ul ul" css:display="block"
+                                                  css:list-style-type="disc"
+                                                  css:margin-bottom="1.33em" css:margin-top="1.33em"
+                                                  id="unique_5_Connect_42_ul_fsg_gy4_fyb"
+                                                  nd:nd-id="ul_fsg_gy4_fyb">
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">rayHandler se va ocupa de
+                                                  iluminarea obiectelor din physics engine</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">box2dWorld este container-ul
+                                                  pentru physics engine (box2d) Pentru a crea
+                                                  Body-uri, Sensor-uri si Fixture-uri folosim clasa
+                                                  Box2dFactory</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">tiledMap este harta
+                                                  propriu-zisa a jocului din care se incarca automat
+                                                  checkpoint-uri si pereti</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">FIXED_TIME_STEP constanta
+                                                  folosita pentru a da update in physics engine la
+                                                  un interval constant de timp, lucru ce separa
+                                                  frame rate-ul de coliziuni si movement</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">entityEngine este un
+                                                  PooledEngine din framework-ul Ashley. Acesta este
+                                                  un entity-component system ce permite
+                                                  management-ul entitatilor care sunt formate prin
+                                                  compunere de componente, asupra carora actioneaza
+                                                  diferite system-uri .Un system itereaza prin orice
+                                                  entity care contine compinentele specificate pe
+                                                  constructor si proceseaza datele acestuia. Astfel
+                                                  creste valoarea de reutilizare a compinentelor,
+                                                  evitand inheritance-ul. Acesta are un pattern de
+                                                  factory, adica poate returna prin metode
+                                                  Entity-uri, spre exemplu player-ul</li>
+                                                </ul>
+                                                <p class="- topic/p p" css:display="block"
+                                                  css:margin-bottom="0.5em" css:margin-left="0"
+                                                  css:margin-right="0" css:margin-top="1em"
+                                                  >Player-ul are mai multe componente:</p>
+                                                <ul class="- topic/ul ul" css:display="block"
+                                                  css:list-style-type="disc"
+                                                  css:margin-bottom="1.33em" css:margin-top="1.33em"
+                                                  id="unique_5_Connect_42_ul_gsg_gy4_fyb"
+                                                  nd:nd-id="ul_gsg_gy4_fyb">
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">PlayerComponent folosit
+                                                  pentru controlarea playerului, acesta are un
+                                                  sensor fixture pe body folosit pentru a determina
+                                                  alte entity-uri din proximitate</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">EntityTypeComponent indica
+                                                  ce tip de entity este playerul si in ce state se
+                                                  afla(idle,hit, walk etc)</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">PositionComponent pozitia in
+                                                  lume</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">MovementComponent directiile
+                                                  de deplasare active, viteza si forta de dash</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">SpriteComponent imaginea
+                                                  entity-ului si dimensiunile acesteia</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">AnimationComponent un
+                                                  Animation&lt;Sprite&gt; si un timer intern folosit
+                                                  pentru actualizarea animatiei</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">Box2dComponent indica
+                                                  engine-ului ca entity-ul ia parte in coliziuni.
+                                                  Body-ul este creat dupa dimensiunile sprite-ului
+                                                  avand doua Fixture-uri: fingerprint-ul(partea
+                                                  solida a corpului) si hurtbox-ul(folosit pentru
+                                                  interactiunile de combat cu hitboxuri)</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">HealthConponent entity-ul ia
+                                                  parte in combat si poate primi damage.</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">CameraComponent camera poate
+                                                  focusa entity-ul</li>
+                                                </ul>
+                                                <p class="- topic/p p" css:display="block"
+                                                  css:margin-bottom="0.5em" css:margin-left="0"
+                                                  css:margin-right="0" css:margin-top="1em">alte
+                                                  entity-uri pot avea:</p>
+                                                <ul class="- topic/ul ul" css:display="block"
+                                                  css:list-style-type="disc"
+                                                  css:margin-bottom="1.33em" css:margin-top="1.33em"
+                                                  id="unique_5_Connect_42_ul_hsg_gy4_fyb"
+                                                  nd:nd-id="ul_hsg_gy4_fyb">
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">DetectorComponent detecteaza
+                                                  proximitatea cu playerul</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">CheckpointComponent primeste
+                                                  un checkpoint action si este focusat automat de
+                                                  camera in zonele hartii care sunt points of
+                                                  interest</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">AttackComponent are un
+                                                  hitbox si alte caracteristici ale unui atac precum
+                                                  damage tip de atac etc</li>
+                                                </ul>
+                                                <p class="- topic/p p" css:display="block"
+                                                  css:margin-bottom="0.5em" css:margin-left="0"
+                                                  css:margin-right="0" css:margin-top="1em"
+                                                  >System-uri</p>
+                                                <ul class="- topic/ul ul" css:display="block"
+                                                  css:list-style-type="disc"
+                                                  css:margin-bottom="1.33em" css:margin-top="1.33em"
+                                                  id="unique_5_Connect_42_ul_isg_gy4_fyb"
+                                                  nd:nd-id="ul_isg_gy4_fyb">
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">AnimationSystem se foloseste
+                                                  de counterele din AnimationComponent si schimba
+                                                  SpriteComponent-ul cu frame-ul curent. Animatiile
+                                                  sunt incarcate din AnimationProvider pe baza
+                                                  EntityType-ului si al EntityState-ului. Animatiile
+                                                  sunt salave in spritesheet-uri si decodate cu un
+                                                  fisier atlas in care sunt salvate informatii
+                                                  despre toate frame-urile animatiilor. Astfel este
+                                                  necesar un singur png si un fisier atlas pentru
+                                                  toate animatiile.</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">CheckpointSystem executa
+                                                  actiunile din checkpointuri cand sunt atinse</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">RenderingSystem foloseste
+                                                  spriteBatch-ul si randeaza Sprite-urile la
+                                                  pozitiile entity-urilor dupa ce compara pozitia
+                                                  lor pe axa Y, astfel incat sprite-urile sa para ca
+                                                  pot fi unul in spatele celuilalt.</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">HudSystem actualizeaza
+                                                  hud-ul cu informatii din player</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">CameraSystem decide unde
+                                                  este focusata camera. Daca player-ul este in
+                                                  proximitatea unui grup de inamici camera focuseaza
+                                                  in mijlocul grupului. Daca exista un checkpoint in
+                                                  proximitate, acesta va fi focusat. Daca playerul
+                                                  nu are entity-uri cu CameraComponent in
+                                                  proximitate este focusat singur.</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">HealthSystem verifica daca
+                                                  un hurtbox a primit damage si actualizeaza nivelul
+                                                  de health</li>
+                                                  <li class="- topic/li li" css:display="list-item"
+                                                  css:margin-left="2em">CombatSystem aplica efecte
+                                                  de knockback daca un entity a fost lovit</li>
+                                                </ul>
+                                                <p class="- topic/p p" css:display="block"
+                                                  css:margin-bottom="0.5em" css:margin-left="0"
+                                                  css:margin-right="0" css:margin-top="1em"
+                                                  >FilteredContactListener este un listener adaugat
+                                                  la box2dWorld care filtreaza coliziunile astfel
+                                                  incat sa determine cand s-a realizat un contact
+                                                  intre hitbox-uri/hurtbox-uri sau intre sensorul
+                                                  playerului si un detector</p>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </css:page-sequence>
+</css:root>
