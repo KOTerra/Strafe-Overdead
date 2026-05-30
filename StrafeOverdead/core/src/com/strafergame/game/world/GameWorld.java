@@ -4,8 +4,10 @@ import box2dLight.RayHandler;
 import com.articy.runtime.model.ArticyObject;
 import com.articy.runtime.model.DialogueFragment;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector3;
@@ -88,10 +90,54 @@ public class GameWorld implements Disposable {
 
             String exportDir = null;
             for (String path : possiblePaths) {
-                java.io.File dir = new java.io.File(path);
-                if (dir.exists() && dir.isDirectory()) {
-                    exportDir = path;
-                    break;
+                if (Gdx.app.getType() == Application.ApplicationType.Android) {
+                    // On Android, copy from assets to local storage because ArticyRuntime uses java.io.File
+                    FileHandle assetDir = Gdx.files.internal(path);
+                    // Check specifically for manifest.json as it's more reliable than checking the directory existence
+                    FileHandle manifestAsset = Gdx.files.internal(path + "/manifest.json");
+
+                    if (manifestAsset.exists()) {
+                        FileHandle localDir = Gdx.files.local(path);
+                        // Check if manifest.json exists in local storage to ensure data is present and complete
+                        if (!localDir.child("manifest.json").exists()) {
+                            System.out.println("Articy: Copying " + path + " contents to local storage...");
+                            localDir.deleteDirectory(); // Clean up if incomplete or to avoid nesting
+                            localDir.mkdirs();
+                            FileHandle[] children = assetDir.list();
+                            System.out.println("Articy: Found " + children.length + " files/folders to copy.");
+                            for (FileHandle child : children) {
+                                child.copyTo(localDir);
+                            }
+                        }
+                        // Verify copy success
+                        if (localDir.child("manifest.json").exists()) {
+                            exportDir = localDir.file().getAbsolutePath();
+                            System.out.println("Articy: Found data in local storage: " + exportDir);
+                            break;
+                        } else {
+                            Gdx.app.error("Articy", "Failed to copy Articy data for path: " + path + " (manifest.json missing after copy)");
+                        }
+                    }
+                } else {
+                    // On Desktop, try internal file handle first as it's more robust
+                    FileHandle internalDir = Gdx.files.internal(path);
+                    if (internalDir.exists()) {
+                        try {
+                            java.io.File file = internalDir.file();
+                            if (file.exists() && file.isDirectory()) {
+                                exportDir = file.getAbsolutePath();
+                                break;
+                            }
+                        } catch (Exception e) {
+                            // internalDir.file() might throw an exception if not a physical file (e.g. inside a JAR)
+                        }
+                    }
+                    // Fallback to java.io.File
+                    java.io.File dir = new java.io.File(path);
+                    if (dir.exists() && dir.isDirectory()) {
+                        exportDir = path;
+                        break;
+                    }
                 }
             }
 
@@ -193,19 +239,23 @@ public class GameWorld implements Disposable {
                             (posCmp.renderPos.y - targetY) * (posCmp.renderPos.y - targetY);
                     if (distSq < 4.0f) {
                         spawnTriggered = true;
-                        System.out.println("Articy TRIGGER: Spawning NPC!");
-                        ArticyObject spawnNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Spawn_NPC", ArticyObject.class);
+                        if (ArticyRuntime.getDatabase() != null) {
+                            System.out.println("Articy TRIGGER: Spawning NPC!");
+                            ArticyObject spawnNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Spawn_NPC", ArticyObject.class);
 
-                        if (spawnNode instanceof FlowObject flowObj) {
-                            // Directly execute the script on the first output pin
-                            if (!flowObj.getOutputPins().isEmpty()) {
-                                String script = flowObj.getOutputPins().get(0).getScript();
-                                ArticyRuntime.getEngine().executeInstruction(
-                                        script,
-                                        ArticyRuntime.getVariableManager(),
-                                        new ArticyScriptMethodProvider()
-                                );
+                            if (spawnNode instanceof FlowObject flowObj) {
+                                // Directly execute the script on the first output pin
+                                if (!flowObj.getOutputPins().isEmpty()) {
+                                    String script = flowObj.getOutputPins().get(0).getScript();
+                                    ArticyRuntime.getEngine().executeInstruction(
+                                            script,
+                                            ArticyRuntime.getVariableManager(),
+                                            new ArticyScriptMethodProvider()
+                                    );
+                                }
                             }
+                        } else {
+                            Gdx.app.error("Articy", "Articy Database not initialized! Cannot spawn NPC.");
                         }
                     }
                 }
@@ -218,7 +268,7 @@ public class GameWorld implements Disposable {
                             (posCmp.renderPos.y - targetY) * (posCmp.renderPos.y - targetY);
                     if (distSq < 4.0f) {
                         cameraTriggered = true;
-                        if (ArticyRuntime.getFlowPlayer() != null) {
+                        if (ArticyRuntime.getFlowPlayer() != null && ArticyRuntime.getDatabase() != null) {
                             System.out.println("Articy TRIGGER: Camera + Dialogue!");
                             ArticyObject cameraNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Trigger_Camera", ArticyObject.class);
                             if (cameraNode != null) {
@@ -226,6 +276,8 @@ public class GameWorld implements Disposable {
                             } else {
                                Gdx.app.error("Articy", "Could not find node: Zone_Trigger_Camera");
                             }
+                        } else {
+                            Gdx.app.error("Articy", "Articy Runtime not initialized! Cannot trigger camera.");
                         }
                     }
                 }
@@ -275,7 +327,7 @@ public class GameWorld implements Disposable {
 
             if (Gdx.input.isKeyJustPressed(Keys.NUMPAD_6)) {
                 System.out.println("MANUAL Spawn TRIGGER!");
-                if (ArticyRuntime.getFlowPlayer() != null) {
+                if (ArticyRuntime.getFlowPlayer() != null && ArticyRuntime.getDatabase() != null) {
                    ArticyObject spawnNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Spawn_NPC",ArticyObject.class);
                     if (spawnNode != null) {
                         ArticyRuntime.getFlowPlayer().startOn(spawnNode.getId());
@@ -287,7 +339,7 @@ public class GameWorld implements Disposable {
 
             if (Gdx.input.isKeyJustPressed(Keys.NUMPAD_7)) {
                 System.out.println("MANUAL Camera TRIGGER!");
-                if (ArticyRuntime.getFlowPlayer() != null) {
+                if (ArticyRuntime.getFlowPlayer() != null && ArticyRuntime.getDatabase() != null) {
                     ArticyObject cameraNode = ArticyRuntime.getDatabase().getObjectByTechnicalName("Zone_Trigger_Camera", ArticyObject.class);
                     if (cameraNode != null) {
                         ArticyRuntime.getFlowPlayer().startOn(cameraNode.getId());
@@ -324,7 +376,9 @@ public class GameWorld implements Disposable {
                 if (index != -1 && currentBranches.size() > index) {
                     Branch selected = currentBranches.get(index);
                     currentBranches = null; // Clear to prevent double trigger
-                    ArticyRuntime.getFlowPlayer().advance(selected);
+                    if (ArticyRuntime.getFlowPlayer() != null) {
+                        ArticyRuntime.getFlowPlayer().advance(selected);
+                    }
                 }
             }
         }

@@ -56,20 +56,24 @@ public class ArticyEntityFactory {
         entity.add(b2dCmp);
 
         // Metadata-driven component attachment
-        ArticyObject articyObj = ArticyRuntime.getDatabase().getObject(articyId, ArticyObject.class);
-        if (articyObj != null) {
-            String techName = articyObj.getTechnicalName();
-            if (techName != null) {
-                // Check initial visibility from Articy variables
-                Object visible = ArticyRuntime.getVariableManager().getVariable("NPCState", techName + "_Visible");
-                if (visible instanceof Boolean) {
-                    posCmp.isHidden = !((Boolean) visible);
-                }
+        if (ArticyRuntime.getDatabase() != null) {
+            ArticyObject articyObj = ArticyRuntime.getDatabase().getObject(articyId, ArticyObject.class);
+            if (articyObj != null) {
+                String techName = articyObj.getTechnicalName();
+                if (techName != null) {
+                    // Check initial visibility from Articy variables
+                    if (ArticyRuntime.getVariableManager() != null) {
+                        Object visible = ArticyRuntime.getVariableManager().getVariable("NPCState", techName + "_Visible");
+                        if (visible instanceof Boolean) {
+                            posCmp.isHidden = !((Boolean) visible);
+                        }
+                    }
 
-                if (techName.startsWith("NPC_")) {
-                    BehaviorTreeComponent btCmp = entityEngine.createComponent(BehaviorTreeComponent.class);
-                    btCmp.tree = BehaviorTreeFactory.createBasicNpcTree(entity);
-                    entity.add(btCmp);
+                    if (techName.startsWith("NPC_")) {
+                        BehaviorTreeComponent btCmp = entityEngine.createComponent(BehaviorTreeComponent.class);
+                        btCmp.tree = BehaviorTreeFactory.createBasicNpcTree(entity);
+                        entity.add(btCmp);
+                    }
                 }
             }
         }

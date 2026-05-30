@@ -43,6 +43,9 @@ public class ArticyMapperSystem extends IteratingSystem {
     }
 
     private void updateEntity(Entity entity, ArticyComponent articyCmp, ArticyVariableManager varManager) {
+        if (ArticyRuntime.getDatabase() == null) {
+            return;
+        }
         ArticyObject articyObj = ArticyRuntime.getDatabase().getObject(articyCmp.articyId, ArticyObject.class);
         if (articyObj == null) {
             return;

@@ -14,6 +14,6 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
 
-		initialize((ApplicationListener) new Strafer(), config);
+		initialize((ApplicationListener) Strafer.getInstance(), config);
 	}
 }

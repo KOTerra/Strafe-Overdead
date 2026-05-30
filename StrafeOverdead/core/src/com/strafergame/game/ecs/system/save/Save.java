@@ -114,11 +114,13 @@ public class Save extends Entity {
         String jsonString = fileHandle.readString();
 
         if (!jsonString.equals("{}")) {
-            records = json.fromJson(HashMap.class, jsonString);
+            records = json.fromJson(HashMap.class, SaveRecord.class, jsonString);
             if (records != null) {
-                created = Instant.ofEpochSecond(SaveSystem.retrieveFromRecordsNN("FIRST_CREATED_SECONDS", long.class));
+                Long firstCreated = SaveSystem.retrieveFromRecords("FIRST_CREATED_SECONDS", 0L);
+                created = Instant.ofEpochSecond(firstCreated);
 
-                Instant savedAt = Instant.ofEpochSecond(SaveSystem.retrieveFromRecords("LAST_SAVED_SECONDS"));
+                Long lastSavedSeconds = SaveSystem.retrieveFromRecords("LAST_SAVED_SECONDS", 0L);
+                Instant savedAt = Instant.ofEpochSecond(lastSavedSeconds);
                 System.err.println("\nLoaded save from: " + Date.from(savedAt) + "\n");
                 records.forEach((key, value) -> {
                     SaveRecord record = records.get(key);
@@ -133,7 +135,7 @@ public class Save extends Entity {
         records.clear();
         String jsonString = fileHandle.readString();
         if (!jsonString.equals("{}")) {
-            records = json.fromJson(HashMap.class, jsonString);//TODO maybe move metainfo to another hashmap of the record in order no to deserialize everything just to tget the info
+            records = json.fromJson(HashMap.class, SaveRecord.class, jsonString);//TODO maybe move metainfo to another hashmap of the record in order no to deserialize everything just to tget the info
             if (records != null) {
                 Long c = SaveSystem.retrieveFromRecords("FIRST_CREATED_SECONDS", records);
                 Long s = SaveSystem.retrieveFromRecords("LAST_SAVED_SECONDS", records);
@@ -183,20 +185,32 @@ public class Save extends Entity {
 
         @Override
         public void write(Json json) {
-            json.writeValue(key, object, objectType.getClass());
+            json.writeValue("type", objectType.getName());
+            json.writeValue("obj", object, objectType);
         }
 
         @Override
         public void read(Json json, JsonValue jsonData) {
             key = jsonData.name();
             try {
-                objectType = (Class<T>) Class.forName(jsonData.getString("class"));
-                System.err.println("bbbb " + objectType.getName());
-            } catch (ClassNotFoundException e) {
-                System.err.println(e.getMessage());
+                if (jsonData.has("type")) {
+                    String typeName = jsonData.getString("type");
+                    objectType = (Class<T>) Class.forName(typeName);
+                } else if (jsonData.has("class")) {
+                    // Fallback for older save files
+                    String typeName = jsonData.getString("class");
+                    objectType = (Class<T>) Class.forName(typeName);
+                }
+            } catch (Exception e) {
+                System.err.println("SaveRecord: Could not load class: " + e.getMessage());
             }
-            object = json.readValue(key, objectType, jsonData);
 
+            if (jsonData.has("obj")) {
+                object = json.readValue("obj", objectType, jsonData);
+            } else {
+                // Fallback for older save files where the whole jsonData is the object
+                object = json.readValue(objectType, jsonData);
+            }
         }
     }
 

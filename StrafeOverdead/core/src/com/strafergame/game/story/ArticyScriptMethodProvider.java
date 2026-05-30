@@ -53,6 +53,10 @@ public class ArticyScriptMethodProvider implements IScriptMethodProvider {
                 float y = ((Number) args[2]).floatValue();
 
                 Gdx.app.postRunnable(() -> {
+                    if (ArticyRuntime.getDatabase() == null) {
+                        Gdx.app.error("Articy", "spawnNPC failed: Articy Database not initialized.");
+                        return;
+                    }
                     // Look up the actual ID using the Technical Name from the script
                     com.articy.runtime.model.ArticyObject obj = ArticyRuntime.getDatabase().getObjectByTechnicalName(techName, com.articy.runtime.model.ArticyObject.class);
 

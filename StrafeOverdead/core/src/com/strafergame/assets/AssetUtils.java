@@ -21,16 +21,12 @@ public class AssetUtils {
         Array<String> res = new Array<>();
         FileHandle dirHandle = Gdx.files.internal(directory);
 
-        if (dirHandle.isDirectory()) {
-            for (FileHandle file : dirHandle.list()) {
-                if (file.isDirectory()) {
-                    Array<String> subDirectoryFiles = listFilesInAssets(file.path(), extension);
-                    res.addAll(subDirectoryFiles);
-                } else {
-                    String relativePath = file.path();
-                    if (file.extension().equalsIgnoreCase(extension)) {
-                        res.add(relativePath);
-                    }
+        for (FileHandle file : dirHandle.list()) {
+            if (file.isDirectory()) {
+                res.addAll(listFilesInAssets(file.path(), extension));
+            } else {
+                if (file.extension().equalsIgnoreCase(extension)) {
+                    res.add(file.path());
                 }
             }
         }

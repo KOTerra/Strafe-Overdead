@@ -55,7 +55,9 @@ public class DialogueBox extends Table {
     private void advanceDialogue() {
         if (currentBranches != null && !currentBranches.isEmpty()) {
             if (currentBranches.size() == 1) {
-                ArticyRuntime.getFlowPlayer().advance(currentBranches.get(0));
+                if (ArticyRuntime.getFlowPlayer() != null) {
+                    ArticyRuntime.getFlowPlayer().advance(currentBranches.get(0));
+                }
             }
             // If branches > 1, do nothing (force choice button click)
         } else if (isEndOfDialogue) {
@@ -80,9 +82,11 @@ public class DialogueBox extends Table {
         this.setVisible(true);
         String localizedText = text;
         if (text.startsWith("DFr_")) {
-            localizedText = ArticyRuntime.getLocalization().localize(text);
-            if (localizedText.equals(text)) {
-                System.err.println("DialogueBox: Localization key not found: " + text);
+            if (ArticyRuntime.getLocalization() != null) {
+                localizedText = ArticyRuntime.getLocalization().localize(text);
+                if (localizedText.equals(text)) {
+                    System.err.println("DialogueBox: Localization key not found: " + text);
+                }
             }
         }
         label.setText(localizedText);
@@ -108,13 +112,17 @@ public class DialogueBox extends Table {
 
                 String localizedText = text;
                 if (text.startsWith("DFr_")) {
-                    localizedText = ArticyRuntime.getLocalization().localize(text);
+                    if (ArticyRuntime.getLocalization() != null) {
+                        localizedText = ArticyRuntime.getLocalization().localize(text);
+                    }
                 }
                 VisTextButton button = new VisTextButton(localizedText);
                 button.addListener(new ClickListener() {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
-                        ArticyRuntime.getFlowPlayer().advance(branch);
+                        if (ArticyRuntime.getFlowPlayer() != null) {
+                            ArticyRuntime.getFlowPlayer().advance(branch);
+                        }
                         choicesTable.clearChildren();
                     }
                 });

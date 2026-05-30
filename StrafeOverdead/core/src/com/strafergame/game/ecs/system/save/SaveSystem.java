@@ -71,18 +71,6 @@ public class SaveSystem {
         return result;
     }
 
-    public static <T> T retrieveFromRecordsNN(String key, Class<T> clazz) {//not null
-        T result = retrieveFromRecords(key);
-        if (result == null) {
-            try {
-                return clazz.getDeclaredConstructor().newInstance();
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to create a new instance of " + clazz.getName(), e);
-            }
-        }
-        return result;
-    }
-
     public static <T> T retrieveFromRecords(String key, T defaultValue) {
         T result = retrieveFromRecords(key);
         if (result == null) {
