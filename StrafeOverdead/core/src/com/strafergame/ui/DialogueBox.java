@@ -13,6 +13,7 @@ import com.github.tommyettinger.textra.TypingLabel;
 import com.kotcrab.vis.ui.VisUI;
 import com.kotcrab.vis.ui.widget.VisTextButton;
 import com.strafergame.Strafer;
+import com.strafergame.input.UIControl;
 
 import java.util.List;
 
@@ -50,6 +51,10 @@ public class DialogueBox extends Table {
     @Override
     public void act(float delta) {
         super.act(delta);
+        if (isVisible() && UIControl.SELECT) {
+            UIControl.SELECT = false;
+            advanceDialogue();
+        }
     }
 
     private void advanceDialogue() {
@@ -129,8 +134,9 @@ public class DialogueBox extends Table {
                 choicesTable.add(button).fillX().pad(5).row();
 
                 Strafer.uiManager.addFocusableActor(button);
+                button.setUserObject(branch);
             }
-            if (!branches.isEmpty()) {
+            if (!choicesTable.getChildren().isEmpty()) {
                 Strafer.uiManager.setFocusedActor(choicesTable.getChildren().first());
             }
         }

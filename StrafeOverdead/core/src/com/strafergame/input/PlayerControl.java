@@ -19,6 +19,9 @@ public abstract class PlayerControl {
 
     public static boolean MOVE_RIGHT = false;
 
+    public static float ANALOG_MOVE_X = 0f;
+    public static float ANALOG_MOVE_Y = 0f;
+
     public static boolean JUMP = false;
 
     public static boolean DASH = false;

@@ -7,8 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 import com.strafergame.Strafer;
 import com.strafergame.game.ecs.ComponentMappers;
-import com.strafergame.game.ecs.EntityEngine;
-import com.strafergame.game.ecs.component.AttackComponent;
 import com.strafergame.game.ecs.component.EntityTypeComponent;
 import com.strafergame.game.ecs.component.PlayerComponent;
 import com.strafergame.game.ecs.component.StatsComponent;
@@ -61,21 +59,33 @@ public class PlayerControlSystem extends IteratingSystem {
 
         movCmp.dir.set(0f, 0f);
 
-        if (PlayerControl.MOVE_UP) {
-            movCmp.dir.y = 1f;
-            posCmp.direction = EntityDirection.w;
-        }
-        if (PlayerControl.MOVE_DOWN) {
-            movCmp.dir.y = -1f;
-            posCmp.direction = EntityDirection.s;
-        }
-        if (PlayerControl.MOVE_LEFT) {
-            movCmp.dir.x = -1f;
-            posCmp.direction = EntityDirection.a;
-        }
-        if (PlayerControl.MOVE_RIGHT) {
-            movCmp.dir.x = 1f;
-            posCmp.direction = EntityDirection.d;
+        // Analog input (Touchpad/Controller)
+        if (Math.abs(PlayerControl.ANALOG_MOVE_X) > 0.1f || Math.abs(PlayerControl.ANALOG_MOVE_Y) > 0.1f) {
+            movCmp.dir.set(PlayerControl.ANALOG_MOVE_X, PlayerControl.ANALOG_MOVE_Y);
+            // Update direction for animation/state based on the dominant axis
+            if (Math.abs(PlayerControl.ANALOG_MOVE_X) > Math.abs(PlayerControl.ANALOG_MOVE_Y)) {
+                posCmp.direction = PlayerControl.ANALOG_MOVE_X > 0 ? EntityDirection.d : EntityDirection.a;
+            } else {
+                posCmp.direction = PlayerControl.ANALOG_MOVE_Y > 0 ? EntityDirection.w : EntityDirection.s;
+            }
+        } else {
+            // Digital input (Keyboard/Dpad)
+            if (PlayerControl.MOVE_UP) {
+                movCmp.dir.y = 1f;
+                posCmp.direction = EntityDirection.w;
+            }
+            if (PlayerControl.MOVE_DOWN) {
+                movCmp.dir.y = -1f;
+                posCmp.direction = EntityDirection.s;
+            }
+            if (PlayerControl.MOVE_LEFT) {
+                movCmp.dir.x = -1f;
+                posCmp.direction = EntityDirection.a;
+            }
+            if (PlayerControl.MOVE_RIGHT) {
+                movCmp.dir.x = 1f;
+                posCmp.direction = EntityDirection.d;
+            }
         }
 
         // Normalize  so diagonal walking isn't faster

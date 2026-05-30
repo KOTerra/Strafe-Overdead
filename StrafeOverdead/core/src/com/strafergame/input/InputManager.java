@@ -29,10 +29,11 @@ public class InputManager {
     private void decideOnHandler() {
         ApplicationType appType = Gdx.app.getType();
         if (appType.equals(ApplicationType.Android) || appType.equals(ApplicationType.iOS)) {
-
+            inputMultiplexer.clear();
+            inputMultiplexer.addProcessor(Strafer.uiManager);
         } else {
             inputMultiplexer.clear();
-            inputMultiplexer.setProcessors(Strafer.uiManager,UIKeyboardInputProcessor.getInstance(), KeyboardInputProcessor.getInstance());
+            inputMultiplexer.setProcessors(Strafer.uiManager, UIKeyboardInputProcessor.getInstance(), KeyboardInputProcessor.getInstance());
         }
         if (Controllers.getControllers().notEmpty()) {
             Controllers.addListener(UIControllerInputHandler.getInstance());

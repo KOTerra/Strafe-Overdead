@@ -73,23 +73,26 @@ public class HUD extends Table {
     private void mobileUI() {
         align(Align.bottomLeft);
 
-        final float deadzone = 5f;
+        final float deadzone = 0.15f; // Normalized deadzone (0 to 1)
         final Touchpad touchpad = new Touchpad(deadzone, VisUI.getSkin());
-        touchpad.setScale(20);
-        touchpad.setOrigin(Align.center);
+        
         touchpad.addListener(new ChangeListener() {
-
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                PlayerControl.MOVE_UP = touchpad.getKnobY() > deadzone;
-                PlayerControl.MOVE_LEFT = touchpad.getKnobX() < -deadzone;
-                PlayerControl.MOVE_DOWN = touchpad.getKnobY() < -deadzone;
-                PlayerControl.MOVE_RIGHT = touchpad.getKnobX() > deadzone;
+                // Set analog values
+                PlayerControl.ANALOG_MOVE_X = touchpad.getKnobPercentX();
+                PlayerControl.ANALOG_MOVE_Y = touchpad.getKnobPercentY();
 
+                // Maintain digital booleans for backward compatibility/other systems
+                PlayerControl.MOVE_UP = touchpad.getKnobPercentY() > 0.5f;
+                PlayerControl.MOVE_LEFT = touchpad.getKnobPercentX() < -0.5f;
+                PlayerControl.MOVE_DOWN = touchpad.getKnobPercentY() < -0.5f;
+                PlayerControl.MOVE_RIGHT = touchpad.getKnobPercentX() > 0.5f;
             }
         });
-        add(touchpad).bottom().left().pad(60);
-        // row();
+
+        // Add to table with fixed size instead of using setScale (which breaks input bounds)
+        add(touchpad).size(300).bottom().left().pad(60);
     }
 
     public void resize() {

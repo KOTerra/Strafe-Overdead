@@ -152,7 +152,7 @@ public class UiManager extends ControllerMenuStage implements Disposable {
             moveFocusByList(false);
         }
         //aici e problema ar trb rezolvat doar cu overrideuri sa nu se strice internele din super
-        if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {//provizoriu e ok
+        if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT) && !Gdx.input.isTouched()) {//provizoriu e ok
             fireEventOnActor(getFocusedActor(), UIControl.SELECT ? InputEvent.Type.touchDown : InputEvent.Type.touchUp, 0, null);
         }
         UIControl.UP_SELECT = false;
